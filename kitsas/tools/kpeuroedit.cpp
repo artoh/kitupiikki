@@ -20,6 +20,8 @@
 #include <QRegularExpression>
 #include <QKeyEvent>
 #include <QDebug>
+#include <QGuiApplication>
+#include <QClipboard>
 
 KpEuroEdit::KpEuroEdit(QWidget *parent) :
     QLineEdit (parent), cents_(0l)
@@ -57,6 +59,21 @@ void KpEuroEdit::clear()
     emit sntMuuttui( 0 );
     emit euroMuuttui( 0 );
 
+}
+
+void KpEuroEdit::paste()
+{
+    QClipboard* clipboard = QGuiApplication::clipboard();
+    QString text = clipboard->text();
+
+    text.replace(',','.');
+    text.remove(pasteRe__);
+    const Euro euro(text);
+
+    if( euro )
+        setEuro( euro );
+
+    qDebug() << "PASTE " << text << " --> " << euro << " € ";
 }
 
 void KpEuroEdit::setCents(qlonglong cents)
@@ -161,6 +178,8 @@ void KpEuroEdit::keyPressEvent(QKeyEvent *event)
             setCursorPosition(pilkunpaikka+1);
             return;
         }
+    } else if( event->matches( QKeySequence::Paste)) {
+        paste();
     }
     else if( event->key() == Qt::Key_Minus )
     {
@@ -239,5 +258,5 @@ void KpEuroEdit::keyPressEvent(QKeyEvent *event)
     emit textEdited( text() );
 }
 
-
+QRegularExpression KpEuroEdit::pasteRe__ = QRegularExpression("[^0-9.]");
 

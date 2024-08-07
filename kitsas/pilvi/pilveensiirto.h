@@ -77,6 +77,7 @@ private:
     void toimistotSaapuu(const QVariant* data);
     void hyllytSaapuu(const QVariant* data, const QString& officeName);
     void lisaaHylly(const QVariantMap& hylly, const QString& officeName);
+    void paivitaInfot(const int indeksi = 0);
 
 private:
     Ui::PilveenSiirto *ui;

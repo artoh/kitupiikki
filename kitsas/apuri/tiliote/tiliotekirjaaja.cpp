@@ -743,10 +743,17 @@ TositeVienti::VientiTyyppi TilioteKirjaaja::tyyppi()
     case MAKSU:
         return TositeVienti::SUORITUS;
     case TULOMENO:
-        if( rivit_->summa() < Euro::Zero)
-            return menoa_ ? TositeVienti::MYYNTI : TositeVienti::OSTO;
-        else
-            return menoa_ ? TositeVienti::OSTO : TositeVienti::MYYNTI;
+    {
+        ApuriRivi* aliRivi = rivit_->rivi(0);
+        if( aliRivi ) {
+            Tili* tili = kp()->tilit()->tili(aliRivi->tilinumero());
+            if( tili && tili->onko(TiliLaji::TULO))
+                return TositeVienti::MYYNTI;
+            else if( tili && tili->onko(TiliLaji::MENO))
+                return TositeVienti::OSTO;
+        }
+        return menoa_ ? TositeVienti::OSTO : TositeVienti::MYYNTI;
+    }
     case SIIRTO:
         return TositeVienti::SIIRTO;
     default:

@@ -27,9 +27,6 @@ TervetuloDialogi::TervetuloDialogi() :
     ui(new Ui::TervetuloDlg)
 {
     ui->setupUi(this);
-    bool esiversio = qApp->applicationVersion().contains("-");
-    ui->esiKuva->setVisible(esiversio);
-    ui->esiVaro->setVisible(esiversio);
 
 #ifndef Q_OS_LINUX
     ui->valikkoonCheck->setVisible(false);
