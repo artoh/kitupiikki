@@ -173,7 +173,7 @@ void LaskunUusinta::paivitaYleinenAlv(const QDate &pvm)
     for(int i=0; i < uusi_->rivit()->rowCount(); i++) {
         const double prossa = uusi_->rivit()->rivi(i).alvProsentti();
         if( prossa == 24.0) {
-            uusi_->rivit()->setData( tosite_->rivit()->index(i, TositeRivit::ALV),
+            uusi_->rivit()->setData(  uusi_->rivit()->index(i, TositeRivit::ALV),
                                       yleinenAlv(pvm) / 100.0,
                                       TositeRivit::AlvProsenttiRooli);
         }
