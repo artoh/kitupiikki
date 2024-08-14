@@ -88,6 +88,8 @@ private:
     int pilviId_ = 0;
     int yrityksia_ = 0;
 
+    int toimistojaHyllyHaussa_ = 0;
+
     QQueue<int> kumppanit;
     QQueue<int> tositteet;
     QQueue<int> liitteet;

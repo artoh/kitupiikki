@@ -529,6 +529,7 @@ void PilveenSiirto::haeToimistot()
 void PilveenSiirto::toimistotSaapuu(const QVariant *data)
 {
     QVariantList lista = data->toList();
+    toimistojaHyllyHaussa_ = lista.count();
     for(const auto& item : lista) {
         const QString id = item.toMap().value("id").toString();
         const QString name = item.toMap().value("name").toString();
@@ -545,6 +546,9 @@ void PilveenSiirto::hyllytSaapuu(const QVariant *data, const QString &officeName
         const auto& map = item.toMap();
         lisaaHylly(map, officeName);
     }
+    toimistojaHyllyHaussa_--;
+    if( toimistojaHyllyHaussa_ < 1)
+        ui->sijainiCombo->model()->sort(0);
 
 }
 
