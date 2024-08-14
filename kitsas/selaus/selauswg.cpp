@@ -221,7 +221,10 @@ void SelausWg::paivita()
     // Huomio käytettävissä vain tositteita selattaessa
     // ui->huomioButton->setVisible(  ui->valintaTab->currentIndex() != VIENNIT);
 
-    ui->poistaNappi->setVisible( ui->valintaTab->currentIndex() == TOSITTEET && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_MUOKKAUS) );
+    ui->poistaNappi->setVisible( ui->valintaTab->currentIndex() == TOSITTEET &&
+                                kp()->yhteysModel() &&
+                                kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_MUOKKAUS) &&
+                                ui->loppuEdit->date() > kp()->tilitpaatetty() );
     poistoMoodiin( false );
 
 }
@@ -601,12 +604,6 @@ void SelausWg::paivitaPoistoOhje()
     QModelIndexList valitutRivit = ui->selausView->selectionModel()->selectedRows(TositeSelausModel::PVM);
 
     const QDate lukittuPvm = kp()->tilitpaatetty();
-
-    if( ui->loppuEdit->date() <= lukittuPvm) {
-        ui->poistoLabel->setText( tr("Tositteita ei voi poistaa lukitulta tilikaudelta"));
-        ui->teePoistoNappi->setEnabled(false);
-        return;
-    }
 
     for(const auto& item : valitutRivit) {
         const QDate pvm = item.data(Qt::DisplayRole).toDate();
