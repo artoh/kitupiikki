@@ -259,7 +259,8 @@ void TilioteKirjaaja::alvMuuttuu()
    ui->eiVahennysCheck->setChecked( false );
 
    if( !ui->alvCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool() && alvProssa() < 0.1 ) {
-        ui->alvProssaCombo->setCurrentText("24 %");
+        const double alvProssa = yleinenAlv(ui->pvmEdit->date()) / 100.0;
+        ui->alvProssaCombo->setCurrentText(QString("%L1 %").arg(alvProssa, 0, 'f', 2));
    }
 
    alvProssaMuttuu();   // Pitää päivittää joka tapauksessa!
@@ -347,7 +348,7 @@ void TilioteKirjaaja::tiliMuuttuu()
         if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
             paivitaVeroFiltteri( tili.alvlaji() );
             const double alvProssa = tili.alvprosentti() == 24.0 ? yleinenAlv(ui->pvmEdit->date()) / 100.0 : tili.alvprosentti();
-            ui->alvProssaCombo->setCurrentText(QString("%1 %").arg(alvProssa, 0, 'f', 1));
+            ui->alvProssaCombo->setCurrentText(QString("%L1 %").arg(alvProssa, 0, 'f', 2));
         }
     }
 
