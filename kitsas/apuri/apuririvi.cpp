@@ -279,7 +279,7 @@ QVariantList ApuriRivi::viennit(const TositeVienti::VientiTyyppi tyyppi, const b
             palautus.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).numero());
             palautus.setAlvKoodi( AlvKoodi::ALVVAHENNYS + verokoodi );
         }
-        if(plusOnKredit == vero < Euro::Zero )
+        if(plusOnKredit == (vero < Euro::Zero) )
             palautus.setDebet( vero.abs() );
         else
             palautus.setKredit( vero.abs());
@@ -315,7 +315,7 @@ QVariantList ApuriRivi::viennit(const TositeVienti::VientiTyyppi tyyppi, const b
             verorivi.setAlvKoodi( AlvKoodi::ALVKIRJAUS + verokoodi);
         }
 
-        if(!plusOnKredit ^ vero > Euro::Zero ^ kaanteinen)
+        if(!plusOnKredit ^ ( vero > Euro::Zero ) ^ kaanteinen)
             verorivi.setKredit( vero.abs() );
         else
             verorivi.setDebet( vero.abs());
