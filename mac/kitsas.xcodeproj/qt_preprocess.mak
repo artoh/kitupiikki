@@ -3660,6 +3660,7 @@ moc_kitupiikkiikkuna.cpp: ../kitsas/kitupiikkiikkuna.h \
 moc_aloitussivu.cpp: ../kitsas/aloitussivu/aloitussivu.h \
 		../../../Qt/6.6.2/macos/lib/QtNetwork.framework/Headers/QNetworkAccessManager \
 		../../../Qt/6.6.2/macos/lib/QtNetwork.framework/Headers/QNetworkReply \
+		../../../Qt/6.6.2/macos/lib/QtCore.framework/Headers/QSortFilterProxyModel \
 		../kitsas/db/tilikausi.h \
 		../../../Qt/6.6.2/macos/lib/QtCore.framework/Headers/QDate \
 		../../../Qt/6.6.2/macos/lib/QtCore.framework/Headers/QDateTime \

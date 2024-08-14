@@ -3085,6 +3085,8 @@
 		CBA38F602427E750009178F9 /* moc_kayttooikeussivu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = moc_kayttooikeussivu.cpp; sourceTree = "<group>"; };
 		CBA38F692427E750009178F9 /* moc_kiertosivu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = moc_kiertosivu.cpp; sourceTree = "<group>"; };
 		CBA38F6A2427E750009178F9 /* moc_maventadialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = moc_maventadialog.cpp; sourceTree = "<group>"; };
+		CBAFEA8F2C63DB7F001147B0 /* KitsasDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = KitsasDebug.entitlements; path = Kitsas/KitsasDebug.entitlements; sourceTree = "<group>"; };
+		CBAFEA902C63DBD8001147B0 /* Kitsas.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Kitsas.entitlements; path = Kitsas/Kitsas.entitlements; sourceTree = "<group>"; };
 		CBB571AA26C657BE00380C62 /* varinvalinta.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = varinvalinta.cpp; sourceTree = "<group>"; };
 		CBB571AB26C657BE00380C62 /* varinvalinta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = varinvalinta.h; sourceTree = "<group>"; };
 		CBB571AD26C6581E00380C62 /* aleprosenttidelegaatti.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = aleprosenttidelegaatti.cpp; sourceTree = "<group>"; };
@@ -6405,6 +6407,8 @@
 		E8C543AB96796ECAA2E65C57 /* kitsas */ = {
 			isa = PBXGroup;
 			children = (
+				CBAFEA902C63DBD8001147B0 /* Kitsas.entitlements */,
+				CBAFEA8F2C63DB7F001147B0 /* KitsasDebug.entitlements */,
 				AF39DD055C3EF8226FBE929D /* Frameworks */,
 				25B08E2869634E9BCBA333A2 /* Generated Sources */,
 				CB91D8832660C7CB00A2FAA2 /* kitsas */,
@@ -7711,14 +7715,16 @@
 				"ARCHS[sdk=macosx*]" = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = Kitsas/Kitsas.entitlements;
 				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 50;
+				CURRENT_PROJECT_VERSION = 52;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = FJ2CG9GU7J;
 				ENABLE_BITCODE = NO;
-				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -7731,7 +7737,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/libraries";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 5.5.2;
+				MARKETING_VERSION = 5.6;
 				PRODUCT_BUNDLE_IDENTIFIER = fi.atfos.kitsas;
 				PRODUCT_NAME = Kitsas;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -7752,10 +7758,12 @@
 				"ARCHS[sdk=macosx*]" = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = Kitsas/KitsasDebug.entitlements;
 				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 50;
+				CURRENT_PROJECT_VERSION = 52;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = FJ2CG9GU7J;
 				ENABLE_BITCODE = NO;
@@ -7773,7 +7781,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/libraries";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 5.5.2;
+				MARKETING_VERSION = 5.6;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = fi.atfos.kitsas;
 				PRODUCT_NAME = Kitsas;
