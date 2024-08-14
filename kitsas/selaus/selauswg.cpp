@@ -104,6 +104,10 @@ SelausWg::SelausWg(QWidget *parent) :
     connect( ui->kuukausiNappi, &QPushButton::clicked, this, &SelausWg::tamaKuukausi);
     connect( ui->tilikausiButton, &QPushButton::clicked, this, &SelausWg::tamaTilikausi);
 
+    connect( ui->poistaNappi, &QPushButton::toggled, this, &SelausWg::poistoMoodiin);
+    connect( ui->peruPoistoNappi, &QPushButton::clicked, this, &SelausWg::poistoMoodiin);    
+    connect( ui->teePoistoNappi, &QPushButton::clicked, this, &SelausWg::teePoisto);
+
 //    connect( ui->huomioButton, &QPushButton::toggled, tositeProxy_, &TositeSelausProxyModel::suodataHuomio);
 
     ui->selausView->horizontalHeader()->setSectionsMovable(true);
@@ -216,6 +220,9 @@ void SelausWg::paivita()
 
     // Huomio käytettävissä vain tositteita selattaessa
     // ui->huomioButton->setVisible(  ui->valintaTab->currentIndex() != VIENNIT);
+
+    ui->poistaNappi->setVisible( ui->valintaTab->currentIndex() == TOSITTEET && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_MUOKKAUS) );
+    poistoMoodiin( false );
 
 }
 
@@ -342,14 +349,16 @@ void SelausWg::paivitaSummat(QVariant *data)
         }
         ui->summaLabel->setText( tr("Summa %1 \tLkm %L2").arg(summa.display(), QString::number(model->rowCount())));
 
+        ui->poistaNappi->setEnabled( model->rowCount() > 0);
     }
 
 }
 
 void SelausWg::naytaTositeRivilta(QModelIndex index)
 {
-    if( !index.isValid() )
+    if( !index.isValid() || ui->poistoGroup->isVisible() )
         return;
+
 
     int id = index.data( Qt::UserRole).toInt();
     int tyyppi = index.data(TositeSelausModel::TositeTyyppiRooli).toInt();
@@ -568,6 +577,71 @@ void SelausWg::palautaValinta()
             skrolli_ = -1;
         }
     }
+}
+
+void SelausWg::poistoMoodiin(bool poistoon)
+{
+    ui->poistoGroup->setVisible(poistoon);
+    ui->selausView->setSelectionMode(poistoon ? QTableView::MultiSelection : QTableView::SingleSelection);
+    ui->poistaNappi->setChecked( poistoon );
+    if( poistoon ) {
+        ui->selausView->clearSelection();
+        paivitaPoistoOhje();
+        connect( ui->selausView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &SelausWg::paivitaPoistoOhje);
+    }
+
+    if( !poistoon && ui->selausView->selectionModel()->selectedRows().count() > 1)
+        ui->selausView->clearSelection();
+}
+
+void SelausWg::paivitaPoistoOhje()
+{
+    if( !ui->poistoGroup->isVisible()) return;
+
+    QModelIndexList valitutRivit = ui->selausView->selectionModel()->selectedRows(TositeSelausModel::PVM);
+
+    const QDate lukittuPvm = kp()->tilitpaatetty();
+
+    if( ui->loppuEdit->date() <= lukittuPvm) {
+        ui->poistoLabel->setText( tr("Tositteita ei voi poistaa lukitulta tilikaudelta"));
+        ui->teePoistoNappi->setEnabled(false);
+        return;
+    }
+
+    for(const auto& item : valitutRivit) {
+        const QDate pvm = item.data(Qt::DisplayRole).toDate();
+        if( pvm <= lukittuPvm) {
+            ui->poistoLabel->setText( tr("Tositteita ei voi poistaa lukitulta tilikaudelta"));
+            ui->teePoistoNappi->setEnabled(false);
+            return;
+        }
+    }
+
+
+    if( valitutRivit.empty()) {
+        ui->poistoLabel->setText(tr("Valitse poistettavat tositteet"));
+    } else {
+        ui->poistoLabel->setText(tr("Haluatko todella poistaa valitsemasi %1 tositetta?").arg(valitutRivit.count()));
+    }
+    ui->teePoistoNappi->setEnabled(!valitutRivit.empty());
+}
+
+void SelausWg::teePoisto()
+{
+    QModelIndexList valitutRivit = ui->selausView->selectionModel()->selectedRows();
+    poistoLaskuri_ += valitutRivit.count();
+    for(const auto& rivi: valitutRivit) {
+        KpKysely* kysely = kpk(QString("/tositteet/%1").arg(rivi.data(TositeSelausModel::TositeIdRooli).toInt()), KpKysely::DELETE);
+        connect(kysely, &KpKysely::vastaus, this, &SelausWg::poistoValmis);
+        kysely->kysy();
+    }
+}
+
+void SelausWg::poistoValmis()
+{
+    poistoLaskuri_--;
+    if( poistoLaskuri_ < 1)
+        emit kp()->kirjanpitoaMuokattu();
 }
 
 bool SelausWg::eventFilter(QObject *watched, QEvent *event)

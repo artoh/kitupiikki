@@ -101,6 +101,11 @@ protected slots:
     void tamaTilikausi();
     void palautaValinta();
 
+    void poistoMoodiin(bool poistoon = false);
+    void paivitaPoistoOhje();
+    void teePoisto();
+    void poistoValmis();
+
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
 
@@ -125,6 +130,7 @@ private:
     Euro saldo_;
     int selaustili_ = -1;
     bool lataaKoon_ = false;
+    int poistoLaskuri_ = 0;
 };
 
 #endif // SELAUSWG_H
