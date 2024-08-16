@@ -200,7 +200,7 @@
    <item>
     <widget class="QGroupBox" name="poistoGroup">
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(255, 162, 162);</string>
+      <string notr="true">;</string>
      </property>
      <property name="title">
       <string/>
@@ -211,6 +211,11 @@
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
        <widget class="QLabel" name="poistoLabel">
+        <property name="font">
+         <font>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="text">
          <string/>
         </property>

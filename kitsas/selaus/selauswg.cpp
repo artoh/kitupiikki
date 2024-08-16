@@ -30,6 +30,7 @@
 #include <QHeaderView>
 #include <QTimer>
 #include <QSettings>
+#include <QStyleHints>
 
 #include "lisaikkuna.h"
 #include "db/yhteysmodel.h"
@@ -111,6 +112,12 @@ SelausWg::SelausWg(QWidget *parent) :
 //    connect( ui->huomioButton, &QPushButton::toggled, tositeProxy_, &TositeSelausProxyModel::suodataHuomio);
 
     ui->selausView->horizontalHeader()->setSectionsMovable(true);
+
+    if (QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark) {
+        ui->poistoGroup->setStyleSheet("QGroupBox, QLabel { background-color: rgb(200, 0, 0); color: white }") ;
+    } else {
+        ui->poistoGroup->setStyleSheet("QGroupBox, QLabel { background-color: rgb(255, 180, 0); color: black }");
+    }
 
 }
 
