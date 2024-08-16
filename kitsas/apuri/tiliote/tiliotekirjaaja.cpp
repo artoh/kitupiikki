@@ -702,7 +702,7 @@ void TilioteKirjaaja::naytaRivi()
         ui->jaksoLoppuuEdit->setNull();
 
     paivitaVeroFiltteri( ar.alvkoodi() );
-    ui->alvProssaCombo->setCurrentText( ar.alvprosentti() ? QString("%1 %").arg( (int) ar.alvprosentti() ) : QString() );
+    ui->alvProssaCombo->setCurrentText( ar.alvprosentti() ? QString("%L1 %").arg(ar.alvprosentti(), 0, 'f', 2 ) : QString() );
 
     ui->eiVahennysCheck->setChecked( !ar.alvvahennys() );
     ui->poistoaikaSpin->setValue( ar.poistoaika() / 12 );

@@ -153,7 +153,7 @@ void ApuriRivi::setNetto(Euro eurot)
 
 void ApuriRivi::setNetonVero(Euro eurot, int vientiId)
 {
-    brutto_ = netto_ > Euro::Zero ? netto_ + eurot : netto_ - eurot.abs();
+    brutto_ = netto_ > Euro::Zero ? netto_ + eurot : netto_ - eurot;
     veroVientiId_ = vientiId;
 }
 

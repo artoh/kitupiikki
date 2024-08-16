@@ -72,6 +72,7 @@ public:
     Euro naytettava() const;
 
     bool nettoSyotetty() const { return netto_; }
+    bool bruttoSyotetty() const { return brutto_; }
 
     void setBrutto(Euro eurot);
     void setNetto(Euro eurot);

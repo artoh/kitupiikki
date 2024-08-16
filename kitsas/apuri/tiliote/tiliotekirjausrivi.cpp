@@ -592,11 +592,12 @@ void TilioteKirjausRivi::lisaaVienti(const QVariantMap &map)
         else
             taydennys_.asetaKreditId(vienti.id());
     } else if( vienti.alvKoodi() / 100 == AlvKoodi::ALVKIRJAUS / 100) {
-        Euro vero = summa_ > Euro::Zero ? vienti.kreditEuro() - vienti.debetEuro() : vienti.debetEuro() - vienti.kreditEuro();
+        Euro vero = vienti.kreditEuro() - vienti.debetEuro();
         rivit_[ rivit_.count()-1].setNetonVero(vero, vienti.id());
     } else if( vienti.alvKoodi() / 100 == AlvKoodi::ALVVAHENNYS / 100) {
-        Euro vahennys = summa_ < Euro::Zero ? vienti.debetEuro() - vienti.kreditEuro() : vienti.kreditEuro() - vienti.debetEuro();
-        rivit_[ rivit_.count() - 1].setNetonVero(vahennys);
+        Euro vahennys = vienti.debetEuro() - vienti.kreditEuro();
+        if( !rivit_[rivit_.count()-1].bruttoSyotetty())
+            rivit_[ rivit_.count() - 1].setNetonVero(vahennys);
         rivit_[ rivit_.count() - 1 ].setAlvvahennys(true, vienti.id());
     } else if( vienti.alvKoodi() == AlvKoodi::VAHENNYSKELVOTON) {
         rivit_[ rivit_.count() - 1].setVahentamaton( vienti.id());
