@@ -31,6 +31,7 @@
 #include <QTimer>
 #include <QSettings>
 #include <QStyleHints>
+#include <QMessageBox>
 
 #include "lisaikkuna.h"
 #include "db/yhteysmodel.h"
@@ -624,16 +625,28 @@ void SelausWg::paivitaPoistoOhje()
 
     if( valitutRivit.empty()) {
         ui->poistoLabel->setText(tr("Valitse poistettavat tositteet"));
+    } else if(valitutRivit.count() == 1) {
+        ui->poistoLabel->setText(tr("Yksi tosite valittu poistettavaksi"));
     } else {
-        ui->poistoLabel->setText(tr("Haluatko todella poistaa valitsemasi %1 tositetta?").arg(valitutRivit.count()));
+        ui->poistoLabel->setText(tr("%1 tositetta valittu poistettavaksi").arg(valitutRivit.count()));
     }
     ui->teePoistoNappi->setEnabled(!valitutRivit.empty());
 }
 
 void SelausWg::teePoisto()
-{
+{       
     QModelIndexList valitutRivit = ui->selausView->selectionModel()->selectedRows();
-    poistoLaskuri_ += valitutRivit.count();
+    const int poistettavia = valitutRivit.count();
+
+    if( QMessageBox::question(this, tr("Vahvista poistaminen"),
+                              poistettavia > 1 ? tr("Haluatko varmasti poistaa valitsemasi %1 tositetta?").arg(poistettavia) : tr("Haluatko varmasti poistaa valitsemasi tositteen?"),
+                              QMessageBox::Yes | QMessageBox::No,
+                              QMessageBox::No
+    ) != QMessageBox::Yes) {
+        return;
+    }
+
+    poistoLaskuri_ += poistettavia;
     for(const auto& rivi: valitutRivit) {
         KpKysely* kysely = kpk(QString("/tositteet/%1").arg(rivi.data(TositeSelausModel::TositeIdRooli).toInt()), KpKysely::DELETE);
         connect(kysely, &KpKysely::vastaus, this, &SelausWg::poistoValmis);
