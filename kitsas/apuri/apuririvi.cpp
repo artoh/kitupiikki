@@ -353,10 +353,7 @@ QVariantList ApuriRivi::viennit(const TositeVienti::VientiTyyppi tyyppi, const b
         palautus.setAlvKoodi( AlvKoodi::VAHENNYSKELVOTON);
         palautus.setAlvProsentti( alvprosentti() );
 
-        if( plusOnKredit )  // Kirjataan tuloa
-            palautus.setKredit( vero );
-        else    // Kirjataan menoa
-            palautus.setDebet( vero );
+        palautus.setDebet( vero );
 
         palautus.setSelite( rivinSelite );
         if( !kumppani.isEmpty() )
