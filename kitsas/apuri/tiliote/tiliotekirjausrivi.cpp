@@ -184,7 +184,7 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role, const QDate &alkuPvm
                     for(const auto& rivi: rivit_) {
                         vero += (rivi.brutto() - rivi.netto());
                     }
-                    return QString("%L2   %L1 %").arg( QString::number(prossa,'f',1), vero.display(false));
+                    return QString("%2   %L1 %").arg( QString::number(prossa,'f',1), vero.display(false));
                 } else if( prossa ) {
                     return QString("%L1 %").arg(prossa,0,'f',1);
                 } else {

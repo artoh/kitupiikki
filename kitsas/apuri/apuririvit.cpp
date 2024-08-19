@@ -80,7 +80,7 @@ QVariant ApuriRivit::data(const QModelIndex &index, int role) const
             if( alv < 1e-3 || kp()->alvTyypit()->nollaTyyppi(alvtyyppi))
                 return QVariant();
             else
-                return QString("%1 %").arg(alv,0,'f',1);
+                return QString("%L1 %").arg(alv,0,'f',1);
         }
         else if( index.column() == EUROA)
         {
@@ -191,6 +191,7 @@ QVariantList ApuriRivit::viennit(Tosite* tosite)
 void ApuriRivit::asetaTyyppi(TositeVienti::VientiTyyppi tyyppi, bool plusOnKredit)
 {
     tyyppi_ = tyyppi;
+    Q_ASSERT(tyyppi != TositeVienti::OSTO || tyyppi != TositeVienti::MYYNTI); // MUISTA POISTAA!!!
     plusOnKredit_ = plusOnKredit;
 }
 

@@ -128,13 +128,16 @@ void TilioteView::keyPressEvent(QKeyEvent *event)
             model()->setData(currentIndex(), alv / 100 == 1400 ? koodi + 100000 : koodi + 140000);
             return;
         } else if( event->key() == Qt::Key_T) {
-            model()->setData(currentIndex(), tili->onko(TiliLaji::TULO) ? AlvKoodi::YHTEISOMYYNTI_TAVARAT : AlvKoodi::YHTEISOHANKINNAT_TAVARAT );
+            const int prosentti = yleinenAlv( currentIndex().data(TilioteKirjausRivi::PvmRooli).toDate()) * 100;
+            model()->setData(currentIndex(), tili->onko(TiliLaji::TULO) ? AlvKoodi::YHTEISOMYYNTI_TAVARAT : prosentti + AlvKoodi::YHTEISOHANKINNAT_TAVARAT );
             return;
         } else if( event->key() == Qt::Key_P) {
-            model()->setData(currentIndex(), tili->onko(TiliLaji::TULO) ? AlvKoodi::YHTEISOMYYNTI_PALVELUT : AlvKoodi::YHTEISOHANKINNAT_PALVELUT );
+            const int prosentti = yleinenAlv( currentIndex().data(TilioteKirjausRivi::PvmRooli).toDate()) * 100;
+            model()->setData(currentIndex(), tili->onko(TiliLaji::TULO) ? AlvKoodi::YHTEISOMYYNTI_PALVELUT : prosentti + AlvKoodi::YHTEISOHANKINNAT_PALVELUT );
             return;
         } else if( event->key() == Qt::Key_R) {
-            model()->setData(currentIndex(), tili->onko(TiliLaji::TULO) ? AlvKoodi::RAKENNUSPALVELU_MYYNTI : AlvKoodi::RAKENNUSPALVELU_OSTO );
+            const int prosentti = yleinenAlv( currentIndex().data(TilioteKirjausRivi::PvmRooli).toDate()) * 100;
+            model()->setData(currentIndex(), tili->onko(TiliLaji::TULO) ? AlvKoodi::RAKENNUSPALVELU_MYYNTI : prosentti + AlvKoodi::RAKENNUSPALVELU_OSTO );
             return;
         }
     }

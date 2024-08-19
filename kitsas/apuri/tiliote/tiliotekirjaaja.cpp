@@ -592,7 +592,8 @@ void TilioteKirjaaja::lataa(const TilioteKirjausRivi &rivi)
     ladataan_ = true;
     const Euro& maara = rivi.summa();
 
-    rivit_->asetaTyyppi(rivi.tyyppi(), maara > Euro::Zero);
+    rivit_->asetaTyyppi(rivi.tyyppi(), rivi.tyyppi() == TositeVienti::MYYNTI ? true :
+                                       (rivi.tyyppi() == TositeVienti::OSTO ? true : maara > Euro::Zero));
     rivit_->asetaRivit(rivi.rivit());
 
     ui->viennitView->selectRow(0);

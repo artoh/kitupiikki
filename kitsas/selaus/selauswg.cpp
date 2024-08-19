@@ -113,7 +113,7 @@ SelausWg::SelausWg(QWidget *parent) :
 
     ui->selausView->horizontalHeader()->setSectionsMovable(true);
 
-    if (QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark) {
+    if (QPalette().base().color().lightness() < 128 ) {
         ui->poistoGroup->setStyleSheet("QGroupBox, QLabel { background-color: rgb(200, 0, 0); color: white }") ;
     } else {
         ui->poistoGroup->setStyleSheet("QGroupBox, QLabel { background-color: rgb(255, 180, 0); color: black }");
