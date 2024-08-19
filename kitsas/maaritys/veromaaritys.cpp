@@ -53,6 +53,12 @@ bool VeroMaaritys::nollaa()
     ui->kausiLabel->setVisible(!kausiVerottajalta);
     ui->kausiCombo->setVisible(!kausiVerottajalta);
 
+    // 5.7 Himmennetään alv-valintoja jos ei alv-velvollinen
+    bool alvVelvollinen = kp()->asetukset()->onko(AsetusModel::AlvVelvollinen);
+    ui->alvGroup->setEnabled(alvVelvollinen);
+    ui->alvKirjausGroup->setEnabled(alvVelvollinen);
+    ui->alvLukkoGroup->setEnabled(alvVelvollinen);
+
     if( kp()->pilvi()->pilvi())
         tila->paivita();
 

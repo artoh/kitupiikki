@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
-    <widget class="QGroupBox" name="groupBox_4">
+    <widget class="QGroupBox" name="alvGroup">
      <property name="title">
       <string>Arvonlisävero</string>
      </property>
@@ -63,7 +63,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="alvKirjausGroup">
      <property name="title">
       <string>Arvonlisäveron kirjaus arvonlisäveroilmoituksen yhteydessä</string>
      </property>
@@ -102,7 +102,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_5">
+    <widget class="QGroupBox" name="alvLukkoGroup">
      <property name="title">
       <string>Tositteiden lukitseminen</string>
      </property>
