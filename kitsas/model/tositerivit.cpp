@@ -249,7 +249,10 @@ bool TositeRivit::setData(const QModelIndex &index, const QVariant &value, int r
                     int alvlaji = uusitili.alvlaji();
                     if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen) && (alvlaji == AlvKoodi::EIALV || alvlaji == AlvKoodi::MYYNNIT_NETTO )) {
                         rivit_[r].setAlvKoodi( uusitili.alvlaji() );
-                        const double prossa = uusitili.alvprosentti() == 24.00 ? yleinenAlv( kp()->paivamaara() ) / 100.0 : rivit_[r].alvProsentti();
+                        const double prossa =
+                            uusitili.alvprosentti() == 24.00
+                            ? yleinenAlv( kp()->paivamaara() ) / 100.0
+                            : uusitili.alvprosentti();
                         rivit_[r].setAlvProsentti( prossa );
                     }
                 }

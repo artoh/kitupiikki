@@ -314,6 +314,7 @@ void RivillinenLaskuDialogi::alustaRiviTyypit()
 
 void RivillinenLaskuDialogi::paivitaSumma()
 {
+    alvTaulu()->yhdistaRiveihin( tosite()->rivit() );
     alvTaulu()->asetaBruttoPeruste( ui->riviTyyppiCombo->currentData() != Lasku::NETTORIVIT );
     alvTaulu()->paivita();
 
