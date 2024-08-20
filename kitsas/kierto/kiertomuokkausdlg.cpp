@@ -141,6 +141,9 @@ void KiertoMuokkausDlg::kayttajatSaapuu(QVariant *data)
         }
     }
     model->lisaaNimet(kayttajat);
+    // Varmistetaan kierrossa ensimmäisen valinta ja oikeuksien näyttö
+    ui->osallistujaCombo->setCurrentIndex(0);
+    paivitaRooliValinta();
 }
 
 void KiertoMuokkausDlg::paivitaRooliValinta()
