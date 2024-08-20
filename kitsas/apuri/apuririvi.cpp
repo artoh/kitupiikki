@@ -244,11 +244,16 @@ QVariantList ApuriRivi::viennit(const TositeVienti::VientiTyyppi tyyppi, const b
     }
 
 
+    const bool kaanteinenAlv =
+        verokoodi == AlvKoodi::RAKENNUSPALVELU_OSTO ||
+        verokoodi == AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
+        verokoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT ||
+        verokoodi == AlvKoodi::MAAHANTUONTI ||
+        verokoodi == AlvKoodi::MAAHANTUONTI_PALVELUT;
+
     Euro kirjattava = ( verokoodi == AlvKoodi::MYYNNIT_NETTO  || verokoodi == AlvKoodi::OSTOT_NETTO ||
                              verokoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI || verokoodi== AlvKoodi::MAKSUPERUSTEINEN_OSTO ||
-                             verokoodi == AlvKoodi::RAKENNUSPALVELU_OSTO || verokoodi== AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
-                             verokoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || verokoodi == AlvKoodi::MAAHANTUONTI ||
-                             verokoodi == AlvKoodi::MAAHANTUONTI_PALVELUT
+                             kaanteinenAlv
                         ) && naytaNetto() ? netto : maara;
 
     if( plusOnKredit )  // Kirjataan tuloa
@@ -261,10 +266,8 @@ QVariantList ApuriRivi::viennit(const TositeVienti::VientiTyyppi tyyppi, const b
     vientilista.append( vienti );
 
     // ALV-SAAMINEN
-    if( verokoodi == AlvKoodi::OSTOT_NETTO || verokoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO ||
-          ((verokoodi == AlvKoodi::RAKENNUSPALVELU_OSTO || verokoodi == AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
-            verokoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || verokoodi == AlvKoodi::MAAHANTUONTI || verokoodi == AlvKoodi::MAAHANTUONTI_PALVELUT )
-           &&  alvvahennys() ) ) {
+    if( ( verokoodi == AlvKoodi::OSTOT_NETTO || verokoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO || kaanteinenAlv )
+        &&  alvvahennys() ) {
 
         TositeVienti palautus;
         palautus.setTyyppi( tyyppi + TositeVienti::ALVKIRJAUS );
@@ -279,7 +282,12 @@ QVariantList ApuriRivi::viennit(const TositeVienti::VientiTyyppi tyyppi, const b
             palautus.setAlvKoodi( AlvKoodi::ALVVAHENNYS + verokoodi );
         }
 
-        palautus.setDebet( vero );
+        if( kaanteinenAlv == plusOnKredit) {
+            palautus.setKredit( vero );
+        } else {
+            palautus.setDebet( vero );
+        }
+
         if( vahennysVientiId_ )
             palautus.setId( vahennysVientiId_ );
 
@@ -291,10 +299,7 @@ QVariantList ApuriRivi::viennit(const TositeVienti::VientiTyyppi tyyppi, const b
     }
 
     // Alv-veron kirjaaminen
-    if( verokoodi == AlvKoodi::MYYNNIT_NETTO || verokoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI ||
-            verokoodi == AlvKoodi::RAKENNUSPALVELU_OSTO || verokoodi == AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
-            verokoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || verokoodi == AlvKoodi::MAAHANTUONTI ||
-            verokoodi == AlvKoodi::MAAHANTUONTI_PALVELUT )
+    if( verokoodi == AlvKoodi::MYYNNIT_NETTO || verokoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI || kaanteinenAlv )
     {
         TositeVienti verorivi;
         verorivi.setTyyppi( tyyppi + TositeVienti::ALVKIRJAUS );
@@ -308,7 +313,12 @@ QVariantList ApuriRivi::viennit(const TositeVienti::VientiTyyppi tyyppi, const b
             verorivi.setAlvKoodi( AlvKoodi::ALVKIRJAUS + verokoodi);
         }
 
-        verorivi.setKredit( vero );
+        if( kaanteinenAlv == plusOnKredit) {
+            verorivi.setDebet( vero );
+        } else {
+            verorivi.setKredit( vero );
+        }
+
         verorivi.setAlvProsentti( alvprosentti());
         verorivi.setSelite(rivinSelite);
 
@@ -342,8 +352,7 @@ QVariantList ApuriRivi::viennit(const TositeVienti::VientiTyyppi tyyppi, const b
     }
     // Jos ei oikeuta alv-vähennykseen, kirjataan myös tämä osuus menoksi
     if( (verokoodi == AlvKoodi::RAKENNUSPALVELU_OSTO || verokoodi == AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
-            verokoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || verokoodi == AlvKoodi::MAAHANTUONTI ||
-            verokoodi == AlvKoodi::MAAHANTUONTI_PALVELUT )
+            kaanteinenAlv )
            &&  !alvvahennys()  ) {
 
         TositeVienti palautus;
@@ -353,7 +362,10 @@ QVariantList ApuriRivi::viennit(const TositeVienti::VientiTyyppi tyyppi, const b
         palautus.setAlvKoodi( AlvKoodi::VAHENNYSKELVOTON);
         palautus.setAlvProsentti( alvprosentti() );
 
-        palautus.setDebet( vero );
+        if( plusOnKredit )  // Kirjataan tuloa
+            palautus.setKredit( vero );
+        else
+            palautus.setDebet( vero );
 
         palautus.setSelite( rivinSelite );
         if( !kumppani.isEmpty() )

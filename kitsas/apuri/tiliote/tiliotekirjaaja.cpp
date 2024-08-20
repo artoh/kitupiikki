@@ -592,8 +592,7 @@ void TilioteKirjaaja::lataa(const TilioteKirjausRivi &rivi)
     ladataan_ = true;
     const Euro& maara = rivi.summa();
 
-    rivit_->asetaTyyppi(rivi.tyyppi(), rivi.tyyppi() == TositeVienti::MYYNTI ? true :
-                                       (rivi.tyyppi() == TositeVienti::OSTO ? true : maara > Euro::Zero));
+    rivit_->asetaTyyppi(rivi.tyyppi(), maara > Euro::Zero);
     rivit_->asetaRivit(rivi.rivit());
 
     ui->viennitView->selectRow(0);
@@ -771,7 +770,8 @@ TilioteKirjausRivi TilioteKirjaaja::tallennettava()
 
     rivi.asetaPvm( ui->pvmEdit->date() );
     rivi.asetaKumppani( ui->asiakastoimittaja->map());
-    rivi.asetaTyyppi(tyyppi());
+    TositeVienti::VientiTyyppi vientiTyyppi = tyyppi();
+    rivi.asetaTyyppi(vientiTyyppi);
     rivit_->asetaTyyppi(tyyppi(), !menoa_ );
     if( rivit_->rowCount() == 1) {
         rivi.asetaOtsikko( ui->seliteEdit->toPlainText() );

@@ -190,8 +190,7 @@ QVariantList ApuriRivit::viennit(Tosite* tosite)
 
 void ApuriRivit::asetaTyyppi(TositeVienti::VientiTyyppi tyyppi, bool plusOnKredit)
 {
-    tyyppi_ = tyyppi;
-    Q_ASSERT(tyyppi != TositeVienti::OSTO || tyyppi != TositeVienti::MYYNTI); // MUISTA POISTAA!!!
+    tyyppi_ = tyyppi;    
     plusOnKredit_ = plusOnKredit;
 }
 
