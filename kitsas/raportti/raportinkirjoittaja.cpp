@@ -637,6 +637,7 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu, bool n
         otsikkoRect.moveTo( ytunnusRect.right() + painter->fontMetrics().horizontalAdvance("A"), 0 );
 
 
+    painter->setPen(Qt::darkGray); // TEKSTI ON TUMMALLA TEEMALLA VALKOISTA ILMAN TÄTÄ
     painter->setPen(Qt::black);
     painter->drawText( nimiRect, Qt::AlignLeft | Qt::TextWordWrap, nimi );
     painter->drawText(ytunnusRect, Qt::AlignLeft, ytunnus);
