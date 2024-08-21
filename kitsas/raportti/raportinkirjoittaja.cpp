@@ -286,6 +286,7 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
 
             painter->save();
             painter->setFont(QFont("FreeSans", 10 - pienennys));
+            painter->setPen(Qt::black);
 
             // Tulostetaan ylätunniste
             if( !otsikko_.isEmpty())
@@ -332,8 +333,10 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
                 }
                 painter->translate(0, rivinkorkeus);
             } // Otsikkorivi
-            if( !otsikko_.isEmpty() || !otsakkeet_.isEmpty())
+            if( !otsikko_.isEmpty() || !otsakkeet_.isEmpty()) {
+                painter->setPen(QPen(QBrush(Qt::black),1.00));
                 painter->drawLine(0,0,sivunleveys,0);
+            }
         }
 
         // Jos raidoitus, niin raidoitetaan eli osan rivien taakse harmaata
@@ -342,9 +345,7 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
             painter->save();
             painter->setBrush(QBrush(QColor(222,222,222)));
             painter->setPen(Qt::NoPen);
-
             painter->drawRect(0,0,sivunleveys, korkeinrivi);
-
             painter->restore();
 
         }
@@ -354,8 +355,10 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
         } else {
             fontti.setPointSize( rivi.pistekoko() - pienennys );
             fontti.setBold( rivi.onkoLihava() );
-            painter->setFont(fontti);
+            painter->setFont(fontti);            
         }
+
+        painter->setPen(Qt::black);
 
         // Sitten tulostetaan tämä varsinainen rivi
         for( int i=0; i < rivi.sarakkeita(); i++)
@@ -634,6 +637,7 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu, bool n
         otsikkoRect.moveTo( ytunnusRect.right() + painter->fontMetrics().horizontalAdvance("A"), 0 );
 
 
+    painter->setPen(Qt::black);
     painter->drawText( nimiRect, Qt::AlignLeft | Qt::TextWordWrap, nimi );
     painter->drawText(ytunnusRect, Qt::AlignLeft, ytunnus);
     painter->drawText( otsikkoRect, Qt::AlignHCenter | Qt::TextWordWrap, otsikko());
@@ -661,7 +665,6 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu, bool n
         painter->drawText(QRect(sivunleveys*2/3, 0, sivunleveys/3, rivinkorkeus), Qt::AlignRight, kaanna("Sivu %1").arg(sivu));
 
     painter->translate(0, rivinkorkeus );
-    painter->setPen(QPen(QBrush(Qt::black),1.00));
 
 }
 
