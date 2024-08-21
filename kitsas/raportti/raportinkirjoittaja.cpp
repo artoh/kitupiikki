@@ -140,6 +140,8 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
         return 1;     // Ei tulostettavaa !
     }
 
+    painter->save();
+
     const double mm = printer->width() * 1.00 / printer->widthMM();
     const int sivunleveys = painter->window().width();
 
@@ -284,7 +286,6 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
         {
             // Ollaan sivun alussa
 
-            painter->save();
             painter->setFont(QFont("FreeSans", 10 - pienennys));
             painter->setPen(Qt::black);
 
@@ -376,7 +377,6 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
     }
 
     painter->restore();
-
     return sivu;
 }
 
@@ -649,8 +649,7 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu, bool n
     }
 
     if( kp()->asetukset()->onko("Harjoitus") && !kp()->asetukset()->onko("Demo") )
-    {
-        painter->save();
+    {        
         painter->setPen( QPen(Qt::green));
         painter->setFont( QFont("FreeSans",14));
         painter->drawText(QRect(sivunleveys / 8 * 5,0,sivunleveys/4, rivinkorkeus*2 ), Qt::AlignHCenter | Qt::AlignVCenter, kaanna("HARJOITUS") );
