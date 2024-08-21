@@ -282,7 +282,7 @@ QVariantList ApuriRivi::viennit(const TositeVienti::VientiTyyppi tyyppi, const b
             palautus.setAlvKoodi( AlvKoodi::ALVVAHENNYS + verokoodi );
         }
 
-        if( kaanteinenAlv && plusOnKredit) {
+        if(plusOnKredit) {
             palautus.setKredit(vero);
         } else {
             palautus.setDebet(vero);
