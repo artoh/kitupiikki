@@ -256,7 +256,8 @@ void TilioteKirjaaja::alvMuuttuu()
    ui->alvProssaCombo->setVisible( !ui->alvCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool() && ui->alvCombo->isVisible());
 
    ui->eiVahennysCheck->setVisible(  rivi()->naytaVahennysvalinta() && ui->alvProssaCombo->isVisible());
-   ui->eiVahennysCheck->setChecked( false );
+   if( !ladataan_ )
+       ui->eiVahennysCheck->setChecked( false );
 
    if( !ui->alvCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool() && alvProssa() < 0.1 ) {
         const double alvProssa = yleinenAlv(ui->pvmEdit->date()) / 100.0;
@@ -703,6 +704,7 @@ void TilioteKirjaaja::naytaRivi()
 
     paivitaVeroFiltteri( ar.alvkoodi() );
     ui->alvProssaCombo->setCurrentText( ar.alvprosentti() ? QString("%L1 %").arg(ar.alvprosentti(), 0, 'f', 2 ) : QString() );
+    qApp->processEvents();
 
     ui->eiVahennysCheck->setChecked( !ar.alvvahennys() );
     ui->poistoaikaSpin->setValue( ar.poistoaika() / 12 );
