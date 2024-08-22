@@ -73,7 +73,7 @@ public:
 
 protected:
     void paivitaTyyppi();
-    void paivitaTyyppi(const EraMap& era, const int tilinumero);
+    void paivitaTyyppi(const EraMap& era, const int tilinumero);        
 
     QList<int> kirjausTilit() const;
 
