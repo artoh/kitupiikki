@@ -110,10 +110,21 @@ void ApuriRivit::lisaa(const QVariantMap &map)
     } else if( !rivit_.count()) {
         ;
     } else if( vienti.alvKoodi() / 100 == AlvKoodi::ALVKIRJAUS / 100) {
-        Euro vero = vienti.kreditEuro() - vienti.debetEuro();
+        const int verokoodi = vienti.alvKoodi() % 100;
+        const bool kaanteinenAlv =
+            verokoodi == AlvKoodi::RAKENNUSPALVELU_OSTO ||
+            verokoodi == AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
+            verokoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT ||
+            verokoodi == AlvKoodi::MAAHANTUONTI ||
+            verokoodi == AlvKoodi::MAAHANTUONTI_PALVELUT;
+        Euro vero = plusOnKredit() == kaanteinenAlv ?
+            vienti.debetEuro() - vienti.kreditEuro() :
+            vienti.kreditEuro() - vienti.debetEuro();
         rivit_[ rivit_.count()-1].setNetonVero(vero, vienti.id());
     } else if( vienti.alvKoodi() / 100 == AlvKoodi::ALVVAHENNYS / 100) {
-        Euro vahennys = vienti.debetEuro() - vienti.kreditEuro();
+        Euro vahennys = plusOnKredit() ?
+                vienti.kreditEuro() - vienti.debetEuro():
+                vienti.debetEuro() - vienti.kreditEuro();
         if( !rivit_[rivit_.count()-1].bruttoSyotetty())
             rivit_[ rivit_.count() - 1].setNetonVero(vahennys, 0);
         rivit_[ rivit_.count() - 1 ].setAlvvahennys(true, vienti.id());
