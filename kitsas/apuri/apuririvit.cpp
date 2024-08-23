@@ -124,10 +124,10 @@ void ApuriRivit::lisaa(const QVariantMap &map)
     }
 }
 
-int ApuriRivit::lisaaRivi(int tili)
+int ApuriRivit::lisaaRivi(int tili, const QDate &pvm)
 {
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    rivit_.append(ApuriRivi(tili));
+    rivit_.append(ApuriRivi(tili, pvm));
     endInsertRows();
     return rowCount() - 1;
 }

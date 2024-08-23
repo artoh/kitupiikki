@@ -475,7 +475,7 @@ void TilioteKirjaaja::tositeSaapuu(QVariant *data)
 
 void TilioteKirjaaja::lisaaVienti()
 {
-    const int uusiRivi = rivit_->lisaaRivi( oletustili() );
+    const int uusiRivi = rivit_->lisaaRivi( oletustili(), ui->pvmEdit->date() );
     ui->viennitView->setVisible(true);
     ui->viennitView->selectRow(uusiRivi);
     ui->poistaVientiNappi->setVisible( true );

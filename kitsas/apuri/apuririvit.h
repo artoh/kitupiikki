@@ -46,7 +46,7 @@ public:
 
     void lisaa(const QVariantMap& map);
 
-    int lisaaRivi(int tili=0);
+    int lisaaRivi(int tili=0, const QDate& pvm = QDate());
     void lisaaRivi(const ApuriRivi& rivi);
     void poistaRivi(int rivi);
     

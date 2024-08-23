@@ -20,7 +20,7 @@
 #include "db/kirjanpito.h"
 
 
-ApuriRivi::ApuriRivi(int tili)
+ApuriRivi::ApuriRivi(int tili, const QDate &pvm)
 {
     if( tili ) {
         tilinumero_=tili;
@@ -29,7 +29,7 @@ ApuriRivi::ApuriRivi(int tili)
         if( tilini ) {
             alvkoodi_ = alv ? tilini->luku("alvlaji") : AlvKoodi::EIALV;
             veroprosentti_ = alv ? tilini->alvprosentti() : 0;
-            if( veroprosentti_ == 24.0 ) veroprosentti_ = yleinenAlv(kp()->paivamaara()) / 100.0;
+            if( veroprosentti_ == 24.0 ) veroprosentti_ = yleinenAlv(pvm.isValid() ? pvm : kp()->paivamaara()) / 100.0;
             poistoaika_ = tilini->luku("menojaannospoisto");
             kohdennus_ = tilini->luku("kohdennus");
         }

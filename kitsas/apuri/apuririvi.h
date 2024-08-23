@@ -33,7 +33,7 @@ class Tosite;
 class ApuriRivi
 {
 public:
-    ApuriRivi(int tili=0);
+    ApuriRivi(int tili=0, const QDate& pvm = QDate());
     ApuriRivi(const TositeVienti& vienti, bool plusOnKredit = true);
 
     int tilinumero() const { return tilinumero_; }

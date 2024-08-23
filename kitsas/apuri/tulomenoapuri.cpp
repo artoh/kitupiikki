@@ -379,7 +379,7 @@ void TuloMenoApuri::lisaaRivi()
     int tili = menoa_ ? kp()->asetukset()->luku("OletusMenotili") : kp()->asetukset()->luku("OletusMyyntitili");
 
     ui->tilellaView->setVisible(true);
-    ui->tilellaView->selectRow( rivit_->lisaaRivi(tili) );
+    ui->tilellaView->selectRow( rivit_->lisaaRivi(tili, tosite()->pvm()) );
     ui->poistaRiviNappi->setEnabled( true );    // Rivejä vähintään kaksi kun juuri lisätty
 }
 
