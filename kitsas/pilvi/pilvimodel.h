@@ -19,7 +19,6 @@
 
 
 #include "db/yhteysmodel.h"
-#include "model/euro.h"
 #include <QPixmap>
 #include <QDate>
 
@@ -31,11 +30,6 @@ class QTimer;
 class QNetworkReply;
 class PaivitysInfo;
 class QProgressDialog;
-
-namespace Tilitieto {
-    class TilitietoPalvelu;
-}
-
 
 /**
  * @brief Pilvessä olevien kirjanpitojen luettelo
@@ -86,8 +80,7 @@ public:
 
     QString service(const QString& serviceName) const;
 
-    static void asetaPilviLoginOsoite(const QString& osoite);
-    Tilitieto::TilitietoPalvelu* tilitietoPalvelu();
+    static void asetaPilviLoginOsoite(const QString& osoite);    
 
     bool tilausvoimassa() const;
     void asetaAlias(const QString& alias);
@@ -152,9 +145,7 @@ private:
 
 private:
 
-    static QString pilviLoginOsoite__;
-
-    Tilitieto::TilitietoPalvelu* tilitietoPalvelu_;
+    static QString pilviLoginOsoite__;    
 };
 
 #endif // PILVIMODEL_H

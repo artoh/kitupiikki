@@ -3,7 +3,6 @@
 
 #include "db/kirjanpito.h"
 #include "pilvi/pilvimodel.h"
-#include "maaritys/tilitieto/tilitietopalvelu.h"
 #include "pilvi/paivitysinfo.h"
 #include "maaritys/tilikarttapaivitys.h"
 #include "alv/alvilmoitustenmodel.h"
@@ -99,8 +98,7 @@ void AloitusBrowser::paivitaVinkit()
     paivitaVarmuuskopioVinkki();
     if(!demotila) paivitaTestiVinkki();
 
-    paivitaTiliointiVinkki();
-    paivitaPankkiyhteysVinkki();
+    paivitaTiliointiVinkki();    
     paivitaExtraVinkki();
     paivitaVerotonValitus();
     paivitaPaivitysVinkki();
@@ -141,30 +139,6 @@ void AloitusBrowser::paivitaTiliointiVinkki()
 
 }
 
-
-void AloitusBrowser::paivitaPankkiyhteysVinkki()
-{
-    if( qobject_cast<PilviModel*>( kp()->yhteysModel() ) && kp()->pilvi()->tilitietoPalvelu()) {
-        QDateTime uusinta = kp()->pilvi()->tilitietoPalvelu()->seuraavaUusinta();
-        if( uusinta.isValid() && uusinta < QDateTime::currentDateTime()) {
-            vinkkaa("varoitus", tr("Pankkiyhteyden valtuutus vanhentunut"),
-                                tr("Valtuutus on vanhentunut %1. Tilitapahtumia ei voi hakea ennen valtuutuksen uusimista.").arg(uusinta.toString("dd.MM.yyyy")),
-                                "ktp:/maaritys/tilitiedot", "verkossa.png") ;
-        } else if ( uusinta.isValid()) {
-            const int jaljella = QDateTime::currentDateTime().daysTo(uusinta);
-            if( jaljella < 7) {
-                vinkkaa("info", tr("Pankkiyhteyden valtuutus vanhenemassa"),
-                                    tr("Pankkiyhteyden valtuutus vanhenee %1. Uusi valtuutus jatkaaksesi tilitapahtumien hakemista.").arg(uusinta.toString("dd.MM.yyyy")),
-                                    "ktp:/maaritys/tilitapahtumat", "verkossa.png");
-            } else if ( jaljella < 21 ) {
-                vinkkaa("vinkki", tr("Uusi pankkiyhteyden valtuutus"),
-                             tr("Pankkiyhteyden valtuutus vanhenee %1.").arg(uusinta.toString("dd.MM.yyyy")),
-                             "ktp:/maaritys/tilitapahtumat", "verkossa.png") ;
-            }
-        }
-    }
-
-}
 
 void AloitusBrowser::paivitaVarmuuskopioVinkki()
 {

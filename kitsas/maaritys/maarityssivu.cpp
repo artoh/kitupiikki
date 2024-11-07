@@ -47,7 +47,6 @@
 #include "laskumaaritys.h"
 #include "laskutekstit/laskutekstimaaritys.h"
 #include "toiminimimaaritys.h"
-#include "tilitieto/tilitietomaaritys.h"
 #include "bannermaaritys.h"
 #include "minamaaritys.h"
 #include "veromaaritys.h"
@@ -55,7 +54,6 @@
 
 #include "db/kirjanpito.h"
 
-#include "ui_veromaaritys.h"
 #include "ui_oletustilimaaritys.h"
 
 #include <QDebug>
@@ -84,8 +82,7 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu(tr("Tositesarjat"), TOSITESARJAT, "tositesarjat", QIcon(":/pic/arkisto64.png"),"tositesarjat");
     lisaaSivu(tr("Sähköpostin lähetys"), SAHKOPOSTI, "sahkoposti", QIcon(":/pic/email.png"));
     lisaaSivu(tr("Laskujen kierto"), KIERTO, "kierto", QIcon(":/pic/kierto.svg"),"kierto");
-    lisaaSivu(tr("Verkkolasku"), VERKKOLASKU,"verkkolaskut",QIcon(":/pic/verkkolasku.png"),"verkkolasku");
-    lisaaSivu(tr("Tilitapahtumien haku"), TILITIEDOT, "tilitapahtumat", QIcon(":/pic/verkossa.png"),"tilitapahtumat");
+    lisaaSivu(tr("Verkkolasku"), VERKKOLASKU,"verkkolaskut",QIcon(":/pic/verkkolasku.png"),"verkkolasku");    
     lisaaSivu(tr("Kirjattavien kansio"), INBOX,"inbox",QIcon(":/pic/inbox.png"));
     lisaaSivu(tr("Verot"), VERO,"veronmaksu", QIcon(":/pic/vero.png"),"vero");
     lisaaSivu(tr("Palkkakirjaustilit"), PALKKAKIRJAUS,"palkkatilit", QIcon(":/pic/yrittaja.png"));
@@ -270,8 +267,6 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         nykyinen = new KiertoMaaritys;
     else if(sivu == PALKKAKIRJAUS)
         nykyinen = new PalkkatiliMaaritys;
-    else if(sivu == TILITIEDOT)
-        nykyinen = new Tilitieto::TilitietoMaaritys();
     else if(sivu == LISAPALVELUT)
         nykyinen = new LisaPalvelutMaaritys;
     else
@@ -305,7 +300,7 @@ void MaaritysSivu::paivitaNakyvat()
     // Jaoteltu kahteen eri oikeuskategoriaan
     const QList<int> perusvalinnoilla = QList<int>() << PERUSVALINNAT << YHTEYSTIEDOT << LIITTEET << KOHDENNUS
                                                      << LASKUTUS << LASKUTEKSTIT << BANNERIT << SAHKOPOSTI << INBOX << VERKKOLASKU;
-    const QList<int> taydetOikeudet = QList<int>() << TILIKARTTA << TILINAVAUS << OLETUSTILIT << KAYTTOOIKEUDET << MAKSUTAVAT << TILITIEDOT
+    const QList<int> taydetOikeudet = QList<int>() << TILIKARTTA << TILINAVAUS << OLETUSTILIT << KAYTTOOIKEUDET << MAKSUTAVAT
                                                     << TOSITESARJAT << VERO << PALKKAKIRJAUS << RAPORTIT << KIERTO << LISAPALVELUT << VERO << PAIVITYS;
     for(const auto& valinta : perusvalinnoilla)
         item(valinta)->setHidden( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::PERUSASETUKSET) );
@@ -335,10 +330,6 @@ void MaaritysSivu::paivitaNakyvat()
     item( KIERTO )->setHidden( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::KIERTO_SELAAMINEN | YhteysModel::KIERTO_LISAAMINEN | YhteysModel::KIERTO_TARKASTAMINEN | YhteysModel::KIERTO_HYVAKSYMINEN) );
 
     // TODO: Disablointi palvelimen mukaan
-    item( TILITIEDOT)->setHidden( !kp()->yhteysModel() ||
-                                  (!qobject_cast<PilviModel*>(kp()->yhteysModel())) ||
-                                   kp()->pilvi()->kbcOsoite().isEmpty() ||
-                                   !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
     PilviModel *pilvi = qobject_cast<PilviModel*>(kp()->yhteysModel());
     if( pilvi == nullptr)
         item( KIERTO )->setHidden(true); // Kierto on käytössä vain pilvessä

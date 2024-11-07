@@ -17,7 +17,6 @@
 #include "pilvimodel.h"
 #include "db/kirjanpito.h"
 #include "pilvikysely.h"
-#include "maaritys/tilitieto/tilitietopalvelu.h"
 #include "paivitysinfo.h"
 
 #include <QNetworkAccessManager>
@@ -44,8 +43,7 @@
 PilviModel::PilviModel(QObject *parent, const QString &token) :
     YhteysModel (parent),
     kayttajaToken_(token),
-    paivitysInfo_{new PaivitysInfo(this)},
-    tilitietoPalvelu_(new Tilitieto::TilitietoPalvelu(this))
+    paivitysInfo_{new PaivitysInfo(this)}
 {
     // Tokenilla alustettaessa ollaan PilveenSiirron yksityisessä kirjoituspilvessä
     if( token.isEmpty() ) {
@@ -261,11 +259,6 @@ QString PilviModel::service(const QString &serviceName) const
 void PilviModel::asetaPilviLoginOsoite(const QString &osoite)
 {
     pilviLoginOsoite__ = osoite;
-}
-
-Tilitieto::TilitietoPalvelu *PilviModel::tilitietoPalvelu()
-{
-    return tilitietoPalvelu_;
 }
 
 bool PilviModel::tilausvoimassa() const
