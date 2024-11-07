@@ -412,6 +412,13 @@ void Tosite::tallenna(int tilaan)
                 return;
             }
         }
+        if( tili && vienti.eraId() < 0 && !tili->onko(TiliLaji::MYYNTISAATAVA)) {
+            // v5.7.1 Asiakas- ja huoneistokohtaisia eriä voi kirjata vain myyntisaataviin, mihin ne on tarkoitettu
+            if( QMessageBox::warning( nullptr, tr("Virheellinen tosite"), tr("Tilillä %1 on käytetty asiakas- tai huoneistokohtaista erittelyä, mikä on tarkoitettu ainoastaa myyntisaamisten käsittelyyn. Tällaisesta kirjauksesta muodostuu virheellinen tase.erittely. \nTallennetaanko tosite silti?").arg(tili->numero()), QMessageBox::Yes | QMessageBox::No ) != QMessageBox::Yes) {
+                tallennuksessaVirhe(0);
+                return;
+            }
+        }
     }
 
     setData( TILA, tilaan );

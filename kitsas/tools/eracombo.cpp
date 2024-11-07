@@ -78,6 +78,7 @@ void EraCombo::paivita()
     paivitetaan_ = true;
     clear();
 
+
     if( era_.eratyyppi() == EraMap::Lasku ) {
         QString txt = QString("%1 %2 %3")
                 .arg(era_.pvm().toString("dd.MM.yyyy"), era_.nimi(), era_.kumppaniNimi());
@@ -100,10 +101,13 @@ void EraCombo::paivita()
     addItem(QIcon(":/pic/lisaa.png"), tr("Uusi tase-erä"), EraMap(EraMap::Uusi));
     addItem(QIcon(":/pic/lasku.png"), tr("Valitse tase-erä"), EraMap(EraMap::Valitse));
 
-    if( asiakas_ && qobject_cast<PilviModel*>(kp()->yhteysModel())) {
+    const Tili* tili = kp()->tilit()->tili(tili_);
+    const bool myyntisaamista = tili && tili->onko(TiliLaji::MYYNTISAATAVA);
+
+    if( asiakas_ && qobject_cast<PilviModel*>(kp()->yhteysModel()) && myyntisaamista) {
         addItem(QIcon(":/pic/mies.png"),  asiakasNimi_, EraMap::AsiakasEra(asiakas_, asiakasNimi_) );
     }
-    if( kp()->huoneistot()->rowCount() )
+    if( kp()->huoneistot()->rowCount() && myyntisaamista)
         addItem(QIcon(":/pic/talo.png"), tr("Huoneisto"), EraMap(EraMap::Huoneisto));
 
     int indeksi = findData(era_);
