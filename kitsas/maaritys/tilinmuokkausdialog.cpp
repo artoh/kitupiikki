@@ -411,6 +411,11 @@ void TilinMuokkausDialog::accept()
         // Ainoa tilinumero laitetaan myös laskulle
         if( !kp()->asetukset()->onko("LaskuIbanit"))
             kp()->asetukset()->aseta("LaskuIbanit", iban.valeitta());
+    } else {
+        // v5.7.1 Iban-tietojen tyhjennys
+        tili_->unset("iban");
+        tili_->unset("bic");
+        tili_->unset("pankki");
     }
 
     if( tili_->onko(TiliLaji::TULOS))
