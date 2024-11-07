@@ -173,8 +173,9 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
         Tili* valittuna = ui->tiliEdit->tili();
         if( (!valittuna || (menotili && !valittuna->onko(TiliLaji::MENO)) || (!menotili && !valittuna->onko(TiliLaji::TULO))) && !ui->euroEdit->euro() ) {
             ui->tiliEdit->valitseTiliNumerolla(  menotili ? kp()->asetukset()->luku("OletusMenotili") : kp()->asetukset()->luku("OletusMyyntitili") );    // TODO: Tod. oletukset
-            paivitaVeroFiltteri( ui->tiliEdit->tili()->alvlaji() );
-            const double tiliProsentti = ui->tiliEdit->tili()->alvprosentti();
+            const Tili& valittuTili = ui->tiliEdit->valittuTili();
+            paivitaVeroFiltteri( valittuTili.alvlaji() );
+            const double tiliProsentti = valittuTili.alvprosentti();
             const double vakioitu = tiliProsentti == 24.0 ? yleinenAlv(ui->pvmEdit->date()) / 100.0 : tiliProsentti;
             ui->alvProssaCombo->setCurrentText(QString("%L1 %").arg(vakioitu,0,'f',2));
             alvMuuttuu();
