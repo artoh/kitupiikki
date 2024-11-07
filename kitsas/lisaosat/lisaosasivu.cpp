@@ -42,7 +42,11 @@ LisaosaSivu::LisaosaSivu(QWidget* parent) :
 
     connect( webView_->page(), &QWebEnginePage::newWindowRequested, this, &LisaosaSivu::openLinkInNewWindow);
     connect( webView_->page()->profile(), &QWebEngineProfile::downloadRequested, this, &LisaosaSivu::downloadRequested);
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 8, 0)
     connect( webView_->page(), &QWebEnginePage::permissionRequested, this, &LisaosaSivu::permissionRequest);
+#endif
+
 }
 
 
@@ -287,6 +291,8 @@ void LisaosaSivu::zoomChanged(int value)
     kp()->settings()->setValue("lisaosat/zoom", value);
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 8, 0)
+
 void LisaosaSivu::permissionRequest(QWebEnginePermission permission)
 {
     if( permission.permissionType() == QWebEnginePermission::PermissionType::ClipboardReadWrite) {
@@ -295,3 +301,5 @@ void LisaosaSivu::permissionRequest(QWebEnginePermission permission)
         permission.deny();
     }
 }
+
+#endif

@@ -1,10 +1,14 @@
 #ifndef LISAOSASIVU_H
 #define LISAOSASIVU_H
 
-#include "qwebenginenewwindowrequest.h"
-#include "qwebenginepermission.h"
+
 #include <kitupiikkisivu.h>
 #include <QObject>
+#include <QWebEngineNewWindowRequest>
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 8, 0)
+#include <QWebEnginePermission>
+#endif
 
 class QWebEngineView;
 class QListView;
@@ -48,7 +52,9 @@ protected:
     void downloadRequested(QWebEngineDownloadRequest *download);
     void downloadFinished();
     void zoomChanged(int value);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     void permissionRequest(QWebEnginePermission permission);
+#endif
 
 protected:
     LisaosaListModel* listModel_;
