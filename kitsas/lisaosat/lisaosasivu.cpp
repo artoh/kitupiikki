@@ -22,6 +22,11 @@
 #include <QDesktopServices>
 #include <QApplication>
 #include <QWebEngineDownloadRequest>
+#include <QSlider>
+#include <QSettings>
+#include <QSplitter>
+#include <QWidget>
+#include <QWebEngineSettings>
 
 LisaosaSivu::LisaosaSivu(QWidget* parent) :
     KitupiikkiSivu(parent),
@@ -33,25 +38,52 @@ LisaosaSivu::LisaosaSivu(QWidget* parent) :
     connect( webView_, &QWebEngineView::iconChanged, this, &LisaosaSivu::kuvakeVaihtui);
     connect( listModel_, &LisaosaListModel::modelReset, this, &LisaosaSivu::listReseted);
 
-    webView_->load(QUrl("qrc:/loading.html"));
-    webView_->setZoomFactor(1.25);
+    webView_->load(QUrl("qrc:/loading.html"));            
 
     connect( webView_->page(), &QWebEnginePage::newWindowRequested, this, &LisaosaSivu::openLinkInNewWindow);
     connect( webView_->page()->profile(), &QWebEngineProfile::downloadRequested, this, &LisaosaSivu::downloadRequested);
+    connect( webView_->page(), &QWebEnginePage::permissionRequested, this, &LisaosaSivu::permissionRequest);
 }
+
 
 void LisaosaSivu::siirrySivulle()
 {
     listModel_->load();
+    if( splitter_->sizes().value(0) < 20 ) {
+        initSlider();
+    }
 }
+
+void LisaosaSivu::initSlider()
+{
+const int width = splitter_->width();
+        int firstSize = width / 4;
+        if( firstSize > 200) firstSize = 200;
+        splitter_->setSizes(QList<int>() << firstSize << width - firstSize);
+}
+
 
 void LisaosaSivu::initUi()
 {
+    splitter_ = new QSplitter(Qt::Horizontal, this);
+
     webView_ = new QWebEngineView(this);
     listView_ = new QListView(this);
     logoLabel_ = new QLabel(this);
     nameLabel_ = new QLabel(this);
     nameLabel_->setFont(QFont("FreeSans", 14, QFont::Bold));
+    
+    zoomSlider_ = new QSlider(Qt::Horizontal, this);
+    zoomLabel_ = new QLabel(tr("Zoom"), this);
+    
+    zoomSlider_->setRange(50, 200);
+    zoomSlider_->setTickInterval(25);
+    zoomSlider_->setTickPosition(QSlider::TicksBothSides);
+    const int zoom = kp()->settings()->value("lisaosat/zoom", 100).toInt();
+    
+    connect( zoomSlider_, &QSlider::valueChanged, this, &LisaosaSivu::zoomChanged);
+    zoomSlider_->setValue( zoom );    
+
 
     aktivoiNappi_ = new QPushButton(QIcon(":/pic/lisaa.png"), tr("Ota käyttöön"), this);
     passivoiNappi_ = new QPushButton(QIcon(":/pic/poista.png"), tr("Poista käytöstä"), this);
@@ -73,6 +105,9 @@ void LisaosaSivu::initUi()
     ylaLeiska->addWidget(logoLabel_);
     ylaLeiska->addWidget(nameLabel_);
     ylaLeiska->addStretch();
+    ylaLeiska->addWidget(zoomSlider_);
+    ylaLeiska->addWidget(zoomLabel_);
+    ylaLeiska->addStretch();
     ylaLeiska->addWidget(kotiNappi_);
     ylaLeiska->addWidget(aktivoiNappi_);
     ylaLeiska->addWidget(passivoiNappi_);
@@ -81,13 +116,17 @@ void LisaosaSivu::initUi()
     QVBoxLayout* oikeaLeiska = new QVBoxLayout;
     oikeaLeiska->addLayout(ylaLeiska,0);
     oikeaLeiska->addWidget(webView_,1);
+    QWidget* oikeaWidget = new QWidget(this);
+    oikeaWidget->setLayout(oikeaLeiska);
+
+    splitter_->addWidget(listView_);
+    splitter_->addWidget(oikeaWidget);
 
     QHBoxLayout* leiska = new QHBoxLayout;
-    leiska->addWidget(listView_, 1);
-    leiska->addLayout(oikeaLeiska, 4);
-
+    leiska->addWidget(splitter_);
     setLayout(leiska);
-
+    initSlider();
+    
     LisaosaSortProxyModel* proxy = new LisaosaSortProxyModel(this);
     proxy->setSourceModel(listModel_);
     listView_->setModel(proxy);
@@ -238,5 +277,21 @@ void LisaosaSivu::downloadFinished()
     const QWebEngineDownloadRequest* download = qobject_cast<QWebEngineDownloadRequest*>(sender());
     if( download->isFinished()) {
         emit kp()->onni( tr("%1 ladattu").arg(download->downloadFileName()), Kirjanpito::Onni::Ladattu );
+    }
+}
+
+void LisaosaSivu::zoomChanged(int value)
+{
+    webView_->setZoomFactor(value / 100.0);
+    zoomLabel_->setText(QString("%1 %").arg(value));
+    kp()->settings()->setValue("lisaosat/zoom", value);
+}
+
+void LisaosaSivu::permissionRequest(QWebEnginePermission permission)
+{
+    if( permission.permissionType() == QWebEnginePermission::PermissionType::ClipboardReadWrite) {
+        permission.grant();
+    } else {
+        permission.deny();
     }
 }
