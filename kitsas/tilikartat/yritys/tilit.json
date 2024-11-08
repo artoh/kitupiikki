@@ -1642,7 +1642,7 @@
     },
     {
         "numero": 1711,
-        "tyyppi": "A",
+        "tyyppi": "AO",
         "nimi": {
             "fi": "Luottokorttisaamiset",
             "sv": "Kreditkortsfordringar"
@@ -1651,7 +1651,7 @@
     },
     {
         "numero": 1713,
-        "tyyppi": "A",
+        "tyyppi": "AO",
         "nimi": {
             "fi": "Pankkikorttisaamiset",
             "sv": "Bankkortsfordringar"
