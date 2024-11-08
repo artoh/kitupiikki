@@ -96,7 +96,7 @@ bool ToiminimiMaaritys::tallenna()
         model->aseta(indeksi, ToiminimiModel::Postinumero, ui->postinumeroEdit->text());
         model->aseta(indeksi, ToiminimiModel::Kaupunki, ui->kaupunkiEdit->text());
         model->aseta(indeksi, ToiminimiModel::Puhelin, ui->puhelinEdit->text());
-        model->aseta(indeksi, ToiminimiModel::Sahkoposti, ui->emailEdit->text());
+        model->aseta(indeksi, ToiminimiModel::Sahkoposti, ui->emailEdit->text().trimmed());
         model->aseta(indeksi, ToiminimiModel::Kotisivu, ui->kotisivuEdit->text());
         model->aseta(indeksi, ToiminimiModel::LogonKorkeus, QString::number(ui->logoKorkeusSpin->value()));
         model->aseta(indeksi, ToiminimiModel::VariKehys, ui->kehysVari->color());

@@ -68,6 +68,7 @@ QWidget *TuontiSarakeDelegaatti::createEditor(QWidget *parent, const QStyleOptio
         comboon(combo, CsvTuonti::KREDITEURO);
         comboon(combo, CsvTuonti::RAHAMAARA);
         comboon(combo, CsvTuonti::BRUTTOALVP);
+        comboon(combo, CsvTuonti::ALVPROSENTTI);
     }
     else if( tyyppi == CsvTuonti::RAHA || tyyppi == CsvTuonti::LUKU || tyyppi == CsvTuonti::ALLESATA)
     {

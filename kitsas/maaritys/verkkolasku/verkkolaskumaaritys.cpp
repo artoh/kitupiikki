@@ -353,8 +353,8 @@ void VerkkolaskuMaaritys::velho()
         maaritaMaventa();
     } else if( velho.field("kitsas").toBool()) {
         ToiminimiModel* tnimi = kp()->toiminimet();
-        const QString authEmail = velho.field("auth").toString();
-        const QString notifEmail = tnimi->tieto(ToiminimiModel::Sahkoposti);
+        const QString authEmail = velho.field("auth").toString().trimmed();
+        const QString notifEmail = tnimi->tieto(ToiminimiModel::Sahkoposti).trimmed();
 
         QVariantMap data;
         data.insert("name", tnimi->tieto(ToiminimiModel::Nimi));
