@@ -49,8 +49,8 @@ void PvmRaporttiWidget::lataa()
 
     ui->kieliCombo->valitse( kp()->raporttiValinnat()->arvo(RaporttiValinnat::Kieli).toString() );
 
-    connect( ui->alkupvm, &QDateEdit::dateChanged, this, &PvmRaporttiWidget::paivita);
-    connect( ui->loppupvm, &QDateEdit::dateChanged, this, &PvmRaporttiWidget::paivita);
+    connect( ui->alkupvm, &KpDateEdit::dateChanged, this, &PvmRaporttiWidget::paivita);
+    connect( ui->loppupvm, &KpDateEdit::dateChanged, this, &PvmRaporttiWidget::paivita);
 
     connect( ui->selvittelyNappi, &QPushButton::clicked, this, &PvmRaporttiWidget::taseSelvittely);
 

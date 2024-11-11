@@ -65,15 +65,15 @@ TaseTulosRaportti::TaseTulosRaportti(const QString &raportinTyyppi, bool kuukaus
     ui->tyyppi4->setModel(tyyppiListaModel);
 
     // Jos alkupäivämäärä on tilikauden aloittava, päivitetään myös päättymispäivä tilikauden päättäväksi
-    connect( ui->alkaa1Date, &QDateEdit::dateChanged, this, [this](const QDate& date){  if( kp()->tilikaudet()->tilikausiPaivalle(date).alkaa() == date) this->ui->loppuu1Date->setDate( kp()->tilikaudet()->tilikausiPaivalle(date).paattyy() );  });
-    connect( ui->alkaa2Date, &QDateEdit::dateChanged, this, [this](const QDate& date){  if( kp()->tilikaudet()->tilikausiPaivalle(date).alkaa() == date) this->ui->loppuu2Date->setDate( kp()->tilikaudet()->tilikausiPaivalle(date).paattyy() );  });
-    connect( ui->alkaa3Date, &QDateEdit::dateChanged, this, [this](const QDate& date){  if( kp()->tilikaudet()->tilikausiPaivalle(date).alkaa() == date) this->ui->loppuu3Date->setDate( kp()->tilikaudet()->tilikausiPaivalle(date).paattyy() );  });
-    connect( ui->alkaa4Date, &QDateEdit::dateChanged, this, [this](const QDate& date){  if( kp()->tilikaudet()->tilikausiPaivalle(date).alkaa() == date) this->ui->loppuu4Date->setDate( kp()->tilikaudet()->tilikausiPaivalle(date).paattyy() );  });
+    connect( ui->alkaa1Date, &KpDateEdit::dateChanged, this, [this](const QDate& date){  if( kp()->tilikaudet()->tilikausiPaivalle(date).alkaa() == date) this->ui->loppuu1Date->setDate( kp()->tilikaudet()->tilikausiPaivalle(date).paattyy() );  });
+    connect( ui->alkaa2Date, &KpDateEdit::dateChanged, this, [this](const QDate& date){  if( kp()->tilikaudet()->tilikausiPaivalle(date).alkaa() == date) this->ui->loppuu2Date->setDate( kp()->tilikaudet()->tilikausiPaivalle(date).paattyy() );  });
+    connect( ui->alkaa3Date, &KpDateEdit::dateChanged, this, [this](const QDate& date){  if( kp()->tilikaudet()->tilikausiPaivalle(date).alkaa() == date) this->ui->loppuu3Date->setDate( kp()->tilikaudet()->tilikausiPaivalle(date).paattyy() );  });
+    connect( ui->alkaa4Date, &KpDateEdit::dateChanged, this, [this](const QDate& date){  if( kp()->tilikaudet()->tilikausiPaivalle(date).alkaa() == date) this->ui->loppuu4Date->setDate( kp()->tilikaudet()->tilikausiPaivalle(date).paattyy() );  });
 
     for(QObject* widget : ui->pvmKehys->children()) {
-        QDateEdit* date = qobject_cast<QDateEdit*>(widget);
+        KpDateEdit* date = qobject_cast<KpDateEdit*>(widget);
         if(date)
-            connect(date, &QDateEdit::dateChanged, this, &TaseTulosRaportti::paivitaKohdennusPaivat);
+            connect(date, &KpDateEdit::dateChanged, this, &TaseTulosRaportti::paivitaKohdennusPaivat);
         else {
             QCheckBox* box = qobject_cast<QCheckBox*>(widget);
             if(box)

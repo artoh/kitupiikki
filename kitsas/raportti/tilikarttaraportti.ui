@@ -111,12 +111,9 @@
       </widget>
      </item>
      <item row="4" column="1">
-      <widget class="QDateEdit" name="saldotDate">
+      <widget class="KpDateEdit" name="saldotDate">
        <property name="enabled">
         <bool>false</bool>
-       </property>
-       <property name="calendarPopup">
-        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -177,6 +174,11 @@
   </layout>
  </widget>
  <customwidgets>
+   <customwidget>
+    <class>KpDateEdit</class>
+    <extends>QLineEdit</extends>
+    <header location="global">tools/kpdateedit.h</header>
+   </customwidget>
   <customwidget>
    <class>KieliCombo</class>
    <extends>QComboBox</extends>
