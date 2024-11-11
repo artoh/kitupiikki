@@ -217,7 +217,9 @@ void LaatijanPaivakirja::dataSaapuu(QVariant *data)
     if( valinnat().onko(RaporttiValinnat::TulostaSummarivit) ) {
         rk.lisaaTyhjaRivi();
         RaporttiRivi summarivi(RaporttiRivi::EICSV);
-        summarivi.lisaa(kaanna("Yhteensä"), rk.sarakkeita() - 2 );
+        summarivi.lisaa(kaanna("Yhteensä"), 2 );
+        summarivi.lisaa(kaanna("Vientejä %1 kpl").arg(lista.count()));
+        summarivi.lisaa("",rk.sarakkeita() - 5);
         summarivi.lisaa( debetsumma, true);
         summarivi.lisaa(kreditsumma, true);
         summarivi.viivaYlle();

@@ -153,6 +153,7 @@ void LaatijanPaakirja::kirjoitaDatasta()
 
     Euro kaikkiDebet = Euro::Zero;
     Euro kaikkiKredit = Euro::Zero;
+    int viennit = 0;
 
 
     while( iter.hasNext()) {
@@ -267,6 +268,7 @@ void LaatijanPaakirja::kirjoitaDatasta()
                 kaikkiKredit += kreditSumma;
             }
             rk.lisaaRivi();
+            viennit++;
 
         }
 
@@ -276,8 +278,9 @@ void LaatijanPaakirja::kirjoitaDatasta()
         summa.viivaYlle();
         summa.lihavoi();
         summa.lisaa("",2);
-        summa.lisaa(kaanna("Yhteensä"),
-                    rk.sarakkeita() - 5) ;
+        summa.lisaa(kaanna("Yhteensä"),2);
+        summa.lisaa(kaanna("Vientejä %1 kpl").arg(viennit));
+        summa.lisaa("", rk.sarakkeita() - 8) ;
 
 
         summa.lisaa(kaikkiDebet);
