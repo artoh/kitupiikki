@@ -58,6 +58,7 @@ public:
 
 public slots:
     void lataaTosite(int id);
+    void lisaaUusiLiite();
     void lisaaLiite(const QString &polku);
     void lisaaLiiteDatasta(const QByteArray& data, const QString& nimi);
 
@@ -115,6 +116,7 @@ private slots:
 
     void siirryEdelliseen(bool tallennuksesta = false);
     void siirrySeuraavaan(bool tallennuksesta = false);
+
 
 private slots:    
     void paivita(bool muokattu, int virheet, const Euro& debet, const Euro& kredit);

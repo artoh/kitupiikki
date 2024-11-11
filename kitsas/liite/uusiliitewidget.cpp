@@ -58,10 +58,10 @@ void UusiLiiteWidget::tarkistaLeikepoyta()
 
 void UusiLiiteWidget::valitseTiedosto()
 {
-    QString polku = QFileDialog::getOpenFileName(this, tr("Valitse tosite"),QString(),tr("Pdf-tiedostot (*.pdf);;Kuvat (*.png *.jpg);;Csv-tiedosto (*.csv);;Kaikki tiedostot (*)"));
-    if( !polku.isEmpty())
+    QStringList polku = QFileDialog::getOpenFileNames(this, tr("Valitse tosite"),QString(),tr("Pdf-tiedostot (*.pdf);;Kuvat (*.png *.jpg);;Csv-tiedosto (*.csv);;Kaikki tiedostot (*)"));
+    for(const auto& p : polku)
     {
-        model_->lisaaHetiTiedosto(polku);
+        model_->lisaaHetiTiedosto(p);
     }
 }
 

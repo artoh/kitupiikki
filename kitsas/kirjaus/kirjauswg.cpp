@@ -110,8 +110,7 @@ KirjausWg::KirjausWg(KirjausSivu *parent, QList<int> selauslista)
 
     connect( ui->tositetyyppiCombo, &QComboBox::currentTextChanged, this, &KirjausWg::vaihdaTositeTyyppi);
 
-    connect( ui->lisaaliiteNappi, &QPushButton::clicked, this, [this]
-        { this->lisaaLiite(QFileDialog::getOpenFileName(this, tr("Lisää liite"),QString(),tr("Pdf-tiedosto (*.pdf);;Kuvat (*.png *.jpg);;CSV-tiedosto (*.csv);;Kaikki tiedostot (*.*)"))); });
+    connect( ui->lisaaliiteNappi, &QPushButton::clicked, this, &KirjausWg::lisaaUusiLiite);
 
     connect( ui->avaaNappi, &QPushButton::clicked, this, &KirjausWg::avaaLiite);
     connect( ui->tallennaLiiteNappi, &QPushButton::clicked, this, &KirjausWg::tallennaLiite);
@@ -800,6 +799,14 @@ void KirjausWg::lataaTosite(int id)
     ui->idLabel->setText(QString::number(id));
     ui->tabWidget->setTabEnabled(ui->tabWidget->indexOf(ui->tabWidget->findChild<QWidget*>("lokiTab")), true);
     emit naytaPohjat(false);    
+}
+
+void KirjausWg::lisaaUusiLiite()
+{
+    QStringList polku = QFileDialog::getOpenFileNames(this, tr("Valitse tosite"),QString(),tr("Pdf-tiedostot (*.pdf);;Kuvat (*.png *.jpg);;Csv-tiedosto (*.csv);;Kaikki tiedostot (*)"));
+    for(const auto& p : polku)
+        lisaaLiite(p);
+
 }
 
 void KirjausWg::paivitaKommentti(const QString &kommentti)
