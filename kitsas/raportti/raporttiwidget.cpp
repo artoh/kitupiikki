@@ -107,6 +107,11 @@ void RaporttiWidget::esikatselu()
     esikatsele();
 }
 
+void RaporttiWidget::tallennaValinnat()
+{
+    tallenna();
+}
+
 void RaporttiWidget::aseta(RaporttiValinnat::Valinta valinta, const QVariant &arvo)
 {
     kp()->raporttiValinnat()->aseta(valinta, arvo);

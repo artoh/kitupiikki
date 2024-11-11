@@ -59,8 +59,9 @@ public slots:
      * @brief Pdf-raportin esikatselu
      */
     virtual void esikatsele();
-    virtual void nayta(RaportinKirjoittaja rk);    
-    void esikatselu();    
+    virtual void nayta(RaportinKirjoittaja rk);
+    void esikatselu();
+    void tallennaValinnat();
 
 protected:
     virtual void tallenna();

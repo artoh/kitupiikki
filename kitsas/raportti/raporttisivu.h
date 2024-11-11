@@ -67,11 +67,12 @@ public slots:
 
 protected:
     void lisaaRaportti(const QString& otsikko, const QString& nimi, const QString& kuvakenimi = QString());
+    void tallennaValinnat();
 
 protected:
     QListWidget *lista;
     QHBoxLayout *wleiska;
-    QWidget *nykyinen;    
+    QWidget *nykyinen;
 
 };
 

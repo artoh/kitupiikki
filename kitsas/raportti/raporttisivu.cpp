@@ -130,6 +130,7 @@ bool RaporttiSivu::poistuSivulta(int /* minne */)
 {
     if( nykyinen )
     {
+        tallennaValinnat();
         wleiska->removeWidget( nykyinen );
         delete( nykyinen );
         nykyinen = nullptr;
@@ -145,6 +146,7 @@ void RaporttiSivu::raporttiValittu(QListWidgetItem *item)
 
     if( nykyinen )
     {
+        tallennaValinnat();
         wleiska->removeWidget( nykyinen );
         nykyinen->deleteLater();
         nykyinen = nullptr;
@@ -200,4 +202,12 @@ void RaporttiSivu::lisaaRaportti(const QString &otsikko, const QString &nimi, co
 {
     QListWidgetItem *uusi = new QListWidgetItem( QIcon(kuvakenimi), otsikko, lista);
     uusi->setData( RAPORTTINIMI, nimi);
+}
+
+void RaporttiSivu::tallennaValinnat()
+{
+    RaporttiWidget* raportti = qobject_cast<RaporttiWidget*>(nykyinen);
+    if( raportti ) {
+        raportti->tallennaValinnat();
+    }
 }
