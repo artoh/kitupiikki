@@ -75,9 +75,10 @@ private:
 
     void haeToimistot();
     void toimistotSaapuu(const QVariant* data);
-    void hyllytSaapuu(const QVariant* data, const QString& officeName);
-    void lisaaHylly(const QVariantMap& hylly, const QString& officeName);
-    void paivitaInfot(const int indeksi = 0);
+    void toimistoValittu();
+    void hyllytSaapuu(const QVariant* data);
+    void lisaaHylly(const QVariantMap& hylly);
+    void paivitaInfot();
 
 private:
     Ui::PilveenSiirto *ui;
@@ -86,9 +87,7 @@ private:
     int tositelkm_ = 0;
     int liitelkm_ = 0;
     int pilviId_ = 0;
-    int yrityksia_ = 0;
-
-    int toimistojaHyllyHaussa_ = 0;
+    int yrityksia_ = 0;    
 
     QQueue<int> kumppanit;
     QQueue<int> tositteet;

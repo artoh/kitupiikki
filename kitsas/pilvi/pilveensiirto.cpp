@@ -46,11 +46,10 @@ PilveenSiirto::PilveenSiirto(QWidget *parent) :
     connect( ui->buttonBox->button(QDialogButtonBox::Cancel), &QPushButton::clicked, this, &PilveenSiirto::close);
     connect( ui->buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, &PilveenSiirto::accept);
     connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("aloittaminen/pilvi"); });
-    connect( ui->sijainiCombo, &QComboBox::currentIndexChanged, this, &PilveenSiirto::paivitaInfot);
+    connect( ui->toimistoCombo, &QComboBox::currentIndexChanged, this, &PilveenSiirto::toimistoValittu);
 
+    ui->sijaintiGroup->hide();
 
-    ui->sijaintiLabel->hide();
-    ui->sijainiCombo->hide();
     haeToimistot();
 }
 
@@ -94,7 +93,7 @@ void PilveenSiirto::alustaAlkusivu()
     kysely.next();
     liitelkm_ = kysely.value(0).toInt();
 
-    paivitaInfot(0);
+    paivitaInfot();
 
     kysely.exec("SELECT pvm, sarja, tunniste, nimi, LENGTH(data) AS koko FROM Liite LEFT OUTER JOIN Tosite ON Liite.tosite=Tosite.id WHERE LENGTH(data) > 10 * 1024 * 1024");
     while( kysely.next())
@@ -139,9 +138,11 @@ void PilveenSiirto::initSaapuu(QVariant *data)
     map.insert("trial", kp()->onkoHarjoitus());
     map.insert("init", init);
 
-    const QString& location = ui->sijainiCombo->currentData().toString();
-    if( !location.isEmpty() && location != "USER" ) {
-        map.insert("location", location);
+    if( ui->sijaintiGroup->isVisible() && ui->toimistoRadio->isChecked()){
+        const QString& location = ui->hyllyCombo->currentData().toString();
+        if( !location.isEmpty() ) {
+            map.insert("location", location);
+        }
     }
 
     PilviKysely* kysely = new PilviKysely(pilviModel_, KpKysely::POST, pilviModel_->pilviLoginOsoite() + "/clouds");
@@ -519,8 +520,6 @@ void PilveenSiirto::siirtoVirhe(int koodi)
 
 void PilveenSiirto::haeToimistot()
 {
-    ui->sijainiCombo->addItem(QIcon(":/pic/mies.png"), tr("Henkilökohtaiset kirjanpidot"), "USER");
-
     PilviKysely* kysely = new PilviKysely(pilviModel_, KpKysely::GET, pilviModel_->pilviLoginOsoite() + "/v1/offices");
     connect( kysely, &PilviKysely::vastaus, this, &PilveenSiirto::toimistotSaapuu);
     kysely->kysy();
@@ -529,53 +528,64 @@ void PilveenSiirto::haeToimistot()
 void PilveenSiirto::toimistotSaapuu(const QVariant *data)
 {
     QVariantList lista = data->toList();
-    toimistojaHyllyHaussa_ = lista.count();
+    ui->toimistoCombo->clear();
     for(const auto& item : lista) {
-        const QString id = item.toMap().value("id").toString();
-        const QString name = item.toMap().value("name").toString();
-        PilviKysely* kysely = new PilviKysely(pilviModel_, KpKysely::GET, pilviModel_->pilviLoginOsoite() + "/v1/bookshelves?officeId=" + id);
-        connect( kysely, &PilviKysely::vastaus, [this, name] (const QVariant* data) { this->hyllytSaapuu(data, name); } );
+        const QVariantMap map = item.toMap();
+        const auto& id = map.value("id").toString();
+        const auto& name = map.value("name").toString();
+        ui->toimistoCombo->addItem(name, id);
+    }
+
+    ui->sijaintiGroup->setVisible( !lista.isEmpty() );
+    ui->toimistoCombo->model()->sort(0);
+
+}
+
+void PilveenSiirto::toimistoValittu()
+{
+    const QString id = ui->toimistoCombo->currentData().toString();
+    ui->hyllyCombo->clear();
+    if( !id.isEmpty() ) {
+        PilviKysely *kysely = new PilviKysely(pilviModel_, KpKysely::GET, pilviModel_->pilviLoginOsoite() + "/v1/bookshelves");
+        kysely->lisaaAttribuutti("officeId", id);
+        connect( kysely, &PilviKysely::vastaus, this, &PilveenSiirto::hyllytSaapuu);
         kysely->kysy();
+
+        ui->hyllyCombo->addItem(QIcon(":/pic/talo.png"), ui->toimistoCombo->currentText(), id);
     }
 }
 
 
-void PilveenSiirto::hyllytSaapuu(const QVariant *data, const QString &officeName)
-{
+void PilveenSiirto::hyllytSaapuu(const QVariant *data)
+{    
     for(const auto& item : data->toList()) {
         const auto& map = item.toMap();
-        lisaaHylly(map, officeName);
+        lisaaHylly(map);
     }
-    toimistojaHyllyHaussa_--;
-    if( toimistojaHyllyHaussa_ < 1)
-        ui->sijainiCombo->model()->sort(0);
-
+    ui->hyllyCombo->model()->sort(0);
 }
 
-void PilveenSiirto::lisaaHylly(const QVariantMap &hylly, const QString &officeName)
+void PilveenSiirto::lisaaHylly(const QVariantMap &hylly)
 {
     const auto rights = hylly.value("rights").toList();
     if( rights.contains("OB")) {
         // Oikeus lisätä tähän hyllyyn
         const auto id = hylly.value("id").toString();
-        if( ui->sijainiCombo->findData(id) < 0) {
+        if( ui->toimistoCombo->findData(id) < 0) {
             const auto name = hylly.value("name").toString();
-            ui->sijainiCombo->addItem(QIcon(":/pic/arkisto64.png"),officeName == name ? officeName : officeName + " / " + name, id);
-
-            ui->sijaintiLabel->show();
-            ui->sijainiCombo->show();
+            ui->hyllyCombo->addItem(QIcon(":/pic/arkisto64.png"),name, id);
         }
     }
 
     for( const auto& sub : hylly.value("subgroups").toList()) {
         const auto group = sub.toMap();
-        lisaaHylly(group, officeName);
+        lisaaHylly(group);
     }
 }
 
-void PilveenSiirto::paivitaInfot( const int indeksi)
+void PilveenSiirto::paivitaInfot()
 {
-    if( indeksi < 1) {
+    if( ui->sijaintiGroup->isHidden() ||  ui->omaRadio->isChecked()) {
         ui->infoLabel->show();
         int pilvia = kp()->pilvi()->kayttaja().cloudCount();
         if( pilvia >= kp()->pilvi()->kayttaja().capacity() ) {
