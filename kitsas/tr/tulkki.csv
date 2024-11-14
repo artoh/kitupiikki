@@ -204,10 +204,10 @@ eimaksettavaa,Ei maksettavaa,Ingen betalbar,No payable
 luonnos,LUONNOS,SKISS,DRAFT
 alv,ALV,MOMS,VAT
 alvp,Arvonlisävero,MOMS,VAT
-btl,Tililtä nro|Från konto nr,,From account|no.
-btilis,TILISIIRTO. GIRERING,,CREDIT TRANSFER
+btl,Tililtä nro|Från konto nr,Tililtä nro|Från konto nr,From account|no.
+btilis,TILISIIRTO. GIRERING,TILISIIRTO. GIRERING,CREDIT TRANSFER
 pvm,Päivämäärä,Datum,Date
-bvn,Viitenumero|Ref.nr.,,Ref. No.
+bvn,Viitenumero|Ref.nr.,Viitenumero|Ref.nr.,Ref. No.
 huomaika,Huomautusaika,Anmärkningstid,Period for complaints
 lkm,Määrä,Antal,Qty
 muistutusmaksu,Huomautuskulut,Betalningspåminnelses avgift,Request for payment fee
@@ -216,7 +216,7 @@ alvtunnus,ALV-tunnus,MOMS-nummer,VAT number
 paivaa,päivää,dagar,days
 veroton,Veroton,Utan skatt,Excluding VAT
 erapvm,Eräpäivä,Förfallodag,Due date
-bic,BIC,,
+bic,BIC,BIC,BIC
 viivkorko,Viivästyskorko,Dröjsmålsränta,Interest on overdue payments
 maksettu,Maksettu,Betald,Paid
 laskuotsikko,Lasku,Faktura,Invoice
@@ -224,21 +224,21 @@ muistutusteksti,"Kirjanpitomme mukaan emme ole saaneet maksusuoritustanne. Pyyd�
 asytunnus,Asiakkaan y-tunnus,Kundens FO-nummer,Customer's Business ID
 jatkuu,Jatkuu...,Fortsätter...,To be continued...
 puhelin,Puhelin,Telefon,Phone
-eur,Euro,,
+eur,Euro,Euro,Euro
 ale%,Alennus,rabatt%,discount%
 ale,Alennus,Rabatt,Discount
 lnro,Laskun numero,Fakturans nummer,Invoice number
-bst,Saajan|tilinumero|Mottagarens|kontonummer,,Recipient's|account number
+bst,Saajan|tilinumero|Mottagarens|kontonummer,Saajan|tilinumero|Mottagarens|kontonummer,Recipient's|account number
 virtviiv,Virtuaaliviivakoodi,Virtuell streckkod,Virtual barcode
 alv91,Voittomarginaalijärjestelmä - Käytetyt tavarat,Vinstmarginalsystem - Begagnade varor,Margin scheme - Second-hand goods
-bmo,Maksajan|nimi ja|osoite|Betalarens|namn och|address,,Payer's|name and|address
+bmo,Maksajan|nimi ja|osoite|Betalarens|namn och|address,Maksajan|nimi ja|osoite|Betalarens|namn och|address,Payer's|name and|address
 alv93,Voittomarginaalijärjestelmä - Keräily- ja antiikkiesineet,Vinstmarginalsystem - Samlarföremål och antikviteter,Margin scheme - Collectors' items and antiques
 alv92,Voittomarginaalijärjestelmä - Taide-esineet,Vinstmarginalsystem - Konstverk,Margin scheme - Works of art
 alv15,"AVL 65 §: Käännetty verovelvollisuus, arvonlisäverodirektiivi art. 44","AVL 65 §: Omvänd skattsskyldighet, momsdirektivet artikel 44","AVL 65 §: Reverse charge, VAT Directive art. 44"
 alv14,AVL 72a §: ALV 0% Yhteisömyynti,AVL 72 a §: Moms 0 % Gemenskapförsäljning,AVL 72a §: VAT 0% Intra Community supply
 alv16,AVL 8 c §: Käännetty verovelvollisuus,"AVL 8 c: Omvänd skattsskyldighet, momsdirektivet artikel 199","AVL 8 c §: Reverse charge, VAT Directive art. 199"
 alv19,ALV 0%,MOMS 0%,VAT 0%
-iban,IBAN,,
+iban,IBAN,IBAN,IBAN
 aiempimuistutus,Aiempi maksumuistutus|Laskun numero: %1|Laskun päiväys: %2|Eräpäivä: %3,Tidigare betalningspåminnelse|Faktura nummer: %1|Datum: %2|Förfallodag: %3,Earlier request for payment|Invoice number: %1|Date on invoice: %2|Due date: %3
 alv13,Voittomarginaalijärjestelmä,Vinstmarginalsystem - Begagnade varor,Margin scheme
 lpvm,Laskun päivämäärä,Datum,Date
@@ -246,7 +246,7 @@ viitenro,Viitenumero,Referensnummer,Reference number
 hyvitysteksti,"Hyvityslasku laskulle %1, päiväys %2","Kompensation för faktura %1, datum %2","Compensation for invoice %1, date %2"
 hyvpvm,Hyvityksen päivämäärä,Kompensationdatum,Date of compensation
 sahkoposti,Sähköposti,E-post,Email
-bsa,Saaja|Mottagare,,Recipient
+bsa,Saaja|Mottagare,Saaja|Mottagare,Recipient
 ahinta,á hinta,á pris,á price
 hinta,Hinta,Pris,Price
 ennakkolasku,Ennakkolasku,Förhandsfaktura,Advance invoice
@@ -261,15 +261,15 @@ YhteensaVerollinen,Yhteensä verollinen,Totalt med skatten,Total includes VAT
 mmotsikko,Maksumuistutus laskusta %1,Betalningspåminnelse för faktura %1,Request for payment %1
 Yhteensa,Yhteensä,Totalt,Total
 eialv,Myyjä ei arvonlisäverovelvollinen,Säljare är inte momsskyldig,Seller is not liable to pay VAT
-behto,Maksu välitetään saajalle maksujenvälityksen ehtojen mukaisesti ja vain maksajan ilmoittaman tilinumeron perusteella.|Betalning förmedlas till mottagaren enligt villkoren för betalningsförmedling och endast till det kontonummer som betalaren angivit.,,The payment will be cleared for the recipient in accordance with the General terms for payment transmission and only on the basis of the account number given by the payer.
+behto,Maksu välitetään saajalle maksujenvälityksen ehtojen mukaisesti ja vain maksajan ilmoittaman tilinumeron perusteella.|Betalning förmedlas till mottagaren enligt villkoren för betalningsförmedling och endast till det kontonummer som betalaren angivit.,Maksu välitetään saajalle maksujenvälityksen ehtojen mukaisesti ja vain maksajan ilmoittaman tilinumeron perusteella.|Betalning förmedlas till mottagaren enligt villkoren för betalningsförmedling och endast till det kontonummer som betalaren angivit.,The payment will be cleared for the recipient in accordance with the General terms for payment transmission and only on the basis of the account number given by the payer.
 harjoitus,HARJOITUS,ÖVNING,TRIAL
 aiempisaldo,Alemman erittelyn mukaisista laskuista on maksamatta yhteensä %L1 €,Obetalda totalsumman från fakturor enligt följande specificering är %L1 €,The total unpayed amount of invoices detailed below is %L1 €
 asalvtunnus,Asiakkaan ALV-tunnus,Kundens MOMS-nummer,Customer's VAT number
 netto,Veroton,Utan skatt,Excludes VAT
 nimike,Nimike,Item,Item
-bep,Eräpäivä|Förfallodag,,Due date
+bep,Eräpäivä|Förfallodag,Eräpäivä|Förfallodag,Due date
 kpl,Kpl,Antal,Quantity
-bak,Allekirjoitus|Underskrift,,Signature
+bak,Allekirjoitus|Underskrift,Allekirjoitus|Underskrift,Signature
 kotisivu,Kotisivu,Hemsida,Homepage
 pankki,Pankki,Bank,Bank
 hyvityslasku,Hyvityslasku,Kreditnota,Credit note

@@ -750,10 +750,12 @@
     },
     "btl": {
         "fi": "Tililtä nro|Från konto nr",
+        "sv": "Tililtä nro|Från konto nr",
         "en": "From account|no."
     },
     "btilis": {
         "fi": "TILISIIRTO. GIRERING",
+        "sv": "TILISIIRTO. GIRERING",
         "en": "CREDIT TRANSFER"
     },
     "pvm": {
@@ -763,6 +765,7 @@
     },
     "bvn": {
         "fi": "Viitenumero|Ref.nr.",
+        "sv": "Viitenumero|Ref.nr.",
         "en": "Ref. No."
     },
     "huomaika": {
@@ -806,7 +809,9 @@
         "en": "Due date"
     },
     "bic": {
-        "fi": "BIC"
+        "fi": "BIC",
+        "sv": "BIC",
+        "en": "BIC"
     },
     "viivkorko": {
         "fi": "Viivästyskorko",
@@ -844,7 +849,9 @@
         "en": "Phone"
     },
     "eur": {
-        "fi": "Euro"
+        "fi": "Euro",
+        "sv": "Euro",
+        "en": "Euro"
     },
     "ale%": {
         "fi": "Alennus",
@@ -863,6 +870,7 @@
     },
     "bst": {
         "fi": "Saajan|tilinumero|Mottagarens|kontonummer",
+        "sv": "Saajan|tilinumero|Mottagarens|kontonummer",
         "en": "Recipient's|account number"
     },
     "virtviiv": {
@@ -877,6 +885,7 @@
     },
     "bmo": {
         "fi": "Maksajan|nimi ja|osoite|Betalarens|namn och|address",
+        "sv": "Maksajan|nimi ja|osoite|Betalarens|namn och|address",
         "en": "Payer's|name and|address"
     },
     "alv93": {
@@ -910,7 +919,9 @@
         "en": "VAT 0%"
     },
     "iban": {
-        "fi": "IBAN"
+        "fi": "IBAN",
+        "sv": "IBAN",
+        "en": "IBAN"
     },
     "aiempimuistutus": {
         "fi": "Aiempi maksumuistutus|Laskun numero: %1|Laskun päiväys: %2|Eräpäivä: %3",
@@ -949,6 +960,7 @@
     },
     "bsa": {
         "fi": "Saaja|Mottagare",
+        "sv": "Saaja|Mottagare",
         "en": "Recipient"
     },
     "ahinta": {
@@ -1022,6 +1034,7 @@
     },
     "behto": {
         "fi": "Maksu välitetään saajalle maksujenvälityksen ehtojen mukaisesti ja vain maksajan ilmoittaman tilinumeron perusteella.|Betalning förmedlas till mottagaren enligt villkoren för betalningsförmedling och endast till det kontonummer som betalaren angivit.",
+        "sv": "Maksu välitetään saajalle maksujenvälityksen ehtojen mukaisesti ja vain maksajan ilmoittaman tilinumeron perusteella.|Betalning förmedlas till mottagaren enligt villkoren för betalningsförmedling och endast till det kontonummer som betalaren angivit.",
         "en": "The payment will be cleared for the recipient in accordance with the General terms for payment transmission and only on the basis of the account number given by the payer."
     },
     "harjoitus": {
@@ -1051,6 +1064,7 @@
     },
     "bep": {
         "fi": "Eräpäivä|Förfallodag",
+        "sv": "Eräpäivä|Förfallodag",
         "en": "Due date"
     },
     "kpl": {
@@ -1060,6 +1074,7 @@
     },
     "bak": {
         "fi": "Allekirjoitus|Underskrift",
+        "sv": "Allekirjoitus|Underskrift",
         "en": "Signature"
     },
     "kotisivu": {
