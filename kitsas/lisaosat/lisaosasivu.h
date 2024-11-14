@@ -52,7 +52,7 @@ protected:
     void downloadRequested(QWebEngineDownloadRequest *download);
     void downloadFinished();
     void zoomChanged(int value);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 8, 0)
     void permissionRequest(QWebEnginePermission permission);
 #endif
 
