@@ -43,6 +43,11 @@ table
   margin-left: 15px;
   margin-right: 15px;
   margin-bottom: 15px;
+  border: none;
+}
+
+table > tr > td {
+    border: none;
 }
 
 table.vinkki
@@ -121,7 +126,6 @@ table.notify
 {
     background-color: #85C1E9;
     margin-bottom: 15px;
-    border: 1px solid palette(text);
     color: black;
 }
 
@@ -134,8 +138,7 @@ table.notify > tr > td
 table.info
 {
     background-color: #ffff99;
-    margin-bottom: 15px;
-    border: 1px solid palette(text);
+    margin-bottom: 15px;    
     color: black;
 }
 
@@ -150,7 +153,6 @@ table.testaus
 {
     background-color: #ffa400;
     margin-bottom: 15px;
-    border: 1px solid black;
     color: black;
 }
 
