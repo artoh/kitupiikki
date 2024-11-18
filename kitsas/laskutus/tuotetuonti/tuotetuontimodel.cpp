@@ -49,7 +49,7 @@ QVariantList TuoteTuontiModel::lista() const
         QVariantMap map;
         QStringList rivi = csv_.value(r);
         
-        double alvprosentti =  alvvelvollisuus ? 24.0 : 0;
+        double alvprosentti =  alvvelvollisuus ? 25.5 : 0;
         double alvkoodi = alvvelvollisuus ? AlvKoodi::MYYNNIT_NETTO : AlvKoodi::EIALV;
         int tili = 3000;
         double nettohinta = 0;
@@ -73,7 +73,7 @@ QVariantList TuoteTuontiModel::lista() const
             case ALVKOODI:
                 alvkoodi = txt.toInt(); break;
             case ALVPROSENTTI:
-                alvprosentti = txt.toInt(); break;
+                alvprosentti = txt.toDouble(); break;
             case BRUTTOHINTA:
                 bruttohinta = txt.toDouble(); break;
             case KOODI:
