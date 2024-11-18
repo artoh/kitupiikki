@@ -5,7 +5,6 @@ Ykkösversio julkaistu nimellä [Kitupiikki](https://kitupiikki.info)
 
 [![versio](https://img.shields.io/github/release/artoh/kitupiikki.svg?label=Julkaistu%20versio)](https://github.com/artoh/kitupiikki/releases)
 [![versio](https://img.shields.io/github/release/artoh/kitupiikki/all.svg?label=Esiversio)](https://github.com/artoh/kitupiikki/releases)
-[![mathdown HuBoard](https://img.shields.io/github/issues/artoh/kitupiikki.svg?label=Tehtävät%20%28HuBoard%29)](https://huboard.com/artoh/kitupiikki)
 
 **Finnish bookkeeping software for small organisations**
 
@@ -25,10 +24,12 @@ Käyttöohjeet [kitsas.fi/docs](https://kitsas.fi/docs)
 - sisäänrakennettu laskutus
 - muodostaan tuloslaskelman, taseen, tase-erittelyn
 
-## Vaatimukset
-Kitsas käyttää [Qt-kirjastoa](https://qt.io) versio vähintään 5.15 tai 6.4
+Kirjanpito on mahdollista tallentaa joko omalle tietokoneelle SQLite-muodossa, tai käyttää Kitsas Oy:n palvelinta (maksullinen palvelu), jolloin käytettävissä on myös suuri joukko lisätoimintoja.
 
-Pdf-tiedostojen näyttämiseen käytetään [Poppler-kirjastoa](https://poppler.freedesktop.org/) ja zip-tiedostojen käsittelyyn [libzip](https://libzip.org)-kirjastoa.
+## Vaatimukset
+Kitsas käyttää [Qt-kirjastoa](https://qt.io) versio vähintään 6.4 (Kaikki ominaisuudet 6.8). Käytössä on mm. QtWidgets, QtPdf ja QtWebEngine -moduulit.
+
+Zip-tiedostojen käsittelyyn käytetään [libzip](https://libzip.org)-kirjastoa.
 
 Lataa ja asenna Qt-kirjastot osoitteesta https://qt.io/download.
 
@@ -46,8 +47,6 @@ Kitsas käyttää QMakea. Kääntäminen on helpointa tehdä [QtCreatorin](http:
 
     qmake kitupiikki.pro && make qmake_all
     make
-
-Kitsaan Windows-jakeluversion käännetään [MXE-ristiinkääntöympäristössä](https://mxe.cc).
 
 
 ## Ylläpitäjä
