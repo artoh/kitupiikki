@@ -74,8 +74,14 @@ void FinvoiceToimittaja::alustaInit()
     for(const QString& ibanStr : asetukset->asetus(AsetusModel::LaskuIbanit).split(',')) {
         Iban iban(ibanStr);
         QVariantMap tili;
+
         tili.insert("iban", iban.valeitta());
-        tili.insert("bic", iban.bic());
+        const Tili& haettuTili = kp()->tilit()->tiliIbanilla(iban.valeitta());
+        if( haettuTili.onkoValidi() && !haettuTili.bic().isEmpty()) {
+            tili.insert("bic", haettuTili.bic());
+        } else {
+            tili.insert("bic", iban.bic());
+        }
         tilit.append(tili);
     }
     init_.insert("tilit", tilit);
