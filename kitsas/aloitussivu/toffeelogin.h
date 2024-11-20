@@ -29,6 +29,8 @@ private:
     Ui::ToffeeLogin *ui;    
     LoginService* loginService;
 
+    enum { FI, SV, EN };
+
 };
 
 #endif // TOFFEELOGIN_H

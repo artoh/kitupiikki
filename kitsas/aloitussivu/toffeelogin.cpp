@@ -53,7 +53,12 @@ int ToffeeLogin::keyExec()
 
 void ToffeeLogin::vaihdaKieli()
 {
-    Kielet::instanssi()->valitseUiKieli( ui->kieliCombo->currentIndex() ? "sv" : "fi" );
+    if( ui->kieliCombo->currentIndex() == SV)
+        Kielet::instanssi()->valitseUiKieli("sv");
+    else if( ui->kieliCombo->currentIndex() == EN)
+        Kielet::instanssi()->valitseUiKieli("en");
+    else
+        Kielet::instanssi()->valitseUiKieli("fi");
     ui->retranslateUi(this);
     ui->versioLabel->setText( QString("%1 %2").arg(qApp->applicationName(), qApp->applicationVersion() ));
 }

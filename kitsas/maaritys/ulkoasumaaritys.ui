@@ -54,6 +54,17 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QRadioButton" name="enKieli">
+        <property name="text">
+         <string>englanti</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/liput/gb.png</normaloff>:/liput/gb.png</iconset>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -144,7 +155,7 @@
    <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>

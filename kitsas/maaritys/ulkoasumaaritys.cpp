@@ -47,6 +47,7 @@ UlkoasuMaaritys::UlkoasuMaaritys() :
 
     connect( ui->fiKieli, &QRadioButton::clicked, this, &UlkoasuMaaritys::vaihdaKieli);
     connect( ui->svKieli, &QRadioButton::clicked, this, &UlkoasuMaaritys::vaihdaKieli);
+    connect( ui->enKieli, &QRadioButton::clicked, this, &UlkoasuMaaritys::vaihdaKieli);
     connect( ui->tilikarttaKieli, &KieliCombo::currentTextChanged, this, &UlkoasuMaaritys::vaihdaTilikarttaKieli);
 
     connect( ui->pikaPdfCheck, &QRadioButton::clicked, this, [] (bool checked) { kp()->settings()->setValue("PikaPdf", checked); });
@@ -78,6 +79,7 @@ bool UlkoasuMaaritys::nollaa()
 
     ui->fiKieli->setChecked( Kielet::instanssi()->uiKieli() == "fi" );
     ui->svKieli->setChecked( Kielet::instanssi()->uiKieli() == "sv" );
+    ui->enKieli->setChecked( Kielet::instanssi()->uiKieli() == "en" );
 
     ui->karttakieliGroup->setVisible( kp()->yhteysModel() );
     ui->tilikarttaKieli->valitse( Kielet::instanssi()->nykyinen() );
@@ -113,6 +115,9 @@ void UlkoasuMaaritys::vaihdaKieli()
     if( ui->svKieli->isChecked()) {
         Kielet::instanssi()->valitseUiKieli("sv");
         ui->tilikarttaKieli->valitse("sv");
+    } else if( ui->enKieli->isChecked()) {
+        Kielet::instanssi()->valitseUiKieli("en");
+        ui->tilikarttaKieli->valitse("en");
     } else {
         Kielet::instanssi()->valitseUiKieli("fi");
         ui->tilikarttaKieli->valitse("fi");

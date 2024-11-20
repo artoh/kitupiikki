@@ -23,7 +23,7 @@
       <pixmap resource="../pic/pic.qrc">:/pic/kitsaspro.png</pixmap>
      </property>
      <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <set>Qt::AlignmentFlag::AlignCenter</set>
      </property>
     </widget>
    </item>
@@ -58,7 +58,7 @@
    <item>
     <spacer name="verticalSpacer_2">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -103,7 +103,7 @@
      <item row="1" column="1">
       <widget class="QLineEdit" name="salaEdit">
        <property name="echoMode">
-        <enum>QLineEdit::Password</enum>
+        <enum>QLineEdit::EchoMode::Password</enum>
        </property>
       </widget>
      </item>
@@ -137,6 +137,15 @@
           <normaloff>:/liput/sv.png</normaloff>:/liput/sv.png</iconset>
         </property>
        </item>
+       <item>
+        <property name="text">
+         <string>englanti</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/liput/gb.png</normaloff>:/liput/gb.png</iconset>
+        </property>
+       </item>
       </widget>
      </item>
      <item row="3" column="1">
@@ -151,7 +160,7 @@
    <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -188,7 +197,7 @@
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>

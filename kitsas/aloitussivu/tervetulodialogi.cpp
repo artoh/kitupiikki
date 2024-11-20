@@ -34,6 +34,8 @@ TervetuloDialogi::TervetuloDialogi() :
 
     if( Kielet::instanssi()->uiKieli() == "sv")
         ui->svKieli->setChecked(true);
+    else if( Kielet::instanssi()->uiKieli() == "en")
+        ui->enKieli->setChecked(true);
     else
         ui->fiKieli->setChecked(true);
 
@@ -66,7 +68,12 @@ void TervetuloDialogi::paivitaVersio()
 
 QString TervetuloDialogi::valittuKieli() const
 {
-    return ui->svKieli->isChecked() ? "sv" : "fi";
+    if( ui->svKieli->isChecked())
+        return "sv";
+    else if( ui->enKieli->isChecked())
+        return "en";
+    else
+        return "fi";
 }
 
 void TervetuloDialogi::linuxKaynnistysValikkoon()
