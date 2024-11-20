@@ -2,6 +2,7 @@
     <qresource prefix="/tr">
         <file>tulkki.json</file>
         <file>kitsas_sv.qm</file>
+        <file>kitsas_en.qm</file>
         <file>qtbase_fi.qm</file>
         <file>qtbase_sv.qm</file>
     </qresource>
