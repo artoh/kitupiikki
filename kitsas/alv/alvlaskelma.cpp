@@ -26,6 +26,7 @@
 #include "pilvi/pilvimodel.h"
 #include <QDebug>
 #include "laskutus/iban.h"
+#include "laskutus/tulostus/laskunalaosa.h"
 
 AlvLaskelma::AlvLaskelma(QObject *parent, const QString kielikoodi) :
   Raportteri (parent, kielikoodi),
@@ -277,7 +278,9 @@ void AlvLaskelma::kirjoitaMaksutiedot()
     rk.lisaaTyhjaRivi();
 
     RaporttiRivi koodiRivi(RaporttiRivi::VIIVAKOODI);
-    koodiRivi.lisaa(koodi,5);
+    koodiRivi.lisaa("",2);
+    const auto koodattu = LaskunAlaosa::code128(koodi);
+    koodiRivi.lisaa(koodattu,2);
     rk.lisaaRivi(koodiRivi);
 
 }
