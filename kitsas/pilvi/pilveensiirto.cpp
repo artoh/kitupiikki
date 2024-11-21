@@ -138,7 +138,7 @@ void PilveenSiirto::initSaapuu(QVariant *data)
     map.insert("trial", kp()->onkoHarjoitus());
     map.insert("init", init);
 
-    if( ui->sijaintiGroup->isVisible() && ui->toimistoRadio->isChecked()){
+    if( ui->toimistoRadio->isChecked()){
         const QString& location = ui->hyllyCombo->currentData().toString();
         if( !location.isEmpty() ) {
             map.insert("location", location);
