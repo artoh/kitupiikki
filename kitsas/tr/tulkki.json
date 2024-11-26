@@ -1437,5 +1437,9 @@
     "Tositteita on säilytettävä %1 saakka": {
         "sv": "Verifikationerna ska bevaras upp till %1",
         "en": "Vouchers must be kept up to %1"
+    },
+    "Vientejä %1 kpl": {
+        "sv": "%1 konteringar",
+        "en": "%1 entries"
     }
 }
