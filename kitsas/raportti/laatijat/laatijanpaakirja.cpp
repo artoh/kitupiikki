@@ -242,6 +242,7 @@ void LaatijanPaakirja::kirjoitaDatasta()
                 if( tili.onko(TiliLaji::TULOS) || valinnat().arvo(RaporttiValinnat::Kohdennuksella).toInt() < 0)
                     rr.lisaa( saldo,true);
                 rk.lisaaRivi(rr);
+                viennit++;
 
             }
             if( (debetSumma || kreditSumma) && valinnat().onko(RaporttiValinnat::TulostaSummarivit)  ) {
@@ -267,8 +268,7 @@ void LaatijanPaakirja::kirjoitaDatasta()
                 kaikkiDebet += debetSumma;
                 kaikkiKredit += kreditSumma;
             }
-            rk.lisaaRivi();
-            viennit++;
+            rk.lisaaRivi();            
 
         }
 
