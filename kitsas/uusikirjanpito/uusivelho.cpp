@@ -70,6 +70,8 @@ UusiVelho::UusiVelho(QWidget *parent) :
     setOption(HaveHelpButton, true);
     connect(this, &UusiVelho::helpRequested, this, &UusiVelho::help);
 
+    setMinimumSize(QSize(512,512));
+
     setStyleSheet("background-color: palette(base)");
 }
 
@@ -375,7 +377,7 @@ void UusiVelho::LoppuSivu::initializePage()
 UusiVelho::UusiAlustus::UusiAlustus()
     : ui{ new Ui::UusiAlustus}
 {
-    ui->setupUi(this);
+    ui->setupUi(this);    
 }
 
 void UusiVelho::UusiAlustus::initializePage()
