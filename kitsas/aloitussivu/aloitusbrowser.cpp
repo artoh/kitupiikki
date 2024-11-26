@@ -191,6 +191,15 @@ void AloitusBrowser::paivitaPaivitysVinkki()
 
 void AloitusBrowser::paivitaAloitusVinkit()
 {
+    bool edellistenTulos = false;
+    for(const auto& saldo: saldot_) {
+        if( saldo.tili() && saldo.tili()->onko(TiliLaji::EDELLISTENTULOS) && saldo.saldo()) {
+            edellistenTulos = true;
+            break;
+        }
+    }
+
+
     // Ensin tietokannan alkutoimiin
     if( saldot_.count() && saldot_.count() < 3)
     {
@@ -198,7 +207,7 @@ void AloitusBrowser::paivitaAloitusVinkit()
         t.append("<li> <a href=ktp:/maaritys/yhteys>" + tr("Tarkista yhteystiedot ja logo") + "</a> <a href='ohje:/asetukset/yhteystiedot'>(" + tr("Ohje") +")</a></li>");
         t.append("<li> <a href=ktp:/maaritys/tilit>" + tr("Tutustu tilikarttaan ja tee tarpeelliset muutokset") +  "</a> <a href='ohje:/asetukset/tililuettelo/'>(" + tr("Ohje") + ")</a></li>");
         t.append("<li> <a href=ktp:/maaritys/kohdennukset>" + tr("Lisää tarvitsemasi kohdennukset") + "</a> <a href='ohje:/asetukset/kohdennukset/'>(" + tr("Ohje") + ")</a></li>");
-        if( kp()->asetukset()->luku("Tilinavaus")==2)
+        if( kp()->asetukset()->luku("Tilinavaus")==2 && !edellistenTulos)
             t.append("<li><a href=ktp:/maaritys/tilinavaus>" + tr("Tee tilinavaus") + "</a> <a href='ohje:/asetukset/tilinavaus/'>(Ohje)</a></li>");
         t.append("<li><a href=ktp:/kirjaa>" + tr("Voit aloittaa kirjausten tekemisen") +"</a> <a href='ohje:/kirjaus'>("+ tr("Ohje") + ")</a></li></ol>");
 
@@ -206,7 +215,7 @@ void AloitusBrowser::paivitaAloitusVinkit()
                             "", "info64.png");
 
     }
-    else if( kp()->asetukset()->luku("Tilinavaus")==2 && kp()->asetukset()->pvm("TilinavausPvm") >= kp()->tilitpaatetty() &&
+    else if( !edellistenTulos && kp()->asetukset()->luku("Tilinavaus")==2 && kp()->asetukset()->pvm("TilinavausPvm") >= kp()->tilitpaatetty() &&
              kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET))
         vinkkaa("vinkki", tr("Tee tilinavaus"),
                             tr("Syötä viimeisimmältä tilinpäätökseltä tilien "
