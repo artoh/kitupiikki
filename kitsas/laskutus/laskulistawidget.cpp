@@ -176,6 +176,7 @@ void LaskulistaWidget::paivitaNapit()
 
     int tyyppi = index.data(LaskuTauluModel::TyyppiRooli).toInt();
     int laskutustapa = index.data(LaskuTauluModel::LaskutustapaRooli).toInt();
+    const int maksutapa = index.data(LaskuTauluModel::MaksutapaRooli).toInt();
     int tila = index.data(LaskuTauluModel::TilaRooli).toInt();
 
     QDate pvm = index.data(LaskuTauluModel::LaskuPvmRooli).toDate();
@@ -191,6 +192,7 @@ void LaskulistaWidget::paivitaNapit()
     ui->hyvitysNappi->setVisible( validi
                                && tyyppi == TositeTyyppi::MYYNTILASKU
                                && tila >= Tosite::KIRJANPIDOSSA
+                               && maksutapa != Lasku::Maksutapa::ENNAKKOLASKU
                                && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN) );
 
     ui->naytaNappi->setEnabled( index.isValid() && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_SELAUS));
