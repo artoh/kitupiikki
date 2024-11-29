@@ -204,11 +204,13 @@ void TilioteApuri::teeReset()
 
     model_->asetaTilinumero( ui->tiliCombo->valittuTilinumero() );
     model_->lataa(tosite()->viennit()->tallennettavat() );
-    lataaHarmaatAjalta( ui->alkuDate->date(), ui->loppuDate->date() );
 
 
     if( tosite()->viennit()->tallennettavat().empty())
         lisaaRivi();
+
+    qApp->processEvents();
+    QTimer::singleShot(50, this, &TilioteApuri::lataaHarmaat);
 }
 
 void TilioteApuri::lisaaRivi(bool dialogi)
