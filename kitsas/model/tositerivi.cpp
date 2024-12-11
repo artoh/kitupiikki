@@ -113,12 +113,12 @@ double TositeRivi::laskennallinenBruttoEuroAlennus() const
 Euro TositeRivi::bruttoYhteensa() const
 {
     const double alennettu = nettoYhteensa();
-    const double vero = alvkoodi() < Lasku::KAYTETYT ?
-                alvProsentti() * alennettu / 100.0 :
+    const double veroSnt = alvkoodi() < Lasku::KAYTETYT ?
+                alvProsentti() * alennettu:
                 0 ;
 
-    const double brutto = alennettu + vero;
-    return Euro::fromDouble(brutto);
+    const double bruttoSnt = alennettu * 100.0 + veroSnt;
+    return Euro(qRound64(bruttoSnt));
 }
 
 void TositeRivi::setBruttoYhteensa(const Euro &euro)
