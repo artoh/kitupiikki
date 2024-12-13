@@ -156,6 +156,8 @@ void PilviKysely::verkkovirhe(QNetworkReply::NetworkError koodi)
 {
     if( koodi == QNetworkReply::ConnectionRefusedError)
         emit kp()->onni(tr("<b>Palvelimeen ei saada yhteyttä</b><br>Palvelin on ehkä tilapäisesti poissa käytöstä"), Kirjanpito::Verkkovirhe);
+    else if( koodi == QNetworkReply::RemoteHostClosedError)
+        emit kp()->onni(tr("<b>Yhteys katkesi</b><br>Syynä voi olla hetkellinen suuri pyyntöjen määrä palvelimelle. <br>Yritä uudelleen pienen hetken jälkeen."), Kirjanpito::Verkkovirhe);
     else if( koodi == 8 || koodi == 9)
         emit kp()->onni(tr("<b>Häiriö verkkoyhteydessä</b>"), Kirjanpito::Verkkovirhe);
     else if( koodi < QNetworkReply::ContentAccessDenied)
