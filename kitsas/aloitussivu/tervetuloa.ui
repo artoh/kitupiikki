@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>479</width>
-    <height>445</height>
+    <width>510</width>
+    <height>477</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -90,15 +90,29 @@
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="enKieli">
-        <property name="text">
-         <string>englanti</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../pic/pic.qrc">
-          <normaloff>:/liput/gb.png</normaloff>:/liput/gb.png</iconset>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QRadioButton" name="enKieli">
+          <property name="text">
+           <string>englanti</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../pic/pic.qrc">
+            <normaloff>:/liput/gb.png</normaloff>:/liput/gb.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 120, 0);</string>
+          </property>
+          <property name="text">
+           <string> beta</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>

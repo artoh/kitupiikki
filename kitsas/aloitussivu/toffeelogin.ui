@@ -139,7 +139,7 @@
        </item>
        <item>
         <property name="text">
-         <string>englanti</string>
+         <string>englanti (beta)</string>
         </property>
         <property name="icon">
          <iconset resource="../pic/pic.qrc">
