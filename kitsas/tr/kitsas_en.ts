@@ -1812,7 +1812,7 @@ Numerous files will be copied to the directory, so it&apos;s recommended to crea
     <message>
         <location filename="../raportti/budjettivertailu.ui" line="64"/>
         <source>Tulosta tilikohtaiset erittelyt</source>
-        <translation type="unfinished">Print account-level details</translation>
+        <translation>Print account-level details</translation>
     </message>
     <message>
         <location filename="../raportti/budjettivertailu.ui" line="88"/>
@@ -4705,7 +4705,8 @@ voucher</translation>
     <message>
         <location filename="../kitupiikkiikkuna.cpp" line="538"/>
         <source>Tilikaudet</source>
-        <translation>Accounting periods</translation>
+        <translation type="unfinished">Accounting
+periods</translation>
     </message>
     <message>
         <location filename="../kitupiikkiikkuna.cpp" line="538"/>
