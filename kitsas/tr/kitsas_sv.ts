@@ -617,17 +617,17 @@ Alias måste vara 3–32 tecken lång, starta med en bokstav och innehålla bara
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="115"/>
         <source>Kirjanpito ei ole käytettävissä</source>
-        <translation type="unfinished"></translation>
+        <translation>Bokföringen är inte tillgänglig</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="116"/>
         <source>Sinulla ei ole kirjanpidon avaamiseen tarvittavia oikeuksia tai kirjanpidon omistajan käyttöoikeus ei ole voimassa.</source>
-        <translation type="unfinished"></translation>
+        <translation>Du har inte rättigheter att öppna bokföringer eller bokföringens ägares anvandsrättighet är inte giltig,</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="117"/>
         <source>Ole tarvittaessa yhteydessä Kitsaan Helpdeskiin.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontakt Kitsas Helpdesk vid behov.</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="149"/>
@@ -4767,7 +4767,7 @@ Vill du ändå spara?</translation>
     <message>
         <location filename="../kirjaus/kirjauswg.cpp" line="806"/>
         <source>Valitse tosite</source>
-        <translation type="unfinished">Välj verifikat</translation>
+        <translation>Välj verifikat</translation>
     </message>
     <message>
         <location filename="../kirjaus/kirjauswg.cpp" line="806"/>
@@ -9770,22 +9770,22 @@ Din nuvarande bokföringsfil kommer fortfarande att finnas kvar på din dator.</
     <message>
         <location filename="../pilvi/pilveensiirto.ui" line="105"/>
         <source>Henkilökohtainen kirjanpito</source>
-        <translation type="unfinished"></translation>
+        <translation>Personal bokföring</translation>
     </message>
     <message>
         <location filename="../pilvi/pilveensiirto.ui" line="122"/>
         <source>Tilitoimiston kirjahylly</source>
-        <translation type="unfinished"></translation>
+        <translation>Revisionsbyros bokhyllan</translation>
     </message>
     <message>
         <location filename="../pilvi/pilveensiirto.ui" line="135"/>
         <source>Tilitoimisto</source>
-        <translation type="unfinished"></translation>
+        <translation>Revisisonsbyrå</translation>
     </message>
     <message>
         <location filename="../pilvi/pilveensiirto.ui" line="152"/>
         <source>Kirjahylly</source>
-        <translation type="unfinished"></translation>
+        <translation>Bokhyllan</translation>
     </message>
     <message>
         <location filename="../pilvi/pilveensiirto.ui" line="224"/>
@@ -9879,7 +9879,7 @@ För att kunna kopiera filen till molnet tag kontakt med stödet på Kitsas elle
     <message>
         <location filename="../pilvi/pilvikysely.cpp" line="160"/>
         <source>&lt;b&gt;Yhteys katkesi&lt;/b&gt;&lt;br&gt;Syynä voi olla suuri samanaikaisten pyyntöjen määrä palvelimelle. &lt;br&gt;Yritä uudelleen hetken kuluttua.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Samband brytades.&lt;/b&gt;&lt;br&gt;Orsaken kan vara stort antal av samtidigt anhållarna.&lt;br&gt;Förksök på nytt om en stund.</translation>
     </message>
     <message>
         <location filename="../pilvi/pilvikysely.cpp" line="162"/>
@@ -11235,7 +11235,7 @@ Kontrollera dina inställningar för att skicka e-post.</translation>
     <message>
         <location filename="../selaus/selauswg.ui" line="167"/>
         <source>Poista useita tositteita</source>
-        <translation type="unfinished"></translation>
+        <translation>Radeda flera vrérifikaterna,</translation>
     </message>
     <message>
         <location filename="../selaus/selauswg.ui" line="187"/>
@@ -11245,12 +11245,12 @@ Kontrollera dina inställningar för att skicka e-post.</translation>
     <message>
         <location filename="../selaus/selauswg.ui" line="240"/>
         <source>Poista</source>
-        <translation type="unfinished">Radera</translation>
+        <translation>Radera</translation>
     </message>
     <message>
         <location filename="../selaus/selauswg.ui" line="251"/>
         <source>Peruuta</source>
-        <translation type="unfinished">Ångra</translation>
+        <translation>Ångra</translation>
     </message>
     <message>
         <location filename="../selaus/selauswg.cpp" line="48"/>
@@ -11339,37 +11339,37 @@ Saldo %L3 	Antal %L4</translation>
     <message>
         <location filename="../selaus/selauswg.cpp" line="619"/>
         <source>Tositteita ei voi poistaa lukitulta tilikaudelta</source>
-        <translation type="unfinished"></translation>
+        <translation>Verifikaterna kan inte raderas från låsa räkenskapperioderna,</translation>
     </message>
     <message>
         <location filename="../selaus/selauswg.cpp" line="627"/>
         <source>Valitse poistettavat tositteet</source>
-        <translation type="unfinished"></translation>
+        <translation>Väla verifikaterna som ska raderas</translation>
     </message>
     <message>
         <location filename="../selaus/selauswg.cpp" line="629"/>
         <source>Yksi tosite valittu poistettavaksi</source>
-        <translation type="unfinished"></translation>
+        <translation>En verikat väljats att radera</translation>
     </message>
     <message>
         <location filename="../selaus/selauswg.cpp" line="631"/>
         <source>%1 tositetta valittu poistettavaksi</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 verifiaterna väljats att radera</translation>
     </message>
     <message>
         <location filename="../selaus/selauswg.cpp" line="641"/>
         <source>Vahvista poistaminen</source>
-        <translation type="unfinished"></translation>
+        <translation>Bekräfta raderingen</translation>
     </message>
     <message>
         <location filename="../selaus/selauswg.cpp" line="642"/>
         <source>Haluatko varmasti poistaa valitsemasi %1 tositetta?</source>
-        <translation type="unfinished"></translation>
+        <translation>Vill du säkert radera %1verifikar du har valt?</translation>
     </message>
     <message>
         <location filename="../selaus/selauswg.cpp" line="642"/>
         <source>Haluatko varmasti poistaa valitsemasi tositteen?</source>
-        <translation type="unfinished"></translation>
+        <translation>Vill du säkert radera denverfikaten du har valt?</translation>
     </message>
     <message>
         <source>Debet %L1   Kredit %L2 
@@ -11735,12 +11735,12 @@ Rapportera eventuella fel du hittar.</translation>
     <message>
         <location filename="../aloitussivu/tervetuloa.ui" line="97"/>
         <source>englanti</source>
-        <translation type="unfinished">engelska</translation>
+        <translation>engelska</translation>
     </message>
     <message>
         <location filename="../aloitussivu/tervetuloa.ui" line="111"/>
         <source> beta</source>
-        <translation type="unfinished"></translation>
+        <translation>beta</translation>
     </message>
     <message>
         <location filename="../aloitussivu/tervetuloa.ui" line="123"/>
@@ -14035,7 +14035,7 @@ Den här aktiviteten kommer ur bruk 1.9.2024</translation>
     <message>
         <location filename="../aloitussivu/toffeelogin.ui" line="142"/>
         <source>englanti (beta)</source>
-        <translation type="unfinished"></translation>
+        <translation>engelska (beta)</translation>
     </message>
     <message>
         <location filename="../aloitussivu/toffeelogin.ui" line="154"/>
@@ -14626,7 +14626,9 @@ Tallennetaanko tosite silti?</source>
         <location filename="../model/tosite.cpp" line="417"/>
         <source>Tilillä %1 on käytetty asiakas- tai huoneistokohtaista erittelyä, mikä on tarkoitettu ainoastaa myyntisaamisten käsittelyyn. Tällaisesta kirjauksesta muodostuu virheellinen tase.erittely. 
 Tallennetaanko tosite silti?</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Skapas verificatet ändå?</translatorcomment>
+        <translation>Specification enligt kund- eller lägenhet har använts i konton %1. En sådan specification är ämnad endast för behandkingen av  försäjlning fördningar. Sådan konteringen ställer till en felaktig balansspecificationen.
+</translation>
     </message>
     <message>
         <location filename="../model/tosite.cpp" line="427"/>
@@ -15699,12 +15701,12 @@ Spara skattedeklarationen och eventuella skattekalkyler.</translation>
     <message>
         <location filename="../maaritys/ulkoasumaaritys.ui" line="62"/>
         <source>englanti</source>
-        <translation type="unfinished">engelska</translation>
+        <translation>engelska</translation>
     </message>
     <message>
         <location filename="../maaritys/ulkoasumaaritys.ui" line="76"/>
         <source> beta </source>
-        <translation type="unfinished"></translation>
+        <translation> beta </translation>
     </message>
     <message>
         <location filename="../maaritys/ulkoasumaaritys.ui" line="101"/>
@@ -16137,7 +16139,7 @@ Spara skattedeklarationen och eventuella skattekalkyler.</translation>
     <message>
         <location filename="../uusikirjanpito/uusitilikartta.ui" line="20"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Valitse käytettävä tilikartta kirjanpitosi mukaisesti. Voit myöhemmin muokata käyttöön otettavaa mallitilikarttaa ja raporttipohjia.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Välja kontoplanen enligt ditt bokföringen. Du kan senare bearbeta mallkontoplan som tas i bruk och rapportbaser.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../uusikirjanpito/uusitilikartta.ui" line="45"/>

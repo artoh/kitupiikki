@@ -718,7 +718,7 @@ The alias must be 3-32 characters long, start with a letter, and contain only le
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="303"/>
         <source>Tilikausi päättyy %1, jonka jälkeiselle ajalle ei voi tehdä kirjauksia ennen kuin uusi tilikausi aloitetaan.&lt;/p&gt;&lt;p&gt;Voit tehdä kirjauksia myös aiempaan tilikauteen, kunnes se on päätetty.</source>
-        <translation>The financial year ends on %1, after which entries cannot be made until a new financial year is started.&lt;/p&gt;&lt;p&gt;You can also make entries for the previous financial year until it is closed.</translation>
+        <translation>The financial year ends on %1,  entries dated after that cannot be made until a new financial year is started.&lt;/p&gt;&lt;p&gt;You can also make entries for the previous financial year until it is closed.</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="322"/>
@@ -1479,7 +1479,7 @@ Numerous files will be copied to the directory, so it&apos;s recommended to crea
     <message>
         <location filename="../rekisteri/asiakastoimittajadlg.ui" line="283"/>
         <source>Välittäjätunnus</source>
-        <translation>Intermediary ID</translation>
+        <translation>Operator ID</translation>
     </message>
     <message>
         <location filename="../rekisteri/asiakastoimittajadlg.ui" line="300"/>
@@ -1812,7 +1812,7 @@ Numerous files will be copied to the directory, so it&apos;s recommended to crea
     <message>
         <location filename="../raportti/budjettivertailu.ui" line="64"/>
         <source>Tulosta tilikohtaiset erittelyt</source>
-        <translation>Print account-specific details</translation>
+        <translation type="unfinished">Print account-level details</translation>
     </message>
     <message>
         <location filename="../raportti/budjettivertailu.ui" line="88"/>
@@ -3029,7 +3029,7 @@ Your company will also be connected to the banking network and e-invoice address
     <message>
         <location filename="../maaritys/verkkolasku/verkkolasku.ui" line="145"/>
         <source>Välittäjän tunnus</source>
-        <translation>Intermediary ID</translation>
+        <translation>Operator ID</translation>
     </message>
     <message>
         <location filename="../maaritys/verkkolasku/verkkolasku.ui" line="162"/>
@@ -3505,7 +3505,7 @@ You can send it to the tax authorities using the ilmoitin.fi service.</translati
     <message>
         <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="590"/>
         <source>Tallenna reskontraan</source>
-        <translation>Save to accounts receivable</translation>
+        <translation>Save to sales ledger</translation>
     </message>
     <message>
         <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="593"/>
@@ -3828,7 +3828,7 @@ guide</translation>
     <message>
         <location filename="../kierto/kiertomaaritys.cpp" line="98"/>
         <source>Verkkomaksujen kierron poistaminen</source>
-        <translation>Removing online payment circulation</translation>
+        <translation>Removing the e-invoice circulation</translation>
     </message>
     <message>
         <location filename="../kierto/kiertomaaritys.cpp" line="99"/>
@@ -4655,12 +4655,12 @@ Do you still want to save the voucher?</translation>
         <source>Uusi 
 tosite</source>
         <translation>New 
-document</translation>
+voucher</translation>
     </message>
     <message>
         <location filename="../kitupiikkiikkuna.cpp" line="533"/>
         <source>Kirjaa uusi tosite</source>
-        <translation>Record a new document</translation>
+        <translation>Record a new voucher</translation>
     </message>
     <message>
         <location filename="../kitupiikkiikkuna.cpp" line="534"/>
@@ -6745,7 +6745,7 @@ Do you still want to add this file?</translation>
         <location filename="../liite/liitteetmodel.cpp" line="385"/>
         <location filename="../liite/liitteetmodel.cpp" line="390"/>
         <source>liite.jpg</source>
-        <translation>attachment.jpg</translation>
+        <translation type="unfinished">bilaga.jpg</translation>
     </message>
     <message>
         <location filename="../liite/liitteetmodel.cpp" line="549"/>
@@ -7895,22 +7895,22 @@ Check the keys you entered.</translation>
     <message>
         <location filename="../kirjaus/muumuokkausdlg.ui" line="223"/>
         <source>Reskontra</source>
-        <translation>Accounts</translation>
+        <translation>Ledger</translation>
     </message>
     <message>
         <location filename="../kirjaus/muumuokkausdlg.ui" line="229"/>
         <source>Ei reskontraa</source>
-        <translation>No accounts</translation>
+        <translation>Neither sales nor purchase ledger</translation>
     </message>
     <message>
         <location filename="../kirjaus/muumuokkausdlg.ui" line="239"/>
         <source>Myyntireskontra</source>
-        <translation>Accounts receivable</translation>
+        <translation>Sales ledger</translation>
     </message>
     <message>
         <location filename="../kirjaus/muumuokkausdlg.ui" line="246"/>
         <source>Ostoreskontra</source>
-        <translation>Accounts payable</translation>
+        <translation>Purchase ledger</translation>
     </message>
     <message>
         <location filename="../kirjaus/muumuokkausdlg.ui" line="292"/>
@@ -8677,7 +8677,7 @@ Check the keys you entered.</translation>
     <message>
         <location filename="../raportti/paivakirja.ui" line="68"/>
         <source>Ote tililtä</source>
-        <translation>Account Statement</translation>
+        <translation>Extract from account</translation>
     </message>
     <message>
         <location filename="../raportti/paivakirja.ui" line="86"/>
@@ -9295,7 +9295,7 @@ Copying this accounting to the cloud requires correcting the accounting with the
     <message>
         <location filename="../pilvi/pilvikysely.cpp" line="160"/>
         <source>&lt;b&gt;Yhteys katkesi&lt;/b&gt;&lt;br&gt;Syynä voi olla suuri samanaikaisten pyyntöjen määrä palvelimelle. &lt;br&gt;Yritä uudelleen hetken kuluttua.</source>
-        <translation type="unfinished"></translation>
+        <translation>Connection broke off. A large amount of simultaneous requests may be the reason. &lt;br&gt;Try again after a moment.</translation>
     </message>
     <message>
         <location filename="../pilvi/pilvikysely.cpp" line="162"/>
@@ -10197,12 +10197,12 @@ In future versions, the function will change significantly.</translation>
     <message>
         <location filename="../laskutus/laskudlg/rivillinenlaskudialogi.cpp" line="299"/>
         <source>Verottomat rivit</source>
-        <translation>Tax-free lines</translation>
+        <translation>Lines without VAT</translation>
     </message>
     <message>
         <location filename="../laskutus/laskudlg/rivillinenlaskudialogi.cpp" line="300"/>
         <source>Verolliset rivit</source>
-        <translation>Taxable lines</translation>
+        <translation>Lines with VAT</translation>
     </message>
     <message>
         <location filename="../laskutus/laskudlg/rivillinenlaskudialogi.cpp" line="301"/>
@@ -10226,12 +10226,12 @@ In future versions, the function will change significantly.</translation>
     <message>
         <location filename="../laskutus/laskudlg/ryhmalaskudialogi.cpp" line="39"/>
         <source>Laskutettavat</source>
-        <translation>Billable</translation>
+        <translation>Recipients</translation>
     </message>
     <message>
         <location filename="../laskutus/laskudlg/ryhmalaskudialogi.cpp" line="64"/>
         <source>Lisää ensin laskun saajat Laskutettavat-välilehdelle.</source>
-        <translation>First add invoice recipients to the Billable tab.</translation>
+        <translation>First add invoice recipients to the Recipients tab.</translation>
     </message>
     <message>
         <location filename="../laskutus/laskudlg/ryhmalaskudialogi.cpp" line="77"/>
@@ -11035,12 +11035,12 @@ as a template
     <message>
         <location filename="../aloitussivu/tervetuloa.ui" line="97"/>
         <source>englanti</source>
-        <translation type="unfinished">English</translation>
+        <translation>English</translation>
     </message>
     <message>
         <location filename="../aloitussivu/tervetuloa.ui" line="111"/>
         <source> beta</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../aloitussivu/tervetuloa.ui" line="123"/>
@@ -11713,7 +11713,7 @@ ja kaupunki</source>
     <message>
         <location filename="../raportti/tilikarttaraportti.ui" line="123"/>
         <source>Kirjausohjeet</source>
-        <translation>Posting instructions</translation>
+        <translation>Recording instructions</translation>
     </message>
     <message>
         <location filename="../raportti/tilikarttaraportti.ui" line="134"/>
@@ -13045,7 +13045,7 @@ The financial statement template must be corrected in order to print the financi
     <message>
         <location filename="../aloitussivu/toffeelogin.ui" line="142"/>
         <source>englanti (beta)</source>
-        <translation type="unfinished"></translation>
+        <translation>English (beta)</translation>
     </message>
     <message>
         <location filename="../aloitussivu/toffeelogin.ui" line="154"/>
@@ -14368,12 +14368,12 @@ Keep your tax return and any tax calculations with your accounting records.</tra
     <message>
         <location filename="../maaritys/ulkoasumaaritys.ui" line="62"/>
         <source>englanti</source>
-        <translation type="unfinished">English</translation>
+        <translation>English</translation>
     </message>
     <message>
         <location filename="../maaritys/ulkoasumaaritys.ui" line="76"/>
         <source> beta </source>
-        <translation type="unfinished"></translation>
+        <translation>beta</translation>
     </message>
     <message>
         <location filename="../maaritys/ulkoasumaaritys.ui" line="101"/>
