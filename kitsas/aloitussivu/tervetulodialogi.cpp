@@ -40,7 +40,9 @@ TervetuloDialogi::TervetuloDialogi() :
         ui->fiKieli->setChecked(true);
 
     paivitaVersio();
+    connect(ui->fiKieli, &QRadioButton::toggled, this, &TervetuloDialogi::kieliVaihtui );
     connect(ui->svKieli, &QRadioButton::toggled, this, &TervetuloDialogi::kieliVaihtui );
+    connect(ui->enKieli, &QRadioButton::toggled, this, &TervetuloDialogi::kieliVaihtui );
 }
 
 void TervetuloDialogi::accept()
