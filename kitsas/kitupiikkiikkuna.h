@@ -166,6 +166,8 @@ protected:
     void luoHarjoitusDock();
     void luoInboxDock();
 
+    void suljeIkkunat();
+
 
 };
 

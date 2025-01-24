@@ -93,6 +93,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
 {
 
+    connect( kp(), &Kirjanpito::tietokantaVaihtui, this, &KitupiikkiIkkuna::suljeIkkunat);
     connect( kp(), &Kirjanpito::tietokantaVaihtui, this, &KitupiikkiIkkuna::paivitaAktiivisuudet);
     connect(kp(), &Kirjanpito::perusAsetusMuuttui, this, &KitupiikkiIkkuna::paivitaAktiivisuudet);
     connect(kp()->pilvi(), &PilviModel::kirjauduttu, this, &KitupiikkiIkkuna::paivitaAktiivisuudet);
@@ -604,4 +605,14 @@ void KitupiikkiIkkuna::luoInboxDock()
     inboxDock->setVisible( false );
     connect( inbox, &InboxLista::nayta, inboxDock, &QDockWidget::setVisible );
 
+}
+
+void KitupiikkiIkkuna::suljeIkkunat()
+{
+    const QWidgetList topLevelWidgets = QApplication::topLevelWidgets();
+    for (QWidget *widget : topLevelWidgets) {
+        if (widget != this) {
+            widget->close();
+        }
+    }
 }
