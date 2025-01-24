@@ -585,7 +585,8 @@ void PilveenSiirto::lisaaHylly(const QVariantMap &hylly)
 
 void PilveenSiirto::paivitaInfot()
 {
-    if( ui->sijaintiGroup->isHidden() ||  ui->omaRadio->isChecked()) {
+    if( (ui->sijaintiGroup->isHidden() ||  ui->omaRadio->isChecked()) &&
+        !(ui->toimistoRadio->isVisible() && ui->toimistoRadio->isChecked()) ) {
         ui->infoLabel->show();
         int pilvia = kp()->pilvi()->kayttaja().cloudCount();
         if( pilvia >= kp()->pilvi()->kayttaja().capacity() ) {
