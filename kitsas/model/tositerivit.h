@@ -84,6 +84,7 @@ public slots:
     void asetaEnnakkolasku(bool ennakkoa);
     void asetaRivityyppi(Lasku::Rivityyppi rivityyppi);
     void clear();
+    void siirraRivi(int lahto, int kohde);
 
 
 private:

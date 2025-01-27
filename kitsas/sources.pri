@@ -79,6 +79,7 @@ SOURCES += \
     $$PWD/laskutus/laskudlg/kappaledelegaatti.cpp \
     $$PWD/laskutus/laskudlg/laskudialogitehdas.cpp \
     $$PWD/laskutus/laskudlg/laskurividialogi.cpp \
+    $$PWD/laskutus/laskudlg/laskurivitview.cpp \
     $$PWD/laskutus/laskudlg/laskutusverodelegaatti.cpp \
     $$PWD/laskutus/laskudlg/maksumuistusdialogi.cpp \
     $$PWD/laskutus/laskudlg/maksumuistutusmuodostaja.cpp \
@@ -509,6 +510,7 @@ HEADERS += \
     $$PWD/laskutus/laskudlg/kappaledelegaatti.h \
     $$PWD/laskutus/laskudlg/laskudialogitehdas.h \
     $$PWD/laskutus/laskudlg/laskurividialogi.h \
+    $$PWD/laskutus/laskudlg/laskurivitview.h \
     $$PWD/laskutus/laskudlg/laskutusverodelegaatti.h \
     $$PWD/laskutus/laskudlg/maksumuistusdialogi.h \
     $$PWD/laskutus/laskudlg/maksumuistutusmuodostaja.h \

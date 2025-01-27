@@ -439,5 +439,16 @@ void TositeRivit::clear()
     endResetModel();
 }
 
+void TositeRivit::siirraRivi(int lahto, int kohde)
+{
+    if( kohde < lahto) {
+        beginMoveRows(QModelIndex(), lahto, lahto, QModelIndex(), kohde);
+    } else if ( kohde > lahto) {
+        beginMoveRows(QModelIndex(), lahto, lahto, QModelIndex(), kohde + 1);
+    }
+    rivit_.move(lahto, kohde);
+    endMoveRows();
+}
+
 
 
