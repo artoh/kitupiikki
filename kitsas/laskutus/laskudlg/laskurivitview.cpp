@@ -73,6 +73,7 @@ void LaskuRivitView::performDrag(int sourceRow)
     QMimeData* mimeData = new QMimeData;
     const QVariantMap& data = rivit->rivi(sourceRow).data();
     const QJsonDocument json = QJsonDocument::fromVariant(data);
+    mimeData->setText(json.toJson());
     mimeData->setData("application/json", json.toJson());
 
     drag->setMimeData(mimeData);
