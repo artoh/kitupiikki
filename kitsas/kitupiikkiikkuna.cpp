@@ -611,7 +611,10 @@ void KitupiikkiIkkuna::suljeIkkunat()
 {
     const QWidgetList topLevelWidgets = QApplication::topLevelWidgets();
     for (QWidget *widget : topLevelWidgets) {
-        if (widget != this) {
+        if (widget != this &&
+            widget->isVisible() &&
+            ( qobject_cast<QDialog*>(widget) ||
+              qobject_cast<QMainWindow*>(widget))) {
             widget->close();
         }
     }
