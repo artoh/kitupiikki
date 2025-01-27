@@ -41,9 +41,7 @@
      <item>
       <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Copyright © Arto Hyvättinen 2017 - 2019&lt;br/&gt;
-Copyright © Arto Hyvättinen ja Kitsas Oy 2019 - 2024&lt;br/&gt;
-&lt;a href=&quot;https://kitsas.fi&quot;&gt;kitsas.fi&lt;/a&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Copyright © Arto Hyvättinen 2017 - 2019&lt;br/&gt;Copyright © Arto Hyvättinen ja Kitsas Oy 2019 - 2025&lt;br/&gt;&lt;a href=&quot;https://kitsas.fi&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;kitsas.fi&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="openExternalLinks">
         <bool>true</bool>
@@ -66,7 +64,7 @@ Copyright © Arto Hyvättinen ja Kitsas Oy 2019 - 2024&lt;br/&gt;
      <item>
       <spacer name="verticalSpacer">
        <property name="orientation">
-        <enum>Qt::Vertical</enum>
+        <enum>Qt::Orientation::Vertical</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -95,7 +93,7 @@ Copyright © Arto Hyvättinen ja Kitsas Oy 2019 - 2024&lt;br/&gt;
        <item>
         <spacer name="horizontalSpacer">
          <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+          <enum>Qt::Orientation::Horizontal</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
