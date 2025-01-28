@@ -78,11 +78,11 @@ void TuloveroDialog::accept()
 {
     if( !ui->jaaveroaEdit->asCents()) {
 
-        QDialog::accept();
         QMessageBox::information(this, tr("Tuloveron kirjaaminen"),
                                  tr("Ennakkovero täsmää täysin tuloveroon, eikä tuloveroa jää "
                                     "myöhemmin tilitettäväksi.\n"
                                     "Tallenna veroilmoituksesi osaksi kirjanpitoa."));
+        QDialog::accept();
         return;
     }
 
@@ -162,12 +162,12 @@ void TuloveroDialog::paivitaJaannos()
 
 void TuloveroDialog::kirjattu()
 {
-    QDialog::accept();
     QMessageBox::information(this, tr("Tuloveron kirjaus tallennettu"),
                              tr("Tuloverot on kirjattu.\n"
                                 "Säilytä veroilmoitus ja mahdolliset verolaskelmasi "
                                 "kirjanpitosi yhteydessä."));
     emit tallennettu();
+    QDialog::accept();
 }
 
 QByteArray TuloveroDialog::liite() const
