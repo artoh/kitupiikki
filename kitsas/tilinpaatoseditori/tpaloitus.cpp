@@ -50,7 +50,7 @@ TpAloitus::TpAloitus(Tilikausi kausi, QWidget *parent) :
 
     ui->henkilostoSpin->setValue( kaudenhenkilosto ? kaudenhenkilosto : edellisenhenkilosto );
 
-    connect( model, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(valintaMuuttui(QStandardItem*)));
+
     connect( ui->lataaNappi, SIGNAL(clicked(bool)), this, SLOT(lataaTiedosto()));
     connect( ui->ohjeNappi, SIGNAL(clicked(bool)), this, SLOT(ohje()));
     connect( ui->henkilostoSpin, SIGNAL(valueChanged(int)), this, SLOT(tarkistaPMA()));
@@ -71,7 +71,7 @@ TpAloitus::TpAloitus(Tilikausi kausi, QWidget *parent) :
                                          kp()->asetukset()->asetus(AsetusModel::TilinpaatosKieli) ) );
 
     tarkistaPMA();
-    connect( ui->kieliCombo, &QComboBox::currentTextChanged, this, &TpAloitus::lataa);
+    connect( ui->kieliCombo, &QComboBox::currentTextChanged, this, &TpAloitus::lataa);    
 }
 
 TpAloitus::~TpAloitus()
@@ -277,6 +277,8 @@ void TpAloitus::lataa()
         if( model->item(i)->isCheckable() && valitut.contains(  model->item(i)->data(TunnusRooli).toString() ))
             model->item(i)->setCheckState(Qt::Checked);
     }
+
+    connect( model, &QStandardItemModel::itemChanged, this, &TpAloitus::valintaMuuttui);
 
 }
 
