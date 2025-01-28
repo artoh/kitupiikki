@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QLabel" name="label_3">
      <property name="font">
@@ -202,7 +202,7 @@
         <bool>true</bool>
        </property>
        <property name="focusPolicy">
-        <enum>Qt::NoFocus</enum>
+        <enum>Qt::FocusPolicy::NoFocus</enum>
        </property>
        <property name="frame">
         <bool>false</bool>
@@ -302,10 +302,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QDateEdit" name="alvAlkaaEdit">
-       <property name="calendarPopup">
-        <bool>true</bool>
-       </property>
+      <widget class="KpDateEdit" name="alvAlkaaEdit">
        <property name="Asetus" stdset="0">
         <string notr="true">AlvAlkaa</string>
        </property>
@@ -319,9 +316,23 @@
       </widget>
      </item>
      <item>
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>päättyy</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KpDateEdit" name="alvPaattyyEdit">
+       <property name="Asetus" stdset="0">
+        <string notr="true">AlvLoppuu</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -350,10 +361,10 @@
    <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
      <property name="sizeType">
-      <enum>QSizePolicy::Expanding</enum>
+      <enum>QSizePolicy::Policy::Expanding</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -365,12 +376,18 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KpDateEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">tools/kpdateedit.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>organisaatioEdit</tabstop>
   <tabstop>ytunnusEdit</tabstop>
   <tabstop>muotoCombo</tabstop>
   <tabstop>hakemistoNappi</tabstop>
-  <tabstop>alvCheck</tabstop>
   <tabstop>sijaintiLabel</tabstop>
  </tabstops>
  <resources>
@@ -384,12 +401,28 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>124</x>
-     <y>707</y>
+     <x>127</x>
+     <y>360</y>
     </hint>
     <hint type="destinationlabel">
-     <x>432</x>
-     <y>710</y>
+     <x>289</x>
+     <y>353</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>alvCheck</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>alvPaattyyEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>84</x>
+     <y>357</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>551</x>
+     <y>363</y>
     </hint>
    </hints>
   </connection>

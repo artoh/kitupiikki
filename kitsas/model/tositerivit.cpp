@@ -391,7 +391,7 @@ void TositeRivit::lisaaTuote(const Tuote &tuote, const QString &lkm, const QStri
     rivi.setTili( tuote.tili() );
     rivi.setKohdennus( tuote.kohdennus() );
 
-    if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
+    if( kp()->onkoAlvVelvollinen(pvm) )  {
         rivi.setAlvKoodi( tuote.alvkoodi() );
         const double prossa = tuote.alvprosentti() == 24.00 ? yleinenAlv( pvm ) / 100.0 : tuote.alvprosentti();
         rivi.setAlvProsentti( prossa );

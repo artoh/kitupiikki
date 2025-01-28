@@ -26,6 +26,7 @@
 #include <QDoubleSpinBox>
 #include <QPlainTextEdit>
 #include <QGroupBox>
+#include "tools/kpdateedit.h"
 #include "tools/tilicombo.h"
 #include "tools/checkcombo.h"
 #include "tools/varinvalinta.h"
@@ -56,6 +57,15 @@ bool TallentavaMaaritysWidget::nollaa()
 
         if( asetusavain.isEmpty())
             continue;
+
+        KpDateEdit* kpdate = qobject_cast<KpDateEdit*>(widget);
+        if( kpdate) {
+            if( !kp()->asetukset()->onko(asetusavain))
+                kpdate->setNull();
+            else
+                kpdate->setDate( kp()->asetukset()->pvm(asetusavain));
+            continue;
+        }
 
         QLineEdit *edit = qobject_cast<QLineEdit*>(widget);
         if( edit ) {
@@ -201,6 +211,15 @@ bool TallentavaMaaritysWidget::tallenna()
         if( asetusavain.isEmpty())
             continue;
 
+        KpDateEdit* kpdate = qobject_cast<KpDateEdit*>(widget);
+        if( kpdate) {
+            if( kpdate->date().isValid())
+                asetukset.insert(asetusavain, kpdate->date());
+            else
+                asetukset.insert(asetusavain, QVariant());
+            continue;
+        }
+
         QLineEdit *edit = qobject_cast<QLineEdit*>(widget);
         if( edit && edit->hasAcceptableInput()) {
             asetukset.insert(asetusavain, edit->text().trimmed());
@@ -297,6 +316,13 @@ bool TallentavaMaaritysWidget::onkoMuokattu()
 
         if( asetusavain.isEmpty())
             continue;
+
+        KpDateEdit* kpdate = qobject_cast<KpDateEdit*>(widget);
+        if( kpdate) {
+            if( kpdate->date().isValid() ? kpdate->date() != kp()->asetukset()->pvm(asetusavain) : !kp()->asetukset()->onko(asetusavain))
+                return true;
+            continue;
+        }
 
 
         QLineEdit *edit = qobject_cast<QLineEdit*>(widget);

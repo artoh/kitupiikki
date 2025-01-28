@@ -203,6 +203,18 @@ QString Kirjanpito::tilapainen(QString nimi) const
     return tempDir_->filePath(nimi.replace("XXXX", satujono(8)));
 }
 
+bool Kirjanpito::onkoAlvVelvollinen(const QDate &paiva) const
+{
+    // Onko annettuna päivänä arvonlisäverovelvollinen
+    if( !asetukset()->onko("AlvVelvollinen"))
+        return false;
+    if( asetukset()->onko("AlvAlkaa") && asetukset()->pvm("AlvAlkaa") > paiva )
+        return false;
+    if( asetukset()->onko("AlvLoppuu") && asetukset()->pvm("AlvLoppuu") < paiva )
+        return false;
+    return true;
+}
+
 bool Kirjanpito::onkoMaksuperusteinenAlv(const QDate &paiva) const
 {
     // Onko annettuna päivänä maksuperusteinen alv käytössä

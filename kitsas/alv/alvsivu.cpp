@@ -107,7 +107,9 @@ void AlvSivu::paivitaLoppu()
 void AlvSivu::paivitaErapaiva()
 {
     QDate loppupvm = ui->paattyyEdit->date();
-    if( loppupvm.day() != loppupvm.daysInMonth()) {
+    if( !kp()->onkoAlvVelvollinen(loppupvm))
+        ui->erapaivaLabel->setText(tr("Ei alv-velvollinen"));
+    else if( loppupvm.day() != loppupvm.daysInMonth()) {
         ui->paattyyEdit->setDate(QDate( loppupvm.year(), loppupvm.month(), loppupvm.daysInMonth()));
     } else {
         QDate erapaiva = kp()->alvIlmoitukset()->erapaiva(loppupvm);
@@ -123,7 +125,8 @@ void AlvSivu::paivitaErapaiva()
     }
     ui->tilitaNappi->setEnabled( loppupvm > kp()->tilitpaatetty() &&
                                  !kp()->alvIlmoitukset()->onkoIlmoitettu(loppupvm) &&
-                                 !kp()->alvIlmoitukset()->onkoIlmoitettu(ui->alkaaEdit->date()));
+                                 !kp()->alvIlmoitukset()->onkoIlmoitettu(ui->alkaaEdit->date()) &&
+                                 kp()->onkoAlvVelvollinen(loppupvm));
 }
 
 void AlvSivu::ilmoita()

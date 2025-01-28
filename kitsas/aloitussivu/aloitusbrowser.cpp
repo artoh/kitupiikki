@@ -232,6 +232,10 @@ void AloitusBrowser::paivitaAlvVinkki()
 
     QDate kausiAlkaa = kp()->alvIlmoitukset()->viimeinenIlmoitus().addDays(1) ;
 
+    // Jos alv-velvollisuus on jo päättynyt
+    if( !kp()->onkoAlvVelvollinen(kausiAlkaa) )
+        return;
+
     // Korjataan tähän verottajalta tuleva ilmoitustieto
     for(const auto& kausi : kp()->alvIlmoitukset()->kaudet()->kaudet()) {
         if( kausi.alkupvm() >= kausiAlkaa && kausi.tila() == AlvKausi::KASITELTY) {

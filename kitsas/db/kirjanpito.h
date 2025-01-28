@@ -219,6 +219,9 @@ public:
      */
     QString tilapainen(QString nimi) const;
 
+
+    bool onkoAlvVelvollinen(const QDate& paiva) const override;
+
     /**
      * @brief Onko kyseisenä päivänä käytössä maksuperusteinen arvonlisävero
      * @param paiva

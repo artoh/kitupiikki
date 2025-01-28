@@ -396,7 +396,7 @@ void Tosite::tallenna(int tilaan)
             viennit()->asetaVienti(i, vienti);
         }
 
-        if( !alvVelvollinen && (vienti.alvKoodi() != AlvKoodi::EIALV || vienti.alvProsentti() > 1e-5)) {
+        if( !kp()->onkoAlvVelvollinen(vienti.pvm()) && (vienti.alvKoodi() != AlvKoodi::EIALV || vienti.alvProsentti() > 1e-5)) {
             if( QMessageBox::warning( nullptr, tr("Virheellinen tosite"), tr("Arvonlisäverottomaan kirjanpitoon ei pitäisi tehdä arvonlisäverollista kirjausta. \n Tallennetaanko tosite silti?"), QMessageBox::Yes | QMessageBox::No ) != QMessageBox::Yes) {
                 tallennuksessaVirhe(0);
                 return;

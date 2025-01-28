@@ -94,6 +94,9 @@ bool Perusvalinnat::nollaa()
     connect(kokokysely, &KpKysely::vastaus, this, &Perusvalinnat::kokoSaapuu);
     kokokysely->kysy();
 
+    ui->alvAlkaaEdit->setNullable(false);
+    ui->alvPaattyyEdit->setNullable(true);
+
     ui->alvCheck->setEnabled(qobject_cast<PilviModel*>(kp()->yhteysModel()) == nullptr || kp()->pilvi()->pilvi().vat() ||
                              kp()->asetukset()->onko(AsetusModel::AlvVelvollinen));
 
