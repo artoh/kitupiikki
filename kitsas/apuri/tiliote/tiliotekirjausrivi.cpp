@@ -375,7 +375,7 @@ bool TilioteKirjausRivi::setRiviData(int sarake, const QVariant &value)
 
         rivit_[0].setTili(tili->numero());
         if( tiliKohdennus) rivit_[0].setKohdennus(tiliKohdennus);
-        if( model()->kitsas()->asetukset()->onko(AsetusModel::AlvVelvollinen) && tili->onko(TiliLaji::TULOS)) {
+        if( model()->kitsas()->onkoAlvVelvollinen(pvm()) && tili->onko(TiliLaji::TULOS)) {
             rivit_[0].setAlvkoodi(tili->alvlaji());
             const double prosentti = tili->alvprosentti() == 24.0 ? yleinenAlv(paivamaara_) / 100.0 : tili->alvprosentti();
             rivit_[0].setAlvprosentti(prosentti);
@@ -391,9 +391,15 @@ bool TilioteKirjausRivi::setRiviData(int sarake, const QVariant &value)
         paivitaTyyppi();
         break;
     }
-    case ALV: {
-        const double prosentti = (value.toInt() / 100) / 100.0;
-        const int koodi = value.toInt() % 100;
+    case ALV: {        
+        double prosentti = (value.toInt() / 100) / 100.0;
+        int koodi = value.toInt() % 100;
+
+        if( !kp()->onkoAlvVelvollinen(pvm())) {
+            prosentti = 0.0;
+            koodi = AlvKoodi::EIALV;
+        }
+
         rivit_[0].setAlvkoodi(koodi);
         rivit_[0].setAlvprosentti(prosentti);
         for(int i=0; i < rivit_.count(); i++) {

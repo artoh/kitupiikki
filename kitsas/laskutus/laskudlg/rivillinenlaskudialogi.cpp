@@ -54,9 +54,9 @@ RivillinenLaskuDialogi::RivillinenLaskuDialogi(Tosite *tosite, QWidget *parent)
     connect( ui->uusiRiviNappi, &QPushButton::clicked, this, &RivillinenLaskuDialogi::uusiRivi);
     connect( ui->riviLisatiedotNappi, &QPushButton::clicked, this, &RivillinenLaskuDialogi::rivinLisaTiedot);
 
-    ui->tabWidget->removeTab( ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("maksumuistutus") ) );      
+    ui->tabWidget->removeTab( ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("maksumuistutus") ) );
 
-    tosite->rivit()->lisaaRivi();
+    tosite->rivit()->lisaaRivi( tosite->laskupvm() );
     paivitaRiviNapit();
     paivitaSumma();
 }
@@ -291,7 +291,7 @@ void RivillinenLaskuDialogi::alustaRiviTab()
     ui->rivitView->setColumnHidden( TositeRivit::KOHDENNUS, !kp()->kohdennukset()->kohdennuksia());
 
     connect( ui->uusituoteNappi, &QPushButton::clicked, this, [this] { (new TuoteDialogi(this))->uusi(); } );
-    connect( ui->lisaaRiviNappi, &QPushButton::clicked, this, [this] { this->tosite()->rivit()->lisaaRivi();} );
+    connect( ui->lisaaRiviNappi, &QPushButton::clicked, this, [this] { this->tosite()->rivit()->lisaaRivi(this->paivamaara());} );
     connect( ui->poistaRiviNappi, &QPushButton::clicked, this, [this] {
         if( this->ui->rivitView->currentIndex().isValid())
                 this->tosite()->rivit()->poistaRivi( ui->rivitView->currentIndex().row());

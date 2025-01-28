@@ -50,7 +50,7 @@ void LaskuAlvCombo::alusta(LaskuAlvCombo::AsiakasVeroLaji asiakasVerolaji, int a
         addItem(QIcon(":/pic/marginaali.png"),tr("Voittomarginaalimenettely - keräily- ja antiikkiesineet"), QVariant(Lasku::ANTIIKKI));
     }
 
-    if( kp()->asetukset()->onko("AlvVelvollinen") ) {
+    if( kp()->onkoAlvVelvollinen(pvm) ) {
         setCurrentIndex(pvm < QDate(2024,9,1) ? 2 : 3); // Alv 24
     } else {
         setCurrentIndex(4);  // Veroton

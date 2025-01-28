@@ -289,7 +289,7 @@ bool TositeViennit::setData(const QModelIndex &index, const QVariant &value, int
                         emit dataChanged( index.sibling(index.row(), KOHDENNUS), index.sibling(index.row(), KOHDENNUS) );
                     } else
                         rivi.setEra( 0);
-                    if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
+                    if( kp()->onkoAlvVelvollinen(rivi.pvm()) ) {
                         int alvkoodi = uusitili.arvo("alvlaji").toInt();                     
                         if( !alvkoodi || !kp()->alvIlmoitukset()->onkoIlmoitettu(rivi.pvm())) {
                             rivi.setAlvKoodi( alvkoodi );
@@ -360,14 +360,22 @@ bool TositeViennit::setData(const QModelIndex &index, const QVariant &value, int
             emit dataChanged(index.sibling(index.row(), TositeViennit::DEBET), index, QVector<int>() << Qt::EditRole);
             return true;
         } else if( role == TositeViennit::AlvKoodiRooli) {
-            TositeVienti rivi = vienti(index.row());            
-            rivi.setAlvKoodi( value.toInt());
+            TositeVienti rivi = vienti(index.row());
+            if( kp()->onkoAlvVelvollinen( rivi.pvm() )) {
+                rivi.setAlvKoodi( value.toInt());
+            } else {
+                rivi.setAlvKoodi( AlvKoodi::EIALV );
+            }
             viennit_[index.row()] = rivi;
             paivitaAalv(index.row());
             emit dataChanged(index, index, QVector<int>() << Qt::EditRole);
         } else if( role == TositeViennit::AlvProsenttiRooli) {
             TositeVienti rivi = vienti(index.row());
-            rivi.setAlvProsentti( value.toDouble() );
+            if( kp()->onkoAlvVelvollinen( rivi.pvm())) {
+                rivi.setAlvProsentti( value.toDouble() );
+            } else {
+                rivi.setAlvKoodi( AlvKoodi::EIALV);
+            }
             viennit_[index.row()] = rivi;
             paivitaAalv(index.row());
             emit dataChanged(index, index, QVector<int>() << Qt::EditRole);

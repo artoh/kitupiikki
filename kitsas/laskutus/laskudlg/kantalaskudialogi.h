@@ -45,6 +45,7 @@ public:
     void tulosta(QPagedPaintDevice* printer) const override;
     virtual QString otsikko() const override;
 
+
 signals:
     void tallennettuValmiina();
     void alvTunnusVaihtui(const QString alvtunnus);

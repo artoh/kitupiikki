@@ -819,6 +819,13 @@ TilioteKirjausRivi TilioteKirjaaja::tallennettava()
 
 void TilioteKirjaaja::paivitaVeroFiltteri(const int verokoodi)
 {
+    if( !kp()->onkoAlvVelvollinen( ui->pvmEdit->date() ))  {
+        veroFiltteri_->setFilterRegularExpression( QRegularExpression( "^0" ) );
+        ui->alvCombo->setCurrentIndex( 0 );
+        return;
+    }
+
+
     Tili tili = ui->tiliEdit->valittuTili();
 
     if( tili.onko(TiliLaji::POISTETTAVA)) {

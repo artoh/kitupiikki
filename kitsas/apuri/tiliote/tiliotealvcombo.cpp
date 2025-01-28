@@ -3,7 +3,8 @@
 
 TilioteAlvCombo::TilioteAlvCombo(QWidget *parent) :
     QComboBox(parent)
-{    
+{
+    lisaa(AlvKoodi::EIALV);
 }
 
 void TilioteAlvCombo::aseta(int koodi)
@@ -19,8 +20,7 @@ int TilioteAlvCombo::koodi() const
 }
 
 void TilioteAlvCombo::alustaTulolle(const QDate& pvm)
-{
-    lisaa(AlvKoodi::EIALV);
+{    
     lisaa(AlvKoodi::MYYNNIT_NETTO, 2550, "25,5 %");
     lisaa(AlvKoodi::MYYNNIT_NETTO, 2400, "24 %");
     lisaa(AlvKoodi::MYYNNIT_NETTO, 1400, "14 %");
@@ -34,7 +34,6 @@ void TilioteAlvCombo::alustaTulolle(const QDate& pvm)
 
 void TilioteAlvCombo::alustaMenolle(const QDate& pvm)
 {
-    lisaa(AlvKoodi::EIALV);
     lisaa(AlvKoodi::OSTOT_NETTO, 2550, "25,5%");
     lisaa(AlvKoodi::OSTOT_NETTO, 2400, "24 %");
     lisaa(AlvKoodi::OSTOT_NETTO, 1400, "14 %");

@@ -411,7 +411,7 @@ void TuloMenoApuri::tiliMuuttui()
         }
 
         if( !kp()->alvIlmoitukset()->onkoIlmoitettu(tosite()->pvm())) {
-            if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen) )
+            if( kp()->onkoAlvVelvollinen(tosite()->pvm()) )
             {
                 int verotyyppi = tili.luku("alvlaji");
                 bool maksuperuste = kp()->onkoMaksuperusteinenAlv(tosite()->pvm()) && ( ui->vastatiliLine->valittuTili().onko(TiliLaji::OSTOVELKA)

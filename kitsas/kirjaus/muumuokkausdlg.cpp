@@ -309,7 +309,7 @@ void MuuMuokkausDlg::tiliMuuttui()
     ui->reskontraGroup->setVisible( tili.onko(TiliLaji::TASE));
 
     if( !ladataan_) {
-        if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
+        if( !kp()->onkoAlvVelvollinen(ui->pvmEdit->date()) ) {
             setAlvKoodi( tili.alvlaji() );
             const double tilinProssa = tili.alvprosentti() == 24 ? yleinenAlv( ui->pvmEdit->date() ) / 100.0 : tili.alvprosentti();
             setAlvProssa( tilinProssa );

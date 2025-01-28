@@ -77,7 +77,7 @@ public:
 
 
 public slots:
-    void lisaaRivi();
+    void lisaaRivi(const QDate &pvm);
     void lisaaRivi(TositeRivi rivi);
     void lisaaTuote(const Tuote& tuote, const QString &lkm = "1", const QString kieli=QString(), const QDate &pvm=QDate());
     void poistaRivi(int rivi);
@@ -89,6 +89,7 @@ public slots:
 
 private:
     QList<TositeRivi> rivit_;
+    QDate paivamaara_;
 
     YksikkoModel yksikkoModel_;
 

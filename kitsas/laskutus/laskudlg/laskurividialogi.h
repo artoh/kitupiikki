@@ -47,6 +47,8 @@ protected:
     void maaraMuutos();
     void veroMuutos();
 
+    void salliAlv(bool alv);
+
 private:
     Ui::LaskuRiviDialogi *ui;
 

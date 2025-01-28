@@ -177,6 +177,22 @@ void LaskunUusinta::paivitaYleinenAlv(const QDate &pvm)
                                       yleinenAlv(pvm) / 100.0,
                                       TositeRivit::AlvProsenttiRooli);
         }
+        // Toistuvassa laskussa jos alv-velvollisuus on lakannut, niin riviä
+        // ei saa luoda arvonlisäverollisena
+        if( !kp()->onkoAlvVelvollinen(pvm) && uusi_->rivit()->rivi(i).alvkoodi() != AlvKoodi::EIALV) {
+            const double brutto = uusi_->rivit()->rivi(i).bruttoYhteensa().toDouble();
+            uusi_->rivit()->setData(  uusi_->rivit()->index(i, TositeRivit::ALV),
+                                    0,
+                                    TositeRivit::AlvProsenttiRooli);
+            uusi_->rivit()->setData(  uusi_->rivit()->index(i, TositeRivit::ALV),
+                                    AlvKoodi::EIALV,
+                                    TositeRivit::AlvKoodiRooli);
+            uusi_->rivit()->setData(  uusi_->rivit()->index(i, TositeRivit::YHTEENSA),
+                                    brutto,
+                                    Qt::EditRole);
+
+
+        }
     }
 }
 

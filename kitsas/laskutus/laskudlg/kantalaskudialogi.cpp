@@ -848,3 +848,4 @@ QString KantaLaskuDialogi::otsikko() const
 {
     return tr("Lasku %1").arg(tosite_->lasku().numero());
 }
+

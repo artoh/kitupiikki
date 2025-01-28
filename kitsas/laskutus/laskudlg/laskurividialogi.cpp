@@ -49,20 +49,8 @@ LaskuRiviDialogi::LaskuRiviDialogi(QWidget *parent) :
 
     connect( ui->alkupvmEdit, &KpDateEdit::dateChanged, this, [this](const QDate& date) { this->ui->loppupvmEdit->setEnabled(date.isValid()); this->ui->loppupvmEdit->setDateRange(date, QDate()); } );
 
-    bool alv = kp()->asetukset()->onko(AsetusModel::AlvVelvollinen);    
-
-    ui->alvLabel->setVisible(alv);
-    ui->alvCombo->setVisible(alv);
-
-    ui->aBruttoLabel->setVisible(alv);
-    ui->aBrutto->setVisible(alv);
-    ui->bruttoAleLabel->setVisible(alv);
-    ui->bruttoAleEdit->setVisible(alv);
-    ui->verollinenLabel->setVisible(alv);
-    ui->verollinenEdit->setVisible(alv);
-
-    ui->alkupvmEdit->setNullable(true);
-    ui->loppupvmEdit->setNullable(true);
+    bool alv = kp()->asetukset()->onko(AsetusModel::AlvVelvollinen);
+    salliAlv(alv);
 }
 
 LaskuRiviDialogi::~LaskuRiviDialogi()
@@ -76,6 +64,8 @@ void LaskuRiviDialogi::lataa(const TositeRivi &rivi, const QDate &pvm, LaskuAlvC
 {
     rivi_ = rivi;
     paivitys_ = true;
+
+    salliAlv( interface->onkoAlvVelvollinen(pvm));
 
     ui->nimikeEdit->setText( rivi.nimike() );
     ui->kuvausEdit->setText( rivi.kuvaus());
@@ -91,7 +81,8 @@ void LaskuRiviDialogi::lataa(const TositeRivi &rivi, const QDate &pvm, LaskuAlvC
         ui->yksikkoCombo->setUNkoodi(rivi.unKoodi());
 
     ui->alvCombo->alusta( asiakasVerolaji, rivi.alvkoodi(), ennakkolasku, pvm);
-    ui->alvCombo->aseta( rivi.alvkoodi(), rivi.alvProsentti());
+    if( kp()->onkoAlvVelvollinen(pvm))
+        ui->alvCombo->aseta( rivi.alvkoodi(), rivi.alvProsentti());
 
     ui->tiliEdit->valitseTiliNumerolla( rivi.tili() );
 
@@ -202,5 +193,21 @@ void LaskuRiviDialogi::veroMuutos()
     rivi_.setAlvKoodi( ui->alvCombo->veroKoodi() );
     rivi_.setAlvProsentti( ui->alvCombo->veroProsentti());
     paivita();
+}
+
+void LaskuRiviDialogi::salliAlv(bool alv)
+{
+    ui->alvLabel->setVisible(alv);
+    ui->alvCombo->setVisible(alv);
+
+    ui->aBruttoLabel->setVisible(alv);
+    ui->aBrutto->setVisible(alv);
+    ui->bruttoAleLabel->setVisible(alv);
+    ui->bruttoAleEdit->setVisible(alv);
+    ui->verollinenLabel->setVisible(alv);
+    ui->verollinenEdit->setVisible(alv);
+
+    ui->alkupvmEdit->setNullable(true);
+    ui->loppupvmEdit->setNullable(true);
 }
 

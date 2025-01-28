@@ -21,9 +21,9 @@ void TilioteAlvDelegaatti::setEditorData(QWidget *editor, const QModelIndex &ind
     TilioteAlvCombo* combo = qobject_cast<TilioteAlvCombo*>(editor);
 
     // Tilin mukaisesti ...
-    const int tiliNumero = index.data(TilioteKirjausRivi::TiliRooli).toInt();
+    const int tiliNumero = index.data(TilioteKirjausRivi::TiliRooli).toInt();    
     const QDate pvm = index.data(TilioteKirjausRivi::PvmRooli).toDate();
-    if( tiliNumero ) {
+    if( tiliNumero && kp()->onkoAlvVelvollinen(pvm)) {
         Tili* tili = kp()->tilit()->tili(tiliNumero);
         if(tili) {
             if( tili->onko(TiliLaji::TULO))

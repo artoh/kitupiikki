@@ -27,7 +27,7 @@
 #include <QMessageBox>
 
 TositeRivit::TositeRivit(QObject *parent, const QVariantList& data)
-    : QAbstractTableModel(parent)
+    : QAbstractTableModel(parent), paivamaara_(kp()->paivamaara())
 {
     for(const auto& variant : data) {
         rivit_.append( TositeRivi( variant.toMap()) );
@@ -247,7 +247,7 @@ bool TositeRivit::setData(const QModelIndex &index, const QVariant &value, int r
                 if( uusitili.onkoValidi()) {
                     rivit_[r].setTili(uusitili.numero());
                     int alvlaji = uusitili.alvlaji();
-                    if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen) && (alvlaji == AlvKoodi::EIALV || alvlaji == AlvKoodi::MYYNNIT_NETTO )) {
+                    if( kp()->onkoAlvVelvollinen( paivamaara_.isValid() ? paivamaara_ : kp()->paivamaara() ) && (alvlaji == AlvKoodi::EIALV || alvlaji == AlvKoodi::MYYNNIT_NETTO )) {
                         rivit_[r].setAlvKoodi( uusitili.alvlaji() );
                         const double prossa =
                             uusitili.alvprosentti() == 24.00
@@ -278,7 +278,7 @@ bool TositeRivit::setData(const QModelIndex &index, const QVariant &value, int r
                              QVector<int>() << Qt::DisplayRole << Qt::EditRole );
 
         if( index.row() == rowCount() - 1 && rivit_.at(r).bruttoYhteensa().cents())
-            lisaaRivi();
+            lisaaRivi( kp()->paivamaara());
 
         return true;
     }
@@ -339,14 +339,15 @@ void TositeRivit::asetaRivi(int indeksi, const TositeRivi &rivi)
                       index(indeksi, YHTEENSA));
 }
 
-void TositeRivit::lisaaRivi()
+void TositeRivit::lisaaRivi(const QDate& pvm)
 {
+    paivamaara_ = pvm;
     TositeRivi rivi;
 
     int uusitili = kp()->asetukset()->luku("OletusMyyntitili",3000);
     rivi.setTili(uusitili);
     Tili *tili = kp()->tilit()->tili(uusitili);
-    if(tili && kp()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
+    if(tili && kp()->onkoAlvVelvollinen(pvm)) {
         const int alvlaji = tili->alvlaji();
         rivi.setAlvKoodi( alvlaji == AlvKoodi::EIALV || alvlaji == AlvKoodi::ALV0 || alvlaji == AlvKoodi::RAKENNUSPALVELU_MYYNTI || alvlaji == AlvKoodi::YHTEISOMYYNTI_PALVELUT || alvlaji == AlvKoodi::YHTEISOMYYNTI_TAVARAT
                              ? alvlaji : AlvKoodi::MYYNNIT_NETTO );
