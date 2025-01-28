@@ -90,7 +90,7 @@ inline QString KitsasInterface::tositeTunnus(int /*tunniste*/, const QDate &/*pv
 inline QString KitsasInterface::kaanna(const QString &teksti, const QString &/*kieli*/) const {return teksti; }
 inline QDate KitsasInterface::paivamaara() const { return QDate::currentDate(); }
 inline QImage KitsasInterface::logo() const { return QImage();}
-inline bool KitsasInterface::onkoAlvVelvollinen(const QDate &paiva) const { return false; }
+inline bool KitsasInterface::onkoAlvVelvollinen(const QDate &/*paiva*/) const { return false; }
 inline bool KitsasInterface::onkoMaksuperusteinenAlv(const QDate &/*paiva*/) const { return false; }
 
 #endif // KITSASINTERFACE_H

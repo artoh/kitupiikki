@@ -373,8 +373,6 @@ void Tosite::tallenna(int tilaan)
         return;
     tallennusKaynnissa_ = true;
 
-    bool alvVelvollinen = kp()->asetukset()->onko(AsetusModel::AlvVelvollinen);
-
     if( data(TILA).toInt() == MALLIPOHJA && tilaan != MALLIPOHJA) {
         // Kun mallipohjasta tallennetaan tosite, niin varmistetaan
         // että tiedot kopioituvat eikä vientejä kaapata ;)

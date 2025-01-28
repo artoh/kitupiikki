@@ -100,7 +100,7 @@ void TilinPaattaja::paivitaDialogi()
                               "varma siitä, että kaikki tilikaudelle kuuluvat kirjaukset on jo tehty."));
     }
 
-    if( kp()->asetukset()->onko("AlvVelvollinen") && !kp()->alvIlmoitukset()->onkoIlmoitettu( tilikausi.paattyy() ) )
+    if( kp()->onkoAlvVelvollinen( tilikausi.paattyy() ) && !kp()->alvIlmoitukset()->onkoIlmoitettu( tilikausi.paattyy() ) )
     {
         // Alv-ilmoitusta ei ole tehty koko tilikaudelle!
         varoitukset.append( tr("<p><b>Arvonlisäilmoitusta ei ole annettu tilikauden loppuun saakka.</b></p>") );

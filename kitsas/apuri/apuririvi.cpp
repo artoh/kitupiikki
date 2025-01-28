@@ -25,7 +25,7 @@ ApuriRivi::ApuriRivi(int tili, const QDate &pvm)
     if( tili ) {
         tilinumero_=tili;
         Tili* tilini = kp()->tilit()->tili(tili);
-        bool alv = kp()->asetukset()->onko(AsetusModel::AlvVelvollinen);
+        bool alv = kp()->onkoAlvVelvollinen(pvm);
         if( tilini ) {
             alvkoodi_ = alv ? tilini->luku("alvlaji") : AlvKoodi::EIALV;
             veroprosentti_ = alv ? tilini->alvprosentti() : 0;

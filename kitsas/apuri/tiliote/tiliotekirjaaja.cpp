@@ -347,7 +347,7 @@ void TilioteKirjaaja::tiliMuuttuu()
         if(tili.luku("kohdennus"))
             ui->kohdennusCombo->valitseKohdennus(tili.luku("kohdennus"));
 
-        if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
+        if( kp()->onkoAlvVelvollinen( ui->pvmEdit->date() )) {
             paivitaVeroFiltteri( tili.alvlaji() );
             const double alvProssa = tili.alvprosentti() == 24.0 ? yleinenAlv(ui->pvmEdit->date()) / 100.0 : tili.alvprosentti();
             ui->alvProssaCombo->setCurrentText(QString("%L1 %").arg(alvProssa, 0, 'f', 2));

@@ -166,7 +166,7 @@ void AloitusBrowser::paivitaVarmuuskopioVinkki()
 
 void AloitusBrowser::paivitaVerotonValitus()
 {
-    if( qobject_cast<PilviModel*>(kp()->yhteysModel()) && !kp()->pilvi()->pilvi().vat() && kp()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
+    if( qobject_cast<PilviModel*>(kp()->yhteysModel()) && !kp()->pilvi()->pilvi().vat() && kp()->onkoAlvVelvollinen(kp()->paivamaara())) {
         vinkkaa("varoitus", tr("Tilaus on tarkoitettu arvonlisäverottomaan toimintaan."),
                             tr("Pilvikirjanpidon omistajalla on tilaus, jota ei ole tarkoitettu arvonlisäverolliseen toimintaan. "
                                "Arvonlisäilmoitukseen liittyviä toimintoja ei siksi ole käytössä tälle kirjanpidolle."),

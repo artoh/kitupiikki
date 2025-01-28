@@ -81,7 +81,7 @@ TilioteKirjausRivi::TilioteKirjausRivi(const QVariantMap &tuonti, TilioteModel *
     Tili tili = model->kitsas()->tilit()->tiliNumerolla(tiliNumero);
 
     // Alv-velvollisuuden huomioiminen tuonnissa
-    bool onkoAlv = model->kitsas()->asetukset()->onko(AsetusModel::AlvVelvollinen);
+    bool onkoAlv = model->kitsas()->onkoAlvVelvollinen(paivamaara_);
 
     if( onkoAlv && (tili.onko(TiliLaji::TULO) || tili.onko(TiliLaji::MENO)) ) {
         rivi.setAlvkoodi(tili.alvlaji());
