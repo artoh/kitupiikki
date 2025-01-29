@@ -134,6 +134,7 @@ void Arkistoija::arkistoiRaportit()
 
     RaporttiValinnat tiliLuettelo = raportti("tililuettelo");
     tiliLuettelo.aseta(RaporttiValinnat::LuettelonTilit, "kaytossa");
+    tiliLuettelo.aseta(RaporttiValinnat::LuetteloPvm, tilikausi_.paattyy());
     tilaaRaportti(tiliLuettelo);
 
     RaporttiValinnat tositeLuettelo = raportti("tositeluettelo");
