@@ -344,12 +344,12 @@ The alias must be 3-32 characters long, start with a letter, and contain only le
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="96"/>
         <source>Kirjanpito on tallennettu Kitsaan pilveen.</source>
-        <translation>The accounting has been saved to Kitsas cloud.</translation>
+        <translation type="unfinished">The accounting has been uploaded to Kitsas cloud.</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="141"/>
         <source>Käsiteltäviä tositteita työjonossa</source>
-        <translation>Vouchers to be processed in the work queue</translation>
+        <translation type="unfinished">Batch entries to be processed in the work queue</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="165"/>
@@ -366,12 +366,12 @@ The alias must be 3-32 characters long, start with a letter, and contain only le
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="212"/>
         <source>Tiliöimättömiä tositteita</source>
-        <translation>Unaccounted vouchers</translation>
+        <translation type="unfinished">Unaccounted batch entries</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="312"/>
         <source>Tietokone</source>
-        <translation>Computer</translation>
+        <translation type="unfinished">Local</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="318"/>
@@ -381,7 +381,7 @@ The alias must be 3-32 characters long, start with a letter, and contain only le
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="321"/>
         <source>Avaa kirjanpito</source>
-        <translation>Open accounting</translation>
+        <translation type="unfinished">Open</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="328"/>
@@ -412,27 +412,27 @@ The alias must be 3-32 characters long, start with a letter, and contain only le
         <location filename="../aloitussivu/aloitus.ui" line="405"/>
         <location filename="../aloitussivu/aloitus.ui" line="485"/>
         <source>Kirjaudu</source>
-        <translation>Log in</translation>
+        <translation type="unfinished">Sign in</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="415"/>
         <source>Palvelin ei juuri nyt ole käytettävissä. Yritä myöhemmin uudestaan. </source>
-        <translation>The server is not available right now. Please try again later. </translation>
+        <translation type="unfinished">Server not available. Please try again later.</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="428"/>
         <source>Salasana on virheellinen</source>
-        <translation>The password is incorrect</translation>
+        <translation type="unfinished">Incorrect email or password</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="435"/>
         <source>Sähköposti</source>
-        <translation>Email</translation>
+        <translation type="unfinished">Email</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="445"/>
         <source>Kirjoita ensin osoite</source>
-        <translation>Write the address first</translation>
+        <translation type="unfinished">Type in your e-mail first</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="452"/>
@@ -452,7 +452,7 @@ The alias must be 3-32 characters long, start with a letter, and contain only le
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="519"/>
         <source>Uusi käyttäjä</source>
-        <translation>New user</translation>
+        <translation type="unfinished">Register</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="525"/>
@@ -464,7 +464,7 @@ The alias must be 3-32 characters long, start with a letter, and contain only le
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="542"/>
         <source>Luo käyttäjätunnus</source>
-        <translation>Create user account</translation>
+        <translation type="unfinished">Register user account</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="573"/>
@@ -515,12 +515,12 @@ The alias must be 3-32 characters long, start with a letter, and contain only le
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="750"/>
         <source>Aloita uusi kirjanpito   Ctrl+N</source>
-        <translation>Start new accounting   Ctrl+N</translation>
+        <translation type="unfinished">Create a new accounting document   Ctrl+N</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="753"/>
         <source>Uusi kirjanpito</source>
-        <translation>New accounting</translation>
+        <translation type="unfinished">New</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="767"/>
@@ -578,12 +578,12 @@ The alias must be 3-32 characters long, start with a letter, and contain only le
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="135"/>
         <source>Tiliöinti on kesken %1 tositteessa.</source>
-        <translation>Accounting is incomplete in %1 voucher(s).</translation>
+        <translation type="unfinished">Accounting is incomplete in %1 batch(es).</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="136"/>
         <source>Tositteissa on kirjaamattomia vientejä.</source>
-        <translation>There are unrecorded entries in the vouchers.</translation>
+        <translation type="unfinished">There are unrecorded entries in the batch entries.</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="149"/>
@@ -608,12 +608,12 @@ The alias must be 3-32 characters long, start with a letter, and contain only le
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="160"/>
         <source>Muista varmuuskopiointi</source>
-        <translation>Remember backups</translation>
+        <translation type="unfinished">Remember to backup your accounting file</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="161"/>
         <source>Kirjanpito on tallennettu omalle tietokoneellesi.</source>
-        <translation>The accounting has been saved on your own computer.</translation>
+        <translation type="unfinished">The accounting has been saved locally on your computer.</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="161"/>
@@ -633,7 +633,7 @@ The alias must be 3-32 characters long, start with a letter, and contain only le
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="183"/>
         <source>Päivitä tilikartta</source>
-        <translation>Update chart of accounts</translation>
+        <translation type="unfinished">Update the chart of accounts</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="184"/>
@@ -657,7 +657,7 @@ The alias must be 3-32 characters long, start with a letter, and contain only le
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="207"/>
         <source>Tarkista yhteystiedot ja logo</source>
-        <translation>Check contact information and logo</translation>
+        <translation type="unfinished">Check your contact information and logo</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="208"/>
@@ -673,17 +673,17 @@ The alias must be 3-32 characters long, start with a letter, and contain only le
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="211"/>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="220"/>
         <source>Tee tilinavaus</source>
-        <translation>Make an account opening</translation>
+        <translation type="unfinished">Open an account</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="212"/>
         <source>Voit aloittaa kirjausten tekemisen</source>
-        <translation>You can start making entries</translation>
+        <translation type="unfinished">You can begin making entries</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="214"/>
         <source>Kirjanpidon aloittaminen</source>
-        <translation>Starting the accounting</translation>
+        <translation type="unfinished">You may begin making entries to the accounts</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="221"/>
@@ -738,17 +738,17 @@ The alias must be 3-32 characters long, start with a letter, and contain only le
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="396"/>
         <source>Tase ei täsmää</source>
-        <translation>The balance sheet doesn&apos;t match</translation>
+        <translation type="unfinished">The balance sheet does not match</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="399"/>
         <source>Kirjanpidon debet- ja kredit-kirjaukset eivät täsmää. Tase ei ole tasapainossa.</source>
-        <translation>The debit and credit entries in the accounting don&apos;t match. The balance sheet is not balanced.</translation>
+        <translation type="unfinished">The debit and credit entries in the accounting do not match. The balance sheet is not balanced.</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="400"/>
         <source>Tämä on vakava virhe ja tarkoittaa aina, ettei kirjanpito ole kunnossa!</source>
-        <translation>This is a serious error and always means that the accounting is not in order!</translation>
+        <translation type="unfinished">This is a serious error and means that the accounting is not in order!</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="406"/>
@@ -781,12 +781,12 @@ The alias must be 3-32 characters long, start with a letter, and contain only le
     <message>
         <location filename="../aloitussivu/aloitussivu.cpp" line="371"/>
         <source>Varmuuskopioi kirjanpito</source>
-        <translation>Backup accounting</translation>
+        <translation type="unfinished">Backup accounting file</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitussivu.cpp" line="371"/>
         <source>Kirjanpito (*.kitsas)</source>
-        <translation>Accounting (*.kitsas)</translation>
+        <translation type="unfinished">Accounting file (*.kitsas)</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitussivu.cpp" line="376"/>
@@ -797,49 +797,49 @@ The alias must be 3-32 characters long, start with a letter, and contain only le
     <message>
         <location filename="../aloitussivu/aloitussivu.cpp" line="376"/>
         <source>Tiedostoa ei saa kopioida itsensä päälle!</source>
-        <translation>The file cannot be copied over itself!</translation>
+        <translation type="unfinished">Choose a different name. The file cannot be copied over itself! </translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitussivu.cpp" line="387"/>
         <source>Kirjanpidon varmuuskopiointi onnistui.</source>
-        <translation>Accounting backup was successful.</translation>
+        <translation type="unfinished">Accounting file backup was successful.</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitussivu.cpp" line="390"/>
         <source>Tiedoston varmuuskopiointi epäonnistui.</source>
-        <translation>File backup failed.</translation>
+        <translation type="unfinished">Accounting file backup failed.</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitussivu.cpp" line="418"/>
         <source>Poista kirjanpito luettelosta</source>
-        <translation>Remove accounting from the list</translation>
+        <translation type="unfinished">Remove accounting file from the list</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitussivu.cpp" line="419"/>
         <source>Haluatko poistaa tämän kirjanpidon viimeisten kirjanpitojen luettelosta?
 Kirjanpitoa ei poisteta levyltä.</source>
-        <translation>Do you want to remove this accounting from the list of recent accounts?
-The accounting will not be deleted from the disk.</translation>
+        <translation type="unfinished">Do you want to remove this accounting file from the list of recent accounts?
+The accounting file will not be deleted from the disk.</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitussivu.cpp" line="430"/>
         <location filename="../aloitussivu/aloitussivu.cpp" line="437"/>
         <source>Kirjanpidon poistaminen</source>
-        <translation>Delete accounting</translation>
+        <translation type="unfinished">Delete accounting file</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitussivu.cpp" line="431"/>
         <source>Turvallisuussyistä voit poistaa vain harjoittelutilassa olevan kirjanpidon.
 
 Poistaaksesi tämän kirjanpidon sinun pitää ensin asettaa Asetukset/Perusvalinnat-sivulla määritys Harjoituskirjanpito.</source>
-        <translation>For security reasons, you can only delete accounting in practice mode.
+        <translation type="unfinished">For security reasons, you can only delete accounting records in practice mode.
 
-To delete this accounting, you must first set the Practice Accounting configuration on the Settings/Basic Options page.</translation>
+To delete this accounting record, you must first set the Practice Accounting configuration on the Settings/Basic Options page.</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitussivu.cpp" line="438"/>
         <source>Haluatko todella poistaa tämän kirjanpidon %1 pysyvästi?</source>
-        <translation>Do you really want to permanently delete this accounting %1?</translation>
+        <translation type="unfinished">Do you really want to permanently delete this accounting record %1?</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitussivu.cpp" line="495"/>
@@ -849,7 +849,7 @@ To delete this accounting, you must first set the Practice Accounting configurat
     <message>
         <location filename="../aloitussivu/aloitussivu.cpp" line="498"/>
         <source>Käyttö estetty käyttösääntöjen vastaisen toiminnan takia</source>
-        <translation>Access blocked due to activity violating terms of use</translation>
+        <translation type="unfinished">Access blocked due to terms of use violation</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitussivu.cpp" line="501"/>
@@ -922,7 +922,7 @@ To delete this accounting, you must first set the Practice Accounting configurat
     <message>
         <location filename="../alv/alvilmoitusdialog.ui" line="123"/>
         <source>Yhteyshenkilön nimi</source>
-        <translation>Contact person&apos;s name</translation>
+        <translation type="unfinished">Contact person</translation>
     </message>
     <message>
         <location filename="../alv/alvilmoitusdialog.ui" line="140"/>
@@ -1012,7 +1012,7 @@ To delete this accounting, you must first set the Practice Accounting configurat
     <message>
         <location filename="../alv/alvilmoitustenmodel.cpp" line="57"/>
         <source>Alkaa</source>
-        <translation>Starts</translation>
+        <translation type="unfinished">Begins</translation>
     </message>
     <message>
         <location filename="../alv/alvilmoitustenmodel.cpp" line="59"/>
@@ -1050,7 +1050,7 @@ To delete this accounting, you must first set the Practice Accounting configurat
     <message>
         <location filename="../alv/alvkaudet.cpp" line="125"/>
         <source>Käsittelyssä</source>
-        <translation>In process</translation>
+        <translation type="unfinished">Processing</translation>
     </message>
     <message>
         <location filename="../alv/alvkaudet.cpp" line="126"/>
@@ -1209,7 +1209,7 @@ After deletion, you must create a new VAT declaration.</translation>
     <message>
         <location filename="../arkisto/arkistosivu.cpp" line="189"/>
         <source>Arkiston viennissä virhe</source>
-        <translation>Error in archive export</translation>
+        <translation type="unfinished">Archive export error</translation>
     </message>
     <message>
         <location filename="../arkisto/arkistosivu.cpp" line="190"/>
@@ -1302,9 +1302,9 @@ Open the index.html file in the directory with a browser.</translation>
         <source>Kirjanpidon sähköinen arkisto on omalla tietokoneellasi oleva hakemisto, minne kirjanpito tallennetaan muodossa, jossa sitä voi lukea selaimella ilman Kitsas-ohjelmaa. 
 
 Valitse, mihin hakemistoon arkisto tallennetaan</source>
-        <translation>The electronic archive of the accounting is a directory on your own computer where the accounting is saved in a format that can be read with a browser without the Kitsas program. 
+        <translation type="unfinished">An electronic archive is a directory located on your computer where the accounting file is saved in a format that can be opened without the Kitsas program. 
 
-Choose which directory the archive will be saved to</translation>
+Choose a location where the archive will be saved</translation>
     </message>
     <message>
         <location filename="../arkistoija/arkistohakemistodialogi.ui" line="34"/>
@@ -1342,7 +1342,7 @@ Choose which directory the archive will be saved to</translation>
     <message>
         <location filename="../arkistoija/arkistoija.cpp" line="52"/>
         <source>Arkistoidaan kirjanpitoa</source>
-        <translation>Archiving accounting</translation>
+        <translation type="unfinished">Archiving accounting file</translation>
     </message>
     <message>
         <location filename="../arkistoija/arkistoija.cpp" line="52"/>
@@ -1355,31 +1355,31 @@ Choose which directory the archive will be saved to</translation>
     <message>
         <location filename="../arkisto/arkistonvienti.ui" line="20"/>
         <source>Arkiston vienti</source>
-        <translation>Export archive</translation>
+        <translation type="unfinished">Export</translation>
     </message>
     <message>
         <location filename="../arkisto/arkistonvienti.ui" line="36"/>
         <source>Vie hakemistoon</source>
-        <translation>Export to directory</translation>
+        <translation type="unfinished">Export to a directory</translation>
     </message>
     <message>
         <location filename="../arkisto/arkistonvienti.ui" line="50"/>
         <source>Arkisto tallennetaan käyttövalmiina haluamaasi hakemistoon. Helppo siirtää esimerkiksi USB-muistilla.
 
 Hakemistoon kopioidaan lukuisia tiedostoja, joten arkistoa varten on suositeltavaa tehdä uusi hakemisto.</source>
-        <translation>The archive is saved ready-to-use in your desired directory. Easy to transfer, for example, on a USB drive.
+        <translation type="unfinished">The archive is saved in a ready-to-use directory. Easy to transfer to another computer or access on a USB drive.
 
-Numerous files will be copied to the directory, so it&apos;s recommended to create a new directory for the archive.</translation>
+It is recommended to create a new directory for this archive.</translation>
     </message>
     <message>
         <location filename="../arkisto/arkistonvienti.ui" line="68"/>
         <source>Vie zip-tiedostona</source>
-        <translation>Export as zip file</translation>
+        <translation type="unfinished">Export as a zip file</translation>
     </message>
     <message>
         <location filename="../arkisto/arkistonvienti.ui" line="79"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Arkistosta muodostetaan yksi zip-muotoinen paketti, joka on helppo arkistoida tai välittää edelleen. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The archive is created as a single zip package, which is easy to archive or forward. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The archive is created as a single zip file, which is easy to archive or attach to an email. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
