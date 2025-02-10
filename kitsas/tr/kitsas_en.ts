@@ -48,7 +48,7 @@ Copyright © Arto Hyvättinen and Kitsas Oy 2019 - 2024&lt;br/&gt;
     <message>
         <location filename="../arkistoija/aineistodialog.ui" line="20"/>
         <source>Toiminto muodostaa koko tilikaudesta yhden ison pdf-tiedoston. Tiedoston muodostaminen saattaa epäonnistua, jos tietokoneessa ei ole riittävästi muistia ja kirjanpidossa on paljon tositteita.</source>
-        <translation>This function creates one large PDF file for the entire accounting period. The file creation may fail if the computer does not have enough memory and there are many vouchers in the accounting.</translation>
+        <translation type="unfinished">This function creates one large PDF file for the entire accounting period. The file creation may fail if the computer does not have enough memory and there are many batch entries in the accounting.</translation>
     </message>
     <message>
         <location filename="../arkistoija/aineistodialog.ui" line="39"/>
@@ -138,7 +138,7 @@ Copyright © Arto Hyvättinen and Kitsas Oy 2019 - 2024&lt;br/&gt;
     <message>
         <location filename="../arkistoija/aineistodialog.ui" line="251"/>
         <source>Tositteiden tiedot</source>
-        <translation>Voucher details</translation>
+        <translation type="unfinished">Batch Entries</translation>
     </message>
     <message>
         <location filename="../arkistoija/aineistodialog.ui" line="260"/>
@@ -153,7 +153,7 @@ Copyright © Arto Hyvättinen and Kitsas Oy 2019 - 2024&lt;br/&gt;
     <message>
         <location filename="../arkistoija/aineistodialog.ui" line="277"/>
         <source>Kaikkien tositteiden tiedot</source>
-        <translation>Details of all vouchers</translation>
+        <translation type="unfinished">Details of all entries</translation>
     </message>
     <message>
         <location filename="../arkistoija/aineistodialog.ui" line="287"/>
@@ -197,11 +197,11 @@ Copyright © Arto Hyvättinen and Kitsas Oy 2019 - 2024&lt;br/&gt;
 Todennäköisesti liitetiedostojen koko yhteensä on liian suuri, jotta ohjelma pystyisi muodostamaan niistä kaikista yhden pdf-tiedoston.
 
 Voit kuitenkin käyttää Arkisto-toimintoa muodostaaksesi kirjanpidostasi arkiston.</source>
-        <translation>An error occurred while generating the data from vouchers.
+        <translation type="unfinished">An error occurred while generating the batch entry data.
 
 The total size of the attachments is likely too large for the program to create a single PDF file from all of them.
 
-However, you can use the Archive function to create an archive of your accounting.</translation>
+It is recommended to use the Archive function instead.</translation>
     </message>
 </context>
 <context>
@@ -339,12 +339,12 @@ The alias must be 3-32 characters long, start with a letter, and contain only le
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="83"/>
         <source>Kirjanpito on tallennettu omalle tietokoneellesi.</source>
-        <translation>The accounting has been saved on your own computer.</translation>
+        <translation type="unfinished">The accounting file has been saved on your own computer.</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="96"/>
         <source>Kirjanpito on tallennettu Kitsaan pilveen.</source>
-        <translation type="unfinished">The accounting has been uploaded to Kitsas cloud.</translation>
+        <translation type="unfinished">The accounting data has been uploaded to Kitsas cloud.</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="141"/>
@@ -381,7 +381,7 @@ The alias must be 3-32 characters long, start with a letter, and contain only le
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="321"/>
         <source>Avaa kirjanpito</source>
-        <translation type="unfinished">Open</translation>
+        <translation type="unfinished">Open File</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="328"/>
@@ -470,7 +470,7 @@ The alias must be 3-32 characters long, start with a letter, and contain only le
         <location filename="../aloitussivu/aloitus.ui" line="573"/>
         <location filename="../aloitussivu/aloitus.ui" line="583"/>
         <source>TextLabel</source>
-        <translation>TextLabel</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="593"/>
@@ -490,17 +490,17 @@ The alias must be 3-32 characters long, start with a letter, and contain only le
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="641"/>
         <source>Etsi kirjanpitoa...</source>
-        <translation>Search accounting...</translation>
+        <translation type="unfinished">Search for your accounting data...</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="666"/>
         <source>Poista kirjanpito</source>
-        <translation>Delete accounting</translation>
+        <translation type="unfinished">Delete accounting data</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="677"/>
         <source>Kopioi kirjanpito pilveen</source>
-        <translation>Copy accounting to cloud</translation>
+        <translation type="unfinished">Copy accounting data to cloud</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="705"/>
@@ -538,17 +538,17 @@ The alias must be 3-32 characters long, start with a letter, and contain only le
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="69"/>
         <source>Avataan kirjanpitoa...</source>
-        <translation>Opening accounting...</translation>
+        <translation type="unfinished">Opening accounting file...</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="115"/>
         <source>Kirjanpito ei ole käytettävissä</source>
-        <translation>Accounting is unavailable</translation>
+        <translation type="unfinished">Accounting file is unavailable</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="116"/>
         <source>Sinulla ei ole kirjanpidon avaamiseen tarvittavia oikeuksia tai kirjanpidon omistajan käyttöoikeus ei ole voimassa.</source>
-        <translation>You do not have the necessary rights to open the accounting or the accounting owner&apos;s access rights are not valid.</translation>
+        <translation type="unfinished">You do not have the necessary rights to open the accounting file or the accounting owner&apos;s access rights are not valid.</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="117"/>
@@ -598,12 +598,12 @@ The alias must be 3-32 characters long, start with a letter, and contain only le
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="155"/>
         <source>Paikallinen kirjanpito käytössä</source>
-        <translation>Local accounting in use</translation>
+        <translation type="unfinished">Local accounting file in use</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="156"/>
         <source>Käytössäsi on omalle tietokoneellesi tallennettu kirjanpito. Muutokset eivät tallennu Kitsaan pilveen.&lt;/p&gt;&lt;p&gt;Pilvessä olevan kirjanpitosi voit avata Pilvi-välilehdeltä.</source>
-        <translation>You are using accounting saved on your own computer. Changes will not be saved to the Kitsas cloud.&lt;/p&gt;&lt;p&gt;You can open your cloud-based accounting from the Cloud tab.</translation>
+        <translation type="unfinished">You are using an accounting file saved on your own computer. Changes will not be saved to the Kitsas cloud.&lt;/p&gt;&lt;p&gt;You can open your cloud-based accounting data from the Cloud tab.</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="160"/>
@@ -613,7 +613,7 @@ The alias must be 3-32 characters long, start with a letter, and contain only le
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="161"/>
         <source>Kirjanpito on tallennettu omalle tietokoneellesi.</source>
-        <translation type="unfinished">The accounting has been saved locally on your computer.</translation>
+        <translation type="unfinished">The accounting data has been saved locally on your computer.</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="161"/>
@@ -667,7 +667,7 @@ The alias must be 3-32 characters long, start with a letter, and contain only le
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="209"/>
         <source>Lisää tarvitsemasi kohdennukset</source>
-        <translation>Add the allocations you need</translation>
+        <translation type="unfinished">Add needed allocations</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="211"/>
@@ -678,7 +678,7 @@ The alias must be 3-32 characters long, start with a letter, and contain only le
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="212"/>
         <source>Voit aloittaa kirjausten tekemisen</source>
-        <translation type="unfinished">You can begin making entries</translation>
+        <translation type="unfinished">You may begin making entries</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="214"/>
@@ -874,7 +874,7 @@ To delete this accounting record, you must first set the Practice Accounting con
     <message>
         <location filename="../aloitussivu/aloitussivu.cpp" line="522"/>
         <source>Tee tilaus</source>
-        <translation>Make an order</translation>
+        <translation type="unfinished">Order</translation>
     </message>
 </context>
 <context>
@@ -2111,17 +2111,17 @@ It is recommended to create a new directory for this archive.</translation>
     <message>
         <location filename="../tools/devtool.ui" line="318"/>
         <source>Tilikartan nimi</source>
-        <translation>Name of the Chart of Accounts</translation>
+        <translation type="unfinished">Chart of Accounts Name</translation>
     </message>
     <message>
         <location filename="../tools/devtool.ui" line="331"/>
         <source>Tilikartan tekijä</source>
-        <translation>Author of the Chart of Accounts</translation>
+        <translation type="unfinished">Chart of Accounts Author</translation>
     </message>
     <message>
         <location filename="../tools/devtool.ui" line="374"/>
         <source>Vie tilikartta</source>
-        <translation>Export Chart of Accounts</translation>
+        <translation type="unfinished">Chart of Accounts Export</translation>
     </message>
     <message>
         <location filename="../tools/devtool.ui" line="392"/>
@@ -2175,17 +2175,17 @@ It is recommended to create a new directory for this archive.</translation>
     <message>
         <location filename="../maaritys/emailmaaritys.ui" line="47"/>
         <source>Tietokoneen asetuksiin</source>
-        <translation>To computer settings</translation>
+        <translation type="unfinished">To the computer&apos;s settings</translation>
     </message>
     <message>
         <location filename="../maaritys/emailmaaritys.ui" line="61"/>
         <source>Kirjanpitokohtaisesti</source>
-        <translation>Per bookkeeping</translation>
+        <translation type="unfinished">To the bookkeeping file</translation>
     </message>
     <message>
         <location filename="../maaritys/emailmaaritys.ui" line="72"/>
         <source>Lähetä Kitsaan palvelimen kautta (vain pilvikirjanpidossa)</source>
-        <translation>Send through Kitsas server (only in cloud bookkeeping)</translation>
+        <translation type="unfinished">To the Kitsas server (cloud only)</translation>
     </message>
     <message>
         <location filename="../maaritys/emailmaaritys.ui" line="86"/>
@@ -2240,7 +2240,7 @@ It is recommended to create a new directory for this archive.</translation>
     <message>
         <location filename="../maaritys/emailmaaritys.ui" line="227"/>
         <source>Viestien lähettäjä</source>
-        <translation>Message sender</translation>
+        <translation type="unfinished">Sender</translation>
     </message>
     <message>
         <location filename="../maaritys/emailmaaritys.ui" line="233"/>
@@ -2250,7 +2250,7 @@ It is recommended to create a new directory for this archive.</translation>
     <message>
         <location filename="../maaritys/emailmaaritys.ui" line="246"/>
         <source>Sähköpostiosoite</source>
-        <translation>Email address</translation>
+        <translation type="unfinished">Email</translation>
     </message>
     <message>
         <location filename="../maaritys/emailmaaritys.ui" line="259"/>
@@ -2434,7 +2434,7 @@ It is recommended to create a new directory for this archive.</translation>
     <message>
         <location filename="../raportti/eranselvittaja/eranselvitys.cpp" line="142"/>
         <source>Näytä tosite</source>
-        <translation>Show Voucher</translation>
+        <translation type="unfinished">Show Entry</translation>
     </message>
     <message>
         <location filename="../raportti/eranselvittaja/eranselvitys.cpp" line="145"/>
@@ -2454,7 +2454,7 @@ It is recommended to create a new directory for this archive.</translation>
     <message>
         <location filename="../raportti/eranselvittaja/eranselvitys.cpp" line="154"/>
         <source>Nollaustosite</source>
-        <translation>Zeroing Voucher</translation>
+        <translation type="unfinished">Zeroing Entry</translation>
     </message>
     <message>
         <location filename="../raportti/eranselvittaja/eranselvitys.cpp" line="157"/>
@@ -2484,7 +2484,7 @@ It is recommended to create a new directory for this archive.</translation>
     <message>
         <location filename="../raportti/eranselvittaja/eranselvitys.cpp" line="374"/>
         <source>Korvaa viennin selitteen myös kirjanpitotositteella.</source>
-        <translation>Replace the transaction description also in the accounting voucher.</translation>
+        <translation type="unfinished">Replace the transaction description also in the accounting entry.</translation>
     </message>
 </context>
 <context>
@@ -2553,7 +2553,7 @@ It is recommended to create a new directory for this archive.</translation>
     <message>
         <location filename="../raportti/eranselvittaja/eranselvitysviennit.cpp" line="19"/>
         <source>Tosite</source>
-        <translation>Voucher</translation>
+        <translation type="unfinished">Entry</translation>
     </message>
     <message>
         <location filename="../raportti/eranselvittaja/eranselvitysviennit.cpp" line="20"/>
@@ -2637,7 +2637,7 @@ It is recommended to create a new directory for this archive.</translation>
     <message>
         <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="123"/>
         <source>Virhe ilmoittamisessa</source>
-        <translation>Error in reporting</translation>
+        <translation type="unfinished">Reporting Error</translation>
     </message>
     <message>
         <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="124"/>
@@ -2733,7 +2733,7 @@ It is recommended to create a new directory for this archive.</translation>
     <message>
         <location filename="../laskutus/toimittaja/finvoicetoimittaja.cpp" line="97"/>
         <source>Verkkolaskun muodostaminen epäonnistui</source>
-        <translation>Failed to generate e-invoice</translation>
+        <translation type="unfinished">Failed to generate an e-invoice</translation>
     </message>
     <message>
         <location filename="../laskutus/toimittaja/finvoicetoimittaja.cpp" line="114"/>
@@ -2801,7 +2801,7 @@ It is recommended to create a new directory for this archive.</translation>
     <message>
         <location filename="../maaritys/verkkolasku/finvoicevelho.cpp" line="114"/>
         <source>Anna sähköpostiosoite sähköistä allekirjoitusta varten</source>
-        <translation>Enter email address for electronic signature</translation>
+        <translation type="unfinished">Enter the email address for electronic signature</translation>
     </message>
     <message>
         <location filename="../maaritys/verkkolasku/finvoicevelho.cpp" line="138"/>
@@ -3107,7 +3107,7 @@ Your company will also be connected to the banking network and e-invoice address
     <message>
         <location filename="../toimisto/hubwebpage.cpp" line="31"/>
         <source>kumoa</source>
-        <translation>undo</translation>
+        <translation type="unfinished">Undo</translation>
     </message>
     <message>
         <location filename="../toimisto/hubwebpage.cpp" line="32"/>
@@ -3267,7 +3267,7 @@ You can send it to the tax authorities using the ilmoitin.fi service.</translati
     <message>
         <location filename="../maaritys/inboxmaaritys.ui" line="20"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Kirjattavien kansio&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Kirjattavien kansio on tietokoneella oleva hakemisto, jonne on sijoitettu kirjattavaksi tulevia pdf- ja jpg-tositteita. Kitsas näyttää tämän hakemiston listauksen.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Folder for recording&lt;/span&gt;&lt;/p&gt;&lt;p&gt;The folder for recording is a directory on your computer where pdf and jpg vouchers to be recorded are placed. Kitsas displays a listing of this directory.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Folder for recording&lt;/span&gt;&lt;/p&gt;&lt;p&gt;The folder for recording is a directory on your computer where pdf and jpg entries to be recorded are placed. Kitsas displays a listing of this directory.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../maaritys/inboxmaaritys.ui" line="42"/>
@@ -3283,12 +3283,12 @@ You can send it to the tax authorities using the ilmoitin.fi service.</translati
     <message>
         <location filename="../maaritys/inboxmaaritys.ui" line="66"/>
         <source>Kun tosite on kirjattu kirjattavien kansiosta...</source>
-        <translation>When a voucher has been recorded from the recording folder...</translation>
+        <translation type="unfinished">When an entry has been recorded from the recording folder...</translation>
     </message>
     <message>
         <location filename="../maaritys/inboxmaaritys.ui" line="72"/>
         <source>Poista tosite</source>
-        <translation>Delete voucher</translation>
+        <translation type="unfinished">Delete entry</translation>
     </message>
     <message>
         <location filename="../maaritys/inboxmaaritys.ui" line="79"/>
@@ -3298,7 +3298,7 @@ You can send it to the tax authorities using the ilmoitin.fi service.</translati
     <message>
         <location filename="../maaritys/inboxmaaritys.cpp" line="87"/>
         <source>Valitse kirjattavien tositteiden kansio</source>
-        <translation>Select folder for vouchers to be recorded</translation>
+        <translation type="unfinished">Select folder for entries to be recorded</translation>
     </message>
     <message>
         <location filename="../maaritys/inboxmaaritys.cpp" line="98"/>
@@ -3640,7 +3640,7 @@ You can send it to the tax authorities using the ilmoitin.fi service.</translati
     <message>
         <location filename="../maaritys/kayttooikeudet/kayttooikeudet.ui" line="146"/>
         <source>osoite@fi</source>
-        <translation>address@fi</translation>
+        <translation type="unfinished">address@example.com</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/kayttooikeudet.ui" line="153"/>
@@ -3926,7 +3926,7 @@ guide</translation>
     <message>
         <location filename="../kierto/kiertomuokkausdlg.cpp" line="94"/>
         <source>Tulotosite</source>
-        <translation>Income voucher</translation>
+        <translation type="unfinished">Income entry</translation>
     </message>
     <message>
         <location filename="../kierto/kiertomuokkausdlg.cpp" line="120"/>
@@ -4146,17 +4146,17 @@ Program instructions can be found at %1</translation>
     <message>
         <location filename="../kirjaus/kirjaus.ui" line="14"/>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation type="unfinished">Entry Form</translation>
     </message>
     <message>
         <location filename="../kirjaus/kirjaus.ui" line="22"/>
         <source>Tositet&amp;yyppi</source>
-        <translation>Voucher &amp;type</translation>
+        <translation type="unfinished">&amp;Type</translation>
     </message>
     <message>
         <location filename="../kirjaus/kirjaus.ui" line="47"/>
         <source>Tositteen &amp;pvm</source>
-        <translation>Voucher &amp;date</translation>
+        <translation type="unfinished">&amp;Date</translation>
     </message>
     <message>
         <location filename="../kirjaus/kirjaus.ui" line="60"/>
@@ -4302,7 +4302,7 @@ Program instructions can be found at %1</translation>
     <message>
         <location filename="../kirjaus/kirjaus.ui" line="494"/>
         <source>Tallenna tosite Ctrl+S</source>
-        <translation>Save voucher Ctrl+S</translation>
+        <translation type="unfinished">Save entry Ctrl+S</translation>
     </message>
     <message>
         <location filename="../kirjaus/kirjaus.ui" line="497"/>
@@ -4352,12 +4352,12 @@ Program instructions can be found at %1</translation>
     <message>
         <location filename="../kirjaus/kirjauswg.cpp" line="125"/>
         <source>Siirry tositteeseen	Ctrl+G</source>
-        <translation>Go to voucher	Ctrl+G</translation>
+        <translation type="unfinished">Go to entry	Ctrl+G</translation>
     </message>
     <message>
         <location filename="../kirjaus/kirjauswg.cpp" line="127"/>
         <source>Tulosta tosite	Ctrl+P</source>
-        <translation>Print voucher	Ctrl+P</translation>
+        <translation type="unfinished">Print entry	Ctrl+P</translation>
     </message>
     <message>
         <location filename="../kirjaus/kirjauswg.cpp" line="128"/>
@@ -4372,7 +4372,7 @@ Program instructions can be found at %1</translation>
     <message>
         <location filename="../kirjaus/kirjauswg.cpp" line="130"/>
         <source>Poista tosite</source>
-        <translation>Delete voucher</translation>
+        <translation type="unfinished">Delete entry</translation>
     </message>
     <message>
         <location filename="../kirjaus/kirjauswg.cpp" line="132"/>
@@ -4387,14 +4387,14 @@ Program instructions can be found at %1</translation>
     <message>
         <location filename="../kirjaus/kirjauswg.cpp" line="287"/>
         <source>Tositteen tallentaminen</source>
-        <translation>Saving the voucher</translation>
+        <translation type="unfinished">Saving the entry</translation>
     </message>
     <message>
         <location filename="../kirjaus/kirjauswg.cpp" line="288"/>
         <source>Tositteessa ei ole yhtään vientiä.
 Tallennatko tositteen ilman vientejä?</source>
-        <translation>The voucher has no entries.
-Do you want to save the voucher without entries?</translation>
+        <translation type="unfinished">The batch has no entries.
+Do you want to save the batch without entries?</translation>
     </message>
     <message>
         <location filename="../kirjaus/kirjauswg.cpp" line="295"/>
@@ -4406,8 +4406,8 @@ Do you want to save the voucher without entries?</translation>
         <source>Arvonlisäveron kirjauksissa on todennäköisesti virhe.
 Tallennetaanko tosite silti?
 %1</source>
-        <translation>There is likely an error in the Value Added Tax entries.
-Do you still want to save the voucher?
+        <translation type="unfinished">There is likely an error in the Value Added Tax.
+Do you still want to save the entry?
 %1</translation>
     </message>
     <message>
@@ -4423,7 +4423,7 @@ Do you still want to save the voucher?
     <message>
         <location filename="../kirjaus/kirjauswg.cpp" line="784"/>
         <source>Haluatko keskeyttää kirjauksen tallentamatta tositetta?</source>
-        <translation>Do you want to cancel the entry without saving the voucher?</translation>
+        <translation type="unfinished">Do you want to cancel the batch without saving the entry?</translation>
     </message>
     <message>
         <location filename="../kirjaus/kirjauswg.cpp" line="785"/>
@@ -4433,12 +4433,12 @@ Do you still want to save the voucher?
     <message>
         <location filename="../kirjaus/kirjauswg.cpp" line="317"/>
         <source>Tositteen poistaminen</source>
-        <translation>Deleting the voucher</translation>
+        <translation type="unfinished">Deleting the entry</translation>
     </message>
     <message>
         <location filename="../kirjaus/kirjauswg.cpp" line="318"/>
         <source>Haluatko todella poistaa tämän tositteen?</source>
-        <translation>Do you really want to delete this voucher?</translation>
+        <translation type="unfinished">Do you really want to delete this entry?</translation>
     </message>
     <message>
         <location filename="../kirjaus/kirjauswg.cpp" line="322"/>
@@ -4450,7 +4450,7 @@ Do you still want to save the voucher?
         <source>Tietokantavirhe tositetta poistettaessa
 
 %1</source>
-        <translation>Database error while deleting the voucher
+        <translation type="unfinished">Database error while deleting the entry
 
 %1</translation>
     </message>
@@ -4514,7 +4514,7 @@ for the date in the bookkeeping.</translation>
     <message>
         <location filename="../kirjaus/kirjauswg.cpp" line="578"/>
         <source>Tositteen tallentaminen epäonnistui (Virhe %1)</source>
-        <translation>Failed to save the voucher (Error %1)</translation>
+        <translation type="unfinished">Failed to save the entry (Error %1)</translation>
     </message>
     <message>
         <location filename="../kirjaus/kirjauswg.cpp" line="630"/>
@@ -4524,14 +4524,14 @@ for the date in the bookkeeping.</translation>
     <message>
         <location filename="../kirjaus/kirjauswg.cpp" line="648"/>
         <source>Valitse tositenumero</source>
-        <translation>Select voucher number</translation>
+        <translation type="unfinished">Select entry number</translation>
     </message>
     <message>
         <location filename="../kirjaus/kirjauswg.cpp" line="648"/>
         <source>Uusi tositenumero:
 Ohjelma ei tarkasta tositenumeroa!</source>
-        <translation>New voucher number:
-The program does not check the voucher number!</translation>
+        <translation type="unfinished">New entry number:
+The program does not check the entry number!</translation>
     </message>
     <message>
         <location filename="../kirjaus/kirjauswg.cpp" line="664"/>
@@ -4541,12 +4541,12 @@ The program does not check the voucher number!</translation>
     <message>
         <location filename="../kirjaus/kirjauswg.cpp" line="664"/>
         <source>Nykyistä kirjausta on muokattu. Siirrytkö toiseen tositteeseen tallentamatta tekemiäsi muutoksia?</source>
-        <translation>The current entry has been modified. Do you want to move to another voucher without saving your changes?</translation>
+        <translation type="unfinished">The current entry has been modified. Do you want to move to another entry without saving your changes?</translation>
     </message>
     <message>
         <location filename="../kirjaus/kirjauswg.cpp" line="766"/>
         <source>Tosite saattaa olla jo kirjattu</source>
-        <translation>The voucher may have already been recorded</translation>
+        <translation type="unfinished">The entry may have already been recorded</translation>
     </message>
     <message>
         <location filename="../kirjaus/kirjauswg.cpp" line="767"/>
@@ -4554,15 +4554,15 @@ The program does not check the voucher number!</translation>
 
 %1 
 Tallennetaanko tosite silti?</source>
-        <translation>A similar voucher already exists in the accounting 
+        <translation type="unfinished">A similar batch entry already exists in the accounting 
 
 %1 
-Do you still want to save the voucher?</translation>
+Do you still want to save the entry?</translation>
     </message>
     <message>
         <location filename="../kirjaus/kirjauswg.cpp" line="806"/>
         <source>Valitse tosite</source>
-        <translation>Select voucher</translation>
+        <translation type="unfinished">Select entry</translation>
     </message>
     <message>
         <location filename="../kirjaus/kirjauswg.cpp" line="806"/>
@@ -4577,7 +4577,7 @@ Do you still want to save the voucher?</translation>
     <message>
         <location filename="../kirjaus/kirjauswg.cpp" line="961"/>
         <source>Uusi tosite</source>
-        <translation>New voucher</translation>
+        <translation type="unfinished">New entry</translation>
     </message>
     <message>
         <location filename="../kirjaus/kirjauswg.cpp" line="999"/>
@@ -4654,13 +4654,13 @@ Do you still want to save the voucher?</translation>
         <location filename="../kitupiikkiikkuna.cpp" line="533"/>
         <source>Uusi 
 tosite</source>
-        <translation>New 
-voucher</translation>
+        <translation type="unfinished">New 
+entry</translation>
     </message>
     <message>
         <location filename="../kitupiikkiikkuna.cpp" line="533"/>
         <source>Kirjaa uusi tosite</source>
-        <translation>Record a new voucher</translation>
+        <translation type="unfinished">Record a new entry</translation>
     </message>
     <message>
         <location filename="../kitupiikkiikkuna.cpp" line="534"/>
@@ -4928,7 +4928,7 @@ periods</translation>
     <message>
         <location filename="../kirjaus/kopioitosite.ui" line="14"/>
         <source>Tositteen kopiointi</source>
-        <translation>Copying the voucher</translation>
+        <translation type="unfinished">Copy Entry</translation>
     </message>
     <message>
         <location filename="../kirjaus/kopioitosite.ui" line="24"/>
@@ -7123,7 +7123,7 @@ Please try again later</translation>
     <message>
         <location filename="../maaritys/maarityssivu.cpp" line="82"/>
         <source>Tositesarjat</source>
-        <translation>Voucher series</translation>
+        <translation type="unfinished">Batch series</translation>
     </message>
     <message>
         <location filename="../maaritys/maarityssivu.cpp" line="87"/>
@@ -8388,23 +8388,23 @@ Check the keys you entered.</translation>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="26"/>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation type="unfinished">Permissions Form</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="62"/>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="80"/>
         <source>Kaikki kirjanpito-oikeudet</source>
-        <translation>All accounting permissions</translation>
+        <translation type="unfinished">All permissions</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="91"/>
         <source>Tositteet</source>
-        <translation>Vouchers</translation>
+        <translation type="unfinished">Batch Entry</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="97"/>
         <source>Kaikki tositeoikeudet</source>
-        <translation>All voucher permissions</translation>
+        <translation type="unfinished">All entry permissions</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="100"/>
@@ -8415,22 +8415,22 @@ Check the keys you entered.</translation>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="107"/>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="178"/>
         <source>Selaaminen</source>
-        <translation>Browsing</translation>
+        <translation type="unfinished">Browse</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="120"/>
         <source>Kommentointi</source>
-        <translation>Commenting</translation>
+        <translation type="unfinished">Comments</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="133"/>
         <source>Luonnoksen laatiminen</source>
-        <translation>Drafting</translation>
+        <translation type="unfinished">Drafts</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="146"/>
         <source>Tallentaminen ja muokkaminen</source>
-        <translation>Saving and editing</translation>
+        <translation type="unfinished">Save and edit</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="162"/>
@@ -8440,7 +8440,7 @@ Check the keys you entered.</translation>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="168"/>
         <source>Kaikki laskuoikeudet</source>
-        <translation>All invoice permissions</translation>
+        <translation type="unfinished">All invoice permissions</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="171"/>
@@ -8450,17 +8450,17 @@ Check the keys you entered.</translation>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="188"/>
         <source>Laskun laatiminen</source>
-        <translation>Creating an invoice</translation>
+        <translation type="unfinished">Create</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="198"/>
         <source>Laskun lähettäminen</source>
-        <translation>Sending an invoice</translation>
+        <translation type="unfinished">Send</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="208"/>
         <source>Tuotteiden muokkaaminen</source>
-        <translation>Editing products</translation>
+        <translation type="unfinished">Edit products</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="218"/>
@@ -8470,12 +8470,12 @@ Check the keys you entered.</translation>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="256"/>
         <source>Laskujen kierto</source>
-        <translation>Invoice circulation</translation>
+        <translation type="unfinished">Invoice Circulation</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="262"/>
         <source>Kaikki kierron oikeudet</source>
-        <translation>All circulation permissions</translation>
+        <translation type="unfinished">All circulation permissions</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="265"/>
@@ -8485,22 +8485,22 @@ Check the keys you entered.</translation>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="272"/>
         <source>Laskun lisääminen kiertoon</source>
-        <translation>Adding an invoice to circulation</translation>
+        <translation type="unfinished">Add</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="282"/>
         <source>Laskun tarkastaminen</source>
-        <translation>Reviewing an invoice</translation>
+        <translation type="unfinished">Review</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="292"/>
         <source>Laskun hyväksyminen</source>
-        <translation>Approving an invoice</translation>
+        <translation type="unfinished">Approve</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="302"/>
         <source>Kaikkien kiertojen selaaminen</source>
-        <translation>Browsing all cycles</translation>
+        <translation type="unfinished">Browse</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="321"/>
@@ -8510,7 +8510,7 @@ Check the keys you entered.</translation>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="327"/>
         <source>Raporttien tulostaminen</source>
-        <translation>Printing reports</translation>
+        <translation type="unfinished">Print</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="340"/>
@@ -8520,7 +8520,7 @@ Check the keys you entered.</translation>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="346"/>
         <source>Kaikki työkaluoikeudet</source>
-        <translation>All tool permissions</translation>
+        <translation type="unfinished">All tools</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="349"/>
@@ -8530,17 +8530,17 @@ Check the keys you entered.</translation>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="356"/>
         <source>Arvolisäveroilmoitus</source>
-        <translation>Value Added Tax declaration</translation>
+        <translation type="unfinished">Value Added Tax</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="366"/>
         <source>Budjetin muokkaaminen</source>
-        <translation>Editing the budget</translation>
+        <translation type="unfinished">Budget</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="376"/>
         <source>Tilinpäätöksen tekeminen</source>
-        <translation>Creating financial statements</translation>
+        <translation type="unfinished">Financial statements</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="407"/>
@@ -8550,12 +8550,12 @@ Check the keys you entered.</translation>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="419"/>
         <source>Asetusten muokkaaminen</source>
-        <translation>Modifying settings</translation>
+        <translation type="unfinished">Modify settings</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="435"/>
         <source>Perusasetusten muokkaaminen</source>
-        <translation>Modifying basic settings</translation>
+        <translation type="unfinished">Modify basic settings</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="438"/>
@@ -8590,7 +8590,7 @@ Check the keys you entered.</translation>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="502"/>
         <source>Käyttöoikeuksien myöntäminen</source>
-        <translation>Granting user permissions</translation>
+        <translation type="unfinished">Grant user permissions</translation>
     </message>
 </context>
 <context>
@@ -8723,7 +8723,7 @@ Check the keys you entered.</translation>
     <message>
         <location filename="../raportti/paivakirja.ui" line="169"/>
         <source>Tositenumero</source>
-        <translation>Voucher Number</translation>
+        <translation type="unfinished">Batch Number</translation>
     </message>
     <message>
         <location filename="../raportti/paivakirja.ui" line="183"/>
@@ -8743,7 +8743,7 @@ Check the keys you entered.</translation>
     <message>
         <location filename="../raportti/paivakirja.ui" line="216"/>
         <source>Ryhmittele tositelajeittain</source>
-        <translation>Group by Voucher Type</translation>
+        <translation type="unfinished">Group by Entry</translation>
     </message>
     <message>
         <location filename="../raportti/paivakirja.ui" line="227"/>
@@ -9211,7 +9211,7 @@ The current accounting file will remain on your computer.</translation>
     <message>
         <location filename="../pilvi/pilveensiirto.ui" line="247"/>
         <source>Kopioidaan tositteita</source>
-        <translation>Copying vouchers</translation>
+        <translation type="unfinished">Copying batches</translation>
     </message>
     <message>
         <location filename="../pilvi/pilveensiirto.ui" line="257"/>
@@ -9251,16 +9251,16 @@ saved to Kitsas cloud.</translation>
     <message>
         <location filename="../pilvi/pilveensiirto.cpp" line="487"/>
         <source>Tositteita kopioitu %1 kpl, kirjanpidon koko pilvessä %L2 Mt</source>
-        <translation>Copied %1 vouchers, accounting size in the cloud %L2 MB</translation>
+        <translation type="unfinished">Copied %1 batch entries, accounting size in the cloud %L2 MB</translation>
     </message>
     <message>
         <location filename="../pilvi/pilveensiirto.cpp" line="507"/>
         <source>Kirjanpidon siirto pilveen epäonnistui.
 
 Kaikkia tositteita ei saatu siirrettyä pilveen.</source>
-        <translation>The transfer of accounting to the cloud failed.
+        <translation type="unfinished">The transfer of accounting to the cloud failed.
 
-Not all vouchers could be transferred to the cloud.</translation>
+Not all entries could be transferred to the cloud.</translation>
     </message>
     <message>
         <location filename="../pilvi/pilveensiirto.cpp" line="510"/>
@@ -9586,12 +9586,12 @@ from balance sheet</translation>
         <location filename="../maaritys/tilinavaus/procountor/procountortuontidialog.cpp" line="204"/>
         <location filename="../maaritys/tilinavaus/procountor/procountortuontidialog.cpp" line="208"/>
         <source>Keskeneräisen tilikauden saldoista on muodostettu tosite päivämäärällä %1</source>
-        <translation>A voucher has been created from the balances of the incomplete accounting period with the date %1</translation>
+        <translation type="unfinished">A batch has been created from the balances of the incomplete accounting period with the date %1</translation>
     </message>
     <message>
         <location filename="../maaritys/tilinavaus/procountor/procountortuontidialog.cpp" line="210"/>
         <source>Näiden saldojen debet ja kredit ei täsmää, joten tosite löytyy Selaa-toiminnon Luonnokset-välilehdeltä.</source>
-        <translation>The debit and credit of these balances do not match, so the voucher can be found in the Drafts tab of the Browse function.</translation>
+        <translation type="unfinished">The debit and credit of these balances do not match, so the entry can be found in the Drafts tab of the Browse function.</translation>
     </message>
     <message>
         <location filename="../maaritys/tilinavaus/procountor/procountortuontitiedosto.cpp" line="175"/>
@@ -10502,7 +10502,7 @@ Check the email sending settings.</translation>
     <message>
         <location filename="../selaus/selausmodel.cpp" line="60"/>
         <source>Tosite</source>
-        <translation>Voucher</translation>
+        <translation type="unfinished">Batch</translation>
     </message>
     <message>
         <location filename="../selaus/selausmodel.cpp" line="62"/>
@@ -10575,7 +10575,7 @@ Check the email sending settings.</translation>
     <message>
         <location filename="../selaus/selauswg.ui" line="167"/>
         <source>Poista useita tositteita</source>
-        <translation>Delete multiple vouchers</translation>
+        <translation type="unfinished">Delete batch entries</translation>
     </message>
     <message>
         <location filename="../selaus/selauswg.ui" line="187"/>
@@ -10595,7 +10595,7 @@ Check the email sending settings.</translation>
     <message>
         <location filename="../selaus/selauswg.cpp" line="48"/>
         <source>&amp;Tositteet</source>
-        <translation>&amp;Vouchers</translation>
+        <translation type="unfinished">&amp;Batch Entries</translation>
     </message>
     <message>
         <location filename="../selaus/selauswg.cpp" line="49"/>
@@ -10657,7 +10657,7 @@ Check the email sending settings.</translation>
     <message>
         <location filename="../selaus/selauswg.cpp" line="304"/>
         <source>Kaikki tositteet</source>
-        <translation>All vouchers</translation>
+        <translation type="unfinished">All Batch Entries</translation>
     </message>
     <message>
         <location filename="../selaus/selauswg.cpp" line="345"/>
@@ -10684,22 +10684,22 @@ Final balance %L3	Count %L4</translation>
     <message>
         <location filename="../selaus/selauswg.cpp" line="619"/>
         <source>Tositteita ei voi poistaa lukitulta tilikaudelta</source>
-        <translation>Vouchers cannot be deleted from a locked accounting period</translation>
+        <translation type="unfinished">Batch Entries cannot be deleted from a locked accounting period</translation>
     </message>
     <message>
         <location filename="../selaus/selauswg.cpp" line="627"/>
         <source>Valitse poistettavat tositteet</source>
-        <translation>Select vouchers to be deleted</translation>
+        <translation type="unfinished">Select batch entries to be deleted</translation>
     </message>
     <message>
         <location filename="../selaus/selauswg.cpp" line="629"/>
         <source>Yksi tosite valittu poistettavaksi</source>
-        <translation>One voucher selected for deletion</translation>
+        <translation type="unfinished">Entry selected for deletion</translation>
     </message>
     <message>
         <location filename="../selaus/selauswg.cpp" line="631"/>
         <source>%1 tositetta valittu poistettavaksi</source>
-        <translation>%1 vouchers selected for deletion</translation>
+        <translation type="unfinished">%1 batch entries selected for deletion</translation>
     </message>
     <message>
         <location filename="../selaus/selauswg.cpp" line="641"/>
@@ -10709,12 +10709,12 @@ Final balance %L3	Count %L4</translation>
     <message>
         <location filename="../selaus/selauswg.cpp" line="642"/>
         <source>Haluatko varmasti poistaa valitsemasi %1 tositetta?</source>
-        <translation>Are you sure you want to delete the %1 selected vouchers?</translation>
+        <translation type="unfinished">Are you sure you want to delete the %1 selected entries?</translation>
     </message>
     <message>
         <location filename="../selaus/selauswg.cpp" line="642"/>
         <source>Haluatko varmasti poistaa valitsemasi tositteen?</source>
-        <translation>Are you sure you want to delete the selected voucher?</translation>
+        <translation type="unfinished">Are you sure you want to delete the selected batch?</translation>
     </message>
 </context>
 <context>
@@ -10722,12 +10722,12 @@ Final balance %L3	Count %L4</translation>
     <message>
         <location filename="../kirjaus/siirry.ui" line="17"/>
         <source>Siirry tositteeseen</source>
-        <translation>Go to voucher</translation>
+        <translation type="unfinished">Go to batch</translation>
     </message>
     <message>
         <location filename="../kirjaus/siirry.ui" line="29"/>
         <source>Tositelaji</source>
-        <translation>Voucher type</translation>
+        <translation type="unfinished">Entry type</translation>
     </message>
     <message>
         <location filename="../kirjaus/siirry.ui" line="36"/>
@@ -10898,7 +10898,7 @@ Please choose another directory.</translation>
     <message>
         <location filename="../kirjaus/tallennettuwidget.ui" line="110"/>
         <source>Tosite tallennettu</source>
-        <translation>Voucher saved</translation>
+        <translation type="unfinished">Recorded</translation>
     </message>
     <message>
         <location filename="../kirjaus/tallennettuwidget.ui" line="80"/>
@@ -10908,7 +10908,7 @@ Please choose another directory.</translation>
     <message>
         <location filename="../kirjaus/tallennettuwidget.ui" line="59"/>
         <source>Tosite tallennettu tunnisteella  </source>
-        <translation>Voucher saved with identifier  </translation>
+        <translation type="unfinished">Entries saved with identifier  </translation>
     </message>
     <message>
         <location filename="../kirjaus/tallennettuwidget.ui" line="95"/>
@@ -10920,7 +10920,7 @@ Please choose another directory.</translation>
         <source>Tosite tallennettu 
 mallipohjana
 </source>
-        <translation>Voucher saved 
+        <translation type="unfinished">Entry saved 
 as a template
 </translation>
     </message>
@@ -10928,7 +10928,7 @@ as a template
         <location filename="../kirjaus/tallennettuwidget.cpp" line="62"/>
         <source>Tosite tallennettu tilassa
 </source>
-        <translation>Voucher in saved status
+        <translation type="unfinished">Entry in saved status
 </translation>
     </message>
 </context>
@@ -11883,7 +11883,7 @@ ja kaupunki</source>
     <message>
         <location filename="../arkisto/tilikausimuokkausdlg.ui" line="32"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Tilikauden muokkaamista tarvitaan yleensä vain kirjanpidon aloittamisessa tapahtuneen virheen korjaamiseen tai erittäin poikkeukselliseen tilikauden muuttumiseen!&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Huolehdi, että tilikausista muodostuu ehyt kokonaisuus. &lt;br/&gt;Joudut ehkä korjaamaan myös tositteiden numeroinnin muuttuneilla tilikausilla.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Editing the accounting period is usually needed only to correct an error made when starting the bookkeeping or for an extremely exceptional change in the accounting period!&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Make sure that the accounting periods form a coherent whole. &lt;br/&gt;You may also need to correct the numbering of vouchers for the changed accounting periods.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Editing the accounting period is usually needed only to correct an error made when starting the bookkeeping or for an extremely exceptional change in the accounting period!&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Make sure that the accounting periods form a coherent whole. &lt;br/&gt;You may also need to correct the numbering of batch entries for the changed accounting periods.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../arkisto/tilikausimuokkausdlg.ui" line="53"/>
@@ -11930,9 +11930,9 @@ ja kaupunki</source>
         <source>Oletko varma, että haluat muuttaa tilikautta?
 
 Tilikauden muuttaminen saattaa aiheuttaa tositteiden jäämistä virheellisesti tilikausien ulkopuolelle, tositteiden numeroinnin vioittumista ja muitakin ongelmia kirjanpitoon.</source>
-        <translation>Are you sure you want to change the accounting period?
+        <translation type="unfinished">Are you sure you want to change the accounting period?
 
-Changing the accounting period may cause vouchers to be erroneously left outside the accounting periods, damage to voucher numbering, and other problems in the bookkeeping.</translation>
+Changing the accounting period may cause entries to be erroneously left outside the accounting periods, damage to entry numbering, and other problems in the bookkeeping.</translation>
     </message>
     <message>
         <location filename="../arkisto/tilikausimuokkausdlg.cpp" line="119"/>
@@ -11962,12 +11962,12 @@ Kaikki tilinpäätökseen liittyvät toimet on tehtävä uudelleen ja tilinpää
 
 Kirjanpitolaki 2. luku 7§ 2 mom:
 Tositteen, kirjanpidon tai muun kirjanpitoaineiston sisältöä ei saa muuttaa tai poistaa tilinpäätöksen laatimisen jälkeen.</source>
-        <translation>Are you sure you want to cancel the locking of the accounting period?
+        <translation type="unfinished">Are you sure you want to cancel the locking of the accounting period?
 
 All actions related to the financial statements must be redone and the financial statements may also need to be re-confirmed.
 
 Accounting Act Chapter 2 Section 7 Paragraph 2:
-The content of a voucher, accounting records, or other accounting material must not be altered or deleted after the preparation of the financial statements.</translation>
+The content of a batch entry, accounting records, or other accounting material must not be altered or deleted after the preparation of the financial statements.</translation>
     </message>
     <message>
         <location filename="../arkisto/tilikausimuokkausdlg.cpp" line="173"/>
@@ -12007,9 +12007,9 @@ You still need to enter the opening balance separately.</translation>
         <source>Oletko varma, että haluat poistaa tilikauden?
 
 Tilikauden tositteita ei poisteta, mutta ne jäävät virheellisesti tilikausien ulkopuolelle eivätkä näy käyttäjälle ennen kuin niille on lisätty tilikausi.</source>
-        <translation>Are you sure you want to delete the accounting period?
+        <translation type="unfinished">Are you sure you want to delete the accounting period?
 
-The vouchers for the accounting period will not be deleted, but they will incorrectly remain outside the accounting periods and will not be visible to the user until an accounting period is added to them.</translation>
+The entries for the accounting period will not be deleted, but they will incorrectly remain outside the accounting periods and will not be visible to the user until an accounting period is added to them.</translation>
     </message>
 </context>
 <context>
@@ -12246,7 +12246,7 @@ The accounting doesn&apos;t balance. Complete the entries before continuing with
     <message>
         <location filename="../arkisto/tilinpaattaja.ui" line="356"/>
         <source>1. Varmista, että kaikki tilikaudelle kuuluvat tositteet on kirjattu</source>
-        <translation>1. Ensure all vouchers for the accounting period have been recorded</translation>
+        <translation type="unfinished">1. Ensure all entries for the accounting period have been recorded</translation>
     </message>
     <message>
         <location filename="../arkisto/tilinpaattaja.ui" line="363"/>
@@ -12664,7 +12664,7 @@ The financial statement template must be corrected in order to print the financi
     <message>
         <location filename="../apuri/tiliote/tilioteapuri.ui" line="114"/>
         <source>&amp;Tosite...</source>
-        <translation>&amp;Voucher...</translation>
+        <translation type="unfinished">&amp;Entry...</translation>
     </message>
     <message>
         <location filename="../apuri/tiliote/tilioteapuri.ui" line="141"/>
@@ -13283,33 +13283,33 @@ The financial statement template must be corrected in order to print the financi
         <location filename="../model/tosite.cpp" line="417"/>
         <location filename="../model/tosite.cpp" line="426"/>
         <source>Virheellinen tosite</source>
-        <translation>Invalid voucher</translation>
+        <translation type="unfinished">Invalid entry</translation>
     </message>
     <message>
         <location filename="../model/tosite.cpp" line="400"/>
         <source>Arvonlisäverottomaan kirjanpitoon ei pitäisi tehdä arvonlisäverollista kirjausta. 
  Tallennetaanko tosite silti?</source>
-        <translation>An entry with VAT should not be made in VAT-exempt accounting.
-Do you still want to save the voucher?</translation>
+        <translation type="unfinished">An entry with VAT should not be made in VAT-exempt accounting.
+Do you still want to save the entry?</translation>
     </message>
     <message>
         <location filename="../model/tosite.cpp" line="410"/>
         <source>Tilille %1 syötetty tase-erä, vaikka tilillä ei ole tase-erittelyä. 
 Tallennetaanko tosite silti?</source>
-        <translation>A balance sheet item has been entered for account %1, although the account does not have a balance sheet breakdown.
-Do you want to save the voucher anyway?</translation>
+        <translation type="unfinished">A balance sheet item has been entered for account %1, although the account does not have a balance sheet breakdown.
+Do you want to save the entry anyway?</translation>
     </message>
     <message>
         <location filename="../model/tosite.cpp" line="417"/>
         <source>Tilillä %1 on käytetty asiakas- tai huoneistokohtaista erittelyä, mikä on tarkoitettu ainoastaa myyntisaamisten käsittelyyn. Tällaisesta kirjauksesta muodostuu virheellinen tase.erittely. 
 Tallennetaanko tosite silti?</source>
-        <translation>Account %1 uses customer or apartment-specific specification, which is intended only for handling accounts receivable. This kind of entry will create an incorrect balance sheet specification.
-Do you still want to save the voucher?</translation>
+        <translation type="unfinished">Account %1 uses customer or apartment-specific specification, which is intended only for handling accounts receivable. This kind of entry will create an incorrect balance sheet specification.
+Do you still want to save the entry?</translation>
     </message>
     <message>
         <location filename="../model/tosite.cpp" line="427"/>
         <source>Tositteen debet ja kredit eivät täsmää</source>
-        <translation>Debit and credit of the voucher do not match</translation>
+        <translation type="unfinished">Debit and credit of the entries do not match</translation>
     </message>
 </context>
 <context>
@@ -13441,7 +13441,7 @@ Do you still want to save the voucher?</translation>
     <message>
         <location filename="../selaus/tositeselausmodel.cpp" line="70"/>
         <source>Tosite</source>
-        <translation>Voucher</translation>
+        <translation type="unfinished">Entry</translation>
     </message>
     <message>
         <location filename="../selaus/tositeselausmodel.cpp" line="72"/>
@@ -13582,7 +13582,7 @@ VAT to be paid on purchases of construction services: %L1 €</translation>
     <message>
         <location filename="../kirjaus/tositewg.ui" line="32"/>
         <source>Sähköinen tosite</source>
-        <translation>Electronic voucher</translation>
+        <translation type="unfinished">Electronic entries</translation>
     </message>
     <message>
         <location filename="../kirjaus/tositewg.ui" line="48"/>
@@ -13615,7 +13615,7 @@ VAT to be paid on purchases of construction services: %L1 €</translation>
     <message>
         <location filename="../maaritys/tositesarjamaaritys.cpp" line="59"/>
         <source>Järjestelmätositteet</source>
-        <translation>System vouchers</translation>
+        <translation type="unfinished">System batch entries</translation>
     </message>
 </context>
 <context>
@@ -13628,27 +13628,27 @@ VAT to be paid on purchases of construction services: %L1 €</translation>
     <message>
         <location filename="../maaritys/tositesarjat.ui" line="26"/>
         <source>Tositesarjat</source>
-        <translation>Voucher series</translation>
+        <translation type="unfinished">Batch entry series</translation>
     </message>
     <message>
         <location filename="../maaritys/tositesarjat.ui" line="39"/>
         <source>Numeroi tositteet samaan sarjaan</source>
-        <translation>Number vouchers in the same series</translation>
+        <translation type="unfinished">Number entries in the same series</translation>
     </message>
     <message>
         <location filename="../maaritys/tositesarjat.ui" line="50"/>
         <source>Numeroi tositetyypeittäin omiin sarjoihinsa</source>
-        <translation>Number by voucher type in their own series</translation>
+        <translation type="unfinished">Number by entry type in their own series</translation>
     </message>
     <message>
         <location filename="../maaritys/tositesarjat.ui" line="63"/>
         <source>Numeroi käteistositteet omaan sarjaansa</source>
-        <translation>Number cash vouchers in their own series</translation>
+        <translation type="unfinished">Number cash entries in their own series</translation>
     </message>
     <message>
         <location filename="../maaritys/tositesarjat.ui" line="85"/>
         <source>Tositetyyppi</source>
-        <translation>Voucher type</translation>
+        <translation type="unfinished">Entry type</translation>
     </message>
     <message>
         <location filename="../maaritys/tositesarjat.ui" line="90"/>
@@ -14430,12 +14430,12 @@ Keep your tax return and any tax calculations with your accounting records.</tra
     <message>
         <location filename="../arkisto/uudelleennumerointi.ui" line="20"/>
         <source>Toiminto numeroi  tositteet uudelleen aikajärjestykseen.</source>
-        <translation>This function renumbers the vouchers in chronological order.</translation>
+        <translation type="unfinished">This function renumbers the entries in chronological order.</translation>
     </message>
     <message>
         <location filename="../arkisto/uudelleennumerointi.ui" line="45"/>
         <source>Tositteiden numerointi muuttuu ja paperiset tositteet pitää merkitä uudelleen uusilla tositenumeroilla</source>
-        <translation>The numbering of vouchers changes and paper vouchers need to be marked again with new voucher numbers</translation>
+        <translation type="unfinished">The numbering of entries changes and paper entries need to be marked again with new entry numbers</translation>
     </message>
     <message>
         <location filename="../arkisto/uudelleennumerointi.ui" line="57"/>
@@ -14460,7 +14460,7 @@ Keep your tax return and any tax calculations with your accounting records.</tra
     <message>
         <location filename="../arkisto/uudelleennumerointi.cpp" line="66"/>
         <source>Tositteet numeroitu uudelleen</source>
-        <translation>Vouchers renumbered</translation>
+        <translation type="unfinished">Entries renumbered</translation>
     </message>
 </context>
 <context>
@@ -14595,7 +14595,7 @@ Keep your tax return and any tax calculations with your accounting records.</tra
     <message>
         <location filename="../liite/uusiliitewidget.cpp" line="61"/>
         <source>Valitse tosite</source>
-        <translation>Select voucher</translation>
+        <translation type="unfinished">Select entry</translation>
     </message>
     <message>
         <location filename="../liite/uusiliitewidget.cpp" line="61"/>
@@ -14659,22 +14659,22 @@ Keep your tax return and any tax calculations with your accounting records.</tra
     <message>
         <location filename="../uusikirjanpito/numerointi.ui" line="20"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kirjanpidon tositteet voi jakaa eri tositesarjoihin, kuten myyntilaskuihin, ostolaskuihin ja tiliotteisiin.&lt;/p&gt;&lt;p&gt;Haluatko, että kaikki tositteet numeroidaan samaan juoksevaan sarjaan, vai että eri tositelajit numeroidaan jokainen omaan tositesarjaansa?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Accounting vouchers can be divided into different voucher series, such as sales invoices, purchase invoices, and bank statements.&lt;/p&gt;&lt;p&gt;Do you want all vouchers to be numbered in the same sequential series, or do you want different voucher types to be numbered in their own separate series?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Accounting entries can be divided into different entry series, such as sales invoices, purchase invoices, and bank statements.&lt;/p&gt;&lt;p&gt;Do you want all entries to be numbered in the same sequential series, or do you want different entry types to be numbered in their own separate series?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../uusikirjanpito/numerointi.ui" line="36"/>
         <source>Numeroi kaikki tositteet samaan juoksevaan numerosarjaan</source>
-        <translation>Number all vouchers in the same sequential number series</translation>
+        <translation type="unfinished">Number all entries in the same sequential number series</translation>
     </message>
     <message>
         <location filename="../uusikirjanpito/numerointi.ui" line="50"/>
         <source>Numeroi jokainen tositelaji omaan numerosarjaansa</source>
-        <translation>Number each voucher type in its own number series</translation>
+        <translation type="unfinished">Number each entry type in its own number series</translation>
     </message>
     <message>
         <location filename="../uusikirjanpito/numerointi.ui" line="64"/>
         <source>Käytä käteistositteille omaa numerosarjaa</source>
-        <translation>Use a separate number series for cash vouchers</translation>
+        <translation type="unfinished">Use a separate number series for cash entries</translation>
     </message>
 </context>
 <context>
@@ -14911,7 +14911,7 @@ Keep your tax return and any tax calculations with your accounting records.</tra
     <message>
         <location filename="../uusikirjanpito/uusivelho.cpp" line="336"/>
         <source>Tositteiden numerointi</source>
-        <translation>Numbering of vouchers</translation>
+        <translation type="unfinished">Numbering of entries</translation>
     </message>
     <message>
         <location filename="../uusikirjanpito/uusivelho.cpp" line="345"/>
@@ -15080,7 +15080,7 @@ Keep your tax return and any tax calculations with your accounting records.</tra
     <message>
         <location filename="../kitupiikkituonti/vanhatuontidlg.ui" line="176"/>
         <source>Säilytä tositteiden numerointi</source>
-        <translation>Preserve voucher numbering</translation>
+        <translation type="unfinished">Preserve entry numbering</translation>
     </message>
     <message>
         <location filename="../kitupiikkituonti/vanhatuontidlg.ui" line="186"/>
@@ -15130,7 +15130,7 @@ Keep your tax return and any tax calculations with your accounting records.</tra
     <message>
         <location filename="../kitupiikkituonti/vanhatuontidlg.ui" line="349"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;Kirjanpidon tuonti onnistui vain osittain&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Kaikkien tositteiden tuonti ei ole onnistunut, ja taseen loppusumma tuodussa kirjanpidossa poikkeaa alkuperäisestä kirjanpidosta.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Useimmiten virhe johtuu siitä, että Kitupiikin kirjanpito on jo päivitetty monta kertaa uudempaan versioon, ja jossain aiemmassa päivityksessä on ollut puutteita.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Alkuperäinen Kitupiikin kirjanpito on edelleen käytössä. Ota siirretty uusi kirjanpito käyttöösi vain, jos voit täydentää sen virheettömäksi. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;Kitsaan käyttöön kannattaa ehkä siirtyä vasta tilikauden vaihtuessa niin, että vanha tilikausi ja tilinpäätös tehdään loppuun saakka Kitupiikillä, ja vasta uusi tilikausi aloitetaan Kitsaalla. Muista tehdä Kitsaassa tilinavaus Kitupiikin tilinpäätöksen pohjalta.&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;The accounting import was only partially successful&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Not all vouchers were successfully imported, and the balance sheet total in the imported accounting differs from the original accounting.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Most often, the error is due to the fact that the Kitupiikki accounting has already been updated many times to a newer version, and there have been deficiencies in some previous updates.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;The original Kitupiikki accounting is still in use. Only use the transferred new accounting if you can complete it without errors. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;It might be advisable to switch to using Kitsas only when changing the accounting period, so that the old accounting period and financial statements are completed with Kitupiikki, and only the new accounting period is started with Kitsas. Remember to make an opening entry in Kitsas based on Kitupiikki&apos;s financial statements.&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;The accounting import was only partially successful&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Not all entries were successfully imported, and the balance sheet total in the imported accounting differs from the original accounting.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Most often, the error is due to the fact that the Kitupiikki accounting has already been updated many times to a newer version, and there have been deficiencies in some previous updates.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;The original Kitupiikki accounting is still in use. Only use the transferred new accounting if you can complete it without errors. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;It might be advisable to switch to using Kitsas only when changing the accounting period, so that the old accounting period and financial statements are completed with Kitupiikki, and only the new accounting period is started with Kitsas. Remember to make an opening entry in Kitsas based on Kitupiikki&apos;s financial statements.&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../kitupiikkituonti/vanhatuontidlg.ui" line="378"/>
@@ -15509,12 +15509,12 @@ Bookkeepings started with the oldest versions of Kitupiikki can only be transfer
     <message>
         <location filename="../maaritys/veromaaritys.ui" line="107"/>
         <source>Tositteiden lukitseminen</source>
-        <translation>Locking of vouchers</translation>
+        <translation type="unfinished">Entry locking</translation>
     </message>
     <message>
         <location filename="../maaritys/veromaaritys.ui" line="113"/>
         <source>Salli tositteiden muokkaaminen alv-ilmoituksen antamisen jälkeen</source>
-        <translation>Allow editing of vouchers after submitting VAT return</translation>
+        <translation type="unfinished">Allow editing of entries after submitting VAT return</translation>
     </message>
     <message>
         <location filename="../maaritys/veromaaritys.ui" line="126"/>
@@ -15647,7 +15647,7 @@ To enable cash-based VAT, add the necessary accounts to your chart of accounts</
     <message>
         <location filename="../maaritys/veromaaritys.cpp" line="224"/>
         <source>Tositteiden muokkaaminen alv-ilmoituksen antamisen jälkeen</source>
-        <translation>Editing vouchers after submitting VAT return</translation>
+        <translation type="unfinished">Editing entries after submitting VAT return</translation>
     </message>
     <message>
         <location filename="../maaritys/veromaaritys.cpp" line="225"/>
@@ -15656,9 +15656,9 @@ To enable cash-based VAT, add the necessary accounts to your chart of accounts</
 Olet vastuussa siitä, jos tositteiden muokkaaminen edellyttää uuden alv-ilmoituksen antamista.
 
 Huomioi Kirjanpitolan 2. luvun 7§ 2. mom. kielto kirjanpidon sisällön muokkaamisesta sen jälkeen kun kirjanpidosta viranomaiselle verotusta varten annettu ilmoitus on tehty.</source>
-        <translation>Are you really enabling the editing of vouchers after submitting the VAT return?
+        <translation type="unfinished">Are you really enabling the editing of entries after submitting the VAT return?
 
-You are responsible if editing the vouchers requires submitting a new VAT return.
+You are responsible if editing the entries requires submitting a new VAT return.
 
 Please note the prohibition in Chapter 2, Section 7, Paragraph 2 of the Accounting Act on modifying the content of accounting after a tax-related report has been submitted to the authorities based on the accounting.</translation>
     </message>
