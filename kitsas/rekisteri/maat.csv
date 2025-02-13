@@ -20,7 +20,7 @@ Bahama;BAHAMAS;BS
 Bahrain;BAHRAIN;BH
 Bangladesh;BANGLADESH;BD
 Barbados;BARBADOS;BB
-Belgia;BELGIUM;BE;BE0\d{9}
+Belgia;BELGIUM;BE;BE\d{10}
 Belize;BELIZE;BZ
 Benin;BENIN;BJ
 Bermuda;BERMUDA;BM
