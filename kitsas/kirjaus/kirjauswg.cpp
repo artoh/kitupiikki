@@ -514,7 +514,7 @@ void KirjausWg::paivita(bool muokattu, int virheet, const Euro &debet, const Eur
     const int tyyppi = tosite()->tyyppi();
 
     const bool valmisSallittu = (muokattu || ( tila > Tosite::POISTETTU && tila < Tosite::KIRJANPIDOSSA )) &&
-                                (!(virheet & ~Tosite::EITASMAAPVM) || (virheet == Tosite::PVMALV && tosite()->id() ) || ( tyyppi == TositeTyyppi::TILIOTE && virheet == Tosite::TILIPUUTTUU && qobject_cast<PilviModel*>(kp()->yhteysModel()))) &&
+                                (!(virheet & ~Tosite::EITASMAAPVM) || (virheet == Tosite::PVMALV && (tila >= Tosite::KIRJANPIDOSSA || kp()->asetukset()->onko(AsetusModel::OhitaAlvLukko) )) || ( tyyppi == TositeTyyppi::TILIOTE && virheet == Tosite::TILIPUUTTUU && qobject_cast<PilviModel*>(kp()->yhteysModel()))) &&
                           !tosite()->liitteet()->tallennetaanko();
 
     ui->valmisNappi->setEnabled( valmisSallittu );
