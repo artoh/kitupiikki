@@ -722,7 +722,10 @@ void KirjausWg::paivitaLiiteNapit()
 
 void KirjausWg::tarkastaTuplatJaTallenna(int tila)
 {
-    if( !tosite()->kumppani() ) {
+    // 11.3.2025 Lisätty oikeustarkastus ennen kuin tehdään tuplatositteen etsiminen, koska muuten pelkällä hyväksymisoikeudella saa aikaan virheenß
+    if( !tosite()->kumppani() ||
+        !kp()->yhteysModel()->onkoOikeutta( YhteysModel::TOSITE_SELAUS )
+        ) {
         tosite()->tallenna(tila);
     } else {
         KpKysely *kysely = kpk("/tositteet");
