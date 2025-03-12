@@ -270,7 +270,10 @@ void MuuMuokkausDlg::setAlvKoodi(int koodi)
     else
         ui->perusteRadio->setChecked(true);
 
-    ui->alvlajiCombo->setCurrentIndex( ui->alvlajiCombo->findData(koodi % 100, VerotyyppiModel::KoodiRooli) );
+    if( koodi >= AlvKoodi::MAKSETTAVAALV)
+        ui->alvlajiCombo->setCurrentIndex( ui->alvlajiCombo->findData( koodi, VerotyyppiModel::KoodiRooli));
+    else
+        ui->alvlajiCombo->setCurrentIndex( ui->alvlajiCombo->findData(koodi % 100, VerotyyppiModel::KoodiRooli) );
 }
 
 void MuuMuokkausDlg::pvmMuuttui()
