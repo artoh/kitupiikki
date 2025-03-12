@@ -8357,7 +8357,7 @@
             "sv": "Biljetter"
         },
         "alvlaji": 21,
-        "alvprosentti": 10,
+        "alvprosentti": 14,
         "laajuus": 3
     },
     {
@@ -8368,7 +8368,7 @@
             "sv": "Taxikostnader"
         },
         "alvlaji": 21,
-        "alvprosentti": 10,
+        "alvprosentti": 14,
         "laajuus": 3
     },
     {
@@ -8379,7 +8379,7 @@
             "sv": "Hotell- och övrig inkvartering"
         },
         "alvlaji": 21,
-        "alvprosentti": 10,
+        "alvprosentti": 14,
         "laajuus": 3
     },
     {
@@ -9012,7 +9012,7 @@
             "sv": "Böcker"
         },
         "alvlaji": 21,
-        "alvprosentti": 10,
+        "alvprosentti": 14,
         "laajuus": 3
     },
     {
