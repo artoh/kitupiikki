@@ -47,6 +47,7 @@ PilveenSiirto::PilveenSiirto(QWidget *parent) :
     connect( ui->buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, &PilveenSiirto::accept);
     connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("aloittaminen/pilvi"); });
     connect( ui->toimistoCombo, &QComboBox::currentIndexChanged, this, &PilveenSiirto::toimistoValittu);
+    connect( ui->toimistoRadio, &QRadioButton::toggled, this, &PilveenSiirto::paivitaInfot);
 
     ui->sijaintiGroup->hide();
 
