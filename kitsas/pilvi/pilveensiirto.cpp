@@ -564,6 +564,11 @@ void PilveenSiirto::hyllytSaapuu(const QVariant *data)
         lisaaHylly(map);
     }
     ui->hyllyCombo->model()->sort(0);
+
+    if( ui->hyllyCombo->model()->rowCount() && !kp()->pilvi()->kayttaja().capacity()) {
+        ui->toimistoRadio->setChecked(true);
+        paivitaInfot();
+    }
 }
 
 void PilveenSiirto::lisaaHylly(const QVariantMap &hylly)
