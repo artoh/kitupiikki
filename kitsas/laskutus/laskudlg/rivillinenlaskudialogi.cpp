@@ -199,7 +199,8 @@ bool RivillinenLaskuDialogi::tarkasta()
             return false;
         }
         if( rivi.alvkoodi() != AlvKoodi::EIALV &&
-                kp()->alvIlmoitukset()->onkoIlmoitettu(paivamaara())) {
+                kp()->alvIlmoitukset()->onkoIlmoitettu(paivamaara()) &&
+                !kp()->asetukset()->onko(AsetusModel::OhitaAlvLukko)) {
             QMessageBox::critical(this, tr("Arvonlisäveroilmoitus annettu"),
                                   tr("Laskun päivämäärältä on jo annettu arvonlisäveroilmoitus"));
             return false;
