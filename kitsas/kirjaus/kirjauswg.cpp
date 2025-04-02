@@ -76,6 +76,7 @@
 #include "pilvi/pilvimodel.h"
 #include "alv/alvilmoitustenmodel.h"
 #include "kirjaussivu.h"
+#include "maksatus/maksatuswidget.h"
 
 KirjausWg::KirjausWg(KirjausSivu *parent, QList<int> selauslista)
     : QWidget(parent),
@@ -94,6 +95,7 @@ KirjausWg::KirjausWg(KirjausSivu *parent, QList<int> selauslista)
     lokiTab_ = ui->tabWidget->widget(LOKI);
     kiertoTab_ = new KiertoWidget(tosite(), this);
     kommentitTab_ = new KommentitWidget(tosite(), this);
+    maksatusTab_ = new MaksatusWidget(tosite(), this);
 
     connect( ui->lisaaRiviNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaRivi()));
     connect( ui->poistariviNappi, SIGNAL(clicked(bool)), this, SLOT(poistaRivi()));
@@ -267,6 +269,8 @@ void KirjausWg::tyhjenna()
     poistaAktio_->setEnabled(false);
     ui->ocrLabel->hide();
     ui->tabWidget->setTabEnabled(ui->tabWidget->indexOf(ui->tabWidget->findChild<QWidget*>("lokiTab")), false);
+    const int maksatusIndex = ui->tabWidget->indexOf(maksatusTab_);
+    if(maksatusIndex > 0) ui->tabWidget->setTabEnabled(maksatusIndex, false);
 
     emit naytaPohjat(true);
 }
@@ -624,12 +628,21 @@ void KirjausWg::nollaaTietokannanvaihtuessa()
     ui->sarjaCombo->clear();
     ui->sarjaCombo->addItems(kp()->tositeSarjat());
 
+    const int maksatusIndex = ui->tabWidget->indexOf(maksatusTab_);
+    const bool maksatusNakyvissa = maksatusIndex > -1;
+    const bool maksatusOikeus = kp()->yhteysModel()->onkoOikeutta(YhteysModel::MAKSETTAVAKSI);
+    if( maksatusOikeus && !maksatusNakyvissa)
+        ui->tabWidget->insertTab( ui->tabWidget->count()-1, maksatusTab_, QIcon(":/pic/euromerkki.png"), tr("Maksatus") );
+    else if( !maksatusOikeus && maksatusNakyvissa)
+        ui->tabWidget->removeTab(maksatusIndex);
+
     int kommentitIndex = ui->tabWidget->indexOf(kommentitTab_);
     bool pilvessa = qobject_cast<PilviModel*>(kp()->yhteysModel());
     if( pilvessa && kommentitIndex < 0)
         ui->tabWidget->insertTab( ui->tabWidget->count()-1, kommentitTab_, QIcon(":/pic/kupla-harmaa.png"), tr("Kommentit") );
     else if( !pilvessa && kommentitIndex > 0)
         ui->tabWidget->removeTab(kommentitIndex);
+
 
 }
 
@@ -801,6 +814,10 @@ void KirjausWg::lataaTosite(int id)
     tosite_->lataa(id);
     ui->idLabel->setText(QString::number(id));
     ui->tabWidget->setTabEnabled(ui->tabWidget->indexOf(ui->tabWidget->findChild<QWidget*>("lokiTab")), true);
+
+    const int maksatusIndex = ui->tabWidget->indexOf(maksatusTab_);
+    if(maksatusIndex > 0) ui->tabWidget->setTabEnabled(maksatusIndex, true);
+
     emit naytaPohjat(false);    
 }
 

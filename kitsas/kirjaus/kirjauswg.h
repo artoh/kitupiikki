@@ -36,6 +36,7 @@ class KiertoWidget;
 class KommentitWidget;
 class TallennettuWidget;
 class KirjausSivu;
+class MaksatusWidget;
 
 /**
  * @brief Kirjausten muokkaus
@@ -194,6 +195,7 @@ protected:
     QWidget* lokiTab_;
     KiertoWidget* kiertoTab_;
     KommentitWidget* kommentitTab_;
+    MaksatusWidget* maksatusTab_;
 
     QList<int> selausLista_;
     Selauksesta selauksesta_ = EI_SELAUKSESTA;

@@ -179,6 +179,9 @@ SOURCES += \
     $$PWD/maaritys/verkkolasku/maventadialog.cpp \
     $$PWD/maaritys/verkkolasku/verkkolaskumaaritys.cpp \
     $$PWD/maaritys/veromaaritys.cpp \
+    $$PWD/maksatus/maksatuswidget.cpp \
+    $$PWD/maksatus/maksutmodel.cpp \
+    $$PWD/maksatus/uusimaksudialog.cpp \
     $$PWD/model/bannermodel.cpp \
     $$PWD/model/eramap.cpp \
     $$PWD/model/lasku.cpp \
@@ -313,6 +316,7 @@ SOURCES += \
     $$PWD/tools/kitsaslokimodel.cpp \
     $$PWD/tools/kohdennuscombo.cpp \
     $$PWD/tools/kpeuroedit.cpp \
+    $$PWD/tools/kpibanedit.cpp \
     $$PWD/tools/kpkpledit.cpp \
     $$PWD/tools/kpviiteedit.cpp \
     $$PWD/tools/kpyhedit.cpp \
@@ -609,6 +613,9 @@ HEADERS += \
     $$PWD/maaritys/verkkolasku/maventadialog.h \
     $$PWD/maaritys/verkkolasku/verkkolaskumaaritys.h \
     $$PWD/maaritys/veromaaritys.h \
+    $$PWD/maksatus/maksatuswidget.h \
+    $$PWD/maksatus/maksutmodel.h \
+    $$PWD/maksatus/uusimaksudialog.h \
     $$PWD/model/bannermodel.h \
     $$PWD/liite/cacheliite.h \
     $$PWD/model/eramap.h \
@@ -746,6 +753,7 @@ HEADERS += \
     $$PWD/tools/kitsaslokimodel.h \
     $$PWD/tools/kohdennuscombo.h \
     $$PWD/tools/kpeuroedit.h \
+    $$PWD/tools/kpibanedit.h \
     $$PWD/tools/kpkpledit.h \
     $$PWD/tools/kpviiteedit.h \
     $$PWD/tools/kpyhedit.h \
@@ -939,6 +947,8 @@ FORMS += \
     $$PWD/maaritys/verkkolasku/verkkolasku.ui \
     $$PWD/maaritys/veromaaritys.ui \
     $$PWD/maaritys/yhteystiedot.ui \
+    $$PWD/maksatus/maksatus.ui \
+    $$PWD/maksatus/uusimaksudialog.ui \
     $$PWD/pilvi/pilveensiirto.ui \
     $$PWD/raportti/kooste/raporttikoostajawidget.ui \
     $$PWD/raportti/paivakirja.ui \
