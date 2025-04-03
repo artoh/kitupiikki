@@ -165,7 +165,7 @@ bool TiedotSivu::validatePage()
 void TiedotSivu::haeytunnarilla()
 {
     if( ui->ytunnusEdit->hasAcceptableInput() ) {
-        QNetworkRequest request( QUrl("http://avoindata.prh.fi/bis/v1/" + ui->ytunnusEdit->text()));
+        QNetworkRequest request( QUrl("https://avoindata.prh.fi/opendata-ytj-api/v3/companies?businessId="+ ui->ytunnusEdit->text()));
         QNetworkReply *reply = kp()->networkManager()->get(request);
         connect( reply, &QNetworkReply::finished, this, &TiedotSivu::yTietoSaapuu);
     }
@@ -175,57 +175,71 @@ void TiedotSivu::yTietoSaapuu()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>( sender());
     QVariant var = QJsonDocument::fromJson( reply->readAll() ).toVariant();
-    if( var.toMap().value("results").toList().isEmpty())
+    if( var.toMap().value("companies").toList().isEmpty())
         return;
 
-    QVariantMap tieto = var.toMap().value("results").toList().value(0).toMap();
-    ui->nimiEdit->setText( tieto.value("name").toString() );
+    QVariantMap tieto = var.toMap().value("companies").toList().value(0).toMap();
+
+    QVariantList nimiLista = tieto.value("names").toList();
+    for(const QVariant& nimiVar : std::as_const(nimiLista)) {
+        const QVariantMap& nimiMap = nimiVar.toMap();
+        if(!nimiMap.contains("endDate")) {
+            ui->nimiEdit->setText( nimiMap.value("name").toString() );
+        }
+    }
 
     QVariantList osoitteet = tieto.value("addresses").toList();
-    for(auto item : osoitteet) {
+    for(const auto& item : std::as_const( osoitteet )) {
         QVariantMap osoite = item.toMap();
-        if( osoite.value("endDate").toDate().isValid() )
+        if( osoite.value("type").toInt() == 1 )
             continue;
-        ui->osoiteEdit->setPlainText( osoite.value("street").toString() );
+        if( osoite.value("postOfficeBox").toString().length() > 0)
+            ui->osoiteEdit->setPlainText("PL " + osoite.value("postOfficeBox").toString());
+        else {
+            const QString addr =
+                ( osoite.value("co").toString().length() > 0 ? osoite.value("co").toString() + "\n" : "") +
+                osoite.value("street").toString() + " " +
+                osoite.value("buildingNumber").toString() + " " +
+                osoite.value("entrance").toString() + " " +
+                osoite.value("apartmentNumber").toString() +
+                osoite.value("apartmentIdSuffix").toString();
+            ui->osoiteEdit->setPlainText(addr);
+        }
+
         ui->postinumeroEdit->setText( osoite.value("postCode").toString() );
-        ui->kaupunkiEdit->setText( osoite.value("city").toString());
+
+        const auto& postOfficeList = osoite.value("postOffices").toList();
+        for(const auto& officeItem : std::as_const(postOfficeList)  ) {
+            const auto& officeMap = officeItem.toMap();
+            if( officeMap.value("languageCode").toString() == "1")
+                ui->kaupunkiEdit->setText(officeMap.value("city").toString());
+        }
         break;
     }
 
-    QVariantList paikat = tieto.value("registedOffices").toList();
-    for( auto item : paikat) {
-        QVariantMap paikka = item.toMap();
-        if( paikka.value("endDate").toDate().isValid() )
-            continue;
-        // Tähän voidaan myöhemmin tehdä täsmääminen kielivalinnan kanssa ;)
-        QString kotipaikka = paikka.value("name").toString();
-        ui->kotipaikkaEdit->setText( kotipaikka.toUpper().left(1) + kotipaikka.toLower().mid(1) );
-    }
+    ui->webEdit->setText( tieto.value("website").toMap().value("url").toString() );
 
-    QVariantList contactDetails = tieto.value("contactDetails").toList();
-    for(auto item : contactDetails) {
-        const QVariantMap iMap = item.toMap();
-        const QString typeName = iMap.value("type").toString();
-        const QString value = iMap.value("value").toString();
-        // Skipataan vanhentuneet yhteystiedot
-        if( iMap.value("endDate").toDate().isValid() )
-            continue;
-        if( typeName == "Kotisivun www-osoite" && ui->webEdit->text().isEmpty()) {
-            ui->webEdit->setText( value );
-        } else if( typeName == "Puhelin" && ui->puhelinEdit->text().isEmpty()) {
-            ui->puhelinEdit->setText( value );
-        }
-    }
+    QString muoto;
+    const auto& muotoList = tieto.value("companyForms").toList();
+    for(const auto& mItem : std::as_const(muotoList)) {
+        const auto& mMap = mItem.toMap();
+        if( mMap.contains("endDate")) continue;
+        const QString& mCode = mMap.value("type").toString();
+        if( mCode == "16") muoto = "oy";
+        else if(mCode == "14") muoto = "osk";
+        else if(mCode == "2") muoto = "asoy";
+        else if(mCode == "5") muoto = "ay";
+        else if(mCode == "13") muoto = "ky";
 
-    const QString muoto = tieto.value("companyForm").toString().toLower();
-    if( !muoto.isEmpty()) {
-        for(int i = 0; i < ui->muotoList->count(); i++) {
-            auto item = ui->muotoList->item(i);
-            if( item->data(Qt::UserRole).toString() == muoto) {
-                ui->muotoList->setCurrentItem(item);
+        for(int i=0; i < ui->muotoList->count(); i++) {
+            if( ui->muotoList->item(i)->data(Qt::UserRole).toString() == muoto) {
+                ui->muotoList->setCurrentRow(i);
             }
         }
+
+        break;
     }
+
 
 }
 

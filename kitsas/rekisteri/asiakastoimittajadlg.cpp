@@ -232,7 +232,7 @@ void AsiakasToimittajaDlg::lisaaRyhmaan(int ryhma)
 
 void AsiakasToimittajaDlg::haeNimella()
 {
-    QNetworkRequest request( QUrl("http://avoindata.prh.fi/bis/v1/?name="+ui->nimiEdit->text()));
+    QNetworkRequest request( QUrl("https://avoindata.prh.fi/opendata-ytj-api/v3/companies?name="+ui->nimiEdit->text()));
     QNetworkReply *reply = kp()->networkManager()->get(request);
     connect( reply, &QNetworkReply::finished, this, &AsiakasToimittajaDlg::nimellaSaapuu);
 }
@@ -376,17 +376,47 @@ void AsiakasToimittajaDlg::osastoValittu()
 
 void AsiakasToimittajaDlg::dataTauluun(const QVariant &data)
 {
-    QVariantMap tieto = data.toMap().value("results").toList().value(0).toMap();
-    ui->nimiEdit->setText( tieto.value("name").toString() );
-    ui->yEdit->setText(tieto.value("businessId").toString());
+    qDebug() << data;
+
+
+    QVariantMap tieto = data.toMap().value("companies").toList().value(0).toMap();
+
+    QVariantList nimiLista = tieto.value("names").toList();
+    for(const QVariant& nimiVar : std::as_const(nimiLista)) {
+        const QVariantMap& nimiMap = nimiVar.toMap();
+        if(!nimiMap.contains("endDate")) {
+            ui->nimiEdit->setText( nimiMap.value("name").toString() );
+        }
+    }
+
+    ui->yEdit->setText(tieto.value("businessId").toMap().value("value").toString());
+
     QVariantList osoitteet = tieto.value("addresses").toList();
-    for(const auto& item : qAsConst( osoitteet )) {
+    for(const auto& item : std::as_const( osoitteet )) {
         QVariantMap osoite = item.toMap();
-        if( osoite.value("endDate").toDate().isValid() )
+        if( osoite.value("type").toInt() == 1 )
             continue;
-        ui->osoiteEdit->setPlainText( osoite.value("street").toString() );
+        if( osoite.value("postOfficeBox").toString().length() > 0)
+            ui->osoiteEdit->setPlainText("PL " + osoite.value("postOfficeBox").toString());
+        else {
+            const QString addr =
+                ( osoite.value("co").toString().length() > 0 ? osoite.value("co").toString() + "\n" : "") +
+                osoite.value("street").toString() + " " +
+                osoite.value("buildingNumber").toString() + " " +
+                osoite.value("entrance").toString() + " " +
+                osoite.value("apartmentNumber").toString() +
+                osoite.value("apartmentIdSuffix").toString();
+            ui->osoiteEdit->setPlainText(addr);
+        }
+
         ui->postinumeroEdit->setText( osoite.value("postCode").toString() );
-        ui->kaupunkiEdit->setText( osoite.value("city").toString());
+
+        const auto& postOfficeList = osoite.value("postOffices").toList();
+        for(const auto& officeItem : std::as_const(postOfficeList)  ) {
+            const auto& officeMap = officeItem.toMap();
+            if( officeMap.value("languageCode").toString() == "1")
+                ui->kaupunkiEdit->setText(officeMap.value("city").toString());
+        }
         break;
     }
 }
@@ -517,7 +547,7 @@ void AsiakasToimittajaDlg::dataSaapuu(QVariant *data)
 void AsiakasToimittajaDlg::haeYTunnarilla()
 {
     if( ui->yEdit->hasAcceptableInput() && !ladataan_) {
-        QNetworkRequest request( QUrl("http://avoindata.prh.fi/bis/v1/" + ui->yEdit->text()));
+        QNetworkRequest request( QUrl("https://avoindata.prh.fi/opendata-ytj-api/v3/companies?businessId=" + ui->yEdit->text()));
         QNetworkReply *reply = kp()->networkManager()->get(request);
         connect( reply, &QNetworkReply::finished, this, &AsiakasToimittajaDlg::yTietoSaapuu);
     }
@@ -527,7 +557,7 @@ void AsiakasToimittajaDlg::yTietoSaapuu()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>( sender());
     QVariant var = QJsonDocument::fromJson( reply->readAll() ).toVariant();
-    if( var.toMap().value("results").toList().isEmpty()) {
+    if( var.toMap().value("companies").toList().isEmpty()) {
         if( !isVisible())
             show();
         naytaVerkkolasku();
@@ -546,7 +576,7 @@ void AsiakasToimittajaDlg::nimellaSaapuu()
     QNetworkReply *reply = qobject_cast<QNetworkReply*>( sender());
     QVariant var = QJsonDocument::fromJson( reply->readAll() ).toVariant();
 
-    if( var.toMap().value("results").toList().length() == 1) {
+    if( var.toMap().value("companies").toList().length() == 1) {
         dataTauluun(var);
     }
     maventalookup();
