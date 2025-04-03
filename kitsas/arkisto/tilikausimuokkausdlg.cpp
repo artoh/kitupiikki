@@ -87,13 +87,17 @@ void TilikausiMuokkausDlg::accept()
 
     uusi.tallenna(kausi_.alkaa());
 
-    // Lukitseminen/lukituksen poisto
-    if( ui->lukittuCheck->isChecked()) {
-        if( !(kp()->tilitpaatetty() > kausi_.paattyy() ))
-            kp()->asetukset()->aseta("TilitPaatetty", kausi_.paattyy());
-    } else {
-        if( kp()->tilitpaatetty() >= kausi_.paattyy() )
-            kp()->asetukset()->aseta("TilitPaatetty", kausi_.alkaa().addDays(-1));
+    // Tilikausien lukitseminen
+    const QDate& paatosPaiva = kp()->tilitpaatetty();
+    // Jos lukitus olisi karkaamassa kauden ulkopuolelle
+    if( ui->lukittuCheck->isChecked() &&
+        paatosPaiva >= kausi_.alkaa() &&
+        paatosPaiva <= kausi_.paattyy() &&
+        paatosPaiva > uusi.paattyy()) {
+        kp()->asetukset()->aseta("TilitPaatetty", uusi.paattyy());
+    } else if( !ui->lukittuCheck->isChecked() &&
+               paatosPaiva >= uusi.alkaa()) {
+        kp()->asetukset()->aseta("TilitPaatetty", uusi.alkaa().addDays(-1));
     }
 
     // Tilinavaus
