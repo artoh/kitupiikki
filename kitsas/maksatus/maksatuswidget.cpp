@@ -36,6 +36,7 @@ void MaksatusWidget::uusiMaksu()
     const QString& partnerName = tosite_->kumppaninimi();
     const QString& iban = tosite_->lasku().iban();
     const QString& viite = tosite_->viite();
+    const QDate& erapvm = tosite_->erapvm();
 
     Euro summa = Euro::Zero;
 
@@ -46,6 +47,6 @@ void MaksatusWidget::uusiMaksu()
         }
     }
 
-    dlg.init( partnerName, iban, viite, summa );
+    dlg.init( partnerName, iban, viite, summa, erapvm );
     dlg.exec();
 }

@@ -30,7 +30,7 @@ UusiMaksuDialog::~UusiMaksuDialog()
     delete ui;
 }
 
-void UusiMaksuDialog::init(const QString &saaja, const QString &iban, const QString &viite, const Euro &summa)
+void UusiMaksuDialog::init(const QString &saaja, const QString &iban, const QString &viite, const Euro &summa, const QDate& pvm)
 {
     ui->saajaEdit->setText( saaja );
     Iban sIban(iban);
@@ -40,6 +40,8 @@ void UusiMaksuDialog::init(const QString &saaja, const QString &iban, const QStr
         ui->viiteEdit->setText(viite);
     if( summa > Euro::Zero )
         ui->euroEdit->setEuro(summa);
+    if( pvm.isValid() && pvm >= QDate::currentDate() && pvm <= QDate::currentDate().addDays(365))
+        ui->pvmEdit->setDate(pvm);
 }
 
 void UusiMaksuDialog::updateBankName()

@@ -2,6 +2,7 @@
 #define UUSIMAKSUDIALOG_H
 
 #include <QDialog>
+#include <QDate>
 #include "model/euro.h"
 
 namespace Ui {
@@ -16,7 +17,7 @@ public:
     explicit UusiMaksuDialog(QWidget *parent = nullptr);
     ~UusiMaksuDialog();
 
-    void init(const QString& saaja, const QString& iban = QString(), const QString& viite = QString(), const Euro& summa = Euro::Zero, const QDate &pvm);
+    void init(const QString& saaja, const QString& iban = QString(), const QString& viite = QString(), const Euro& summa = Euro::Zero, const QDate &pvm = QDate());
 
 private:
     void updateBankName();
