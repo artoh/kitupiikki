@@ -419,6 +419,7 @@ void KirjausWg::pohjaksi()
         tosite_->pohjaksi( ui.pvmEdit->date(), ui.otsikkoEdit->text(), ui.sailytaErat->isChecked() );
         tositeTyyppiVaihtui( tosite()->tyyppi() );
         tosite()->tarkasta();
+        tunnisteVaihtui(0);
     }
 }
 
