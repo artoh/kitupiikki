@@ -2,6 +2,8 @@
 #define MAKSUTMODEL_H
 
 #include <QAbstractTableModel>
+#include "maksatusitem.h"
+
 
 class MaksutModel : public QAbstractTableModel
 {
@@ -14,6 +16,11 @@ public:
         AMOUNT_COLUMN,
         REF_COLUMN,
         STATUS_COLUMN
+    };
+
+    enum {
+        RejectableRole = Qt::UserRole + 1,
+        IdRole = Qt::UserRole + 2
     };
 
     explicit MaksutModel(QObject *parent = nullptr);
@@ -29,7 +36,15 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
+    void load(const int documentId);
+
+    static QString tilaTeksti(const MaksatusItem::MaksatusTila tila);
+    static QIcon tilaIcon(const MaksatusItem::MaksatusTila tila);
 private:
+    void loadReady(const QVariant* reply);
+
+
+    QList<MaksatusItem> data_;
 };
 
 #endif // MAKSUTMODEL_H

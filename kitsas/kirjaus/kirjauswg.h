@@ -170,6 +170,8 @@ protected:
     void tarkastaTuplatJaTallenna(int tila);
     void tuplaTietoSaapuu(QVariant* data, int tila = Tosite::KIRJANPIDOSSA);
 
+    void tabVaihtuu(int index);
+
     bool tarkastaHylkays();
     KirjausSivu* kirjausSivu();
 

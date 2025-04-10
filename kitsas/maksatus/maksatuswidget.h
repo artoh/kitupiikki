@@ -18,10 +18,15 @@ public:
     MaksatusWidget(Tosite* tosite, QWidget *parent = nullptr);
     ~MaksatusWidget();
 
+    void reload();
+
 signals:
 
 private:
     void uusiMaksu();
+    void itemClicked(const QModelIndex& item);
+
+    void rejectPayment();
 
 
     Ui::Maksatus* ui;

@@ -36,6 +36,7 @@ public:
     qlonglong oikeudet() const { return oikeudet_; }
 
     bool alustettu() const { return alustettu_;}
+    bool maksatusKaytossa() const { return maksatus_;}
 
     void asetaNimi(const QString& nimi);
     void asetaYTunnus(const QString& ytunnus);
@@ -64,6 +65,8 @@ private:
     bool trial_period_ = false;
     bool trial_ = false;
     bool active_ = false;
+
+    bool maksatus_ = false;
 
     qlonglong oikeudet_ = 0L;
     QString url_;

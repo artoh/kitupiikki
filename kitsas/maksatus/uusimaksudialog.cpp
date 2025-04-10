@@ -30,7 +30,7 @@ UusiMaksuDialog::~UusiMaksuDialog()
     delete ui;
 }
 
-void UusiMaksuDialog::init(const QString &saaja, const QString &iban, const QString &viite, const Euro &summa, const QDate& pvm)
+void UusiMaksuDialog::init(const QString &saaja, const QString &iban, const QString &viite, const Euro &summa, const QDate& pvm, const QString& laskuNumero)
 {
     ui->saajaEdit->setText( saaja );
     Iban sIban(iban);
@@ -42,6 +42,23 @@ void UusiMaksuDialog::init(const QString &saaja, const QString &iban, const QStr
         ui->euroEdit->setEuro(summa);
     if( pvm.isValid() && pvm >= QDate::currentDate() && pvm <= QDate::currentDate().addDays(365))
         ui->pvmEdit->setDate(pvm);
+    ui->laskuNumeroEdit->setText(laskuNumero);
+}
+
+QVariant UusiMaksuDialog::data() const
+{
+    QVariantMap map;
+    map.insert("iban", ui->ibanEdit->iban().valeitta());
+    map.insert("nimi", ui->saajaEdit->text());
+    map.insert("pvm", ui->pvmEdit->date().toString("yyyy-MM-dd"));
+    map.insert("euro", ui->euroEdit->euro().toString());
+    if( ui->viiteRadio->isChecked() )
+        map.insert("viite", ui->viiteEdit->text().remove(empty));
+    else
+        map.insert("viesti", ui->viestiEdit->text().trimmed());
+    if( !ui->laskuNumeroEdit->text().isEmpty())
+        map.insert("laskunumero", ui->laskuNumeroEdit->text());
+    return map;
 }
 
 void UusiMaksuDialog::updateBankName()
@@ -62,3 +79,4 @@ void UusiMaksuDialog::validate()
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(isValid);
 }
 
+QRegularExpression UusiMaksuDialog::empty = QRegularExpression("\\s");

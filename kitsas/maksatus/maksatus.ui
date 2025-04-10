@@ -15,7 +15,14 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="QTableView" name="maksutView"/>
+    <widget class="QTableView" name="maksutView">
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
+     </property>
+    </widget>
    </item>
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -46,12 +53,15 @@ maksu</string>
      </item>
      <item>
       <widget class="QPushButton" name="poistaNappi">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
-        <string>Poista</string>
+        <string>Hylkää</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
-         <normaloff>:/pic/roskis.png</normaloff>:/pic/roskis.png</iconset>
+         <normaloff>:/pic/peru.png</normaloff>:/pic/peru.png</iconset>
        </property>
       </widget>
      </item>

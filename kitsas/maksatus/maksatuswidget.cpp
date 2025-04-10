@@ -5,6 +5,7 @@
 #include "maksutmodel.h"
 #include "model/tositeviennit.h"
 #include "model/tositevienti.h"
+#include "db/kirjanpito.h"
 
 #include "model/tosite.h"
 
@@ -18,6 +19,11 @@ MaksatusWidget::MaksatusWidget(Tosite* tosite, QWidget *parent)
 
     ui->maksutView->setModel(model_);
     ui->maksutView->horizontalHeader()->setSectionResizeMode(MaksutModel::REF_COLUMN, QHeaderView::Stretch);
+
+    connect( ui->maksutView, &QTableView::clicked, this, &MaksatusWidget::itemClicked);
+
+    connect( ui->poistaNappi, &QPushButton::clicked, this, &MaksatusWidget::rejectPayment);
+    connect( model_, &MaksutModel::modelReset, ui->maksutView, &QTableView::resizeColumnsToContents);
 }
 
 MaksatusWidget::~MaksatusWidget()
@@ -25,9 +31,10 @@ MaksatusWidget::~MaksatusWidget()
     delete ui;
 }
 
-void reload()
+void MaksatusWidget::reload()
 {
-
+    ui->poistaNappi->setEnabled(false);
+    model_->load( tosite_->id() );
 }
 
 void MaksatusWidget::uusiMaksu()
@@ -37,6 +44,7 @@ void MaksatusWidget::uusiMaksu()
     const QString& iban = tosite_->lasku().iban();
     const QString& viite = tosite_->viite();
     const QDate& erapvm = tosite_->erapvm();
+    const QString& laskuNumero = tosite_->laskuNumero();
 
     Euro summa = Euro::Zero;
 
@@ -47,6 +55,28 @@ void MaksatusWidget::uusiMaksu()
         }
     }
 
-    dlg.init( partnerName, iban, viite, summa, erapvm );
-    dlg.exec();
+    dlg.init( partnerName, iban, viite, summa, erapvm, laskuNumero );
+    if(dlg.exec() == QDialog::Accepted) {
+        const QString url = QString("/maksut/%1").arg(tosite_->id());
+        KpKysely* kysely = kpk(url, KpKysely::POST);
+        connect( kysely, &KpKysely::vastaus, this, &MaksatusWidget::reload);
+        kysely->kysy(dlg.data());
+    }
+}
+
+void MaksatusWidget::itemClicked(const QModelIndex &item)
+{
+    ui->poistaNappi->setEnabled( item.data(MaksutModel::RejectableRole).toBool() );
+}
+
+void MaksatusWidget::rejectPayment()
+{
+    const QModelIndex& current = ui->maksutView->currentIndex();
+    const QString id = current.data(MaksutModel::IdRole).toString();
+    if( id.isEmpty()) return;
+
+    const QString url = QString("/maksut/%1").arg(id);
+    KpKysely* kysely = kpk(url, KpKysely::DELETE);
+    connect( kysely, &KpKysely::vastaus, this, &MaksatusWidget::reload);
+    kysely->kysy();
 }

@@ -179,6 +179,7 @@ SOURCES += \
     $$PWD/maaritys/verkkolasku/maventadialog.cpp \
     $$PWD/maaritys/verkkolasku/verkkolaskumaaritys.cpp \
     $$PWD/maaritys/veromaaritys.cpp \
+    $$PWD/maksatus/maksatusitem.cpp \
     $$PWD/maksatus/maksatuswidget.cpp \
     $$PWD/maksatus/maksutmodel.cpp \
     $$PWD/maksatus/uusimaksudialog.cpp \
@@ -613,6 +614,7 @@ HEADERS += \
     $$PWD/maaritys/verkkolasku/maventadialog.h \
     $$PWD/maaritys/verkkolasku/verkkolaskumaaritys.h \
     $$PWD/maaritys/veromaaritys.h \
+    $$PWD/maksatus/maksatusitem.h \
     $$PWD/maksatus/maksatuswidget.h \
     $$PWD/maksatus/maksutmodel.h \
     $$PWD/maksatus/uusimaksudialog.h \

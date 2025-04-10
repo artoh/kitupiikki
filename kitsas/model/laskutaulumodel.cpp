@@ -24,6 +24,9 @@
 #include "model/lasku.h"
 #include "db/tositetyyppimodel.h"
 
+#include "maksatus/maksatusitem.h"
+#include "maksatus/maksutmodel.h"
+
 LaskuTauluModel::LaskuTauluModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
@@ -247,9 +250,19 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
                     return QIcon(":/pic/tyhja.png");
                 else
                     return QIcon(":/pic/refresh.png");
+            } else if( index.column() == MAKSAMATTA && map.contains("maksutila")) {
+                const QString& tilaStr = map.value("maksutila").toString();
+                return MaksutModel::tilaIcon( MaksatusItem::strToTila(tilaStr) );
             }
         }
         return QVariant();
+    case Qt::ToolTipRole: {
+        if( index.column() == MAKSAMATTA && map.contains("maksutila")) {
+            const QString& tilaStr = map.value("maksutila").toString();
+            return MaksutModel::tilaTeksti( MaksatusItem::strToTila(tilaStr) );
+        }
+        return QVariant();
+    }
     case EraPvmRooli:
         return map.value("erapvm").toDate();
     case LaskutustapaRooli:

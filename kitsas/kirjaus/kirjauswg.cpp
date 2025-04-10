@@ -206,7 +206,7 @@ KirjausWg::KirjausWg(KirjausSivu *parent, QList<int> selauslista)
     connect(kommentitTab_, &KommentitWidget::kommentteja, this, &KirjausWg::naytaKommenttimerkki);
 
     connect( ui->otsikkoEdit, &QLineEdit::editingFinished, this, &KirjausWg::paivitaOtsikkoSelitteeksi);
-
+    connect( ui->tabWidget, &QTabWidget::currentChanged, this, &KirjausWg::tabVaihtuu);
 }
 
 KirjausWg::~KirjausWg()
@@ -631,7 +631,7 @@ void KirjausWg::nollaaTietokannanvaihtuessa()
 
     const int maksatusIndex = ui->tabWidget->indexOf(maksatusTab_);
     const bool maksatusNakyvissa = maksatusIndex > -1;
-    const bool maksatusOikeus = kp()->yhteysModel()->onkoOikeutta(YhteysModel::MAKSETTAVAKSI);
+    const bool maksatusOikeus = kp()->pilvi()->pilvi().maksatusKaytossa();
     if( maksatusOikeus && !maksatusNakyvissa)
         ui->tabWidget->insertTab( ui->tabWidget->count()-1, maksatusTab_, QIcon(":/pic/euromerkki.png"), tr("Maksatus") );
     else if( !maksatusOikeus && maksatusNakyvissa)
@@ -790,6 +790,13 @@ void KirjausWg::tuplaTietoSaapuu(QVariant *data, int tila)
             return;
     }
     tosite()->tallenna(tila);
+}
+
+void KirjausWg::tabVaihtuu(int index)
+{
+    if( index == ui->tabWidget->indexOf(maksatusTab_)) {
+        maksatusTab_->reload();
+    }
 }
 
 bool KirjausWg::tarkastaHylkays()

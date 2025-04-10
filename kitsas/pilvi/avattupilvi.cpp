@@ -29,6 +29,10 @@ AvattuPilvi::AvattuPilvi(const QVariant &data)
     active_ = map.value("active", true).toBool();
     alias_ = map.value("alias").toString();
 
+    // Maksatus on käytettävissä vain, mikäli se on aktivoitu kirjanpitoon JA
+    // käyttäjällä on oikeus maksettavaksi merkitsemiseen
+    maksatus_ = map.value("paymentsEnabled").toBool() && ( oikeudet_ & YhteysModel::MAKSETTAVAKSI );
+
     const QVariantMap planMap = map.value("plan").toMap();
     plan_id_ = planMap.value("id").toInt();
     vat_ = planMap.value("vat").toBool();

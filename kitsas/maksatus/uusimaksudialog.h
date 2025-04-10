@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QDate>
+#include <QRegularExpression>
 #include "model/euro.h"
 
 namespace Ui {
@@ -17,13 +18,17 @@ public:
     explicit UusiMaksuDialog(QWidget *parent = nullptr);
     ~UusiMaksuDialog();
 
-    void init(const QString& saaja, const QString& iban = QString(), const QString& viite = QString(), const Euro& summa = Euro::Zero, const QDate &pvm = QDate());
+    void init(const QString& saaja, const QString& iban = QString(), const QString& viite = QString(), const Euro& summa = Euro::Zero, const QDate &pvm = QDate(), const QString &laskuNumero = QString());
+    QVariant data() const;
 
 private:
     void updateBankName();
     void validate();
 
     Ui::UusiMaksuDlg *ui;
+
+    static QRegularExpression empty;
 };
+
 
 #endif // UUSIMAKSUDIALOG_H
