@@ -151,6 +151,7 @@ KirjausWg::KirjausWg(KirjausSivu *parent, QList<int> selauslista)
 
     kiertoTab_->hide();
     kommentitTab_->hide();
+    maksatusTab_->hide();
 
     connect( tosite_, &Tosite::tilaTieto, this, &KirjausWg::paivita);
     connect( tosite_, &Tosite::talletettu, this, &KirjausWg::tallennettu);
