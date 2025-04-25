@@ -252,6 +252,7 @@ void Tosite::pohjaksi(const QDate &paiva, const QString &uusiotsikko, bool saily
     asetaLaskupvm(paiva);
     if( erapvm().isValid())
         asetaErapvm(erapvm().addDays(siirto));
+    emit ladattu();
 }
 
 void Tosite::asetaLaskuNumero(const QString &laskunumero)
