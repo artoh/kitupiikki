@@ -200,13 +200,32 @@ void LaskuDialogiTehdas::ladattuKopioitavaksi()
 
     tosite->lasku().setToimituspvm( tosite->laskupvm() );
 
+    const bool alvVelvollinen = kp()->onkoAlvVelvollinen(paivamaara());
+
     // Irrotetaan tositteen viennit ja tase-erät
     for(int i=0; i < tosite->viennit()->rowCount(); i++) {
         TositeVienti vienti = tosite->viennit()->vienti(i);
         vienti.setId(0);
         if( vienti.eraId())
             vienti.setEra(-1);
+        // Jos alv on lakannut, niin pitää poistaa alv-koodit
+        if( vienti.alvKoodi() && !alvVelvollinen) {
+            vienti.setAlvKoodi(AlvKoodi::EIALV);
+            vienti.setAlvProsentti(0);
+        }
+
         tosite->viennit()->asetaVienti(i, vienti);
+    }
+
+    if( !alvVelvollinen) {
+        // Poistetaan alv myös riveiltä
+        for(int i=0; i < tosite->rivit()->rowCount(); i++) {
+            TositeRivi rivi = tosite->rivit()->rivi(i);
+            if( rivi.alvkoodi() == AlvKoodi::EIALV) continue;
+            rivi.setAlvKoodi(AlvKoodi::EIALV);
+            rivi.setAlvProsentti(0);
+            tosite->rivit()->asetaRivi(i, rivi);
+        }
     }
 
     if( jaksonpituus) {
