@@ -239,6 +239,8 @@
 		CB64F8A12A00071C000B0FAE /* moc_extradialog.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB64F89E2A00071C000B0FAE /* moc_extradialog.cpp */; };
 		CB77E18F2AB2AAE80007A360 /* QtQuickWidgets.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = CB77E18D2AB2AAC00007A360 /* QtQuickWidgets.framework */; };
 		CB77E1902AB2AAE80007A360 /* QtQuickWidgets.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CB77E18D2AB2AAC00007A360 /* QtQuickWidgets.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CB78FFFD2D91CC99000F551B /* laskurivitview.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB78FFFC2D91CC99000F551B /* laskurivitview.cpp */; };
+		CB78FFFF2D91DF0A000F551B /* moc_laskurivitview.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB78FFFE2D91DF0A000F551B /* moc_laskurivitview.cpp */; };
 		CB7B54DC2AD5ABCF0060E50A /* yksityistilienpaattaja.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB7B54DA2AD5ABCF0060E50A /* yksityistilienpaattaja.cpp */; };
 		CB7B54E32AD5AD050060E50A /* maksutapa.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB7B54E22AD5AD050060E50A /* maksutapa.cpp */; };
 		CB7B54E62AD5AD3F0060E50A /* eranselvityssortfilterproxymodel.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB7B54E52AD5AD3F0060E50A /* eranselvityssortfilterproxymodel.cpp */; };
@@ -994,7 +996,7 @@
 		12E9680F551FC971F73B534E /* kohdennukset.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = kohdennukset.ui; path = /Users/petri/git/kitupiikki/kitsas/maaritys/kohdennukset.ui; sourceTree = "<absolute>"; };
 		12EDEC2C0099C61835C5954F /* tilausvalinta.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = tilausvalinta.ui; path = /Users/petri/git/kitupiikki/kitsas/tilaus/tilausvalinta.ui; sourceTree = "<absolute>"; };
 		1525CAAFBBB8CE1BBAD731B7 /* ennakkohyvitysdialogi.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = ennakkohyvitysdialogi.ui; path = /Users/petri/git/kitupiikki/kitsas/laskutus/ennakkohyvitysdialogi.ui; sourceTree = "<absolute>"; };
-		153A5B8C9A2350226AAA50FF /* QtSql.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtSql.framework; path = ../../../Qt/6.6.2/macos/lib/QtSql.framework; sourceTree = "<group>"; };
+		153A5B8C9A2350226AAA50FF /* QtSql.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtSql.framework; path = ../../../Qt/6.7.3/macos/lib/QtSql.framework; sourceTree = "<group>"; };
 		166DD7853AE979AD91AEE1C4 /* uusitilikartta.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = uusitilikartta.ui; path = /Users/petri/git/kitupiikki/kitsas/uusikirjanpito/uusitilikartta.ui; sourceTree = "<absolute>"; };
 		18A57DBA222943382D61AA1E /* aloitus.qrc */ = {isa = PBXFileReference; lastKnownFileType = text; name = aloitus.qrc; path = /Users/petri/git/kitupiikki/kitsas/aloitussivu/qrc/aloitus.qrc; sourceTree = "<absolute>"; };
 		1A101D2C0F024BD93E73E8E9 /* uusialoitus.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = uusialoitus.ui; path = /Users/petri/git/kitupiikki/kitsas/uusikirjanpito/uusialoitus.ui; sourceTree = "<absolute>"; };
@@ -1027,14 +1029,14 @@
 		4211B94369F5CC2A3A2B5262 /* tuotedialogi.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = tuotedialogi.ui; path = /Users/petri/git/kitupiikki/kitsas/laskutus/tuotedialogi.ui; sourceTree = "<absolute>"; };
 		42754A9022E83250C510A9BE /* raportinmuokkaus.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = raportinmuokkaus.ui; path = /Users/petri/git/kitupiikki/kitsas/maaritys/raportinmuokkaus/raportinmuokkaus.ui; sourceTree = "<absolute>"; };
 		4471853217EAFC9054A48043 /* ui_pvmvali.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ui_pvmvali.h; path = /Users/petri/git/kitupiikki/mac/ui_pvmvali.h; sourceTree = "<absolute>"; };
-		44D855DBFC1E97999C2E0A0D /* QtWidgets.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtWidgets.framework; path = ../../../Qt/6.6.2/macos/lib/QtWidgets.framework; sourceTree = "<group>"; };
+		44D855DBFC1E97999C2E0A0D /* QtWidgets.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtWidgets.framework; path = ../../../Qt/6.7.3/macos/lib/QtWidgets.framework; sourceTree = "<group>"; };
 		47D4EE467BE8F89E2301056B /* aloitus.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = aloitus.ui; path = /Users/petri/git/kitupiikki/kitsas/aloitussivu/aloitus.ui; sourceTree = "<absolute>"; };
 		4817951834FD1B7352574A82 /* arkistohakemistodialogi.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = arkistohakemistodialogi.ui; path = /Users/petri/git/kitupiikki/kitsas/arkistoija/arkistohakemistodialogi.ui; sourceTree = "<absolute>"; };
 		486CF888B9C7027BD84EB7EB /* laskulistawidget.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = laskulistawidget.ui; path = /Users/petri/git/kitupiikki/kitsas/laskutus/laskulistawidget.ui; sourceTree = "<absolute>"; };
 		519AB25396A5B1ABA777DEF7 /* tuloverodialog.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = tuloverodialog.ui; path = /Users/petri/git/kitupiikki/kitsas/arkisto/tuloverodialog.ui; sourceTree = "<absolute>"; };
 		53D5F7E8C1D4E23AF623D537 /* lisaaraporttidialogi.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = lisaaraporttidialogi.ui; path = /Users/petri/git/kitupiikki/kitsas/maaritys/lisaaraporttidialogi.ui; sourceTree = "<absolute>"; };
 		58046E52EED275C886579A1F /* moc_tosite.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = moc_tosite.cpp; path = /Users/petri/git/kitupiikki/mac/moc_tosite.cpp; sourceTree = "<absolute>"; };
-		5ABB8CEF7F10FE343021B518 /* QtNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtNetwork.framework; path = ../../../Qt/6.6.2/macos/lib/QtNetwork.framework; sourceTree = "<group>"; };
+		5ABB8CEF7F10FE343021B518 /* QtNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtNetwork.framework; path = ../../../Qt/6.7.3/macos/lib/QtNetwork.framework; sourceTree = "<group>"; };
 		5D0DFD6350B99597DC358B9A /* moc_vanhatuontidlg.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = moc_vanhatuontidlg.cpp; path = /Users/petri/git/kitupiikki/mac/moc_vanhatuontidlg.cpp; sourceTree = "<absolute>"; };
 		5D3DE61FE5343EDDF928D43D /* tilausyhteys.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = tilausyhteys.ui; path = /Users/petri/git/kitupiikki/kitsas/tilaus/tilausyhteys.ui; sourceTree = "<absolute>"; };
 		5D5DB09548302972476C7D04 /* qrc_sqlite.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = qrc_sqlite.cpp; path = /Users/petri/git/kitupiikki/mac/qrc_sqlite.cpp; sourceTree = "<absolute>"; };
@@ -1051,7 +1053,7 @@
 		6D5DDD9856BEA4FC5D70665A /* arkistonvienti.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = arkistonvienti.ui; path = /Users/petri/git/kitupiikki/kitsas/arkisto/arkistonvienti.ui; sourceTree = "<absolute>"; };
 		6DDC155F0646594F18FC6F92 /* moc_kielidelegaatti.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = moc_kielidelegaatti.cpp; path = /Users/petri/git/kitupiikki/mac/moc_kielidelegaatti.cpp; sourceTree = "<absolute>"; };
 		71AA1EE506FF0EFA2A155188 /* tulomenoapuri.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = tulomenoapuri.ui; path = /Users/petri/git/kitupiikki/kitsas/apuri/tulomenoapuri.ui; sourceTree = "<absolute>"; };
-		71FF985D34B6AC98470C412E /* QtSvg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtSvg.framework; path = ../../../Qt/6.6.2/macos/lib/QtSvg.framework; sourceTree = "<group>"; };
+		71FF985D34B6AC98470C412E /* QtSvg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtSvg.framework; path = ../../../Qt/6.7.3/macos/lib/QtSvg.framework; sourceTree = "<group>"; };
 		723F90793B2C195E2CCB2233 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		72A6A3C2BC1FF5270C8241C3 /* moc_asiakkaatmodel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = moc_asiakkaatmodel.cpp; path = /Users/petri/git/kitupiikki/mac/moc_asiakkaatmodel.cpp; sourceTree = "<absolute>"; };
 		73B3CC77C155E930620530EB /* muokattavaraportti.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = muokattavaraportti.ui; path = /Users/petri/git/kitupiikki/kitsas/raportti/muokattavaraportti.ui; sourceTree = "<absolute>"; };
@@ -1063,7 +1065,7 @@
 		7F7F3CA179752880C7737E83 /* moc_siirtoapuri.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = moc_siirtoapuri.cpp; path = /Users/petri/git/kitupiikki/mac/moc_siirtoapuri.cpp; sourceTree = "<absolute>"; };
 		7FEA222A27AAB64C15B0D708 /* moc_alvraporttiwidget.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = moc_alvraporttiwidget.cpp; path = /Users/petri/git/kitupiikki/mac/moc_alvraporttiwidget.cpp; sourceTree = "<absolute>"; };
 		82BD53332692C71A0E970406 /* aboutdialog.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = aboutdialog.ui; path = /Users/petri/git/kitupiikki/kitsas/aloitussivu/aboutdialog.ui; sourceTree = "<absolute>"; };
-		83637733A66D05C0C7174C1F /* QtPrintSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtPrintSupport.framework; path = ../../../Qt/6.6.2/macos/lib/QtPrintSupport.framework; sourceTree = "<group>"; };
+		83637733A66D05C0C7174C1F /* QtPrintSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtPrintSupport.framework; path = ../../../Qt/6.7.3/macos/lib/QtPrintSupport.framework; sourceTree = "<group>"; };
 		847C3622F25372A737E0E6FE /* siirry.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = siirry.ui; path = /Users/petri/git/kitupiikki/kitsas/kirjaus/siirry.ui; sourceTree = "<absolute>"; };
 		8604BC119D2BF1042E7BA5CB /* tilikarttamuokkaus.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = tilikarttamuokkaus.ui; path = /Users/petri/git/kitupiikki/kitsas/maaritys/tilikarttamuokkaus.ui; sourceTree = "<absolute>"; };
 		865814EC2A76394A3DFC20F2 /* csvvientivalinnat.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = csvvientivalinnat.ui; path = /Users/petri/git/kitupiikki/kitsas/raportti/csvvientivalinnat.ui; sourceTree = "<absolute>"; };
@@ -1090,7 +1092,7 @@
 		A346D899A3E704ECE6C2FD85 /* moc_tallennettuwidget.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = moc_tallennettuwidget.cpp; path = /Users/petri/git/kitupiikki/mac/moc_tallennettuwidget.cpp; sourceTree = "<absolute>"; };
 		A5339DF6DA4BA11BE2696477 /* onniwidget.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = onniwidget.ui; path = /Users/petri/git/kitupiikki/kitsas/onniwidget.ui; sourceTree = "<absolute>"; };
 		A64AB3BAB1DEAC7B10DCD16B /* laskumaaritys.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = laskumaaritys.ui; path = /Users/petri/git/kitupiikki/kitsas/maaritys/laskumaaritys.ui; sourceTree = "<absolute>"; };
-		A65BE9A069DA8D68F38407CF /* QtGui.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtGui.framework; path = ../../../Qt/6.6.2/macos/lib/QtGui.framework; sourceTree = "<group>"; };
+		A65BE9A069DA8D68F38407CF /* QtGui.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtGui.framework; path = ../../../Qt/6.7.3/macos/lib/QtGui.framework; sourceTree = "<group>"; };
 		AAAFE7DCC05762584EA3996D /* moc_avauskohdennusmodel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = moc_avauskohdennusmodel.cpp; path = /Users/petri/git/kitupiikki/mac/moc_avauskohdennusmodel.cpp; sourceTree = "<absolute>"; };
 		AB445E8B838001C74C44FC4B /* moc_jaksottaja.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = moc_jaksottaja.cpp; path = /Users/petri/git/kitupiikki/mac/moc_jaksottaja.cpp; sourceTree = "<absolute>"; };
 		AD402BE7F39445543A24D16D /* lukitsetilikausi.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = lukitsetilikausi.ui; path = /Users/petri/git/kitupiikki/kitsas/arkisto/lukitsetilikausi.ui; sourceTree = "<absolute>"; };
@@ -1326,28 +1328,28 @@
 		CB3F304A2A10CC8400538778 /* ui_aliasdialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ui_aliasdialog.h; sourceTree = "<group>"; };
 		CB3F304E2A10CE8D00538778 /* moc_eumyyntiyhteenvetodialogi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = moc_eumyyntiyhteenvetodialogi.cpp; sourceTree = "<group>"; };
 		CB3F304F2A10CE8D00538778 /* moc_kirjanpitodelegaatti.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = moc_kirjanpitodelegaatti.cpp; sourceTree = "<group>"; };
-		CB3F30522A10F10800538778 /* libqsecuretransportbackend.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqsecuretransportbackend.dylib; path = ../../../Qt/6.6.2/macos/plugins/tls/libqsecuretransportbackend.dylib; sourceTree = "<group>"; };
+		CB3F30522A10F10800538778 /* libqsecuretransportbackend.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqsecuretransportbackend.dylib; path = ../../../Qt/6.7.3/macos/plugins/tls/libqsecuretransportbackend.dylib; sourceTree = "<group>"; };
 		CB406C5C2B695DEB00A41EA7 /* ui_yksityinenlisaosadialogi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ui_yksityinenlisaosadialogi.h; sourceTree = "<group>"; };
 		CB406C5E2B695E8700A41EA7 /* eranselvityseranvalintadialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = eranselvityseranvalintadialog.cpp; sourceTree = "<group>"; };
 		CB406C5F2B695E8700A41EA7 /* eranselvityseranvalintadialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eranselvityseranvalintadialog.h; sourceTree = "<group>"; };
 		CB406C622B695ED500A41EA7 /* kitsas.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = kitsas.svg; sourceTree = "<group>"; };
 		CB406C632B695ED500A41EA7 /* web.qrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = web.qrc; sourceTree = "<group>"; };
 		CB406C642B695ED500A41EA7 /* loading.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = loading.html; sourceTree = "<group>"; };
-		CB4688A72A07CE83002A3020 /* libqcocoa.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqcocoa.dylib; path = ../../../Qt/6.6.2/macos/plugins/platforms/libqcocoa.dylib; sourceTree = "<group>"; };
-		CB4688A92A07CEA7002A3020 /* libqmacstyle.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqmacstyle.dylib; path = ../../../Qt/6.6.2/macos/plugins/styles/libqmacstyle.dylib; sourceTree = "<group>"; };
-		CB4688AB2A07CF6D002A3020 /* libqsvgicon.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqsvgicon.dylib; path = ../../../Qt/6.6.2/macos/plugins/iconengines/libqsvgicon.dylib; sourceTree = "<group>"; };
-		CB4688AD2A07CF91002A3020 /* libqsqlite.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqsqlite.dylib; path = ../../../Qt/6.6.2/macos/plugins/sqldrivers/libqsqlite.dylib; sourceTree = "<group>"; };
-		CB4688AF2A07D0A2002A3020 /* libqwbmp.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqwbmp.dylib; path = ../../../Qt/6.6.2/macos/plugins/imageformats/libqwbmp.dylib; sourceTree = "<group>"; };
-		CB4688C92A07D0A2002A3020 /* libqsvg.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqsvg.dylib; path = ../../../Qt/6.6.2/macos/plugins/imageformats/libqsvg.dylib; sourceTree = "<group>"; };
-		CB4688CA2A07D0A2002A3020 /* libqtga.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqtga.dylib; path = ../../../Qt/6.6.2/macos/plugins/imageformats/libqtga.dylib; sourceTree = "<group>"; };
-		CB4688CB2A07D0A2002A3020 /* libqwebp.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqwebp.dylib; path = ../../../Qt/6.6.2/macos/plugins/imageformats/libqwebp.dylib; sourceTree = "<group>"; };
-		CB4688CC2A07D0A2002A3020 /* libqicns.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqicns.dylib; path = ../../../Qt/6.6.2/macos/plugins/imageformats/libqicns.dylib; sourceTree = "<group>"; };
-		CB4688CD2A07D0A2002A3020 /* libqjpeg.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqjpeg.dylib; path = ../../../Qt/6.6.2/macos/plugins/imageformats/libqjpeg.dylib; sourceTree = "<group>"; };
-		CB4688CE2A07D0A2002A3020 /* libqmacjp2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqmacjp2.dylib; path = ../../../Qt/6.6.2/macos/plugins/imageformats/libqmacjp2.dylib; sourceTree = "<group>"; };
-		CB4688CF2A07D0A3002A3020 /* libqtiff.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqtiff.dylib; path = ../../../Qt/6.6.2/macos/plugins/imageformats/libqtiff.dylib; sourceTree = "<group>"; };
-		CB4688D02A07D0A3002A3020 /* libqmacheif.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqmacheif.dylib; path = ../../../Qt/6.6.2/macos/plugins/imageformats/libqmacheif.dylib; sourceTree = "<group>"; };
-		CB4688D12A07D0A3002A3020 /* libqgif.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqgif.dylib; path = ../../../Qt/6.6.2/macos/plugins/imageformats/libqgif.dylib; sourceTree = "<group>"; };
-		CB4688D22A07D0A3002A3020 /* libqico.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqico.dylib; path = ../../../Qt/6.6.2/macos/plugins/imageformats/libqico.dylib; sourceTree = "<group>"; };
+		CB4688A72A07CE83002A3020 /* libqcocoa.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqcocoa.dylib; path = ../../../Qt/6.7.3/macos/plugins/platforms/libqcocoa.dylib; sourceTree = "<group>"; };
+		CB4688A92A07CEA7002A3020 /* libqmacstyle.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqmacstyle.dylib; path = ../../../Qt/6.7.3/macos/plugins/styles/libqmacstyle.dylib; sourceTree = "<group>"; };
+		CB4688AB2A07CF6D002A3020 /* libqsvgicon.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqsvgicon.dylib; path = ../../../Qt/6.7.3/macos/plugins/iconengines/libqsvgicon.dylib; sourceTree = "<group>"; };
+		CB4688AD2A07CF91002A3020 /* libqsqlite.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqsqlite.dylib; path = ../../../Qt/6.7.3/macos/plugins/sqldrivers/libqsqlite.dylib; sourceTree = "<group>"; };
+		CB4688AF2A07D0A2002A3020 /* libqwbmp.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqwbmp.dylib; path = ../../../Qt/6.7.3/macos/plugins/imageformats/libqwbmp.dylib; sourceTree = "<group>"; };
+		CB4688C92A07D0A2002A3020 /* libqsvg.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqsvg.dylib; path = ../../../Qt/6.7.3/macos/plugins/imageformats/libqsvg.dylib; sourceTree = "<group>"; };
+		CB4688CA2A07D0A2002A3020 /* libqtga.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqtga.dylib; path = ../../../Qt/6.7.3/macos/plugins/imageformats/libqtga.dylib; sourceTree = "<group>"; };
+		CB4688CB2A07D0A2002A3020 /* libqwebp.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqwebp.dylib; path = ../../../Qt/6.7.3/macos/plugins/imageformats/libqwebp.dylib; sourceTree = "<group>"; };
+		CB4688CC2A07D0A2002A3020 /* libqicns.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqicns.dylib; path = ../../../Qt/6.7.3/macos/plugins/imageformats/libqicns.dylib; sourceTree = "<group>"; };
+		CB4688CD2A07D0A2002A3020 /* libqjpeg.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqjpeg.dylib; path = ../../../Qt/6.7.3/macos/plugins/imageformats/libqjpeg.dylib; sourceTree = "<group>"; };
+		CB4688CE2A07D0A2002A3020 /* libqmacjp2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqmacjp2.dylib; path = ../../../Qt/6.7.3/macos/plugins/imageformats/libqmacjp2.dylib; sourceTree = "<group>"; };
+		CB4688CF2A07D0A3002A3020 /* libqtiff.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqtiff.dylib; path = ../../../Qt/6.7.3/macos/plugins/imageformats/libqtiff.dylib; sourceTree = "<group>"; };
+		CB4688D02A07D0A3002A3020 /* libqmacheif.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqmacheif.dylib; path = ../../../Qt/6.7.3/macos/plugins/imageformats/libqmacheif.dylib; sourceTree = "<group>"; };
+		CB4688D12A07D0A3002A3020 /* libqgif.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqgif.dylib; path = ../../../Qt/6.7.3/macos/plugins/imageformats/libqgif.dylib; sourceTree = "<group>"; };
+		CB4688D22A07D0A3002A3020 /* libqico.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; name = libqico.dylib; path = ../../../Qt/6.7.3/macos/plugins/imageformats/libqico.dylib; sourceTree = "<group>"; };
 		CB551D0CBA78E60241EC7DF6 /* kopioitosite.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = kopioitosite.ui; path = /Users/petri/git/kitupiikki/kitsas/kirjaus/kopioitosite.ui; sourceTree = "<absolute>"; };
 		CB56AB6C2A692AEB00EE0447 /* pdfrenderview.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pdfrenderview.cpp; sourceTree = "<group>"; };
 		CB56AB6D2A692AEB00EE0447 /* pdfrenderview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pdfrenderview.h; sourceTree = "<group>"; };
@@ -1378,12 +1380,12 @@
 		CB56AB922A692DA700EE0447 /* moc_eranselvityseramodel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = moc_eranselvityseramodel.cpp; sourceTree = "<group>"; };
 		CB56AB932A692DA700EE0447 /* moc_eranselvitys.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = moc_eranselvitys.cpp; sourceTree = "<group>"; };
 		CB56AB942A692DA700EE0447 /* ui_raporttikoostajawidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ui_raporttikoostajawidget.h; sourceTree = "<group>"; };
-		CB5C9F8D2AA780480014C787 /* QtQmlModels.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtQmlModels.framework; path = ../../../Qt/6.6.2/macos/lib/QtQmlModels.framework; sourceTree = "<group>"; };
-		CB5C9F8E2AA780490014C787 /* QtQuick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtQuick.framework; path = ../../../Qt/6.6.2/macos/lib/QtQuick.framework; sourceTree = "<group>"; };
-		CB5C9F8F2AA780490014C787 /* QtPositioning.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtPositioning.framework; path = ../../../Qt/6.6.2/macos/lib/QtPositioning.framework; sourceTree = "<group>"; };
-		CB5C9F902AA780490014C787 /* QtOpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtOpenGL.framework; path = ../../../Qt/6.6.2/macos/lib/QtOpenGL.framework; sourceTree = "<group>"; };
-		CB5C9F922AA7804A0014C787 /* QtQml.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtQml.framework; path = ../../../Qt/6.6.2/macos/lib/QtQml.framework; sourceTree = "<group>"; };
-		CB5C9F932AA7804A0014C787 /* QtWebChannel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtWebChannel.framework; path = ../../../Qt/6.6.2/macos/lib/QtWebChannel.framework; sourceTree = "<group>"; };
+		CB5C9F8D2AA780480014C787 /* QtQmlModels.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtQmlModels.framework; path = ../../../Qt/6.7.3/macos/lib/QtQmlModels.framework; sourceTree = "<group>"; };
+		CB5C9F8E2AA780490014C787 /* QtQuick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtQuick.framework; path = ../../../Qt/6.7.3/macos/lib/QtQuick.framework; sourceTree = "<group>"; };
+		CB5C9F8F2AA780490014C787 /* QtPositioning.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtPositioning.framework; path = ../../../Qt/6.7.3/macos/lib/QtPositioning.framework; sourceTree = "<group>"; };
+		CB5C9F902AA780490014C787 /* QtOpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtOpenGL.framework; path = ../../../Qt/6.7.3/macos/lib/QtOpenGL.framework; sourceTree = "<group>"; };
+		CB5C9F922AA7804A0014C787 /* QtQml.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtQml.framework; path = ../../../Qt/6.7.3/macos/lib/QtQml.framework; sourceTree = "<group>"; };
+		CB5C9F932AA7804A0014C787 /* QtWebChannel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtWebChannel.framework; path = ../../../Qt/6.7.3/macos/lib/QtWebChannel.framework; sourceTree = "<group>"; };
 		CB5CAB3A2AAE0BF10014C787 /* tilinpaatosgeneraattori.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tilinpaatosgeneraattori.h; sourceTree = "<group>"; };
 		CB5CAB3B2AAE0BF10014C787 /* mytexteditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mytexteditor.h; sourceTree = "<group>"; };
 		CB5CAB3C2AAE0BF10014C787 /* tilinpaatosgeneraattori.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tilinpaatosgeneraattori.cpp; sourceTree = "<group>"; };
@@ -1413,11 +1415,11 @@
 		CB6109B32A0018AB00B086A8 /* lisapalveluwidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lisapalveluwidget.h; sourceTree = "<group>"; };
 		CB6109B42A0018AB00B086A8 /* extralogmodel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = extralogmodel.cpp; sourceTree = "<group>"; };
 		CB64F87129FFFD86000B0FAE /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
-		CB64F87329FFFE4C000B0FAE /* QtSvgWidgets.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtSvgWidgets.framework; path = ../../../Qt/6.6.2/macos/lib/QtSvgWidgets.framework; sourceTree = "<group>"; };
-		CB64F87429FFFE4C000B0FAE /* QtPdf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtPdf.framework; path = ../../../Qt/6.6.2/macos/lib/QtPdf.framework; sourceTree = "<group>"; };
-		CB64F87529FFFE4D000B0FAE /* QtPdfWidgets.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtPdfWidgets.framework; path = ../../../Qt/6.6.2/macos/lib/QtPdfWidgets.framework; sourceTree = "<group>"; };
+		CB64F87329FFFE4C000B0FAE /* QtSvgWidgets.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtSvgWidgets.framework; path = ../../../Qt/6.7.3/macos/lib/QtSvgWidgets.framework; sourceTree = "<group>"; };
+		CB64F87429FFFE4C000B0FAE /* QtPdf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtPdf.framework; path = ../../../Qt/6.7.3/macos/lib/QtPdf.framework; sourceTree = "<group>"; };
+		CB64F87529FFFE4D000B0FAE /* QtPdfWidgets.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtPdfWidgets.framework; path = ../../../Qt/6.7.3/macos/lib/QtPdfWidgets.framework; sourceTree = "<group>"; };
 		CB64F87929FFFE9C000B0FAE /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
-		CB64F87B29FFFECF000B0FAE /* QtCore5Compat.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtCore5Compat.framework; path = ../../../Qt/6.6.2/macos/lib/QtCore5Compat.framework; sourceTree = "<group>"; };
+		CB64F87B29FFFECF000B0FAE /* QtCore5Compat.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtCore5Compat.framework; path = ../../../Qt/6.7.3/macos/lib/QtCore5Compat.framework; sourceTree = "<group>"; };
 		CB64F87D2A0005C1000B0FAE /* pdfnaytin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pdfnaytin.cpp; sourceTree = "<group>"; };
 		CB64F87E2A0005C1000B0FAE /* pdfnaytin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pdfnaytin.h; sourceTree = "<group>"; };
 		CB64F8812A0006C9000B0FAE /* kuvaliitewidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kuvaliitewidget.h; sourceTree = "<group>"; };
@@ -1440,7 +1442,10 @@
 		CB64F89D2A00071B000B0FAE /* moc_extralogmodel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = moc_extralogmodel.cpp; sourceTree = "<group>"; };
 		CB64F89E2A00071C000B0FAE /* moc_extradialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = moc_extradialog.cpp; sourceTree = "<group>"; };
 		CB76FC792D2541CC00F23567 /* about.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = about.bmp; sourceTree = "<group>"; };
-		CB77E18D2AB2AAC00007A360 /* QtQuickWidgets.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtQuickWidgets.framework; path = ../../../Qt/6.6.2/macos/lib/QtQuickWidgets.framework; sourceTree = "<group>"; };
+		CB77E18D2AB2AAC00007A360 /* QtQuickWidgets.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtQuickWidgets.framework; path = ../../../Qt/6.7.3/macos/lib/QtQuickWidgets.framework; sourceTree = "<group>"; };
+		CB78FFFB2D91CC99000F551B /* laskurivitview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = laskurivitview.h; sourceTree = "<group>"; };
+		CB78FFFC2D91CC99000F551B /* laskurivitview.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = laskurivitview.cpp; sourceTree = "<group>"; };
+		CB78FFFE2D91DF0A000F551B /* moc_laskurivitview.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = moc_laskurivitview.cpp; sourceTree = "<group>"; };
 		CB7B54DA2AD5ABCF0060E50A /* yksityistilienpaattaja.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = yksityistilienpaattaja.cpp; sourceTree = "<group>"; };
 		CB7B54DB2AD5ABCF0060E50A /* yksityistilienpaattaja.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yksityistilienpaattaja.h; sourceTree = "<group>"; };
 		CB7B54DD2AD5AC840060E50A /* yksityis.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yksityis.png; sourceTree = "<group>"; };
@@ -3057,7 +3062,7 @@
 		CB9B809727972B00000E9EE5 /* laatijanpaakirja.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = laatijanpaakirja.cpp; sourceTree = "<group>"; };
 		CB9B813D2799C1AB000E9EE5 /* vuosidelegaatti.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vuosidelegaatti.h; sourceTree = "<group>"; };
 		CB9B813E2799C1AB000E9EE5 /* vuosidelegaatti.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vuosidelegaatti.cpp; sourceTree = "<group>"; };
-		CBA30BC52AAE17F2007190A7 /* QtWebEngineCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtWebEngineCore.framework; path = ../../../Qt/6.6.2/macos/lib/QtWebEngineCore.framework; sourceTree = "<group>"; };
+		CBA30BC52AAE17F2007190A7 /* QtWebEngineCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtWebEngineCore.framework; path = ../../../Qt/6.7.3/macos/lib/QtWebEngineCore.framework; sourceTree = "<group>"; };
 		CBA38F492427E74F009178F9 /* moc_pilveensiirto.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = moc_pilveensiirto.cpp; sourceTree = "<group>"; };
 		CBA38F4B2427E74F009178F9 /* moc_luotunnusdialogi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = moc_luotunnusdialogi.cpp; sourceTree = "<group>"; };
 		CBA38F4C2427E74F009178F9 /* moc_liitemaaritys.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = moc_liitemaaritys.cpp; sourceTree = "<group>"; };
@@ -3186,14 +3191,14 @@
 		CBF158AF2BCBAE87008BC29D /* tilille.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tilille.png; sourceTree = "<group>"; };
 		CBF158B02BCBAE87008BC29D /* usbdrive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = usbdrive.png; sourceTree = "<group>"; };
 		CBF158B12BCBAE87008BC29D /* tililta.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tililta.png; sourceTree = "<group>"; };
-		CBFA9FB92AA369770005F066 /* QtWebEngineWidgets.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtWebEngineWidgets.framework; path = ../../../Qt/6.6.2/macos/lib/QtWebEngineWidgets.framework; sourceTree = "<group>"; };
-		CBFEDC482A113736003AD718 /* QtDBus.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtDBus.framework; path = ../../../Qt/6.6.2/macos/lib/QtDBus.framework; sourceTree = "<group>"; };
-		CC380CB5EA55D2073F2E1052 /* QtXml.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtXml.framework; path = ../../../Qt/6.6.2/macos/lib/QtXml.framework; sourceTree = "<group>"; };
+		CBFA9FB92AA369770005F066 /* QtWebEngineWidgets.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtWebEngineWidgets.framework; path = ../../../Qt/6.7.3/macos/lib/QtWebEngineWidgets.framework; sourceTree = "<group>"; };
+		CBFEDC482A113736003AD718 /* QtDBus.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtDBus.framework; path = ../../../Qt/6.7.3/macos/lib/QtDBus.framework; sourceTree = "<group>"; };
+		CC380CB5EA55D2073F2E1052 /* QtXml.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtXml.framework; path = ../../../Qt/6.7.3/macos/lib/QtXml.framework; sourceTree = "<group>"; };
 		CD1D76884A8C257712D9F612 /* moc_apuriwidget.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = moc_apuriwidget.cpp; path = /Users/petri/git/kitupiikki/mac/moc_apuriwidget.cpp; sourceTree = "<absolute>"; };
 		CE1D8B0D54253CAC8EC022BA /* emailmaaritys.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = emailmaaritys.ui; path = /Users/petri/git/kitupiikki/kitsas/maaritys/emailmaaritys.ui; sourceTree = "<absolute>"; };
 		CEEE8D511BB8A105C47E0C94 /* moc_avauserakantamodel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = moc_avauserakantamodel.cpp; path = /Users/petri/git/kitupiikki/mac/moc_avauserakantamodel.cpp; sourceTree = "<absolute>"; };
 		CFB9B53ECC22125123D064D6 /* tositewg.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = tositewg.ui; path = /Users/petri/git/kitupiikki/kitsas/kirjaus/tositewg.ui; sourceTree = "<absolute>"; };
-		D01F1517FA0663487ECE0785 /* QtCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtCore.framework; path = ../../../Qt/6.6.2/macos/lib/QtCore.framework; sourceTree = "<group>"; };
+		D01F1517FA0663487ECE0785 /* QtCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtCore.framework; path = ../../../Qt/6.7.3/macos/lib/QtCore.framework; sourceTree = "<group>"; };
 		D187971EABF51A28626E4A70 /* moc_laskualvcombo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = moc_laskualvcombo.cpp; path = /Users/petri/git/kitupiikki/mac/moc_laskualvcombo.cpp; sourceTree = "<absolute>"; };
 		D40F5A79B4239DB9210389ED /* ulkoasumaaritys.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = ulkoasumaaritys.ui; path = /Users/petri/git/kitupiikki/kitsas/maaritys/ulkoasumaaritys.ui; sourceTree = "<absolute>"; };
 		D4B32C2222F82AC56BADEB21 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
@@ -3464,6 +3469,7 @@
 				CB91E2252660C99F00A2FAA2 /* moc_laskunuusinta.cpp */,
 				CB9B7EF92795FE6F000E9EE5 /* moc_laskuraportti.cpp */,
 				CB91E2232660C99E00A2FAA2 /* moc_laskurividialogi.cpp */,
+				CB78FFFE2D91DF0A000F551B /* moc_laskurivitview.cpp */,
 				CB9B7F042795FE6F000E9EE5 /* moc_laskusivu.cpp */,
 				7DC71D97F4A6712FE0F1C466 /* moc_laskutaulumodel.cpp */,
 				F3E7E06B5849374B9929420B /* moc_laskutaulutilioteproxylla.cpp */,
@@ -5873,59 +5879,59 @@
 		CB91DD372660C7CE00A2FAA2 /* laskutus */ = {
 			isa = PBXGroup;
 			children = (
-				CBC29F0728FA99310026D987 /* emailasetukset.cpp */,
-				CBC29F0828FA99320026D987 /* emailasetukset.h */,
+				CB91DD732660C7CE00A2FAA2 /* alennustyyppimodel.h */,
+				CB91DD812660C7CE00A2FAA2 /* alennustyyppimodel.cpp */,
 				CB91DD382660C7CE00A2FAA2 /* asiakkaatmodel.h */,
-				CB91DD392660C7CE00A2FAA2 /* tositerivialv.cpp */,
-				CB91DD3A2660C7CE00A2FAA2 /* iban.h */,
-				CB91DD3B2660C7CE00A2FAA2 /* tuotedialogi.cpp */,
+				CB91DDAF2660C7CF00A2FAA2 /* asiakkaatmodel.cpp */,
+				CB91DD802660C7CE00A2FAA2 /* code128_XL.ttf */,
+				CBC29F0828FA99320026D987 /* emailasetukset.h */,
+				CBC29F0728FA99310026D987 /* emailasetukset.cpp */,
 				CB91DD3C2660C7CE00A2FAA2 /* ennakkohyvitysdialogi.ui */,
-				CB91DD3D2660C7CE00A2FAA2 /* toimittaja */,
+				CB91DD662660C7CE00A2FAA2 /* huoneisto */,
+				CB91DD3A2660C7CE00A2FAA2 /* iban.h */,
+				CB91DD582660C7CE00A2FAA2 /* iban.cpp */,
+				CB91DDCD2660C7CF00A2FAA2 /* kumppanituotewidget.h */,
+				CB91DD5D2660C7CE00A2FAA2 /* kumppanituotewidget.cpp */,
+				CB91DD622660C7CE00A2FAA2 /* kumppanituotewidget.ui */,
+				CB91DDAD2660C7CF00A2FAA2 /* lasku.qrc */,
+				CB91DD5A2660C7CE00A2FAA2 /* laskualvcombo.h */,
+				CB91DDAE2660C7CF00A2FAA2 /* laskualvcombo.cpp */,
+				CB91DD852660C7CE00A2FAA2 /* laskudlg */,
+				CB91DD632660C7CE00A2FAA2 /* laskulistawidget.h */,
+				CB91DD562660C7CE00A2FAA2 /* laskulistawidget.cpp */,
+				CB91DDB12660C7CF00A2FAA2 /* laskulistawidget.ui */,
+				CB91DD602660C7CE00A2FAA2 /* laskunmaksudialogi.ui */,
+				CB91DD592660C7CE00A2FAA2 /* laskunuusinta.h */,
+				CB91DDCA2660C7CF00A2FAA2 /* laskunuusinta.cpp */,
+				CB91DD572660C7CE00A2FAA2 /* laskuproxymodel.h */,
+				CB91DD5E2660C7CE00A2FAA2 /* laskuproxymodel.cpp */,
+				CB91DD822660C7CE00A2FAA2 /* laskusivu.h */,
+				CB91DD842660C7CE00A2FAA2 /* laskusivu.cpp */,
 				CB91DD4C2660C7CE00A2FAA2 /* laskutekstijson.py */,
+				CB91DDCB2660C7CF00A2FAA2 /* laskutekstit.txt */,
 				CB91DD4D2660C7CE00A2FAA2 /* nayukiQR */,
 				CB91DD542660C7CE00A2FAA2 /* postcode.json */,
-				CB91DD552660C7CE00A2FAA2 /* tositerivialv.h */,
-				CB91DD562660C7CE00A2FAA2 /* laskulistawidget.cpp */,
-				CB91DD572660C7CE00A2FAA2 /* laskuproxymodel.h */,
-				CB91DD582660C7CE00A2FAA2 /* iban.cpp */,
-				CB91DD592660C7CE00A2FAA2 /* laskunuusinta.h */,
-				CB91DD5A2660C7CE00A2FAA2 /* laskualvcombo.h */,
-				CB91DD5B2660C7CE00A2FAA2 /* viitenumero.cpp */,
-				CB91DD5C2660C7CE00A2FAA2 /* viitenumero.h */,
-				CB91DD5D2660C7CE00A2FAA2 /* kumppanituotewidget.cpp */,
-				CB91DD5E2660C7CE00A2FAA2 /* laskuproxymodel.cpp */,
-				CB91DD5F2660C7CE00A2FAA2 /* yksikkomodel.h */,
-				CB91DD602660C7CE00A2FAA2 /* laskunmaksudialogi.ui */,
-				CB91DD612660C7CE00A2FAA2 /* ryhmantuontidlg.ui */,
-				CB91DD622660C7CE00A2FAA2 /* kumppanituotewidget.ui */,
-				CB91DD632660C7CE00A2FAA2 /* laskulistawidget.h */,
-				CB91DD642660C7CE00A2FAA2 /* tuote.h */,
-				CB91DD652660C7CE00A2FAA2 /* tuotemodel.cpp */,
-				CB91DD662660C7CE00A2FAA2 /* huoneisto */,
-				CB91DD732660C7CE00A2FAA2 /* alennustyyppimodel.h */,
-				CB91DD742660C7CE00A2FAA2 /* tuotedialogi.ui */,
 				CB91DD752660C7CE00A2FAA2 /* ryhmalasku */,
-				CB91DD802660C7CE00A2FAA2 /* code128_XL.ttf */,
-				CB91DD812660C7CE00A2FAA2 /* alennustyyppimodel.cpp */,
-				CB91DD822660C7CE00A2FAA2 /* laskusivu.h */,
-				CB91DD832660C7CE00A2FAA2 /* tuotemodel.h */,
-				CB91DD842660C7CE00A2FAA2 /* laskusivu.cpp */,
-				CB91DD852660C7CE00A2FAA2 /* laskudlg */,
 				CB91DDAC2660C7CF00A2FAA2 /* ryhmantuontidlg.h */,
-				CB91DDAD2660C7CF00A2FAA2 /* lasku.qrc */,
-				CB91DDAE2660C7CF00A2FAA2 /* laskualvcombo.cpp */,
-				CB91DDAF2660C7CF00A2FAA2 /* asiakkaatmodel.cpp */,
-				CB91DDB02660C7CF00A2FAA2 /* tuote.cpp */,
-				CB91DDB12660C7CF00A2FAA2 /* laskulistawidget.ui */,
+				CB91DD612660C7CE00A2FAA2 /* ryhmantuontidlg.ui */,
+				CB91DD3D2660C7CE00A2FAA2 /* toimittaja */,
+				CB91DD552660C7CE00A2FAA2 /* tositerivialv.h */,
+				CB91DD392660C7CE00A2FAA2 /* tositerivialv.cpp */,
 				CB91DDB22660C7CF00A2FAA2 /* tulostus */,
-				CB91DDC32660C7CF00A2FAA2 /* vakioviite */,
-				CB91DDC92660C7CF00A2FAA2 /* yksikkomodel.cpp */,
-				CB91DDCA2660C7CF00A2FAA2 /* laskunuusinta.cpp */,
-				CB91DDCB2660C7CF00A2FAA2 /* laskutekstit.txt */,
+				CB91DD642660C7CE00A2FAA2 /* tuote.h */,
+				CB91DDB02660C7CF00A2FAA2 /* tuote.cpp */,
 				CB91DDCC2660C7CF00A2FAA2 /* tuotedialogi.h */,
-				CB91DDCD2660C7CF00A2FAA2 /* kumppanituotewidget.h */,
+				CB91DD3B2660C7CE00A2FAA2 /* tuotedialogi.cpp */,
+				CB91DD742660C7CE00A2FAA2 /* tuotedialogi.ui */,
+				CB91DD832660C7CE00A2FAA2 /* tuotemodel.h */,
+				CB91DD652660C7CE00A2FAA2 /* tuotemodel.cpp */,
 				CB91DDCE2660C7CF00A2FAA2 /* tuotetuonti */,
 				CB91DDD52660C7CF00A2FAA2 /* uusimaksumuistutusdialogi.ui */,
+				CB91DDC32660C7CF00A2FAA2 /* vakioviite */,
+				CB91DD5C2660C7CE00A2FAA2 /* viitenumero.h */,
+				CB91DD5B2660C7CE00A2FAA2 /* viitenumero.cpp */,
+				CB91DD5F2660C7CE00A2FAA2 /* yksikkomodel.h */,
+				CB91DDC92660C7CF00A2FAA2 /* yksikkomodel.cpp */,
 			);
 			path = laskutus;
 			sourceTree = "<group>";
@@ -5999,48 +6005,50 @@
 		CB91DD852660C7CE00A2FAA2 /* laskudlg */ = {
 			isa = PBXGroup;
 			children = (
-				CBC29F2C28FA9BDE0026D987 /* yksikkohintadelegaatti.cpp */,
-				CBC29F2B28FA9BDD0026D987 /* yksikkohintadelegaatti.h */,
-				CBB571AD26C6581E00380C62 /* aleprosenttidelegaatti.cpp */,
 				CBB571AE26C6581E00380C62 /* aleprosenttidelegaatti.h */,
-				CB91DD862660C7CE00A2FAA2 /* laskudialogitehdas.h */,
+				CBB571AD26C6581E00380C62 /* aleprosenttidelegaatti.cpp */,
+				CB91DD8A2660C7CE00A2FAA2 /* ennakkohyvitysdialogi.h */,
+				CB91DD942660C7CE00A2FAA2 /* ennakkohyvitysdialogi.cpp */,
+				CB91DDA52660C7CF00A2FAA2 /* ennakkohyvitysmodel.h */,
+				CB91DD952660C7CF00A2FAA2 /* ennakkohyvitysmodel.cpp */,
 				CB91DD872660C7CE00A2FAA2 /* hyvityslaskudialogi.h */,
 				CB91DD882660C7CE00A2FAA2 /* hyvityslaskudialogi.cpp */,
-				CB91DD892660C7CE00A2FAA2 /* kappaledelegaatti.h */,
-				CB91DD8A2660C7CE00A2FAA2 /* ennakkohyvitysdialogi.h */,
-				CB91DD8B2660C7CE00A2FAA2 /* rivillinenlaskudialogi.cpp */,
-				CB91DD8C2660C7CE00A2FAA2 /* maksumuistusdialogi.cpp */,
-				CB91DD8D2660C7CE00A2FAA2 /* laskurividialogi.cpp */,
+				CB91DDA92660C7CF00A2FAA2 /* kantalaskudialogi.h */,
 				CB91DD8E2660C7CE00A2FAA2 /* kantalaskudialogi.cpp */,
-				CB91DD8F2660C7CE00A2FAA2 /* uusimaksumuistutusdialogi.h */,
-				CB91DD902660C7CE00A2FAA2 /* rivivientigeneroija.h */,
-				CB91DD912660C7CE00A2FAA2 /* laskudialogitehdas.cpp */,
-				CB91DD922660C7CE00A2FAA2 /* yksittainenlaskudialogi.h */,
+				CB91DD892660C7CE00A2FAA2 /* kappaledelegaatti.h */,
 				CB91DD932660C7CE00A2FAA2 /* kappaledelegaatti.cpp */,
-				CB91DD942660C7CE00A2FAA2 /* ennakkohyvitysdialogi.cpp */,
-				CB91DD952660C7CF00A2FAA2 /* ennakkohyvitysmodel.cpp */,
-				CB91DD962660C7CF00A2FAA2 /* ryhmalaskudialogi.cpp */,
+				CB91DDA12660C7CF00A2FAA2 /* laskudialogi.ui */,
+				CB91DD862660C7CE00A2FAA2 /* laskudialogitehdas.h */,
+				CB91DD912660C7CE00A2FAA2 /* laskudialogitehdas.cpp */,
+				CB91DD9E2660C7CF00A2FAA2 /* laskurividialogi.h */,
+				CB91DD8D2660C7CE00A2FAA2 /* laskurividialogi.cpp */,
+				CB91DD9A2660C7CF00A2FAA2 /* laskurividialogi.ui */,
+				CB78FFFB2D91CC99000F551B /* laskurivitview.h */,
+				CB78FFFC2D91CC99000F551B /* laskurivitview.cpp */,
+				CB91DDA42660C7CF00A2FAA2 /* laskutusverodelegaatti.h */,
+				CB91DDAB2660C7CF00A2FAA2 /* laskutusverodelegaatti.cpp */,
+				CB91DDA72660C7CF00A2FAA2 /* maksumuistusdialogi.h */,
+				CB91DD8C2660C7CE00A2FAA2 /* maksumuistusdialogi.cpp */,
+				CB91DDA32660C7CF00A2FAA2 /* maksumuistutusmuodostaja.h */,
 				CB91DD972660C7CF00A2FAA2 /* maksumuistutusmuodostaja.cpp */,
+				CB91DDA22660C7CF00A2FAA2 /* rivillinenlaskudialogi.h */,
+				CB91DD8B2660C7CE00A2FAA2 /* rivillinenlaskudialogi.cpp */,
+				CB91DD902660C7CE00A2FAA2 /* rivivientigeneroija.h */,
+				CB91DD9C2660C7CF00A2FAA2 /* rivivientigeneroija.cpp */,
+				CB91DD9B2660C7CF00A2FAA2 /* ryhmalaskudialogi.h */,
+				CB91DD962660C7CF00A2FAA2 /* ryhmalaskudialogi.cpp */,
+				CB91DDA62660C7CF00A2FAA2 /* tavallinenlaskudialogi.h */,
+				CB91DD9F2660C7CF00A2FAA2 /* tavallinenlaskudialogi.cpp */,
+				CB91DD8F2660C7CE00A2FAA2 /* uusimaksumuistutusdialogi.h */,
+				CB91DD9D2660C7CF00A2FAA2 /* uusimaksumuistutusdialogi.cpp */,
+				CB91DDAA2660C7CF00A2FAA2 /* yksikkocombo.h */,
+				CB91DDA02660C7CF00A2FAA2 /* yksikkocombo.cpp */,
 				CB91DD982660C7CF00A2FAA2 /* yksikkodelegaatti.h */,
 				CB91DD992660C7CF00A2FAA2 /* yksikkodelegaatti.cpp */,
-				CB91DD9A2660C7CF00A2FAA2 /* laskurividialogi.ui */,
-				CB91DD9B2660C7CF00A2FAA2 /* ryhmalaskudialogi.h */,
-				CB91DD9C2660C7CF00A2FAA2 /* rivivientigeneroija.cpp */,
-				CB91DD9D2660C7CF00A2FAA2 /* uusimaksumuistutusdialogi.cpp */,
-				CB91DD9E2660C7CF00A2FAA2 /* laskurividialogi.h */,
-				CB91DD9F2660C7CF00A2FAA2 /* tavallinenlaskudialogi.cpp */,
-				CB91DDA02660C7CF00A2FAA2 /* yksikkocombo.cpp */,
-				CB91DDA12660C7CF00A2FAA2 /* laskudialogi.ui */,
-				CB91DDA22660C7CF00A2FAA2 /* rivillinenlaskudialogi.h */,
-				CB91DDA32660C7CF00A2FAA2 /* maksumuistutusmuodostaja.h */,
-				CB91DDA42660C7CF00A2FAA2 /* laskutusverodelegaatti.h */,
-				CB91DDA52660C7CF00A2FAA2 /* ennakkohyvitysmodel.h */,
-				CB91DDA62660C7CF00A2FAA2 /* tavallinenlaskudialogi.h */,
-				CB91DDA72660C7CF00A2FAA2 /* maksumuistusdialogi.h */,
+				CBC29F2B28FA9BDD0026D987 /* yksikkohintadelegaatti.h */,
+				CBC29F2C28FA9BDE0026D987 /* yksikkohintadelegaatti.cpp */,
+				CB91DD922660C7CE00A2FAA2 /* yksittainenlaskudialogi.h */,
 				CB91DDA82660C7CF00A2FAA2 /* yksittainenlaskudialogi.cpp */,
-				CB91DDA92660C7CF00A2FAA2 /* kantalaskudialogi.h */,
-				CB91DDAA2660C7CF00A2FAA2 /* yksikkocombo.h */,
-				CB91DDAB2660C7CF00A2FAA2 /* laskutusverodelegaatti.cpp */,
 			);
 			path = laskudlg;
 			sourceTree = "<group>";
@@ -6866,6 +6874,7 @@
 				CB2AB8B0297D97CD005A3181 /* moc_loginservice.cpp in Compile Sources */,
 				CB9B80D42799BD40000E9EE5 /* moc_ryhmatmodel.cpp in Compile Sources */,
 				258E6BA9CA230D7C4392444C /* moc_avauskohdennusmodel.cpp in Compile Sources */,
+				CB78FFFF2D91DF0A000F551B /* moc_laskurivitview.cpp in Compile Sources */,
 				CB91DE8A2660C7CF00A2FAA2 /* ytunnusvalidator.cpp in Compile Sources */,
 				CBA38F792427E750009178F9 /* moc_kayttooikeussivu.cpp in Compile Sources */,
 				CB2AB8A7297D97CD005A3181 /* moc_alvkaudet.cpp in Compile Sources */,
@@ -7133,6 +7142,7 @@
 				CB91E1602660C7D100A2FAA2 /* printpreviewnaytin.cpp in Compile Sources */,
 				CB91DE422660C7CF00A2FAA2 /* monikielinen.cpp in Compile Sources */,
 				CB2AB8AE297D97CD005A3181 /* moc_paivitysinfo.cpp in Compile Sources */,
+				CB78FFFD2D91CC99000F551B /* laskurivitview.cpp in Compile Sources */,
 				CB2AB81C297D8EBA005A3181 /* aloitusbrowser.cpp in Compile Sources */,
 				CB9B80F92799BE00000E9EE5 /* moc_lisaikkuna.cpp in Compile Sources */,
 				CB9B81032799BE36000E9EE5 /* moc_laatijanlaskut.cpp in Compile Sources */,
@@ -7371,7 +7381,7 @@
 				DYLIB_CURRENT_VERSION = 1.0.0;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = ../../../Qt/6.6.2/macos/lib;
+				FRAMEWORK_SEARCH_PATHS = ../../../Qt/6.7.3/macos/lib;
 				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = NS_BLOCK_ASSERTIONS;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -7385,28 +7395,28 @@
 					.,
 					./include,
 					../kitsas,
-					../../../Qt/6.6.2/macos/lib/QtPrintSupport.framework/Headers,
-					../../../Qt/6.6.2/macos/lib/QtPdfWidgets.framework/Headers,
-					../../../Qt/6.6.2/macos/lib/QtSvgWidgets.framework/Headers,
-					../../../Qt/6.6.2/macos/lib/QtWidgets.framework/Headers,
-					../../../Qt/6.6.2/macos/lib/QtSvg.framework/Headers,
-					../../../Qt/6.6.2/macos/lib/QtPdf.framework/Headers,
-					../../../Qt/6.6.2/macos/lib/QtGui.framework/Headers,
-					../../../Qt/6.6.2/macos/lib/QtSql.framework/Headers,
-					../../../Qt/6.6.2/macos/lib/QtNetwork.framework/Headers,
-					../../../Qt/6.6.2/macos/lib/QtXml.framework/Headers,
-					../../../Qt/6.6.2/macos/lib/QtCore5Compat.framework/Headers,
-					../../../Qt/6.6.2/macos/lib/QtCore.framework/Headers,
-					"../../../Qt/6.6.2/macos/mkspecs/macx-clang",
+					../../../Qt/6.7.3/macos/lib/QtPrintSupport.framework/Headers,
+					../../../Qt/6.7.3/macos/lib/QtPdfWidgets.framework/Headers,
+					../../../Qt/6.7.3/macos/lib/QtSvgWidgets.framework/Headers,
+					../../../Qt/6.7.3/macos/lib/QtWidgets.framework/Headers,
+					../../../Qt/6.7.3/macos/lib/QtSvg.framework/Headers,
+					../../../Qt/6.7.3/macos/lib/QtPdf.framework/Headers,
+					../../../Qt/6.7.3/macos/lib/QtGui.framework/Headers,
+					../../../Qt/6.7.3/macos/lib/QtSql.framework/Headers,
+					../../../Qt/6.7.3/macos/lib/QtNetwork.framework/Headers,
+					../../../Qt/6.7.3/macos/lib/QtXml.framework/Headers,
+					../../../Qt/6.7.3/macos/lib/QtCore5Compat.framework/Headers,
+					../../../Qt/6.7.3/macos/lib/QtCore.framework/Headers,
+					"../../../Qt/6.7.3/macos/mkspecs/macx-clang",
 					/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/OpenGL.framework/Headers,
 					/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/AGL.framework/Headers/,
-					../../../Qt/6.6.2/macos/lib/QtWebEngineWidgets.framework/Headers,
-					../../../Qt/6.6.2/macos/lib/QtWebEngineCore.framework/Headers,
+					../../../Qt/6.7.3/macos/lib/QtWebEngineWidgets.framework/Headers,
+					../../../Qt/6.7.3/macos/lib/QtWebEngineCore.framework/Headers,
 				);
 				INFOPLIST_FILE = Info.plist;
 				LDPLUSPLUS = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++";
 				LIBRARY_SEARCH_PATHS = (
-					../../../Qt/6.6.2/macos/lib,
+					../../../Qt/6.7.3/macos/lib,
 					/System/Library/Frameworks/,
 					./libraries,
 				);
@@ -7455,8 +7465,8 @@
 					"-stdlib=libc++",
 					"-headerpad_max_install_names",
 					"-Wl,-rpath,@executable_path/../Frameworks",
-					"-Wl,-rpath,/Users/petri/Qt/6.6.2/macos/lib",
-					"-F/Users/petri/Qt/6.6.2/macos/lib",
+					"-Wl,-rpath,/Users/petri/Qt/6.7.3/macos/lib",
+					"-F/Users/petri/Qt/6.7.3/macos/lib",
 					"-L./libraries",
 					"-lcups",
 				);
@@ -7507,7 +7517,7 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = ../../../Qt/6.6.2/macos/lib;
+				FRAMEWORK_SEARCH_PATHS = ../../../Qt/6.7.3/macos/lib;
 				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -7521,28 +7531,28 @@
 					.,
 					./include,
 					../kitsas,
-					../../../Qt/6.6.2/macos/lib/QtPrintSupport.framework/Headers,
-					../../../Qt/6.6.2/macos/lib/QtPdfWidgets.framework/Headers,
-					../../../Qt/6.6.2/macos/lib/QtSvgWidgets.framework/Headers,
-					../../../Qt/6.6.2/macos/lib/QtWidgets.framework/Headers,
-					../../../Qt/6.6.2/macos/lib/QtSvg.framework/Headers,
-					../../../Qt/6.6.2/macos/lib/QtPdf.framework/Headers,
-					../../../Qt/6.6.2/macos/lib/QtGui.framework/Headers,
-					../../../Qt/6.6.2/macos/lib/QtSql.framework/Headers,
-					../../../Qt/6.6.2/macos/lib/QtNetwork.framework/Headers,
-					../../../Qt/6.6.2/macos/lib/QtXml.framework/Headers,
-					../../../Qt/6.6.2/macos/lib/QtCore5Compat.framework/Headers,
-					../../../Qt/6.6.2/macos/lib/QtCore.framework/Headers,
-					"../../../Qt/6.6.2/macos/mkspecs/macx-clang",
+					../../../Qt/6.7.3/macos/lib/QtPrintSupport.framework/Headers,
+					../../../Qt/6.7.3/macos/lib/QtPdfWidgets.framework/Headers,
+					../../../Qt/6.7.3/macos/lib/QtSvgWidgets.framework/Headers,
+					../../../Qt/6.7.3/macos/lib/QtWidgets.framework/Headers,
+					../../../Qt/6.7.3/macos/lib/QtSvg.framework/Headers,
+					../../../Qt/6.7.3/macos/lib/QtPdf.framework/Headers,
+					../../../Qt/6.7.3/macos/lib/QtGui.framework/Headers,
+					../../../Qt/6.7.3/macos/lib/QtSql.framework/Headers,
+					../../../Qt/6.7.3/macos/lib/QtNetwork.framework/Headers,
+					../../../Qt/6.7.3/macos/lib/QtXml.framework/Headers,
+					../../../Qt/6.7.3/macos/lib/QtCore5Compat.framework/Headers,
+					../../../Qt/6.7.3/macos/lib/QtCore.framework/Headers,
+					"../../../Qt/6.7.3/macos/mkspecs/macx-clang",
 					/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/OpenGL.framework/Headers,
 					/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/AGL.framework/Headers/,
-					../../../Qt/6.6.2/macos/lib/QtWebEngineWidgets.framework/Headers,
-					../../../Qt/6.6.2/macos/lib/QtWebEngineCore.framework/Headers,
+					../../../Qt/6.7.3/macos/lib/QtWebEngineWidgets.framework/Headers,
+					../../../Qt/6.7.3/macos/lib/QtWebEngineCore.framework/Headers,
 				);
 				INFOPLIST_FILE = Info.plist;
 				LDPLUSPLUS = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++";
 				LIBRARY_SEARCH_PATHS = (
-					../../../Qt/6.6.2/macos/lib,
+					../../../Qt/6.7.3/macos/lib,
 					/System/Library/Frameworks/,
 					./libraries,
 				);
@@ -7592,8 +7602,8 @@
 					"-stdlib=libc++",
 					"-headerpad_max_install_names",
 					"-Wl,-rpath,@executable_path/../Frameworks",
-					"-Wl,-rpath,/Users/petri/Qt/6.6.2/macos/lib",
-					"-F/Users/petri/Qt/6.6.2/macos/lib",
+					"-Wl,-rpath,/Users/petri/Qt/6.7.3/macos/lib",
+					"-F/Users/petri/Qt/6.7.3/macos/lib",
 					"-L./libraries",
 					"-lcups",
 				);
@@ -7624,7 +7634,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 54;
+				CURRENT_PROJECT_VERSION = 55;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = FJ2CG9GU7J;
 				ENABLE_BITCODE = NO;
@@ -7641,7 +7651,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/libraries";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 5.8;
+				MARKETING_VERSION = 5.9;
 				PRODUCT_BUNDLE_IDENTIFIER = fi.atfos.kitsas;
 				PRODUCT_NAME = Kitsas;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -7667,7 +7677,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 54;
+				CURRENT_PROJECT_VERSION = 55;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = FJ2CG9GU7J;
 				ENABLE_BITCODE = NO;
@@ -7685,7 +7695,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/libraries";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 5.8;
+				MARKETING_VERSION = 5.9;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = fi.atfos.kitsas;
 				PRODUCT_NAME = Kitsas;
