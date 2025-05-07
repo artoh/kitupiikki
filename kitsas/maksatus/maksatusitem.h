@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QDate>
+#include "laskutus/iban.h"
 #include "model/euro.h"
 #include <QVariantMap>
 
@@ -21,6 +22,12 @@ public:
         ERROR
     };
 
+    enum IbanEvaluation {
+        EXISTING,
+        ADDED,
+        CHANGED,
+    };
+
     MaksatusItem();
     MaksatusItem(const QVariant& variant);
 
@@ -32,10 +39,13 @@ public:
     QDate pvm() const { return pvm_;}
     QString viite() const {return viite_;}
     QString viesti() const {return viesti_;}
+    Iban iban() const { return iban_;}
+    IbanEvaluation evaluation() const { return evaluation_;}
 
     QString viiteTaiViesti() const;
 
     static MaksatusTila strToTila(const QString& tilaStr);
+    static IbanEvaluation strToEvaluation(const QString& evaluationStr);
 
 private:
     QString id_;
@@ -44,6 +54,8 @@ private:
     QDate pvm_;
     QString viite_;
     QString viesti_;
+    Iban iban_;
+    IbanEvaluation evaluation_;
 };
 
 

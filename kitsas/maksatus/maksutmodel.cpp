@@ -12,6 +12,7 @@ QVariant MaksutModel::headerData(int section, Qt::Orientation orientation, int r
         switch(section) {
         case DATE_COLUMN: return tr("Maksupäivä");
         case AMOUNT_COLUMN: return tr("Määrä");
+        case IBAN_COLUMN: return tr("IBAN");
         case REF_COLUMN: return tr("Viite/Viesti");
         case STATUS_COLUMN: return tr("Tila");
         }
@@ -32,7 +33,7 @@ int MaksutModel::columnCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return 4;
+    return 5;
 }
 
 QVariant MaksutModel::data(const QModelIndex &index, int role) const
@@ -47,6 +48,9 @@ QVariant MaksutModel::data(const QModelIndex &index, int role) const
             return item.pvm();
         case AMOUNT_COLUMN:
             return item.euro().display(true);
+        case IBAN_COLUMN: {
+            return item.iban().valeilla();
+        }
         case REF_COLUMN:
             return item.viiteTaiViesti();
         case STATUS_COLUMN:
@@ -59,9 +63,13 @@ QVariant MaksutModel::data(const QModelIndex &index, int role) const
             return QVariant( Qt::AlignRight | Qt::AlignVCenter);
     } else if( role == Qt::TextAlignmentRole && index.column() == AMOUNT_COLUMN) {
         return QVariant(Qt::AlignRight | Qt::AlignVCenter);
-    } else if( role == Qt::DecorationRole && index.column() == STATUS_COLUMN ) {
+    } else if( role == Qt::DecorationRole ) {
         const MaksatusItem& item = data_.at(index.row());
-        return tilaIcon( item.tila() );
+        switch(index.column()) {
+            case IBAN_COLUMN: return evaluationIcon(item.evaluation());
+            case STATUS_COLUMN: return tilaIcon( item.tila() );
+            default: return QVariant();
+        }
     } else if( role == RejectableRole) {
         const auto& item = data_.at(index.row());
         return item.tila() == MaksatusItem::PENDING;
@@ -123,6 +131,18 @@ QIcon MaksutModel::tilaIcon(const MaksatusItem::MaksatusTila tila)
             return QIcon(":/pic/peru.png");
         default:
             return QIcon(":/pic/tyhja.png");
+    }
+}
+
+QIcon MaksutModel::evaluationIcon(const MaksatusItem::IbanEvaluation evaluation)
+{
+    switch (evaluation) {
+    case MaksatusItem::IbanEvaluation::EXISTING:
+        return QIcon(":/pic/ok.png");
+    case MaksatusItem::IbanEvaluation::CHANGED:
+        return QIcon(":/pic/varoitus.png");
+    default:
+        return QIcon(":/pic/lisaa.png");
     }
 }
 

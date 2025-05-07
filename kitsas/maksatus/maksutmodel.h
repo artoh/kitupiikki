@@ -14,6 +14,7 @@ public:
     enum {
         DATE_COLUMN,
         AMOUNT_COLUMN,
+        IBAN_COLUMN,
         REF_COLUMN,
         STATUS_COLUMN
     };
@@ -40,6 +41,7 @@ public:
 
     static QString tilaTeksti(const MaksatusItem::MaksatusTila tila);
     static QIcon tilaIcon(const MaksatusItem::MaksatusTila tila);
+    static QIcon evaluationIcon(const MaksatusItem::IbanEvaluation evaluation);
 private:
     void loadReady(const QVariant* reply);
 

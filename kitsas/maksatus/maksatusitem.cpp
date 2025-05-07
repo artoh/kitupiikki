@@ -17,6 +17,8 @@ void MaksatusItem::lataa(const QVariant &variant)
     pvm_ = map.value("pvm").toDate();
     viite_ = map.value("viite").toString();
     viesti_ = map.value("viesti").toString();
+    iban_ = Iban(map.value("iban").toString());
+    evaluation_ = strToEvaluation( map.value("ibanEvaluation").toString() );
 
 }
 
@@ -27,6 +29,15 @@ QString MaksatusItem::viiteTaiViesti() const
         return viesti_;
     else
         return viite_;
+}
+
+MaksatusItem::IbanEvaluation MaksatusItem::strToEvaluation(const QString &evaluationStr)
+{
+    if( evaluationStr == "EXISTING")
+        return IbanEvaluation::EXISTING;
+    else if( evaluationStr == "CHANGED")
+        return IbanEvaluation::CHANGED;
+    return IbanEvaluation::ADDED;
 }
 
 MaksatusItem::MaksatusTila MaksatusItem::strToTila(const QString &tilaStr)
