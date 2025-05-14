@@ -505,7 +505,7 @@ void KirjausWg::paivita(bool muokattu, int virheet, const Euro &debet, const Eur
     } else if( virheet & Tosite::EITASMAAPVM) {
         ui->varoTeksti->setText( tr("Debet ja kredit eivät täsmää jokaisella päivämäärällä."));
     }  else if( debet ) {
-        ui->varoTeksti->setText( tr("Summa %L1 €").arg(debet,0,'f',2) );
+        ui->varoTeksti->setText( tr("Summa %L1 €").arg(debet.display()));
     }
 
 
