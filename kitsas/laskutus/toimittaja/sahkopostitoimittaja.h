@@ -39,7 +39,6 @@ protected:
     void lahetaViesti();
 
     QVariantList liitteet_;
-    int liiteIndeksi_ = -1;
 
     EmailAsetukset ema_;
 };

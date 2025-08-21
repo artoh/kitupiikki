@@ -159,54 +159,37 @@ void SahkopostiToimittaja::lahetaSmtp()
 
 void SahkopostiToimittaja::lahetaKitsas()
 {
-    liiteIndeksi_ = -1;
+
     liitteet_.clear();
 
     LaskunTulostaja tulostaja(kp());
-    QByteArray kuva = tulostaja.pdf(*tosite());
+    QByteArray kuva = tulostaja.pdf(*tosite()).toBase64();
 
-    QString osoite = kp()->pilvi()->finvoiceOsoite() + "/attachment";
-    PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
-                osoite );
-    connect( pk, &PilviKysely::vastaus, this, &SahkopostiToimittaja::liiteLiitetty);
-    pk->lahetaTiedosto(kuva);
-}
-
-void SahkopostiToimittaja::liiteLiitetty(QVariant *data)
-{
-    // Liitetään saapunut
-    QVariantMap map = data->toMap();
-    if( liiteIndeksi_ < 0) {
-        map.insert("filename", tulkkaa("laskuotsikko",tosite()->constLasku().kieli() ).toLower() + tosite()->laskuNumero() + ".pdf");
-        map.insert("contentType", "application/pdf");
-    } else {
-        const QModelIndex index = tosite()->liitteet()->index(liiteIndeksi_);
-        map.insert("filename", index.data(LiitteetModel::NimiRooli).toString());
-        map.insert("contentType", index.data(LiitteetModel::TyyppiRooli).toString());
-    }
+    QVariantMap map;
+    map.insert("content", kuva);
+    map.insert("filename", tulkkaa("laskuotsikko",tosite()->constLasku().kieli() ).toLower() + tosite()->laskuNumero() + ".pdf");
+    map.insert("contentType", "application/pdf");
     liitteet_.append(map);
 
-    // Siirrytään seuraavaan
-    liiteIndeksi_++;
+    for (int liiteIndeksi = 0; liiteIndeksi < tosite()->liitteet()->rowCount(); liiteIndeksi++) 
+   {
+        // Hypätään laskun kuvan yli
+        if( tosite()->liitteet()->index(liiteIndeksi).data(LiitteetModel::RooliRooli).toString() == "lasku") {
+            continue;
+        }
 
-    // Hypätään laskun kuvan yli
-    if( tosite()->liitteet()->index(liiteIndeksi_).data(LiitteetModel::RooliRooli).toString() == "lasku") {
-        liiteIndeksi_++;
+        QVariantMap map;
+
+        const QModelIndex index = tosite()->liitteet()->index(liiteIndeksi);
+        map.insert("content", index.data(LiitteetModel::SisaltoRooli).toByteArray().toBase64());
+        map.insert("filename", index.data(LiitteetModel::NimiRooli).toString());
+        map.insert("contentType", index.data(LiitteetModel::TyyppiRooli).toString());
+
+        liitteet_.append(map);
     }
 
-    // Jos liitteitä on jäljellä, liitetään seuraava liite, muuten siirrytään
-    // eteenpäin
-    if( liiteIndeksi_ < tosite()->liitteet()->rowCount()) {
-        const QByteArray& sisalto = tosite()->liitteet()->index(liiteIndeksi_).data(LiitteetModel::SisaltoRooli).toByteArray();
-        QString osoite = kp()->pilvi()->finvoiceOsoite() + "/attachment";
-        PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
-                    osoite );
-        connect( pk, &PilviKysely::vastaus, this, &SahkopostiToimittaja::liiteLiitetty);
-        pk->lahetaTiedosto(sisalto);
+    lahetaViesti();
 
-    } else {
-        lahetaViesti();
-    }
 }
 
 void SahkopostiToimittaja::lahetaViesti()
