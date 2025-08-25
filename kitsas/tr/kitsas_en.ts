@@ -6923,7 +6923,7 @@ You can add an attachment up to 10 megabytes in size.</translation>
     <message>
         <location filename="../lisaosat/lisaosasivu.cpp" line="190"/>
         <source>Kitsas Pro Palkat -lisäsosan poistaminen käytöstä ei riitä katkaisemaan laskutusta lisäosasta tämän kirjanpidon osalta. Otathan lisäksi yhteyttä käyttäjätukeen kitsas.helpdesk@taopa.fi</source>
-        <translation type="unfinished"></translation>
+        <translation>Disabling the Kitsas Pro Palkat add-on is not enough to stop billing for the add-on. Please also contact customer support at kitsas.helpdesk@taopa.fi.</translation>
     </message>
     <message>
         <location filename="../lisaosat/lisaosasivu.cpp" line="216"/>

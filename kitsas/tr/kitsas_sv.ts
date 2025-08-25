@@ -7131,7 +7131,7 @@ Du kan lägga till en fil som är maximalt 10 Mb stor.</translation>
     <message>
         <location filename="../lisaosat/lisaosasivu.cpp" line="190"/>
         <source>Kitsas Pro Palkat -lisäsosan poistaminen käytöstä ei riitä katkaisemaan laskutusta lisäosasta tämän kirjanpidon osalta. Otathan lisäksi yhteyttä käyttäjätukeen kitsas.helpdesk@taopa.fi</source>
-        <translation type="unfinished"></translation>
+        <translation>Att inaktivera tilläggsmodulen Kitsas Pro Palkat räcker inte för att stoppa debiteringen av tillägget för denna bokföring. Vänligen kontakta användarsupporten på kitsas.helpdesk@taopa.fi.</translation>
     </message>
     <message>
         <location filename="../lisaosat/lisaosasivu.cpp" line="216"/>
