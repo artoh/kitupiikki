@@ -187,7 +187,7 @@ void LisaosaSivu::passivoi()
         if (nimi.contains("Kitsas Pro Palkat")) {
 
             QMessageBox viestiloota;
-            viestiloota.setText("Kitsas Pro Palkat -lisäsosan poistaminen käytöstä ei riitä katkaisemaan laskutusta lisäosasta tämän kirjanpidon osalta. Otathan lisäksi yhteyttä käyttäjätukeen kitsas.helpdesk@taopa.fi");
+            viestiloota.setText(tr("Kitsas Pro Palkat -lisäsosan poistaminen käytöstä ei riitä katkaisemaan laskutusta lisäosasta tämän kirjanpidon osalta. Otathan lisäksi yhteyttä käyttäjätukeen kitsas.helpdesk@taopa.fi"));
             viestiloota.exec();
         }
 
