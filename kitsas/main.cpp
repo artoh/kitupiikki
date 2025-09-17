@@ -119,16 +119,16 @@ int main(int argc, char *argv[])
     if (dir.isValid()) {
         QString polku = dir.path();
 
-        QString sansPolku = polku + "FreeSans.ttf";
+        QString sansPolku = polku + "/FreeSans.ttf";
         QFile::copy(":/aloitus/FreeSans.ttf",sansPolku);
         QFontDatabase::addApplicationFont(sansPolku);
 
-        QString monoPolku = polku + "FreeMono.ttf";
+        QString monoPolku = polku + "/FreeMono.ttf";
         QFile::copy(":/aloitus/FreeMono.ttf", monoPolku);
         QFontDatabase::addApplicationFont(monoPolku);
 
-        QString code128Polku = polku + "code128_XL.ttf";
-        QFile::copy(":/aloitus/code128_XL.ttf", code128Polku);
+        QString code128Polku = polku + "/code128_XL.ttf";
+        QFile::copy(":/lasku/code128_XL.ttf", code128Polku);
         QFontDatabase::addApplicationFont(code128Polku);
     }
 
