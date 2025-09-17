@@ -18,7 +18,7 @@
 #define TILIOTEKIRJAAJA_H
 
 #include <QDialog>
-
+#include <QPointer>
 #include "tiliotemodel.h"
 #include "tiliotekirjausrivi.h"
 #include "apuri/apuririvit.h"
@@ -111,7 +111,7 @@ private:
     int oletustili() const;
 
 private:    
-    Ui::TilioteKirjaaja *ui;
+    std::shared_ptr <Ui::TilioteKirjaaja> ui;
 
     int riviIndeksi_ = -1;
     bool menoa_ = false;

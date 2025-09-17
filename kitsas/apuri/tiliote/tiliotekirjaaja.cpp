@@ -71,7 +71,7 @@ TilioteKirjaaja::TilioteKirjaaja(SiirtoApuri *apuri):
 TilioteKirjaaja::~TilioteKirjaaja()
 {
     kp()->settings()->setValue("TilioteKirjaaja", saveGeometry());
-    delete ui;
+    // delete ui; //Ei tarvita enää kun ui on shared_ptr
 }
 
 void TilioteKirjaaja::asetaPvm(const QDate &pvm)
@@ -427,6 +427,7 @@ void TilioteKirjaaja::tyhjenna()
     tiliMuuttuu();
 
     ui->viennitView->selectRow(0);
+
     ui->viennitView->hide();
 
     tarkastaTallennus();
@@ -599,7 +600,13 @@ void TilioteKirjaaja::lataa(const TilioteKirjausRivi &rivi)
 
     ui->viennitView->selectRow(0);
     ui->viennitView->setVisible( rivit_->rowCount() > 1 );
+
+    std::weak_ptr<Ui::TilioteKirjaaja> varmistusUi = ui;
     qApp->processEvents();
+    if (varmistusUi.expired()) {
+        return;
+    }
+
     naytaRivi();
 
     ui->pvmEdit->setDate(rivi.pvm());
@@ -705,10 +712,20 @@ void TilioteKirjaaja::naytaRivi()
 
     paivitaVeroFiltteri( ar.alvkoodi() );
     ui->alvProssaCombo->setCurrentText( ar.alvprosentti() ? QString("%L1 %").arg(ar.alvprosentti(), 0, 'f', 2 ) : QString() );
+
+    std::weak_ptr <Ui::TilioteKirjaaja> varmistusUI = ui; // Tieto ui:n olemassaolosta turvaan paikalliseen muuttujaan olion tuhoamisen varalta
+
     qApp->processEvents();
 
-    ui->eiVahennysCheck->setChecked( !ar.alvvahennys() );
-    ui->poistoaikaSpin->setValue( ar.poistoaika() / 12 );
+
+    //Käyttäjä on voinut jo sulkea dialogin, ui:n olemassaolo pitää tarkastaa
+
+
+    if (!varmistusUI.expired()) {
+        ui->eiVahennysCheck->setChecked( !ar.alvvahennys() );
+        ui->poistoaikaSpin->setValue( ar.poistoaika() / 12 );
+    }
+
 
 }
 
