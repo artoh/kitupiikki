@@ -110,9 +110,42 @@ int main(int argc, char *argv[])
 
     Kirjanpito::asetaInstanssi(&kirjanpito);
 
+#if defined (Q_OS_WIN)
+    // Kierretään Qt:n bugi resurssitiedostosta ladattujen fonttien käytössä
+    // PDF-tiedostoa luotaessa kopioimalla fontti ensin tilapäistiedostoon
+
+    QTemporaryDir dir;
+
+    if (dir.isValid()) {
+        QString polku = dir.path();
+
+        QString sansPolku = polku + "FreeSans.ttf";
+        QFile::copy(":/aloitus/FreeSans.ttf",sansPolku);
+        QFontDatabase::addApplicationFont(sansPolku);
+
+        QString monoPolku = polku + "FreeMono.ttf";
+        QFile::copy(":/aloitus/FreeMono.ttf", monoPolku);
+        QFontDatabase::addApplicationFont(monoPolku);
+
+        QString code128Polku = polku + "code128_XL.ttf";
+        QFile::copy(":/aloitus/code128_XL.ttf", code128Polku);
+        QFontDatabase::addApplicationFont(code128Polku);
+    }
+
+    else
+
+    {
+        QFontDatabase::addApplicationFont(":/aloitus/FreeSans.ttf");
+        QFontDatabase::addApplicationFont(":/aloitus/FreeMono.ttf");
+        QFontDatabase::addApplicationFont(":/lasku/code128_XL.ttf");
+    }
+#else
+
     QFontDatabase::addApplicationFont(":/aloitus/FreeSans.ttf");
     QFontDatabase::addApplicationFont(":/aloitus/FreeMono.ttf");
     QFontDatabase::addApplicationFont(":/lasku/code128_XL.ttf");
+
+#endif
 
     // Fonttimääritykset
     UlkoasuMaaritys::oletusfontti__ = a.font();
