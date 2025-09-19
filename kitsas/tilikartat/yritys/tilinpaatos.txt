@@ -181,7 +181,7 @@
 
 <table width="100%">
   <tr><th width="50%"> </th><th align="right" width="25%"> {{kausi.loppupvm}}</th><th align="right" width="25%"> {{edkausi.loppupvm}}</th></tr>
-  <tr><td>Voitto edellisiltä tilikausilta</td><td align="right">{{e2251}}</td><td align="right">{{E2251..226}}</td></tr>
+  <tr><td>Voitto edellisiltä tilikausilta</td><td align="right">{{e2251..226}}</td><td align="right">{{E2251..226}}</td></tr>
   <tr><td>Tilikauden voitto</td><td align="right">{{e2371}}</td><td align="right">{{E2371}}</td></tr>
   <tr><td>Sijoitetun vapaan oman pääoman rahasto</td><td align="right">{{e206}}</td><td align="right">{{E206}}</td></tr>
   <tr><td>Muut jakokelpoiset rahastot</td><td align="right">{{e207..208}}</td><td align="right">{{E207..208}}</td></tr>
