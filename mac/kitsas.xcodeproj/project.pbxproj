@@ -868,7 +868,6 @@
 		D5BBB4540CB56457002390BA /* moc_tositeloki.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = 1D132D2CEAA544DC2BE6B3C5 /* moc_tositeloki.cpp */; settings = {ATTRIBUTES = (); }; };
 		D6EB4FE697D374AC3D5276BF /* moc_tilikarttapaivitys.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = 907B3CE58127E8ED26547D80 /* moc_tilikarttapaivitys.cpp */; settings = {ATTRIBUTES = (); }; };
 		D83E0FE08D48CA50816047A5 /* moc_maksutapamodel.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = 868454AF7D3AB48CEC9F5602 /* moc_maksutapamodel.cpp */; settings = {ATTRIBUTES = (); }; };
-		E45E51A644D5FC9F942ECE55 /* AGL.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = 8D9815BDB5BD9F90D2BC05C5 /* AGL.framework */; };
 		EBC9DFEEB5F3E5DFDDCB0A9E /* moc_laskualvcombo.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = D187971EABF51A28626E4A70 /* moc_laskualvcombo.cpp */; settings = {ATTRIBUTES = (); }; };
 		EF00B75C967B45B77FF68BF0 /* qrc_aloitus.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = BDE2C3FC8F51FE861CB31CA6 /* qrc_aloitus.cpp */; settings = {ATTRIBUTES = (); }; };
 		F2A75ACAC9DF6A3F4E5711E7 /* AppKit.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = 723F90793B2C195E2CCB2233 /* AppKit.framework */; };
@@ -1085,7 +1084,6 @@
 		8AD326209B8579ECE96BC162 /* laskunmaksudialogi.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = laskunmaksudialogi.ui; path = /Users/petri/git/kitupiikki/kitsas/laskutus/laskunmaksudialogi.ui; sourceTree = "<absolute>"; };
 		8BBA83ECDF300562C9FC693E /* ui_tilikarttapaivitys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ui_tilikarttapaivitys.h; path = /Users/petri/git/kitupiikki/mac/ui_tilikarttapaivitys.h; sourceTree = "<absolute>"; };
 		8C83625390378F6D9FDC2250 /* moc_alvlaskelma.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = moc_alvlaskelma.cpp; path = /Users/petri/git/kitupiikki/mac/moc_alvlaskelma.cpp; sourceTree = "<absolute>"; };
-		8D9815BDB5BD9F90D2BC05C5 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
 		8DF50942A5E3FE8DFDEBDABD /* palkkaapuri.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = palkkaapuri.ui; path = /Users/petri/git/kitupiikki/kitsas/apuri/palkkaapuri.ui; sourceTree = "<absolute>"; };
 		8F4E69B328BD85005E8DD948 /* moc_maksutapamuokkaus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = moc_maksutapamuokkaus.cpp; path = /Users/petri/git/kitupiikki/mac/moc_maksutapamuokkaus.cpp; sourceTree = "<absolute>"; };
 		8FE7D7FDCDBB59D53ABF0138 /* moc_tiliotekirjaaja.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = moc_tiliotekirjaaja.cpp; path = /Users/petri/git/kitupiikki/mac/moc_tiliotekirjaaja.cpp; sourceTree = "<absolute>"; };
@@ -3287,7 +3285,6 @@
 				CB3F30592A1128DB00538778 /* QtPdfWidgets.framework in Link Binary With Libraries */,
 				CBFA9FBB2AA36EBE0005F066 /* QtWebEngineWidgets.framework in Link Binary With Libraries */,
 				A99B2AA0F9CBBDD12BA126A4 /* DiskArbitration.framework in Link Binary With Libraries */,
-				E45E51A644D5FC9F942ECE55 /* AGL.framework in Link Binary With Libraries */,
 				CB5C9F9B2AA780A10014C787 /* QtOpenGL.framework in Link Binary With Libraries */,
 				CB932E1223EF042D00167D0B /* OpenGL.framework in Link Binary With Libraries */,
 			);
@@ -4052,7 +4049,6 @@
 		AF39DD055C3EF8226FBE929D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8D9815BDB5BD9F90D2BC05C5 /* AGL.framework */,
 				723F90793B2C195E2CCB2233 /* AppKit.framework */,
 				CB64F87129FFFD86000B0FAE /* ApplicationServices.framework */,
 				2B774D8E4178765CE52EAAF5 /* DiskArbitration.framework */,
@@ -7482,8 +7478,7 @@
 					../../../Qt/6.7.3/macos/lib/QtCore5Compat.framework/Headers,
 					../../../Qt/6.7.3/macos/lib/QtCore.framework/Headers,
 					"../../../Qt/6.7.3/macos/mkspecs/macx-clang",
-					/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/OpenGL.framework/Headers,
-					/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/AGL.framework/Headers/,
+					/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers,
 					../../../Qt/6.7.3/macos/lib/QtWebEngineWidgets.framework/Headers,
 					../../../Qt/6.7.3/macos/lib/QtWebEngineCore.framework/Headers,
 				);
@@ -7618,8 +7613,7 @@
 					../../../Qt/6.7.3/macos/lib/QtCore5Compat.framework/Headers,
 					../../../Qt/6.7.3/macos/lib/QtCore.framework/Headers,
 					"../../../Qt/6.7.3/macos/mkspecs/macx-clang",
-					/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/OpenGL.framework/Headers,
-					/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/AGL.framework/Headers/,
+					/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers,
 					../../../Qt/6.7.3/macos/lib/QtWebEngineWidgets.framework/Headers,
 					../../../Qt/6.7.3/macos/lib/QtWebEngineCore.framework/Headers,
 				);
@@ -7708,7 +7702,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 56;
+				CURRENT_PROJECT_VERSION = 57;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = FJ2CG9GU7J;
 				ENABLE_BITCODE = NO;
@@ -7725,7 +7719,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/libraries";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = "5.10-RC";
+				MARKETING_VERSION = 5.10;
 				PRODUCT_BUNDLE_IDENTIFIER = fi.atfos.kitsas;
 				PRODUCT_NAME = Kitsas;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -7751,7 +7745,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 56;
+				CURRENT_PROJECT_VERSION = 57;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = FJ2CG9GU7J;
 				ENABLE_BITCODE = NO;
@@ -7769,7 +7763,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/libraries";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = "5.10-RC";
+				MARKETING_VERSION = 5.10;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = fi.atfos.kitsas;
 				PRODUCT_NAME = Kitsas;
