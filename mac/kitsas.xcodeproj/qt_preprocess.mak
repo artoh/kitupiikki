@@ -1052,6 +1052,7 @@ moc_tilioteapuri.cpp: ../kitsas/apuri/tiliote/tilioteapuri.h \
 
 moc_tiliotekirjaaja.cpp: ../kitsas/apuri/tiliote/tiliotekirjaaja.h \
 		../../../Qt/6.7.3/macos/lib/QtWidgets.framework/Headers/QDialog \
+		../../../Qt/6.7.3/macos/lib/QtCore.framework/Headers/QPointer \
 		../kitsas/apuri/tiliote/tiliotemodel.h \
 		../../../Qt/6.7.3/macos/lib/QtCore.framework/Headers/QAbstractTableModel \
 		../kitsas/apuri/tiliote/tiliotekirjausrivi.h \
