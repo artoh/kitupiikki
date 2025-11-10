@@ -187,10 +187,16 @@ void LisaosaSivu::passivoi()
         if (nimi.contains("Kitsas Pro Palkat")) {
 
             QMessageBox viestiloota;
-            viestiloota.setText(tr("Kitsas Pro Palkat -lisäsosan poistaminen käytöstä ei riitä katkaisemaan laskutusta lisäosasta tämän kirjanpidon osalta. Otathan lisäksi yhteyttä käyttäjätukeen kitsas.helpdesk@taopa.fi"));
+            viestiloota.setText(tr("Kitsas Pro Palkat -lisäosan poistaminen käytöstä ei riitä katkaisemaan laskutusta lisäosasta tämän kirjanpidon osalta. Otathan lisäksi yhteyttä käyttäjätukeen kitsas.helpdesk@taopa.fi"));
             viestiloota.exec();
         }
 
+        if (nimi.contains("Kitsas Pro Maksut")) {
+
+            QMessageBox viestiloota;
+            viestiloota.setText(tr("Kitsas Pro Maksut -lisäosan poistaminen käytöstä ei riitä katkaisemaan laskutusta lisäosasta tämän kirjanpidon osalta. Otathan lisäksi yhteyttä käyttäjätukeen kitsas.helpdesk@taopa.fi"));
+            viestiloota.exec();
+        }
 
         const QString addonId = listView_->currentIndex().data(LisaosaListModel::IdRooli).toString();
 
