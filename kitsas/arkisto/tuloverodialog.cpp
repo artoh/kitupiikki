@@ -149,7 +149,7 @@ void TuloveroDialog::paivitaVero()
     Euro tulos = ui->loppuTulosEdit->euro();
 
     if( tulos > Euro::Zero)
-        ui->veroEdit->setCents( tulos.cents() / 5 );    // 20 % vero
+        ui->veroEdit->setCents( (tulos / 5).cents() );    // 20 % vero
     else
         ui->veroEdit->setEuro( Euro::Zero);
     paivitaJaannos();
