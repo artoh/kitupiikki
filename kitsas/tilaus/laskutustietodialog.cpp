@@ -88,7 +88,7 @@ void LaskutustietoDialog::tiedotSaapuu(QVariant *data)
     ui->nimiEdit->setText( payerName.isEmpty() ? kp()->pilvi()->kayttaja().nimi() : payerName );
     ui->emailEdit->setText( email.isEmpty() ? kp()->pilvi()->kayttaja().email() : email);
     ui->ovtEdit->setText( payer.value("ovt").toString());
-    ui->operaattoriEdit->setText( payer.value("ovt").toString());
+    ui->operaattoriEdit->setText( payer.value("operator").toString());
 
     ui->osoiteEdit->setPlainText(payer.value("address").toString());
     ui->postinumero->setText(payer.value("postcode").toString());
