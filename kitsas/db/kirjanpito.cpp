@@ -423,3 +423,12 @@ int yleinenAlv(const QDate &pvm)
     else
         return 2400;
 }
+
+
+int keskimainenAlv(const QDate &pvm)
+{
+    if( pvm >= QDate(2026,1,1))
+        return 1350;
+    else
+        return 1400;
+}

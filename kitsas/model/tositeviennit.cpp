@@ -294,7 +294,11 @@ bool TositeViennit::setData(const QModelIndex &index, const QVariant &value, int
                         if( !alvkoodi || !kp()->alvIlmoitukset()->onkoIlmoitettu(rivi.pvm())) {
                             rivi.setAlvKoodi( alvkoodi );
                             const double alvProsentti = uusitili.alvprosentti();
-                            rivi.setAlvProsentti( alvProsentti == 24 ? yleinenAlv(rivi.pvm()) / 100.0 : alvProsentti );
+                            rivi.setAlvProsentti( 
+                                alvProsentti == 24 ? yleinenAlv(rivi.pvm()) / 100.0 : 
+                                alvProsentti == 14.00 ? keskimainenAlv(rivi.pvm()) / 100.0 : 
+                                alvProsentti 
+                            );
                             emit dataChanged( index.sibling(index.row(), ALV), index.sibling(index.row(), ALV) );
                             paivitaAalv(index.row());
                         }

@@ -252,6 +252,8 @@ bool TositeRivit::setData(const QModelIndex &index, const QVariant &value, int r
                         const double prossa =
                             uusitili.alvprosentti() == 24.00
                             ? yleinenAlv( kp()->paivamaara() ) / 100.0
+                            : uusitili.alvprosentti() == 14.00
+                            ? keskimainenAlv( kp()->paivamaara() ) / 100.0
                             : uusitili.alvprosentti();
                         rivit_[r].setAlvProsentti( prossa );
                     }
@@ -351,7 +353,10 @@ void TositeRivit::lisaaRivi(const QDate& pvm)
         const int alvlaji = tili->alvlaji();
         rivi.setAlvKoodi( alvlaji == AlvKoodi::EIALV || alvlaji == AlvKoodi::ALV0 || alvlaji == AlvKoodi::RAKENNUSPALVELU_MYYNTI || alvlaji == AlvKoodi::YHTEISOMYYNTI_PALVELUT || alvlaji == AlvKoodi::YHTEISOMYYNTI_TAVARAT
                              ? alvlaji : AlvKoodi::MYYNNIT_NETTO );
-        const double prosentit = tili->alvprosentti() == 24 ? yleinenAlv( kp()->paivamaara() ) / 100.0 : tili->alvprosentti();
+        const double prosentit = 
+            tili->alvprosentti() == 24 ? yleinenAlv( kp()->paivamaara() ) / 100.0 : 
+            tili->alvprosentti() == 14.00 ? keskimainenAlv( kp()->paivamaara() ) / 100.0 : 
+            tili->alvprosentti();
         rivi.setAlvProsentti( prosentit);
     }
 
@@ -394,7 +399,9 @@ void TositeRivit::lisaaTuote(const Tuote &tuote, const QString &lkm, const QStri
 
     if( kp()->onkoAlvVelvollinen(pvm) )  {
         rivi.setAlvKoodi( tuote.alvkoodi() );
-        const double prossa = tuote.alvprosentti() == 24.00 ? yleinenAlv( pvm ) / 100.0 : tuote.alvprosentti();
+        const double prossa = tuote.alvprosentti() == 24.00 ? yleinenAlv( pvm ) / 100.0 : 
+            tuote.alvprosentti() == 14.00 ? keskimainenAlv( pvm ) / 100.0 : 
+            tuote.alvprosentti();
         rivi.setAlvProsentti( prossa );
     };
 

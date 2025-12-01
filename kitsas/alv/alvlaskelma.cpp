@@ -147,9 +147,9 @@ void AlvLaskelma::kirjoitaYhteenveto()
 
     // Kotimaan myynti
     // Alv-uudistuksen 1.9.2024 mukainen
-    yvRivi(301, kaanna("Suoritettava %1%:n vero kotimaan myynnistä").arg("24% / 25,5"), kotimaanmyyntivero(2550) + kotimaanmyyntivero(2400) );
+    yvRivi(301, kaanna("Suoritettava %1%:n vero kotimaan myynnistä").arg("25,5"), kotimaanmyyntivero(2550) + kotimaanmyyntivero(2400) );
 
-    yvRivi(302, kaanna("Suoritettava %1%:n vero kotimaan myynnistä").arg(14), kotimaanmyyntivero(1400));
+    yvRivi(302, kaanna("Suoritettava %1%:n vero kotimaan myynnistä").arg("13,5 / 14.0"), kotimaanmyyntivero(1400) + kotimaanmyyntivero(1350) );
     yvRivi(303, kaanna("Suoritettava %1%:n vero kotimaan myynnistä").arg(10), kotimaanmyyntivero(1000));
 
     rk.lisaaTyhjaRivi();
@@ -582,6 +582,9 @@ void AlvLaskelma::laskeMarginaaliVerotus(int kanta)
     Euro ostot = oktaulu.summa(true);
     if( kanta == 2400) {
         KantaTaulu utaulu = ostotaulu.kannat.value(2550);
+        ostot += utaulu.summa(true);
+    } else if( kanta == 1400) {
+        KantaTaulu utaulu = ostotaulu.kannat.value(1350);
         ostot += utaulu.summa(true);
     }
 

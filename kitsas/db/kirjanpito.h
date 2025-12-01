@@ -502,5 +502,6 @@ QIcon lippu(const QString& kielikoodi);
  */
 QString tulkkaa(const QString& teksti, const QString& kieli = QString());
 int yleinenAlv(const QDate& pvm);
+int keskimainenAlv(const QDate& pvm);
 
 #endif // KIRJANPITO_H

@@ -176,7 +176,9 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
             const Tili& valittuTili = ui->tiliEdit->valittuTili();
             paivitaVeroFiltteri( valittuTili.alvlaji() );
             const double tiliProsentti = valittuTili.alvprosentti();
-            const double vakioitu = tiliProsentti == 24.0 ? yleinenAlv(ui->pvmEdit->date()) / 100.0 : tiliProsentti;
+            const double vakioitu = tiliProsentti == 24.0 ? yleinenAlv(ui->pvmEdit->date()) / 100.0 : 
+                tiliProsentti == 14.00 ? keskimainenAlv(ui->pvmEdit->date()) / 100.0 : 
+                tiliProsentti;
             ui->alvProssaCombo->setCurrentText(QString("%L1 %").arg(vakioitu,0,'f',2));
             alvMuuttuu();
         }
@@ -349,7 +351,9 @@ void TilioteKirjaaja::tiliMuuttuu()
 
         if( kp()->onkoAlvVelvollinen( ui->pvmEdit->date() )) {
             paivitaVeroFiltteri( tili.alvlaji() );
-            const double alvProssa = tili.alvprosentti() == 24.0 ? yleinenAlv(ui->pvmEdit->date()) / 100.0 : tili.alvprosentti();
+            const double alvProssa = tili.alvprosentti() == 24.0 ? yleinenAlv(ui->pvmEdit->date()) / 100.0 : 
+                tili.alvprosentti() == 14.00 ? keskimainenAlv(ui->pvmEdit->date()) / 100.0 : 
+                tili.alvprosentti();
             ui->alvProssaCombo->setCurrentText(QString("%L1 %").arg(alvProssa, 0, 'f', 2));
         }
     }

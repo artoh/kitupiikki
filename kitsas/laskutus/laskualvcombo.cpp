@@ -29,6 +29,7 @@ LaskuAlvCombo::LaskuAlvCombo(QWidget *parent) :
 void LaskuAlvCombo::alusta(LaskuAlvCombo::AsiakasVeroLaji asiakasVerolaji, int alvkoodi, bool ennakkolasku, const QDate &pvm)
 {
     addItem(QIcon(":/pic/netto-m.svg"),"10%", QVariant(AlvKoodi::MYYNNIT_NETTO + 10 * 10000 ));
+    addItem(QIcon(":/pic/netto-m.svg"),"13,5%", QVariant(AlvKoodi::MYYNNIT_NETTO + 135000 ));
     addItem(QIcon(":/pic/netto-m.svg"),"14%", QVariant(AlvKoodi::MYYNNIT_NETTO + 14 * 10000));
     addItem(QIcon(":/pic/netto-m.svg"),"24%", QVariant(AlvKoodi::MYYNNIT_NETTO + 24 * 10000 ));
     addItem(QIcon(":/pic/netto-m.svg"),"25,5%", QVariant(AlvKoodi::MYYNNIT_NETTO + 255000 ));

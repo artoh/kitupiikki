@@ -314,7 +314,9 @@ void MuuMuokkausDlg::tiliMuuttui()
     if( !ladataan_) {
         if( !kp()->onkoAlvVelvollinen(ui->pvmEdit->date()) ) {
             setAlvKoodi( tili.alvlaji() );
-            const double tilinProssa = tili.alvprosentti() == 24 ? yleinenAlv( ui->pvmEdit->date() ) / 100.0 : tili.alvprosentti();
+            const double tilinProssa = tili.alvprosentti() == 24 ? yleinenAlv( ui->pvmEdit->date() ) / 100.0 : 
+                tili.alvprosentti() == 14.00 ? keskimainenAlv( ui->pvmEdit->date() ) / 100.0 : 
+                tili.alvprosentti();
             setAlvProssa( tilinProssa );
         } else {
             setAlvKoodi( AlvKoodi::EIALV );

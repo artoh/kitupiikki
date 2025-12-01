@@ -25,6 +25,7 @@ TositeriviAlv::TositeriviAlv(TositeRivit *rivit) :
     tiedot_ << AlvTieto(AlvKoodi::MYYNNIT_NETTO, 25.5)
             << AlvTieto(AlvKoodi::MYYNNIT_NETTO, 24.0)
             << AlvTieto(AlvKoodi::MYYNNIT_NETTO, 14.0)
+            << AlvTieto(AlvKoodi::MYYNNIT_NETTO, 13.5)
             << AlvTieto(AlvKoodi::MYYNNIT_NETTO, 10.0)
             << AlvTieto(AlvKoodi::EIALV, 0.0)
             << AlvTieto(AlvKoodi::ALV0, 0.0)

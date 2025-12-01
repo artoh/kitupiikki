@@ -24,6 +24,7 @@ void TilioteAlvCombo::alustaTulolle(const QDate& pvm)
     lisaa(AlvKoodi::MYYNNIT_NETTO, 2550, "25,5 %");
     lisaa(AlvKoodi::MYYNNIT_NETTO, 2400, "24 %");
     lisaa(AlvKoodi::MYYNNIT_NETTO, 1400, "14 %");
+    lisaa(AlvKoodi::MYYNNIT_NETTO, 1350, "13,5 %");
     lisaa(AlvKoodi::MYYNNIT_NETTO, 1000, "10 %");
     lisaa(AlvKoodi::ALV0);
     lisaa(AlvKoodi::MYYNNIT_MARGINAALI, yleinenAlv(pvm));
@@ -37,6 +38,7 @@ void TilioteAlvCombo::alustaMenolle(const QDate& pvm)
     lisaa(AlvKoodi::OSTOT_NETTO, 2550, "25,5%");
     lisaa(AlvKoodi::OSTOT_NETTO, 2400, "24 %");
     lisaa(AlvKoodi::OSTOT_NETTO, 1400, "14 %");
+    lisaa(AlvKoodi::OSTOT_NETTO, 1350, "13,5 %");
     lisaa(AlvKoodi::OSTOT_NETTO, 1000, "10 %");
     lisaa(AlvKoodi::OSTOT_MARGINAALI, yleinenAlv(pvm));
     lisaa(AlvKoodi::YHTEISOHANKINNAT_TAVARAT, yleinenAlv(pvm));

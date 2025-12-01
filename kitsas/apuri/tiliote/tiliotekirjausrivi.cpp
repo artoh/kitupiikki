@@ -85,7 +85,9 @@ TilioteKirjausRivi::TilioteKirjausRivi(const QVariantMap &tuonti, TilioteModel *
 
     if( onkoAlv && (tili.onko(TiliLaji::TULO) || tili.onko(TiliLaji::MENO)) ) {
         rivi.setAlvkoodi(tili.alvlaji());
-        const double prosentti = tili.alvprosentti() == 24.0 ? yleinenAlv(paivamaara_) / 100.0 : tili.alvprosentti();
+        const double prosentti = tili.alvprosentti() == 24.0 ? yleinenAlv(paivamaara_) / 100.0 : 
+            tili.alvprosentti() == 14.00 ? keskimainenAlv(paivamaara_) / 100.0 : 
+            tili.alvprosentti();
         rivi.setAlvprosentti(prosentti);
     } else {
         rivi.setAlvkoodi(AlvKoodi::EIALV);
@@ -377,7 +379,9 @@ bool TilioteKirjausRivi::setRiviData(int sarake, const QVariant &value)
         if( tiliKohdennus) rivit_[0].setKohdennus(tiliKohdennus);
         if( model()->kitsas()->onkoAlvVelvollinen(pvm()) && tili->onko(TiliLaji::TULOS)) {
             rivit_[0].setAlvkoodi(tili->alvlaji());
-            const double prosentti = tili->alvprosentti() == 24.0 ? yleinenAlv(paivamaara_) / 100.0 : tili->alvprosentti();
+            const double prosentti = tili->alvprosentti() == 24.0 ? yleinenAlv(paivamaara_) / 100.0 : 
+                tili->alvprosentti() == 14.00 ? keskimainenAlv(paivamaara_) / 100.0 : 
+                tili->alvprosentti();
             rivit_[0].setAlvprosentti(prosentti);
             if( onkoBruttoa && !rivit_.at(0).naytaBrutto()) {
                 rivit_[0].setNetto(rivit_.at(0).brutto());
