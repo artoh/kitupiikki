@@ -515,7 +515,7 @@ void TilioteKirjaaja::alusta()
     veroFiltteri_->setFilterRole( VerotyyppiModel::KoodiTekstiRooli);
     veroFiltteri_->setSourceModel( kp()->alvTyypit());
     ui->alvCombo->setModel(veroFiltteri_);
-    ui->alvProssaCombo->addItems( QStringList() << "25,50 %" << "24,00 %" << "14,00 %" << "10,00 %");
+    ui->alvProssaCombo->addItems( QStringList() << "25,50 %" << "24,00 %" << "14,00 %" << "13,50 %" << "10,00 %");
     ui->alvProssaCombo->setValidator(new QRegularExpressionValidator(QRegularExpression("\\d{1,2}(,\\d{1,2})\\s?%?"),this));
 
     alaTabMuuttui(0);

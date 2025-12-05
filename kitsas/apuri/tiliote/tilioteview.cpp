@@ -125,7 +125,7 @@ void TilioteView::keyPressEvent(QKeyEvent *event)
             return;
         } else if( event->key() == Qt::Key_1) {
             const int alv = currentIndex().data(Qt::EditRole).toInt();
-            model()->setData(currentIndex(), alv / 100 == 1400 ? koodi + 100000 : koodi + 140000);
+            model()->setData(currentIndex(), alv / 100 == 1400 || alv / 100 == 1350 ? koodi + 100000 : koodi + (keskimainenAlv(currentIndex().data(TilioteKirjausRivi::PvmRooli).toDate()) * 100));
             return;
         } else if( event->key() == Qt::Key_T) {
             const int prosentti = yleinenAlv( currentIndex().data(TilioteKirjausRivi::PvmRooli).toDate()) * 100;

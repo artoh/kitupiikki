@@ -44,7 +44,7 @@ MuuMuokkausDlg::MuuMuokkausDlg(QWidget *parent) :
     ui->merkkausLabel->setVisible(kp()->kohdennukset()->merkkauksia());
     ui->merkkausCombo->setVisible(kp()->kohdennukset()->merkkauksia());
 
-    ui->kantaCombo->addItems(QStringList() << "25,50 %" << "24,00 %" << "14,00 %" << "10,00 %");
+    ui->kantaCombo->addItems(QStringList() << "25,50 %" << "24,00 %" << "14,00 %" << "13,50 %"<< "10,00 %");
     ui->kantaCombo->setValidator(new QRegularExpressionValidator(QRegularExpression("\\d{1,2}(,\\d{1,2})\\s?%?"),this));
 
     connect( ui->pvmEdit, &KpDateEdit::dateChanged, this, &MuuMuokkausDlg::pvmMuuttui);

@@ -198,7 +198,7 @@ void ViennitView::keyPressEvent(QKeyEvent *event)
             Tili* tili = kp()->tilit()->tili(tilinumero);
             double prosentti =
                 event->key() == Qt::Key_2 ? ( nykyinen == 24.0 ? 25.5 : ( nykyinen == 25.5 ? 24.0 : yleinenAlv( currentIndex().data(TositeViennit::PvmRooli).toDate() ) / 100.0) ) :
-                    (nykyinen == 14.0 ? 10 : keskimainenAlv( currentIndex().data(TositeViennit::PvmRooli).toDate() ) / 100.0);
+                    (nykyinen == 14.0 || nykyinen == 13.5 ? 10 : keskimainenAlv( currentIndex().data(TositeViennit::PvmRooli).toDate() ) / 100.0);
             model()->setData(currentIndex(), prosentti, TositeViennit::AlvProsenttiRooli);
 
             if(tili && kp()->alvTyypit()->nollaTyyppi(currentIndex().data(TositeViennit::AlvKoodiRooli).toInt())) {
