@@ -36,6 +36,7 @@
 
 #include <QFileInfo>
 #include <QCommandLineParser>
+#include <QtEnvironmentVariables>
 
 #include "aloitussivu/tervetulodialogi.h"
 #include "maaritys/ulkoasumaaritys.h"
@@ -52,6 +53,10 @@ int main(int argc, char *argv[])
     a.setApplicationVersion(KITSAS_VERSIO);
     a.setOrganizationDomain("kitsas.fi");
     a.setOrganizationName("Kitsas oy");
+
+#if defined (Q_OS_LINUX)
+    qputenv("QTWEBENGINE_CHROMIUM_FLAGS","--disable-gpu");
+#endif
 
     KitsasLokiModel::alusta();  
 
