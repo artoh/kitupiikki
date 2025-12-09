@@ -2,8 +2,11 @@
 
 BUILDIR=build-linux-qt6
 QMAKE=~/Qt/6.9.3/gcc_64/bin/qmake
+
 DISTDIR=../dist
-VERSION=5.10
+VERSION=5.11
+LIBSSLPATH=/usr/lib/x86_64-linux-gnu/libssl.so.3
+LIBCRYPTOPATH=/usr/lib/x86_64-linux-gnu/libcrypto.so.3
 
 export QMAKE=$QMAKE
 
@@ -22,8 +25,19 @@ wget https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/cont
 
 chmod +x linuxdeploy*.AppImage
 
-./linuxdeploy-x86_64.AppImage --appdir AppDir -e kitsas -i ../kitsas.png -d ../kitsas.desktop
-./linuxdeploy-plugin-qt-x86_64.AppImage --appdir AppDir --exclude-library libqsqlmimer.so --exclude-library libqsqlodbc.so --exclude-library libqsqlmysql.so --exclude-library libqsqlpsql.so
+./linuxdeploy-x86_64.AppImage --appdir AppDir -e kitsas -i ../kitsas.png -d ../kitsas.desktop \
+    -l $LIBSSLPATH \
+    -l $LIBCRYPTOPATH \
+
+./linuxdeploy-plugin-qt-x86_64.AppImage --appdir AppDir \
+    --exclude-library libqsqlmimer.so \
+    --exclude-library libqsqlodbc.so \
+    --exclude-library libqsqlmysql.so \
+    --exclude-library libqsqlpsql.so \
+    --exclude-library libqsqloci.so \
+    --exclude-library libqsqlibase.so
+
 ./linuxdeploy-x86_64.AppImage --appdir AppDir --output appimage
+
 cp Kitsas*.AppImage $DISTDIR/Kitsas-$VERSION-x86_64.AppImage
 
