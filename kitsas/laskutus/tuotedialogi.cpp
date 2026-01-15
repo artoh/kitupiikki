@@ -42,7 +42,9 @@ TuoteDialogi::TuoteDialogi(QWidget *parent) :
     connect( ui->bruttoEdit, &KpYhEdit::textEdited,
              this, &TuoteDialogi::laskeNetto);
 
-    ui->alvCombo->alusta();
+    // Alustetaan ALV-kombo nykyisellä päivämäärällä, jotta oletusarvo määräytyy oikein
+    // ALV-velvollisessa kirjanpidossa. -1 tarkoittaa että ei ole määriteltyä ALV-koodia.
+    ui->alvCombo->alusta(LaskuAlvCombo::KAIKKI, -1, false, kp()->paivamaara());
 }
 
 TuoteDialogi::~TuoteDialogi()
