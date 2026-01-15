@@ -52,9 +52,9 @@ void LaskuAlvCombo::alusta(LaskuAlvCombo::AsiakasVeroLaji asiakasVerolaji, int a
     }
 
     if( kp()->onkoAlvVelvollinen(pvm) ) {
-        setCurrentIndex(pvm < QDate(2024,9,1) ? 2 : 3); // Alv 24
+        setCurrentIndex(4); // Alv 25,5
     } else {
-        setCurrentIndex(4);  // Veroton
+        setCurrentIndex(5);  // Veroton
     }
 }
 
