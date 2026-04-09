@@ -25,6 +25,10 @@
 #include "lasku.h"
 
 #include <QMessageBox>
+#include <QFile>
+#include <QDateTime>
+#include <QJsonDocument>
+#include <QJsonObject>
 
 TositeRivit::TositeRivit(QObject *parent, const QVariantList& data)
     : QAbstractTableModel(parent), paivamaara_(kp()->paivamaara())
@@ -397,10 +401,11 @@ void TositeRivit::lisaaTuote(const Tuote &tuote, const QString &lkm, const QStri
     rivi.setTili( tuote.tili() );
     rivi.setKohdennus( tuote.kohdennus() );
 
-    if( kp()->onkoAlvVelvollinen(pvm) )  {
+    const QDate alvPvm = pvm.isValid() ? pvm : kp()->paivamaara();
+    if( kp()->onkoAlvVelvollinen(alvPvm) )  {
         rivi.setAlvKoodi( tuote.alvkoodi() );
-        const double prossa = tuote.alvprosentti() == 24.00 ? yleinenAlv( pvm ) / 100.0 : 
-            tuote.alvprosentti() == 14.00 ? keskimainenAlv( pvm ) / 100.0 : 
+        const double prossa = tuote.alvprosentti() == 24.00 ? yleinenAlv( alvPvm ) / 100.0 : 
+            tuote.alvprosentti() == 14.00 ? keskimainenAlv( alvPvm ) / 100.0 : 
             tuote.alvprosentti();
         rivi.setAlvProsentti( prossa );
     };
