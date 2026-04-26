@@ -171,7 +171,12 @@ QVariant TositeRoute::doDelete(const QString &polku)
     int tositeid = polku.toInt();
 
     QSqlQuery kysely(db());
-
+   
+    // Fix: Delete Vienti rows first to prevent orphaned rows
+    if(!kysely.exec(QString("DELETE FROM Vienti WHERE tosite=%1")
+                .arg(tositeid)))
+        throw SQLiteVirhe(kysely); 
+   
     if(!kysely.exec(QString("UPDATE Tosite SET tila=0 WHERE id=%1")
                 .arg(tositeid)))
         throw SQLiteVirhe(kysely);
