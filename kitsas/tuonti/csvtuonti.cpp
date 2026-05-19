@@ -786,6 +786,8 @@ int CsvTuonti::tuoListaan(const QByteArray &data)
                     muodot_[i] = RAHA;
                 else if( (muodot_[i] == LUKU && muoto == VIITE ) || (muodot_[i] == VIITE && muoto == LUKU) )
                     muodot_[i] = LUKU;
+                else if( muodot_[i] == LUKU && muoto == ALLESATA)
+                    muodot_[i] = LUKU;
                 else
                     muodot_[i] = TEKSTI;
             }
