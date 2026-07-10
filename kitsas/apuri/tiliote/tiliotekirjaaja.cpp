@@ -605,12 +605,6 @@ void TilioteKirjaaja::lataa(const TilioteKirjausRivi &rivi)
     ui->viennitView->selectRow(0);
     ui->viennitView->setVisible( rivit_->rowCount() > 1 );
 
-    std::weak_ptr<Ui::TilioteKirjaaja> varmistusUi = ui;
-    qApp->processEvents();
-    if (varmistusUi.expired()) {
-        return;
-    }
-
     naytaRivi();
 
     ui->pvmEdit->setDate(rivi.pvm());
@@ -717,20 +711,15 @@ void TilioteKirjaaja::naytaRivi()
     paivitaVeroFiltteri( ar.alvkoodi() );
     ui->alvProssaCombo->setCurrentText( ar.alvprosentti() ? QString("%L1 %").arg(ar.alvprosentti(), 0, 'f', 2 ) : QString() );
 
-    std::weak_ptr <Ui::TilioteKirjaaja> varmistusUI = ui; // Tieto ui:n olemassaolosta turvaan paikalliseen muuttujaan olion tuhoamisen varalta
-
-    qApp->processEvents();
-
-
-    //Käyttäjä on voinut jo sulkea dialogin, ui:n olemassaolo pitää tarkastaa
-
-
-    if (!varmistusUI.expired()) {
-        ui->eiVahennysCheck->setChecked( !ar.alvvahennys() );
-        ui->poistoaikaSpin->setValue( ar.poistoaika() / 12 );
-    }
-
-
+    // Asetetaan tapahtumasilmukan kautta, jotta yllä olevien combojen signaalit
+    // eivät ehdi nollata valintoja. processEvents-kutsua ei saa käyttää, koska
+    // dialogi voidaan tuhota sisäkkäisessä silmukassa kesken tämän metodin.
+    const bool alvvahennys = ar.alvvahennys();
+    const int poistoaika = ar.poistoaika();
+    QTimer::singleShot(0, this, [this, alvvahennys, poistoaika] {
+        ui->eiVahennysCheck->setChecked( !alvvahennys );
+        ui->poistoaikaSpin->setValue( poistoaika / 12 );
+    });
 }
 
 

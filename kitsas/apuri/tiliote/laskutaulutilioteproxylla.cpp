@@ -64,8 +64,10 @@ void LaskuTauluTilioteProxylla::paivitaSuoritukset()
         Euro suoritus  = ostoja_ ? Euro::Zero - euro : euro;
         suoritukset_.insert( eraId, suoritus + suoritukset_.value(eraId, Euro::Zero));
     }
-    emit dataChanged( index(0, MAKSAMATTA),
-                      index(rowCount()-1, MAKSAMATTA ));
+    if( rowCount() > 0) {
+        emit dataChanged( index(0, MAKSAMATTA),
+                          index(rowCount()-1, MAKSAMATTA ));
+    }
 }
 
 void LaskuTauluTilioteProxylla::tietoSaapuu(QVariant *var)
