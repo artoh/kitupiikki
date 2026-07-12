@@ -22,9 +22,112 @@
 
 #include <QSettings>
 #include <QApplication>
+#include <QGuiApplication>
+#include <QStyle>
+#include <QStyleFactory>
+#include <QStyleHints>
+#include <QWidget>
+#include <QLineEdit>
+#include <QComboBox>
+#include <QPlainTextEdit>
+#include <QTextEdit>
+#include <QAbstractSpinBox>
+#include <memory>
 #include "kieli/kielet.h"
 #include "saldodock/saldodock.h"
 #include <QMessageBox>
+
+namespace {
+
+enum TeemaAsetus {
+    JarjestelmanTeema = 0,
+    VaaleaTeema = 1,
+    TummaTeema = 2
+};
+
+QPalette fusionDarkPalette()
+{
+    QPalette palette;
+    palette.setColor(QPalette::Window, QColor(53, 53, 53));
+    palette.setColor(QPalette::WindowText, Qt::white);
+    palette.setColor(QPalette::Base, QColor(35, 35, 35));
+    palette.setColor(QPalette::AlternateBase, QColor(53, 53, 53));
+    palette.setColor(QPalette::ToolTipBase, QColor(53, 53, 53));
+    palette.setColor(QPalette::ToolTipText, Qt::white);
+    palette.setColor(QPalette::Text, Qt::white);
+    palette.setColor(QPalette::Button, QColor(53, 53, 53));
+    palette.setColor(QPalette::ButtonText, Qt::white);
+    palette.setColor(QPalette::BrightText, Qt::red);
+    palette.setColor(QPalette::Link, QColor(42, 130, 218));
+    palette.setColor(QPalette::Highlight, QColor(42, 130, 218));
+    palette.setColor(QPalette::HighlightedText, Qt::black);
+    palette.setColor(QPalette::Light, QColor(90, 90, 90));
+    palette.setColor(QPalette::Midlight, QColor(70, 70, 70));
+    palette.setColor(QPalette::Mid, QColor(60, 60, 60));
+    palette.setColor(QPalette::Dark, QColor(25, 25, 25));
+    palette.setColor(QPalette::Shadow, QColor(20, 20, 20));
+    palette.setColor(QPalette::PlaceholderText, QColor(127, 127, 127));
+    palette.setColor(QPalette::Disabled, QPalette::Text, QColor(127, 127, 127));
+    palette.setColor(QPalette::Disabled, QPalette::ButtonText, QColor(127, 127, 127));
+    return palette;
+}
+
+QPalette fusionLightPalette()
+{
+    std::unique_ptr<QStyle> fusionStyle(QStyleFactory::create("Fusion"));
+    QPalette palette = fusionStyle ? fusionStyle->standardPalette() : QPalette();
+    palette.setColor(QPalette::Window, QColor(239, 239, 239));
+    palette.setColor(QPalette::WindowText, Qt::black);
+    palette.setColor(QPalette::Base, Qt::white);
+    palette.setColor(QPalette::AlternateBase, QColor(245, 245, 245));
+    palette.setColor(QPalette::ToolTipBase, Qt::white);
+    palette.setColor(QPalette::ToolTipText, Qt::black);
+    palette.setColor(QPalette::Text, Qt::black);
+    palette.setColor(QPalette::Button, QColor(239, 239, 239));
+    palette.setColor(QPalette::ButtonText, Qt::black);
+    palette.setColor(QPalette::BrightText, Qt::red);
+    palette.setColor(QPalette::Link, QColor(0, 122, 204));
+    palette.setColor(QPalette::Highlight, QColor(42, 130, 218));
+    palette.setColor(QPalette::HighlightedText, Qt::white);
+    palette.setColor(QPalette::Light, QColor(255, 255, 255));
+    palette.setColor(QPalette::Midlight, QColor(225, 225, 225));
+    palette.setColor(QPalette::Mid, QColor(185, 185, 185));
+    palette.setColor(QPalette::Dark, QColor(120, 120, 120));
+    palette.setColor(QPalette::Shadow, QColor(80, 80, 80));
+    palette.setColor(QPalette::PlaceholderText, QColor(127, 127, 127));
+    palette.setColor(QPalette::Disabled, QPalette::Text, QColor(127, 127, 127));
+    palette.setColor(QPalette::Disabled, QPalette::ButtonText, QColor(127, 127, 127));
+    return palette;
+}
+
+void refreshPaletteAwareWidgets(QApplication &app)
+{
+    const QPalette appPalette = app.palette();
+    const QWidgetList widgets = QApplication::allWidgets();
+    for (QWidget *widget : widgets) {
+        if (qobject_cast<QLineEdit *>(widget) ||
+            qobject_cast<QComboBox *>(widget) ||
+            qobject_cast<QPlainTextEdit *>(widget) ||
+            qobject_cast<QTextEdit *>(widget) ||
+            qobject_cast<QAbstractSpinBox *>(widget)) {
+            widget->setPalette(appPalette);
+        }
+
+        const QString style = widget->styleSheet();
+        if (style.contains("palette(", Qt::CaseInsensitive)) {
+            widget->setStyleSheet(QString());
+            widget->setStyleSheet(style);
+        }
+
+        if (QStyle *styleEngine = widget->style()) {
+            styleEngine->unpolish(widget);
+            styleEngine->polish(widget);
+        }
+        widget->update();
+    }
+}
+
+} // namespace
 
 UlkoasuMaaritys::UlkoasuMaaritys() :
     MaaritysWidget(),
@@ -44,6 +147,9 @@ UlkoasuMaaritys::UlkoasuMaaritys() :
     connect(ui->fonttiCombo, &QFontComboBox::currentFontChanged, this, &UlkoasuMaaritys::asetaFontti);
     connect(ui->kokoCombo, &QComboBox::currentTextChanged, this, &UlkoasuMaaritys::asetaFontti);
     connect(ui->saldotCheck, &QCheckBox::clicked, this, &UlkoasuMaaritys::naytaSaldot);
+    connect(ui->jarjestelmaTeema, &QRadioButton::clicked, this, &UlkoasuMaaritys::vaihdaTeema);
+    connect(ui->vaaleaTeema, &QRadioButton::clicked, this, &UlkoasuMaaritys::vaihdaTeema);
+    connect(ui->tummaTeema, &QRadioButton::clicked, this, &UlkoasuMaaritys::vaihdaTeema);
 
     connect( ui->fiKieli, &QRadioButton::clicked, this, &UlkoasuMaaritys::vaihdaKieli);
     connect( ui->svKieli, &QRadioButton::clicked, this, &UlkoasuMaaritys::vaihdaKieli);
@@ -88,6 +194,19 @@ bool UlkoasuMaaritys::nollaa()
 
     ui->pikaPdfCheck->setChecked( kp()->settings()->value("PikaPdf").toBool() );
 
+    switch (teemaAsetus()) {
+    case VaaleaTeema:
+        ui->vaaleaTeema->setChecked(true);
+        break;
+    case TummaTeema:
+        ui->tummaTeema->setChecked(true);
+        break;
+    case JarjestelmanTeema:
+    default:
+        ui->jarjestelmaTeema->setChecked(true);
+        break;
+    }
+
     return true;
 }
 
@@ -108,6 +227,21 @@ void UlkoasuMaaritys::naytaSaldot(bool naytetaanko)
 {
     kp()->settings()->setValue("SaldoDock", naytetaanko);
     SaldoDock::dock()->alusta();
+}
+
+void UlkoasuMaaritys::vaihdaTeema()
+{
+    int teema = JarjestelmanTeema;
+    if (ui->vaaleaTeema->isChecked()) {
+        teema = VaaleaTeema;
+    } else if (ui->tummaTeema->isChecked()) {
+        teema = TummaTeema;
+    }
+
+    kp()->settings()->setValue("Teema", teema);
+    if (QApplication *app = qobject_cast<QApplication *>(QCoreApplication::instance())) {
+        asetaTeema(*app, teema);
+    }
 }
 
 void UlkoasuMaaritys::vaihdaKieli()
@@ -136,6 +270,32 @@ void UlkoasuMaaritys::vaihdaTilikarttaKieli()
         kp()->settings()->remove(kieliAvain);
     else
         kp()->settings()->setValue(kieliAvain, ui->tilikarttaKieli->kieli());
+}
+
+int UlkoasuMaaritys::teemaAsetus()
+{
+    return kp() ? kp()->settings()->value("Teema", JarjestelmanTeema).toInt()
+                : JarjestelmanTeema;
+}
+
+void UlkoasuMaaritys::asetaTeema(QApplication &app, int teemaAsetus)
+{
+    const bool dark = (teemaAsetus == TummaTeema) ||
+                      (teemaAsetus == JarjestelmanTeema &&
+                       QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark);
+    app.setPalette(dark ? fusionDarkPalette() : fusionLightPalette());
+    refreshPaletteAwareWidgets(app);
+}
+
+void UlkoasuMaaritys::alustaTeema(QApplication &app)
+{
+    asetaTeema(app, teemaAsetus());
+    QObject::connect(QGuiApplication::styleHints(), &QStyleHints::colorSchemeChanged,
+                     &app, [&app](Qt::ColorScheme) {
+        if (teemaAsetus() == JarjestelmanTeema) {
+            asetaTeema(app, JarjestelmanTeema);
+        }
+    });
 }
 
 QFont UlkoasuMaaritys::oletusfontti__ = QFont();

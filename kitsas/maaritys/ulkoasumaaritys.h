@@ -20,6 +20,7 @@
 #include "maarityswidget.h"
 
 #include <QFont>
+class QApplication;
 
 namespace Ui {
     class Ulkoasu;
@@ -34,14 +35,18 @@ public:
 
     bool nollaa() override;
     bool naytetaankoTallennus() override { return false; }
+    static void alustaTeema(QApplication &app);
 
 protected slots:    
     void asetaFontti();
     void naytaSaldot(bool naytetaanko);
+    void vaihdaTeema();
     void vaihdaKieli();
     void vaihdaTilikarttaKieli();
 
 private:
+    static int teemaAsetus();
+    static void asetaTeema(QApplication &app, int teemaAsetus);
     Ui::Ulkoasu *ui;
 public:
     static QFont oletusfontti__;
