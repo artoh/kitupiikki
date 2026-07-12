@@ -28,6 +28,7 @@
 #include <QColor>
 #include <QBrush>
 #include <QPalette>
+#include <QGuiApplication>
 
 TilioteHarmaaRivi::TilioteHarmaaRivi()
 {
@@ -121,14 +122,14 @@ QVariant TilioteHarmaaRivi::riviData(int sarake, int role, bool alternateColor )
     case Qt::BackgroundRole:
         if( vienti_.value("vastatilit").toList().isEmpty() || vienti_.value("huomio").toBool()) {
             // Tiliöimätön TAI huomio
-            if( QPalette().base().color().lightness() > 128) {
+            if( QGuiApplication::palette().base().color().lightness() > 128) {
                 return alternateColor ? QBrush(QColor(255, 200, 77)) : QBrush(QColor(255,209,102));
             } else {
                 return alternateColor ? QBrush(QColor(204, 41, 0)) : QBrush(QColor(255,51,0));
             }
         }
 
-        if( QPalette().base().color().lightness() > 128) {
+        if( QGuiApplication::palette().base().color().lightness() > 128) {
             return alternateColor ? QBrush(QColor(173, 255, 153)) : QBrush(QColor(194,255,179));
         } else {
             return alternateColor ? QBrush(QColor(26, 102, 0)) : QBrush(QColor(38,153,0));
