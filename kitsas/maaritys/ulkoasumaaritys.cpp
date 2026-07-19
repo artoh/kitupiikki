@@ -27,11 +27,6 @@
 #include <QStyleFactory>
 #include <QStyleHints>
 #include <QWidget>
-#include <QLineEdit>
-#include <QComboBox>
-#include <QPlainTextEdit>
-#include <QTextEdit>
-#include <QAbstractSpinBox>
 #include <memory>
 #include "kieli/kielet.h"
 #include "saldodock/saldodock.h"
@@ -45,58 +40,114 @@ enum TeemaAsetus {
     TummaTeema = 2
 };
 
+QPalette fusionStandardPalette()
+{
+    std::unique_ptr<QStyle> fusionStyle(QStyleFactory::create("Fusion"));
+    return fusionStyle ? fusionStyle->standardPalette() : QPalette();
+}
+
+void setDisabledGroup(QPalette &palette,
+                      const QColor &text,
+                      const QColor &window,
+                      const QColor &base,
+                      const QColor &button,
+                      const QColor &highlight,
+                      const QColor &highlightedText)
+{
+    palette.setColor(QPalette::Disabled, QPalette::WindowText, text);
+    palette.setColor(QPalette::Disabled, QPalette::Text, text);
+    palette.setColor(QPalette::Disabled, QPalette::ButtonText, text);
+    palette.setColor(QPalette::Disabled, QPalette::ToolTipText, text);
+    palette.setColor(QPalette::Disabled, QPalette::PlaceholderText, text);
+    palette.setColor(QPalette::Disabled, QPalette::Window, window);
+    palette.setColor(QPalette::Disabled, QPalette::Base, base);
+    palette.setColor(QPalette::Disabled, QPalette::AlternateBase, base);
+    palette.setColor(QPalette::Disabled, QPalette::Button, button);
+    palette.setColor(QPalette::Disabled, QPalette::ToolTipBase, window);
+    palette.setColor(QPalette::Disabled, QPalette::Highlight, highlight);
+    palette.setColor(QPalette::Disabled, QPalette::HighlightedText, highlightedText);
+    palette.setColor(QPalette::Disabled, QPalette::Light, button);
+    palette.setColor(QPalette::Disabled, QPalette::Midlight, button);
+    palette.setColor(QPalette::Disabled, QPalette::Mid, button);
+    palette.setColor(QPalette::Disabled, QPalette::Dark, text);
+    palette.setColor(QPalette::Disabled, QPalette::Shadow, text);
+}
+
 QPalette fusionDarkPalette()
 {
-    QPalette palette;
-    palette.setColor(QPalette::Window, QColor(53, 53, 53));
-    palette.setColor(QPalette::WindowText, Qt::white);
-    palette.setColor(QPalette::Base, QColor(35, 35, 35));
-    palette.setColor(QPalette::AlternateBase, QColor(53, 53, 53));
-    palette.setColor(QPalette::ToolTipBase, QColor(53, 53, 53));
-    palette.setColor(QPalette::ToolTipText, Qt::white);
-    palette.setColor(QPalette::Text, Qt::white);
-    palette.setColor(QPalette::Button, QColor(53, 53, 53));
-    palette.setColor(QPalette::ButtonText, Qt::white);
+    QPalette palette = fusionStandardPalette();
+    const QColor window(53, 53, 53);
+    const QColor base(35, 35, 35);
+    const QColor alternate(45, 45, 45);
+    const QColor button(53, 53, 53);
+    const QColor text(Qt::white);
+    const QColor highlight(42, 130, 218);
+    const QColor disabledText(127, 127, 127);
+
+    palette.setColor(QPalette::Window, window);
+    palette.setColor(QPalette::WindowText, text);
+    palette.setColor(QPalette::Base, base);
+    palette.setColor(QPalette::AlternateBase, alternate);
+    palette.setColor(QPalette::ToolTipBase, window);
+    palette.setColor(QPalette::ToolTipText, text);
+    palette.setColor(QPalette::Text, text);
+    palette.setColor(QPalette::Button, button);
+    palette.setColor(QPalette::ButtonText, text);
     palette.setColor(QPalette::BrightText, Qt::red);
-    palette.setColor(QPalette::Link, QColor(42, 130, 218));
-    palette.setColor(QPalette::Highlight, QColor(42, 130, 218));
-    palette.setColor(QPalette::HighlightedText, Qt::black);
+    palette.setColor(QPalette::Link, highlight);
+    palette.setColor(QPalette::LinkVisited, QColor(156, 100, 220));
+    palette.setColor(QPalette::Highlight, highlight);
+    palette.setColor(QPalette::HighlightedText, Qt::white);
     palette.setColor(QPalette::Light, QColor(90, 90, 90));
     palette.setColor(QPalette::Midlight, QColor(70, 70, 70));
     palette.setColor(QPalette::Mid, QColor(60, 60, 60));
     palette.setColor(QPalette::Dark, QColor(25, 25, 25));
     palette.setColor(QPalette::Shadow, QColor(20, 20, 20));
-    palette.setColor(QPalette::PlaceholderText, QColor(127, 127, 127));
-    palette.setColor(QPalette::Disabled, QPalette::Text, QColor(127, 127, 127));
-    palette.setColor(QPalette::Disabled, QPalette::ButtonText, QColor(127, 127, 127));
+    palette.setColor(QPalette::PlaceholderText, disabledText);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+    palette.setColor(QPalette::Accent, highlight);
+#endif
+    setDisabledGroup(palette, disabledText, window, base, button,
+                     QColor(70, 70, 70), disabledText);
     return palette;
 }
 
 QPalette fusionLightPalette()
 {
-    std::unique_ptr<QStyle> fusionStyle(QStyleFactory::create("Fusion"));
-    QPalette palette = fusionStyle ? fusionStyle->standardPalette() : QPalette();
-    palette.setColor(QPalette::Window, QColor(239, 239, 239));
-    palette.setColor(QPalette::WindowText, Qt::black);
-    palette.setColor(QPalette::Base, Qt::white);
-    palette.setColor(QPalette::AlternateBase, QColor(245, 245, 245));
-    palette.setColor(QPalette::ToolTipBase, Qt::white);
-    palette.setColor(QPalette::ToolTipText, Qt::black);
-    palette.setColor(QPalette::Text, Qt::black);
-    palette.setColor(QPalette::Button, QColor(239, 239, 239));
-    palette.setColor(QPalette::ButtonText, Qt::black);
+    QPalette palette = fusionStandardPalette();
+    const QColor window(239, 239, 239);
+    const QColor base(Qt::white);
+    const QColor alternate(245, 245, 245);
+    const QColor button(239, 239, 239);
+    const QColor text(Qt::black);
+    const QColor highlight(42, 130, 218);
+    const QColor disabledText(127, 127, 127);
+
+    palette.setColor(QPalette::Window, window);
+    palette.setColor(QPalette::WindowText, text);
+    palette.setColor(QPalette::Base, base);
+    palette.setColor(QPalette::AlternateBase, alternate);
+    palette.setColor(QPalette::ToolTipBase, base);
+    palette.setColor(QPalette::ToolTipText, text);
+    palette.setColor(QPalette::Text, text);
+    palette.setColor(QPalette::Button, button);
+    palette.setColor(QPalette::ButtonText, text);
     palette.setColor(QPalette::BrightText, Qt::red);
     palette.setColor(QPalette::Link, QColor(0, 122, 204));
-    palette.setColor(QPalette::Highlight, QColor(42, 130, 218));
+    palette.setColor(QPalette::LinkVisited, QColor(102, 51, 153));
+    palette.setColor(QPalette::Highlight, highlight);
     palette.setColor(QPalette::HighlightedText, Qt::white);
     palette.setColor(QPalette::Light, QColor(255, 255, 255));
     palette.setColor(QPalette::Midlight, QColor(225, 225, 225));
     palette.setColor(QPalette::Mid, QColor(185, 185, 185));
     palette.setColor(QPalette::Dark, QColor(120, 120, 120));
     palette.setColor(QPalette::Shadow, QColor(80, 80, 80));
-    palette.setColor(QPalette::PlaceholderText, QColor(127, 127, 127));
-    palette.setColor(QPalette::Disabled, QPalette::Text, QColor(127, 127, 127));
-    palette.setColor(QPalette::Disabled, QPalette::ButtonText, QColor(127, 127, 127));
+    palette.setColor(QPalette::PlaceholderText, disabledText);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+    palette.setColor(QPalette::Accent, highlight);
+#endif
+    setDisabledGroup(palette, disabledText, window, alternate, button,
+                     QColor(200, 200, 200), QColor(80, 80, 80));
     return palette;
 }
 
@@ -105,13 +156,7 @@ void refreshPaletteAwareWidgets(QApplication &app)
     const QPalette appPalette = app.palette();
     const QWidgetList widgets = QApplication::allWidgets();
     for (QWidget *widget : widgets) {
-        if (qobject_cast<QLineEdit *>(widget) ||
-            qobject_cast<QComboBox *>(widget) ||
-            qobject_cast<QPlainTextEdit *>(widget) ||
-            qobject_cast<QTextEdit *>(widget) ||
-            qobject_cast<QAbstractSpinBox *>(widget)) {
-            widget->setPalette(appPalette);
-        }
+        widget->setPalette(appPalette);
 
         const QString style = widget->styleSheet();
         if (style.contains("palette(", Qt::CaseInsensitive)) {

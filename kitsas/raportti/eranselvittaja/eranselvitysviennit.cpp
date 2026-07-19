@@ -3,6 +3,7 @@
 #include "db/kirjanpito.h"
 #include "db/tositetyyppimodel.h"
 #include <QPalette>
+#include <QGuiApplication>
 
 EranSelvitysViennit::EranSelvitysViennit(const QDate& alkuPvm, const QDate& loppuPvm, QObject *parent)
     : QAbstractTableModel(parent),
@@ -85,7 +86,7 @@ QVariant EranSelvitysViennit::data(const QModelIndex &index, int role) const
     } else if( role == Qt::BackgroundRole) {
         const QDate pvm = map.value("pvm").toDate();
         if( pvm < alkuPvm_ || pvm > loppuPvm_)
-            return QPalette().brush(QPalette::AlternateBase);
+            return QGuiApplication::palette().brush(QPalette::AlternateBase);
     } else if( role == VientiMapRooli) {
         return map;
     } else if( role == PvmRooli) {
