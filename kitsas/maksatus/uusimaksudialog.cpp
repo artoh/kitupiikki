@@ -1,5 +1,6 @@
 #include "uusimaksudialog.h"
 #include "ui_uusimaksudialog.h"
+#include "validator/maksuviestivalidator.h"
 #include "validator/viitevalidator.h"
 
 #include <QPushButton>
@@ -10,6 +11,9 @@ UusiMaksuDialog::UusiMaksuDialog(QWidget *parent)
 {
     ui->setupUi(this);
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
+
+    ui->viestiEdit->setValidator(new MaksuViestiValidator(this));
+    ui->viestiEdit->setMaxLength(MaksuViestiValidator::maxPituus());
 
     ui->pvmEdit->setDateRange( QDate::currentDate(), QDate::currentDate().addDays(365) );
 
@@ -74,7 +78,8 @@ void UusiMaksuDialog::validate()
         ui->pvmEdit->date().isValid() &&
         ui->euroEdit->euro().cents() > 0 && (
             (ui->viiteRadio->isChecked() && ViiteValidator::kelpaako(ui->viiteEdit->text())) ||
-            (ui->viestiRadio->isChecked() && ui->viestiEdit->text().length() > 0)
+            (ui->viestiRadio->isChecked() && ui->viestiEdit->hasAcceptableInput() &&
+                !ui->viestiEdit->text().isEmpty())
     );
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(isValid);
 }
