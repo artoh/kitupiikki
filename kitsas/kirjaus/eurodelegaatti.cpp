@@ -35,7 +35,10 @@ QWidget *EuroDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewIte
 void EuroDelegaatti::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
     KpEuroEdit *edit = qobject_cast<KpEuroEdit*>(editor);
-    const Euro euro(index.data(Qt::EditRole).toString());
+    const QVariant editData = index.data(Qt::EditRole);
+    const Euro euro = editData.canConvert<Euro>()
+            ? editData.value<Euro>()
+            : Euro(editData.toString());
     edit->setEuro( euro );
     if( !euro) {
         edit->setMiinus( index.data(MiinusRooli).toBool() );
