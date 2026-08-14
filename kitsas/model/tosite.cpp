@@ -66,11 +66,6 @@ void Tosite::setData(int kentta, QVariant arvo)
         return;
     }
 
-    // Jos päivämäärä muuttuu toiselle kaudelle, vaihdetaan tositteen tunnistetta
-    if( kentta == PVM &&
-        kp()->tilikaudet()->tilikausiPaivalle(arvo.toDate()).alkaa() != kp()->tilikaudet()->tilikausiPaivalle( data_.value( avaimet__.at(PVM) ).toDate() ).alkaa())
-        setData( Tosite::TUNNISTE, QVariant() );
-
     if( ((arvo.toString().isEmpty() || arvo.toString()=="0") && arvo.typeId() != QMetaType::QVariantMap  && arvo.typeId() != QMetaType::QVariantList) ||
         ( arvo.typeId() == QMetaType::Int  && arvo.toInt() == 0) )
         data_.remove( avaimet__.at(kentta) );
