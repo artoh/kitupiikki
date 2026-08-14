@@ -46,6 +46,7 @@
 
 #include "pilvi/pilvimodel.h"
 #include "sqlite/sqlitemodel.h"
+#include "postgres/postgresmodel.h"
 #include "tositetyyppimodel.h"
 #include "alv/alvilmoitustenmodel.h"
 #include "rekisteri/ryhmatmodel.h"
@@ -85,6 +86,7 @@ Kirjanpito::Kirjanpito(const QString& portableDir) :
     networkManager_(new QNetworkAccessManager(this)),
     pilviModel_(new PilviModel(this)),
     sqliteModel_( new SQLiteModel(this)),
+    postgresModel_( new PostgresModel(this)),
     yhteysModel_(nullptr),        
     tositeTyypit_( new TositeTyyppiModel(this)),
     kiertoModel_( new KiertoModel(this)),
@@ -134,6 +136,7 @@ Kirjanpito::~Kirjanpito()
 {
     pilviModel_->sulje();
     sqliteModel_->sulje();
+    postgresModel_->sulje();
     tietokanta_.close();    
     delete tempDir_;
     delete printer_;
@@ -145,6 +148,9 @@ QString Kirjanpito::kirjanpitoPolku()
     SQLiteModel* sqlite = qobject_cast<SQLiteModel*>( yhteysModel() );
     if( sqlite)
         return sqlite->tiedostopolku();
+    PostgresModel* postgres = qobject_cast<PostgresModel*>( yhteysModel() );
+    if( postgres)
+        return QStringLiteral("postgresql://") + postgres->nykyinenYhteys().avain();
     PilviModel* pilvi = qobject_cast<PilviModel*>(yhteysModel());
     if( pilvi )
         return QString::number(pilvi->pilviId());
@@ -358,6 +364,7 @@ void Kirjanpito::asetaInstanssi(Kirjanpito *kp)
     instanssi__ = kp;
 //    kp->pilvi()->kirjaudu();
     kp->sqlite()->lataaViimeiset();
+    kp->postgres()->lataaViimeiset();
 }
 
 

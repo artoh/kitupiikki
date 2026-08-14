@@ -23,7 +23,7 @@
 #include <QDebug>
 #include <QNetworkReply>
 
-LiitteetRoute::LiitteetRoute(SQLiteModel *model) :
+LiitteetRoute::LiitteetRoute(SqlModel *model) :
     SQLiteRoute(model, "/liitteet")
 {
 

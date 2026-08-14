@@ -36,13 +36,13 @@ private:
     int koodi_;
 };
 
-class SQLiteModel;
+class SqlModel;
 
 class SQLiteKysely : public KpKysely
 {
     Q_OBJECT
 public:
-    SQLiteKysely(SQLiteModel* parent, Metodi metodi=GET, QString polku = QString());
+    SQLiteKysely(SqlModel* parent, Metodi metodi=GET, QString polku = QString());
     void vastaa(const QVariant& tulos);
     void vastaaLisayksesta(const QPair<const QVariant,int>& tulos);
 

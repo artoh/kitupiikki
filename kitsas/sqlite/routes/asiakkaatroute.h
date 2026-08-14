@@ -22,7 +22,7 @@
 class AsiakkaatRoute : public SQLiteRoute
 {
 public:
-    AsiakkaatRoute(SQLiteModel *model);
+    AsiakkaatRoute(SqlModel *model);
 
     QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
 };

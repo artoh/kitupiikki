@@ -19,7 +19,7 @@
 #include <QDebug>
 #include <QJsonDocument>
 
-InitRoute::InitRoute(SQLiteModel *model) :
+InitRoute::InitRoute(SqlModel *model) :
     SQLiteRoute(model,"/init")
 {
 
@@ -43,8 +43,10 @@ QVariant InitRoute::get(const QString & /*polku*/, const QUrlQuery& /*urlquery*/
 
     // Tilit
 
-    kysely.exec( "select numero,tyyppi,json,iban from ( select  cast(numero as text) as numero,'H'||taso as tyyppi,json,taso, NULL as iban from otsikko "
-                 " union select cast (numero as text),tyyppi,json,99,iban from tili order by numero,taso) as sub");
+    kysely.exec( "SELECT numero, tyyppi, json, iban FROM ( "
+                 "SELECT CAST(numero AS text) AS numero, 'H' || CAST(taso AS text) AS tyyppi, json, taso, CAST(NULL AS varchar) AS iban FROM Otsikko "
+                 "UNION SELECT CAST(numero AS text), tyyppi, json, 99, iban FROM Tili "
+                 ") AS sub ORDER BY numero, taso");
     map.insert("tilit", resultList(kysely));
 
 

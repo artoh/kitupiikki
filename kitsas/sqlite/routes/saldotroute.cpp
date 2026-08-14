@@ -20,7 +20,7 @@
 
 #include <QDebug>
 
-SaldotRoute::SaldotRoute(SQLiteModel* model) :
+SaldotRoute::SaldotRoute(SqlModel* model) :
     SQLiteRoute(model, "/saldot")
 {
 
@@ -133,7 +133,7 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
             kysymys += QString(" AND Merkkaus.kohdennus=%1 ").arg(kohdennus.id());
         }
 
-        kysymys += QString(" AND vienti.pvm >= '%1' AND CAST(tili as text) >= 3 AND Tosite.tila >= 100 GROUP BY tili ORDER BY tili")
+        kysymys += QString(" AND vienti.pvm >= '%1' AND CAST(tili as text) >= '3' AND Tosite.tila >= 100 GROUP BY tili ORDER BY tili")
                 .arg(kaudenalku.toString(Qt::ISODate));
 
         if( !kysely.exec(kysymys) )

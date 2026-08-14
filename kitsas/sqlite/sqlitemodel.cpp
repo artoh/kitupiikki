@@ -7,17 +7,15 @@
    (at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "sqlitemodel.h"
 #include "db/kirjanpito.h"
-#include "sqlitekysely.h"
-
 #include "sqlitealustaja.h"
 
 #include <QSettings>
@@ -29,69 +27,15 @@
 #include <QApplication>
 #include <QJsonDocument>
 #include <QRegularExpression>
-
-#include "routes/initroute.h"
-#include "routes/tositeroute.h"
-#include "routes/viennitroute.h"
-#include "routes/kumppanitroute.h"
-#include "routes/liitteetroute.h"
-#include "routes/asetuksetroute.h"
-#include "routes/tilikaudetroute.h"
-#include "routes/saldotroute.h"
-#include "routes/asiakkaatroute.h"
-#include "routes/budjettiroute.h"
-#include "routes/eraroute.h"
-#include "routes/myyntilaskutroute.h"
-#include "routes/ostolaskutroute.h"
-#include "routes/toimittajatroute.h"
-#include "routes/kohdennusroute.h"
-#include "routes/tuotteetroute.h"
-#include "routes/tilitroute.h"
-#include "routes/alvroute.h"
-#include "routes/ryhmatroute.h"
-#include "routes/tuontitulkki.h"
-#include "routes/inforoute.h"
-#include "routes/vakioviiteroute.h"
-
-#include "versio.h"
-
+#include <QFileInfo>
 #include <QPalette>
+#include <QPixmap>
+#include <QDir>
 
 SQLiteModel::SQLiteModel(QObject *parent)
-    : YhteysModel(parent)
+    : SqlModel(QStringLiteral("QSQLITE"), QStringLiteral("KIRJANPITO"), parent)
 {
-    tietokanta_ = QSqlDatabase::addDatabase("QSQLITE", "KIRJANPITO");
-
-    lisaaRoute(new TositeRoute(this));
-    lisaaRoute(new ViennitRoute(this));
-    lisaaRoute(new KumppanitRoute(this));
-    lisaaRoute(new LiitteetRoute(this));
-    lisaaRoute(new InitRoute(this));
-    lisaaRoute(new SaldotRoute(this));
-    lisaaRoute(new TilikaudetRoute(this));
-    lisaaRoute(new AsetuksetRoute(this));
-    lisaaRoute(new AsiakkaatRoute(this));
-    lisaaRoute(new BudjettiRoute(this));
-    lisaaRoute(new EraRoute(this));
-    lisaaRoute(new MyyntilaskutRoute(this));
-    lisaaRoute(new OstolaskutRoute(this));
-    lisaaRoute(new ToimittajatRoute(this));
-    lisaaRoute(new KohdennusRoute(this));
-    lisaaRoute(new TuotteetRoute(this));
-    lisaaRoute(new TilitRoute(this));
-    lisaaRoute(new RyhmatRoute(this));
-    lisaaRoute(new TuontiTulkki(this));
-    lisaaRoute(new AlvRoute(this));
-    lisaaRoute(new VakioviiteRoute(this));
-    lisaaRoute(new InfoRoute(this));
 }
-
-SQLiteModel::~SQLiteModel()
-{
-    for( auto route : routes_)
-        delete route;
-}
-
 
 int SQLiteModel::rowCount(const QModelIndex &parent) const
 {
@@ -270,24 +214,16 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
         qWarning() << tietokanta_.lastError().text();
         tietokanta_.close();
         return false;
-    }        
+    }
 
-    // Varmistetaan, että kaikilla kirjanpidoilla on UID, jota käytetään
-    // esim. arkistohakemiston sijainnin tallettamiseen
-    query.exec("SELECT Arvo FROM Asetus WHERE Avain='UID'");
-    if(!query.next())
-        query.exec(QString("INSERT INTO Asetus(Avain,Arvo) VALUES('UID','%1')").arg(Kirjanpito::satujono(16)));
-
-
-    // Merkitään avausaika
-    tietokanta_.exec("UPDATE Asetus SET arvo=CURRENT_TIMESTAMP WHERE avain='Avattu'");
-
+    varmistaUid();
+    merkitseAvatuksi();
 
     tiedostoPolku_ = polku;
 
     alusta();
     if( asetaAktiiviseksi)
-        lisaaViimeisiin();   
+        lisaaViimeisiin();
 
     connect( kp(), &Kirjanpito::perusAsetusMuuttui, this, &SQLiteModel::lisaaViimeisiin );
 
@@ -336,34 +272,11 @@ void SQLiteModel::poistaListalta(const QString &polku)
 
 }
 
-KpKysely *SQLiteModel::kysely(const QString &polku, KpKysely::Metodi metodi)
-{
-    return new SQLiteKysely(this, metodi, polku);
-}
-
 void SQLiteModel::sulje()
 {
-    tietokanta_.exec("DELETE FROM Liite WHERE tosite IS NULL");
-    tietokanta_.close();
     tiedostoPolku_.clear();
     disconnect( kp(), &Kirjanpito::perusAsetusMuuttui, this, &SQLiteModel::lisaaViimeisiin );
-}
-
-qlonglong SQLiteModel::oikeudet() const
-{
-    return TOSITE_SELAUS |
-            TOSITE_LUONNOS |
-            TOSITE_MUOKKAUS |
-            LASKU_SELAUS |
-            LASKU_LAATIMINEN |
-            LASKU_LAHETTAMINEN |
-            ALV_ILMOITUS |
-            BUDJETTI |
-            TILINPAATOS |
-            ASETUKSET |
-            TUOTTEET |
-            RYHMAT |
-            RAPORTIT;
+    SqlModel::sulje();
 }
 
 bool SQLiteModel::uusiKirjanpito(const QString &polku, const QVariantMap &initials)
@@ -371,31 +284,10 @@ bool SQLiteModel::uusiKirjanpito(const QString &polku, const QVariantMap &initia
     return SqliteAlustaja::luoKirjanpito(polku, initials);
 }
 
-void SQLiteModel::reitita(SQLiteKysely* reititettavakysely, const QVariant &data)
+qint64 SQLiteModel::tietokannanKoko() const
 {
-    qInfo() << reititettavakysely->polku() + " " + reititettavakysely->urlKysely().toString();
-
-    for( SQLiteRoute* route : routes_) {
-        if( reititettavakysely->polku().startsWith( route->polku() ) ) {
-            reititettavakysely->vastaa(route->route( reititettavakysely, data));
-            return;
-        }
-    }
-    qWarning() << " *** Kyselyä " << reititettavakysely->polku() << " ei reititetty ***";
-    emit reititettavakysely->virhe(404);
+    return QFileInfo(tiedostoPolku_).size();
 }
-
-void SQLiteModel::reitita(SQLiteKysely *reititettavakysely, const QByteArray &ba, const QMap<QString, QString> &meta)
-{
-    for( SQLiteRoute* route : routes_) {
-        if( reititettavakysely->polku().startsWith( route->polku() ) ) {
-            reititettavakysely->vastaaLisayksesta( route->byteArray(reititettavakysely, ba, meta) );
-            return;
-        }
-    }
-    emit reititettavakysely->virhe(404);
-}
-
 
 void SQLiteModel::lisaaViimeisiin()
 {
@@ -432,9 +324,4 @@ void SQLiteModel::lisaaViimeisiin()
     endResetModel();
 
     kp()->settings()->setValue("ViimeTiedostot", viimeiset_);
-}
-
-void SQLiteModel::lisaaRoute(SQLiteRoute *route)
-{
-    routes_.append(route);
 }

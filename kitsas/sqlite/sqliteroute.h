@@ -17,7 +17,7 @@
 #ifndef SQLITEROUTE_H
 #define SQLITEROUTE_H
 
-#include "sqlitemodel.h"
+#include "sql/sqlmodel.h"
 #include "sqlitekysely.h"
 
 #include <QSqlDatabase>
@@ -28,7 +28,7 @@
 class SQLiteRoute
 {
 public:
-    SQLiteRoute(SQLiteModel *model, const QString& polku);
+    SQLiteRoute(SqlModel *model, const QString& polku);
     virtual ~SQLiteRoute();
 
     QVariant route(SQLiteKysely* kysely, const QVariant& data);
@@ -52,7 +52,7 @@ protected:
 
 protected:
     QSqlDatabase db();
-    SQLiteModel *model_;
+    SqlModel *model_;
     QString polku_;
 };
 

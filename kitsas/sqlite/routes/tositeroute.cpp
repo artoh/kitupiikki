@@ -31,7 +31,7 @@
 #include <QDebug>
 #include <QRegularExpression>
 
-TositeRoute::TositeRoute(SQLiteModel *model) :
+TositeRoute::TositeRoute(SqlModel *model) :
     SQLiteRoute(model, "/tositteet")
 {
 

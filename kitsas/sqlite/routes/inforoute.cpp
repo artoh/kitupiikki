@@ -16,12 +16,12 @@
 */
 #include "inforoute.h"
 
-#include <QFileInfo>
 #include "db/kirjanpito.h"
+#include "sql/sqlmodel.h"
 
 #include "model/tosite.h"
 
-InfoRoute::InfoRoute(SQLiteModel *model) :
+InfoRoute::InfoRoute(SqlModel *model) :
     SQLiteRoute(model,"/info")
 {
 
@@ -30,8 +30,8 @@ InfoRoute::InfoRoute(SQLiteModel *model) :
 QVariant InfoRoute::get(const QString &/*polku*/, const QUrlQuery &/*urlquery*/)
 {
     QVariantMap map;
-    QFileInfo info( kp()->sqlite()->tiedostopolku() );
-    map.insert("koko", info.size());
+    if( auto *sql = qobject_cast<SqlModel*>(kp()->yhteysModel()) )
+        map.insert("koko", sql->tietokannanKoko());
 
     QSqlQuery kysely(db());
     kysely.exec("SELECT COUNT(id) FROM Tosite");

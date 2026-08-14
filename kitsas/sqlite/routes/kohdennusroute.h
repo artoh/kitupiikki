@@ -22,7 +22,7 @@
 class KohdennusRoute : public SQLiteRoute
 {
 public:
-    KohdennusRoute(SQLiteModel *model);
+    KohdennusRoute(SqlModel *model);
 
     QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
     QVariant post(const QString &polku, const QVariant &data) override;

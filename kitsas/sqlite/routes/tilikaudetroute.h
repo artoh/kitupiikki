@@ -23,7 +23,7 @@
 class TilikaudetRoute : public SQLiteRoute
 {
 public:
-    TilikaudetRoute(SQLiteModel *model);
+    TilikaudetRoute(SqlModel *model);
 
     QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
     QVariant put(const QString &polku, const QVariant &data) override;

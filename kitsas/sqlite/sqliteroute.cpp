@@ -22,7 +22,7 @@
 
 #include "model/euro.h"
 
-SQLiteRoute::SQLiteRoute(SQLiteModel *model, const QString &polku)
+SQLiteRoute::SQLiteRoute(SqlModel *model, const QString &polku)
     : model_(model), polku_(polku)
 {
 

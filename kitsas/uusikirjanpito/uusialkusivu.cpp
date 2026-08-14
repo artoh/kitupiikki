@@ -31,6 +31,7 @@ UusiAlkuSivu::UusiAlkuSivu() :
     setTitle( tr("Tervetuloa!"));
 
     registerField("pilveen", ui->pilveenRadio);
+    registerField("postgres", ui->postgresRadio);
 
     connect( kp()->pilvi(), &PilviModel::kirjauduttu,
              this, &UusiAlkuSivu::paivitaKirjautuminen);

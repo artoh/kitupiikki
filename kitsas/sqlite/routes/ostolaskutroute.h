@@ -22,7 +22,7 @@
 class OstolaskutRoute : public SQLiteRoute
 {
 public:
-    OstolaskutRoute(SQLiteModel *model);
+    OstolaskutRoute(SqlModel *model);
     QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
 
 private:

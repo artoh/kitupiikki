@@ -22,7 +22,7 @@
 class TuontiTulkki : public SQLiteRoute
 {
 public:
-    TuontiTulkki( SQLiteModel *model);
+    TuontiTulkki( SqlModel *model);
 
     QVariant post(const QString &polku, const QVariant &data) override;
 

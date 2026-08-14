@@ -20,6 +20,7 @@
 #include <QObject>
 #include <QWizard>
 #include <QVariantMap>
+#include "postgres/postgresyhteys.h"
 
 namespace Ui {
     class Varmista;
@@ -39,13 +40,14 @@ class UusiVelho : public QWizard
     Q_OBJECT
 public:
     UusiVelho(QWidget *parent = nullptr);
-    enum Sivut { ALOITUS, VARMISTA, HARJOITUS, VASTUU, ALUSTUS, TILIKARTTA, TIEDOT, TILIKAUSI, NUMEROINTI, SIJAINTI, LOPPU };
+    enum Sivut { ALOITUS, VARMISTA, HARJOITUS, VASTUU, ALUSTUS, TILIKARTTA, TIEDOT, TILIKAUSI, NUMEROINTI, SIJAINTI, POSTGRES, LOPPU };
     bool lataaKartta(const QString& polku);
     static QVariantMap kartta(const QString& polku);
     bool ladattu() const { return !tilit_.isEmpty();}
 
     QVariantMap data() const;
     QString polku() const;
+    PostgresYhteys postgresYhteys() const;
 
     int nextId() const override;
 
@@ -56,6 +58,7 @@ public:
     static QVariantMap asetukset( const QString& polku);
 
     QVariantMap alustusVelho(const QString& ytunnus, const QString& nimi, bool harjoitus);
+    bool uusiPostgresAsiakas(const PostgresYhteys& yhteys);
 
 protected:
     void veroViiteTulos(QVariant* data);

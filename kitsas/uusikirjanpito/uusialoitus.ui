@@ -58,6 +58,29 @@
        </widget>
       </item>
       <item>
+       <widget class="QRadioButton" name="postgresRadio">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Tallenna kirjanpito PostgreSQL-palvelimelle</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="postgresLabel">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kirjanpito tallennetaan itse ylläpitämääsi PostgreSQL-tietokantaan. Ensimmäisessä versiossa kirjanpitoa käyttää yksi Kitsas-ohjelma kerrallaan. Sinun pitää luoda tyhjä tietokanta etukäteen.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QRadioButton" name="pilveenRadio">
         <property name="font">
          <font>

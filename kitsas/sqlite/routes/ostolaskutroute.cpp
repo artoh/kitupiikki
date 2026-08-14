@@ -23,7 +23,7 @@
 
 #include <QDebug>
 
-OstolaskutRoute::OstolaskutRoute(SQLiteModel *model)
+OstolaskutRoute::OstolaskutRoute(SqlModel *model)
     : SQLiteRoute(model, "/ostolaskut")
 {
 

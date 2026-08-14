@@ -18,7 +18,7 @@
 
 #include <QSqlQuery>
 
-TilitRoute::TilitRoute(SQLiteModel *model) :
+TilitRoute::TilitRoute(SqlModel *model) :
     SQLiteRoute(model, "/tilit")
 {
 

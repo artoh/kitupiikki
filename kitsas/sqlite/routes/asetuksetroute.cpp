@@ -16,7 +16,7 @@
 */
 #include "asetuksetroute.h"
 
-AsetuksetRoute::AsetuksetRoute(SQLiteModel *model) :
+AsetuksetRoute::AsetuksetRoute(SqlModel *model) :
     SQLiteRoute(model, "/asetukset")
 {
 

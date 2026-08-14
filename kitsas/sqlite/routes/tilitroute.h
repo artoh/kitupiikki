@@ -22,7 +22,7 @@
 class TilitRoute : public SQLiteRoute
 {
 public:
-    TilitRoute(SQLiteModel *model);
+    TilitRoute(SqlModel *model);
 
     QVariant put(const QString &polku, const QVariant &data) override;
     QVariant doDelete(const QString &polku) override;

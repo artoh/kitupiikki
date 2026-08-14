@@ -17,7 +17,7 @@
 #include "ryhmatroute.h"
 
 
-RyhmatRoute::RyhmatRoute(SQLiteModel *model) :
+RyhmatRoute::RyhmatRoute(SqlModel *model) :
     SQLiteRoute(model, "/ryhmat")
 {
 
