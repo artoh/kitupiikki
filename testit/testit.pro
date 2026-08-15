@@ -7,10 +7,19 @@ QT += printsupport
 QT += network
 QT += svg
 QT += xml
+QT += pdf
+QT += pdfwidgets
+QT += webenginewidgets
 
-LIBS += -lpoppler-qt5
-LIBS += -lpoppler
-LIBS += -lzip
+equals(QT_MAJOR_VERSION,6) {
+    QT += core5compat
+    QT += svgwidgets
+}
+
+linux {
+    DEFINES += USE_ZIPLIB
+    LIBS += -lzip
+}
 
 
 CONFIG += qt console warn_on depend_includepath testcase
@@ -21,6 +30,7 @@ TEMPLATE = app
 INCLUDEPATH += $$PWD/../kitsas
 VPATH += $$PWD/../kitsas
 include(../kitsas/sources.pri)
+include(../kitsas/pdftuonti.pri)
 
 RESOURCES += \
     data/testidata.qrc
