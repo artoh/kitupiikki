@@ -93,3 +93,56 @@ jobs:
           qmake ../kitsas/kitsas.pro -spec linux-g++ "CONFIG+=release"
           make -j"$(nproc)"
           test -x kitsas
+
+  build-macos:
+    name: Build Kitsas (macOS)
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: "6.7.3"
+          cache: true
+          arch: clang_64
+          modules: >-
+            qtwebengine
+            qtwebchannel
+            qtpositioning
+            qt5compat
+            qtpdf
+
+      - name: Generate Xcode project and build
+        run: |
+          set -euo pipefail
+          qmake -v
+          mkdir -p build-macos
+          cd build-macos
+          qmake ../kitsas/kitsas.pro -spec macx-xcode
+          xcodebuild \
+            -project kitsas.xcodeproj \
+            -target kitsas \
+            -configuration Release \
+            -destination 'generic/platform=macOS' \
+            SYMROOT="$PWD/build" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY=-
+          test -d build/Release/kitsas.app
+          mv build/Release/kitsas.app build/Release/Kitsas.app
+
+      - name: Bundle Qt frameworks and package ZIP
+        run: |
+          set -euo pipefail
+          app="build-macos/build/Release/Kitsas.app"
+          test -d "$app"
+          macdeployqt "$app"
+          ditto -c -k --keepParent "$app" build-macos/build/Release/Kitsas-macOS.zip
+
+      - name: Upload Kitsas-macOS
+        uses: actions/upload-artifact@v4
+        with:
+          name: Kitsas-macOS
+          path: build-macos/build/Release/Kitsas-macOS.zip
+          if-no-files-found: error
