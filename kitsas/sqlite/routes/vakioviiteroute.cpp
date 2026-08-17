@@ -17,7 +17,7 @@
 #include "vakioviiteroute.h"
 #include <QDate>
 
-VakioviiteRoute::VakioviiteRoute(SQLiteModel *model) :
+VakioviiteRoute::VakioviiteRoute(SqlModel *model) :
     SQLiteRoute(model, "/vakioviitteet")
 {
 

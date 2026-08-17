@@ -24,7 +24,7 @@
 #include <QSqlTableModel>
 #include <QSqlRecord>
 
-TilikaudetRoute::TilikaudetRoute(SQLiteModel *model) :
+TilikaudetRoute::TilikaudetRoute(SqlModel *model) :
     SQLiteRoute(model, "/tilikaudet")
 {
 

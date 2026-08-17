@@ -22,7 +22,7 @@
 class ToimittajatRoute : public SQLiteRoute
 {
 public:
-    ToimittajatRoute(SQLiteModel *model);
+    ToimittajatRoute(SqlModel *model);
     QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
 };
 

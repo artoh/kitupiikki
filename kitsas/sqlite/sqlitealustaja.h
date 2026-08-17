@@ -7,9 +7,9 @@
    (at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
@@ -20,7 +20,6 @@
 #include <QObject>
 #include <QSqlDatabase>
 #include <QVariantMap>
-#include <QSqlQuery>
 
 class QProgressDialog;
 
@@ -33,24 +32,10 @@ public:
 protected:
     SqliteAlustaja();
 
-    static QString json(const QVariant& var);
-
     bool alustaTietokanta(const QString& polku);
-    void aseta(const QString& avain, const QVariant& arvo);
     bool lopputoimet();
 
-    bool teeInit(const QVariantMap& initMap);
-    void kirjoitaAsetukset(const QVariantMap& asetukset);
-    void kirjoitaTilit(const QVariantList& tililista);
-    void kirjoitaTilikaudet(const QVariantList& kausilista);
-    void kirjoitaAvausTosite(const QDate& tilinavauspaiva);
-
-protected:
     QSqlDatabase db;
-    QSqlQuery asetusKysely;
-    QSqlQuery tiliKysely;
-    QSqlQuery otsikkoKysely;
-    QSqlQuery tilikausiKysely;
     QProgressDialog *progress;
 
 };

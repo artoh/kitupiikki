@@ -7,27 +7,21 @@
    (at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "sqlitealustaja.h"
-#include "db/tositetyyppimodel.h"
-#include "model/tosite.h"
+#include "sql/sqlalustaja.h"
 
 #include <QSqlQuery>
-#include <QFile>
-#include <QTextStream>
 #include <QMessageBox>
 #include <QApplication>
 #include <QSqlError>
-#include <QJsonDocument>
-#include <QDate>
 #include <QProgressDialog>
-
 
 bool SqliteAlustaja::luoKirjanpito(const QString &polku, const QVariantMap &initials)
 {
@@ -36,7 +30,7 @@ bool SqliteAlustaja::luoKirjanpito(const QString &polku, const QVariantMap &init
     QVariantMap initMap = initials.value("init").toMap();
 
     bool onnistui =  alustaja.alustaTietokanta(polku) &&
-            alustaja.teeInit(initMap) &&
+            SqlAlustaja::kirjoitaInit(alustaja.db, initMap, alustaja.progress) &&
             alustaja.lopputoimet() &&
             !alustaja.progress->wasCanceled();
 
@@ -52,11 +46,6 @@ SqliteAlustaja::SqliteAlustaja() :
     progress->setMinimumDuration(500);
 
     db = QSqlDatabase::addDatabase("QSQLITE","uusi");
-}
-
-QString SqliteAlustaja::json(const QVariant &var)
-{
-    return QString::fromUtf8( QJsonDocument::fromVariant(var).toJson(QJsonDocument::Compact) ) ;
 }
 
 bool SqliteAlustaja::alustaTietokanta(const QString &polku)
@@ -75,58 +64,15 @@ bool SqliteAlustaja::alustaTietokanta(const QString &polku)
     // Kirjanpidon luomisen ajaksi synkronointi pois käytöstä
     db.exec("PRAGMA SYNCHRONOUS = OFF");
 
-    QSqlQuery query(db);
-
-    // Luodaan tietokanta
-    // Tietokannan luontikäskyt ovat resurssitiedostossa luo.sql
-    QFile sqltiedosto(":/sqlite/luo.sql");
-    sqltiedosto.open(QIODevice::ReadOnly);
-    QTextStream in(&sqltiedosto);
-
-    QString sqluonti = in.readAll();
-    sqluonti.replace("\n","");
-    sqluonti.replace("\r","");
-    QStringList sqlista = sqluonti.split(";");
-
-    for(const QString& kysely : sqlista)
-    {
-        if(!kysely.isEmpty() &&  !query.exec(kysely))
-        {
-            qWarning() << "SQL-lause " << kysely << " epäonnistui ";
-            QMessageBox::critical(nullptr, tr("Kirjanpidon luominen epäonnistui"), tr("Virhe tietokantaa luotaessa: %1 (%2)").arg(query.lastError().text(), kysely) );
-            return false;
-        }
-        qApp->processEvents();
-    }
-    progress->setValue(4);
-
-    asetusKysely = QSqlQuery(db);
-    asetusKysely.prepare("INSERT INTO Asetus(avain,arvo) VALUES(?,?)");
-    otsikkoKysely = QSqlQuery(db);
-    otsikkoKysely.prepare("INSERT INTO Otsikko(numero,taso,json) VALUES (?,?,?)");
-    tiliKysely = QSqlQuery( db );
-    tiliKysely.prepare("INSERT INTO Tili(numero,tyyppi,iban,json) VALUES(?,?,?,?)");
-    tilikausiKysely = QSqlQuery( db );
-    tilikausiKysely.prepare("INSERT INTO Tilikausi(alkaa,loppuu,json) VALUES (?,?,?)");
+    if( !SqlAlustaja::suoritaSqlResurssi(db, QStringLiteral(":/sqlite/luo.sql")) )
+        return false;
 
     progress->setValue(6);
     return true;
 }
 
-void SqliteAlustaja::aseta(const QString &avain, const QVariant &arvo)
-{
-    asetusKysely.addBindValue(avain);
-    if( arvo.toString().isEmpty()) {
-        asetusKysely.addBindValue( json(arvo) );
-    } else {
-        asetusKysely.addBindValue(arvo);
-    }
-    asetusKysely.exec();
-}
-
 bool SqliteAlustaja::lopputoimet()
 {
-    aseta("LaskuSeuraavaId",100);
     db.exec("PRAGMA SYNCHRONOUS = NORMAL");
     db.exec("PRAGMA JOURNAL_MODE = DELETE");
 #ifndef KITSAS_DEVEL
@@ -134,71 +80,4 @@ bool SqliteAlustaja::lopputoimet()
 #endif
     progress->setValue(10);
     return true;
-}
-
-bool SqliteAlustaja::teeInit(const QVariantMap &initMap)
-{
-    kirjoitaAsetukset( initMap.value("asetukset").toMap());
-    kirjoitaTilit( initMap.value("tilit").toList());
-    kirjoitaTilikaudet( initMap.value("tilikaudet").toList() );
-    progress->setValue(8);
-    return true;
-}
-
-void SqliteAlustaja::kirjoitaAsetukset(const QVariantMap &asetukset)
-{
-    QMapIterator<QString,QVariant> iter(asetukset);
-    while( iter.hasNext() ) {
-        iter.next();
-        aseta( iter.key(), iter.value() );
-        qApp->processEvents();
-    }
-}
-
-void SqliteAlustaja::kirjoitaTilit(const QVariantList &tililista)
-{
-    for(QVariant var : tililista) {
-        QVariantMap map = var.toMap();
-        int numero = map.take("numero").toInt();
-        QString tyyppi = map.take("tyyppi").toString();
-        if( tyyppi.startsWith(QChar('H'))) {
-            otsikkoKysely.addBindValue(numero);
-            otsikkoKysely.addBindValue( tyyppi.mid(1).toInt() );
-            otsikkoKysely.addBindValue( json(map) );
-            otsikkoKysely.exec();
-        } else {
-            tiliKysely.addBindValue(numero);
-            tiliKysely.addBindValue(tyyppi);
-            tiliKysely.addBindValue( map.take("iban"));
-            tiliKysely.addBindValue( json(map) );
-            tiliKysely.exec();
-        }
-        qApp->processEvents();
-
-    }
-}
-
-void SqliteAlustaja::kirjoitaTilikaudet(const QVariantList &kausilista)
-{
-    if( kausilista.count() > 1)
-        kirjoitaAvausTosite( kausilista.first().toMap().value("loppuu").toDate() );
-
-    for( QVariant var : kausilista) {
-        QVariantMap map = var.toMap();
-        tilikausiKysely.addBindValue( map.take("alkaa").toDate() );
-        tilikausiKysely.addBindValue( map.take("loppuu").toDate() );
-        tilikausiKysely.addBindValue( json(map) );
-        tilikausiKysely.exec();        
-    }
-}
-
-void SqliteAlustaja::kirjoitaAvausTosite(const QDate &tilinavauspaiva)
-{
-    QSqlQuery avauskysely = QSqlQuery( db );
-    avauskysely.prepare("INSERT INTO Tosite (pvm,tyyppi,tila,tunniste,otsikko) "
-                        "VALUES (?,?,?,1,'Tilinavaus') ");
-    avauskysely.addBindValue(tilinavauspaiva);
-    avauskysely.addBindValue(TositeTyyppi::TILINAVAUS);
-    avauskysely.addBindValue(Tosite::KIRJANPIDOSSA);
-    avauskysely.exec();
 }

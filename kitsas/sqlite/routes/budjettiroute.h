@@ -22,7 +22,7 @@
 class BudjettiRoute : public SQLiteRoute
 {
 public:
-    BudjettiRoute(SQLiteModel *model);
+    BudjettiRoute(SqlModel *model);
     QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
     QVariant put(const QString &polku, const QVariant &data) override;
 };

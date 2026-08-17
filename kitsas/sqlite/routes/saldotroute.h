@@ -22,7 +22,7 @@
 class SaldotRoute : public SQLiteRoute
 {
 public:
-    SaldotRoute(SQLiteModel* model);
+    SaldotRoute(SqlModel* model);
     QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
 
 protected:

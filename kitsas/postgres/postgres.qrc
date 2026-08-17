@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/postgres">
+        <file>luo.sql</file>
+    </qresource>
+</RCC>

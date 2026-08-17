@@ -18,7 +18,7 @@
 
 #include <QDebug>
 
-BudjettiRoute::BudjettiRoute(SQLiteModel *model)
+BudjettiRoute::BudjettiRoute(SqlModel *model)
     : SQLiteRoute(model, "/budjetti")
 {
 

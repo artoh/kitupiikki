@@ -22,7 +22,7 @@
 class AsetuksetRoute : public SQLiteRoute
 {
 public:
-    AsetuksetRoute(SQLiteModel *model);
+    AsetuksetRoute(SqlModel *model);
 
     QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
     QVariant patch(const QString &polku, const QVariant &data) override;

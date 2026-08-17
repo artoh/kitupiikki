@@ -18,7 +18,7 @@
 #include "db/kohdennus.h"
 
 
-KohdennusRoute::KohdennusRoute(SQLiteModel *model)
+KohdennusRoute::KohdennusRoute(SqlModel *model)
     : SQLiteRoute(model, "/kohdennukset")
 {
 

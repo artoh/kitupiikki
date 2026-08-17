@@ -330,6 +330,29 @@ border-color: rgb(170, 0, 0);</string>
           </widget>
          </item>
          <item>
+          <widget class="QPushButton" name="postgresNappi">
+           <property name="toolTip">
+            <string>Yhdistä PostgreSQL-tietokantaan</string>
+           </property>
+           <property name="text">
+            <string>Yhdistä PostgreSQL</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QListView" name="postgresView">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>80</height>
+            </size>
+           </property>
+           <property name="editTriggers">
+            <set>QAbstractItemView::NoEditTriggers</set>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QListView" name="viimeisetView">
            <property name="editTriggers">
             <set>QAbstractItemView::NoEditTriggers</set>

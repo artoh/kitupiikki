@@ -48,6 +48,9 @@
 #include "versio.h"
 #include "pilvi/pilvimodel.h"
 #include "sqlite/sqlitemodel.h"
+#include "postgres/postgresmodel.h"
+#include "postgres/postgresyhteysdlg.h"
+#include "postgres/selectclientdlg.h"
 
 #include "uusikirjanpito/uusivelho.h"
 #include "kitupiikkituonti/vanhatuontidlg.h"
@@ -86,6 +89,7 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
 
     connect( ui->uusiNappi, &QPushButton::clicked, this, &AloitusSivu::uusiTietokanta);
     connect( ui->avaaNappi, &QPushButton::clicked, this, &AloitusSivu::avaaTietokanta);
+    connect( ui->postgresNappi, &QPushButton::clicked, this, &AloitusSivu::avaaPostgres);
     connect( ui->kitupiikkituontiNappi, &QPushButton::clicked, this, &AloitusSivu::tuoKitupiikista);
     connect( ui->tietojaNappi, SIGNAL(clicked(bool)), this, SLOT(abouttiarallaa()));
     connect(ui->varmistaNappi, &QPushButton::clicked, this, &AloitusSivu::varmuuskopioi);
@@ -108,6 +112,11 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
 
     connect( ui->viimeisetView, &QListView::clicked,
              [] (const QModelIndex& index) { kp()->sqlite()->avaaTiedosto( index.data(SQLiteModel::PolkuRooli).toString() );} );
+
+    ui->postgresView->setModel( kp()->postgres() );
+    connect( ui->postgresView, &QListView::clicked, this, [](const QModelIndex& index) {
+        kp()->postgres()->avaa( kp()->postgres()->yhteysRivilla(index.row()) );
+    });
 
     connect( ui->pilviView, &QListView::clicked,
              [](const QModelIndex& index) { kp()->pilvi()->avaaPilvesta( index.data(PilviModel::IdRooli).toInt() ); } );
@@ -256,13 +265,14 @@ void AloitusSivu::kirjanpitoVaihtui()
         kp()->settings()->setValue("Tilikartta", kp()->asetukset()->asetus(AsetusModel::Tilikartta));
 
     bool pilvessa = qobject_cast<PilviModel*>( kp()->yhteysModel() );
-    bool paikallinen = qobject_cast<SQLiteModel*>(kp()->yhteysModel());
+    bool paikallinen = qobject_cast<SQLiteModel*>(kp()->yhteysModel())
+            || qobject_cast<PostgresModel*>(kp()->yhteysModel());
     bool procloud = pilvessa && kp()->pilvi()->pilvi().planId() >= AvattuPilvi::PROPILVI ;
 
     ui->paikallinenKuva->setVisible(paikallinen);
     ui->pilviKuva->setVisible( pilvessa && !procloud);
     ui->procloud->setVisible( procloud );
-    ui->kopioiPilveenNappi->setVisible(paikallinen && kp()->pilvi()->kayttaja() && kp()->pilvi()->kayttaja().moodi() == PilviKayttaja::NORMAALI);    
+    ui->kopioiPilveenNappi->setVisible(qobject_cast<SQLiteModel*>(kp()->yhteysModel()) && kp()->pilvi()->kayttaja() && kp()->pilvi()->kayttaja().moodi() == PilviKayttaja::NORMAALI);    
     ui->selain->paivita();
 }
 
@@ -308,6 +318,8 @@ void AloitusSivu::uusiTietokanta()
     if( velho.exec() ) {
         if( velho.field("pilveen").toBool())
             kp()->pilvi()->uusiPilvi(velho.data());
+        else if( velho.field("postgres").toBool())
+            kp()->postgres()->uusiKirjanpito(velho.postgresYhteys(), velho.data());
         else {
             if(kp()->sqlite()->uusiKirjanpito(velho.polku(), velho.data())) {
                 kp()->sqlite()->avaaTiedosto(velho.polku());
@@ -323,6 +335,24 @@ void AloitusSivu::avaaTietokanta()
     if( !polku.isEmpty())
         kp()->sqlite()->avaaTiedosto( polku );
 
+}
+
+void AloitusSivu::avaaPostgres()
+{
+    PostgresYhteysDlg yhteysDlg(this);
+    const QVariantList viimeiset = kp()->settings()->value("ViimePostgres").toList();
+    if( !viimeiset.isEmpty())
+        yhteysDlg.asetaYhteys( PostgresYhteys::fromMap(viimeiset.last().toMap()).hallintaYhteys() );
+
+    if( yhteysDlg.exec() != QDialog::Accepted )
+        return;
+
+    PostgresYhteys palvelin = yhteysDlg.yhteys();
+    if( palvelin.database.isEmpty())
+        palvelin.database = QStringLiteral("postgres");
+
+    SelectClientDlg dlg(palvelin, this);
+    dlg.exec();
 }
 
 void AloitusSivu::tuoKitupiikista()

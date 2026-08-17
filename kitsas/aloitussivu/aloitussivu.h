@@ -68,6 +68,7 @@ public slots:
 
     void uusiTietokanta();
     void avaaTietokanta();
+    void avaaPostgres();
     void tuoKitupiikista();
 
     void abouttiarallaa();

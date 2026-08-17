@@ -22,7 +22,7 @@
 #include <QJsonDocument>
 #include <QDebug>
 
-MyyntilaskutRoute::MyyntilaskutRoute(SQLiteModel *model)
+MyyntilaskutRoute::MyyntilaskutRoute(SqlModel *model)
     : SQLiteRoute(model, "/myyntilaskut")
 {
 

@@ -22,7 +22,7 @@
 class MyyntilaskutRoute : public SQLiteRoute
 {
 public:
-    MyyntilaskutRoute(SQLiteModel *model);
+    MyyntilaskutRoute(SqlModel *model);
     QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
 
 protected:

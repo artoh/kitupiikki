@@ -23,7 +23,7 @@
 #include <QRegularExpression>
 #include <QDebug>
 
-TuontiTulkki::TuontiTulkki(SQLiteModel *model) :
+TuontiTulkki::TuontiTulkki(SqlModel *model) :
     SQLiteRoute(model, "/tuontitulkki")
 {
 

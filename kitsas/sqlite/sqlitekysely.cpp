@@ -15,7 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "sqlitekysely.h"
-#include "sqlitemodel.h"
+#include "sql/sqlmodel.h"
 
 #include <QSqlQuery>
 
@@ -26,7 +26,7 @@
 #include <QJsonDocument>
 #include <QDebug>
 
-SQLiteKysely::SQLiteKysely(SQLiteModel *parent, KpKysely::Metodi metodi, QString polku)
+SQLiteKysely::SQLiteKysely(SqlModel *parent, KpKysely::Metodi metodi, QString polku)
     : KpKysely (parent, metodi, polku)
 {
 
@@ -35,7 +35,7 @@ SQLiteKysely::SQLiteKysely(SQLiteModel *parent, KpKysely::Metodi metodi, QString
 void SQLiteKysely::kysy(const QVariant &data)
 {
     try {
-        SQLiteModel* model = qobject_cast<SQLiteModel*>( parent() );
+        SqlModel* model = qobject_cast<SqlModel*>( parent() );
         model->reitita(this, data);
     } catch ( SQLiteVirhe &e ) {
         emit virhe( e.koodi(), e.selitys() );
@@ -47,7 +47,7 @@ void SQLiteKysely::kysy(const QVariant &data)
 void SQLiteKysely::lahetaTiedosto(const QByteArray &ba, const QMap<QString, QString> &meta)
 {
     try {
-        SQLiteModel* model = qobject_cast<SQLiteModel*>( parent() );
+        SqlModel* model = qobject_cast<SqlModel*>( parent() );
         QMap<QString,QString> omameta(meta);
         if( !omameta.contains("Content-type")) {
             QString arvattu = tiedostotyyppi(ba);

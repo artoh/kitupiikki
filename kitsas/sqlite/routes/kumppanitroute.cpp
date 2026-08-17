@@ -17,7 +17,7 @@
 #include "kumppanitroute.h"
 #include "model/tositevienti.h"
 
-KumppanitRoute::KumppanitRoute(SQLiteModel *model) :
+KumppanitRoute::KumppanitRoute(SqlModel *model) :
     SQLiteRoute(model, "/kumppanit")
 {
 

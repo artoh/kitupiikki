@@ -25,7 +25,7 @@ class Tili;
 class EraRoute : public SQLiteRoute
 {
 public:
-    EraRoute(SQLiteModel *model);
+    EraRoute(SqlModel *model);
     QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
 
 protected:

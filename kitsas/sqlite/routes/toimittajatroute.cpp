@@ -16,7 +16,7 @@
 */
 #include "toimittajatroute.h"
 
-ToimittajatRoute::ToimittajatRoute(SQLiteModel *model)
+ToimittajatRoute::ToimittajatRoute(SqlModel *model)
     : SQLiteRoute(model, "/toimittajat")
 {
 

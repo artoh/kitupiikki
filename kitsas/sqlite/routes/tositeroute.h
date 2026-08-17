@@ -22,7 +22,7 @@
 class TositeRoute : public SQLiteRoute
 {
 public:
-    TositeRoute(SQLiteModel *model);
+    TositeRoute(SqlModel *model);
 
     QVariant get(const QString &polku, const QUrlQuery &urlquery) override;
     QVariant post(const QString &polku, const QVariant &data) override;

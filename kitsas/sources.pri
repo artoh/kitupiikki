@@ -47,6 +47,12 @@ SOURCES += \
     $$PWD/db/tilivalintadialogifiltteri.cpp \
     $$PWD/db/tositetyyppimodel.cpp \
     $$PWD/db/yhteysmodel.cpp \
+    $$PWD/sql/sqlalustaja.cpp \
+    $$PWD/sql/sqlmodel.cpp \
+    $$PWD/postgres/postgresmodel.cpp \
+    $$PWD/postgres/postgresvelhosivu.cpp \
+    $$PWD/postgres/postgresyhteysdlg.cpp \
+    $$PWD/postgres/selectclientdlg.cpp \
     $$PWD/kieli/kielet.cpp \
     $$PWD/kieli/kieli.cpp \
     $$PWD/kieli/kielicombo.cpp \
@@ -481,6 +487,13 @@ HEADERS += \
     $$PWD/db/tilivalintadialogifiltteri.h \
     $$PWD/db/tositetyyppimodel.h \
     $$PWD/db/yhteysmodel.h \
+    $$PWD/sql/sqlalustaja.h \
+    $$PWD/sql/sqlmodel.h \
+    $$PWD/postgres/postgresmodel.h \
+    $$PWD/postgres/postgresvelhosivu.h \
+    $$PWD/postgres/postgresyhteys.h \
+    $$PWD/postgres/postgresyhteysdlg.h \
+    $$PWD/postgres/selectclientdlg.h \
     $$PWD/kieli/abstraktimonikielinen.h \
     $$PWD/kieli/kielet.h \
     $$PWD/kieli/kieli.h \
@@ -874,6 +887,7 @@ HEADERS += \
 RESOURCES += \
     $$PWD/rekisteri/rekisteri.qrc \
     $$PWD/sqlite/sqlite.qrc \
+    $$PWD/postgres/postgres.qrc \
     $$PWD/tilinpaatoseditori/tilinpaatos.qrc \
     $$PWD/toimisto/qrc/web.qrc \
     $$PWD/tr/tr.qrc \
@@ -885,6 +899,8 @@ RESOURCES += \
 
 FORMS += \
     $$PWD/aloitussivu/kaksivaihedialog.ui \
+    $$PWD/postgres/postgresyhteysdlg.ui \
+    $$PWD/postgres/selectclientdlg.ui \
     $$PWD/aloitussivu/luotunnusdialogi.ui \
     $$PWD/aloitussivu/salasananvaihto.ui \
     $$PWD/aloitussivu/toffeelogin.ui \

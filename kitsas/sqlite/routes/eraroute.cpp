@@ -22,7 +22,7 @@
 #include <QDebug>
 #include <QSqlError>
 
-EraRoute::EraRoute(SQLiteModel *model) :
+EraRoute::EraRoute(SqlModel *model) :
     SQLiteRoute(model, "/erat")
 {
 

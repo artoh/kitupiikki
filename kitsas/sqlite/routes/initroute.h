@@ -22,7 +22,7 @@
 class InitRoute : public SQLiteRoute
 {
 public:
-    InitRoute(SQLiteModel *model);
+    InitRoute(SqlModel *model);
 
     QVariant get(const QString &polku, const QUrlQuery& urlquery = QUrlQuery()) override;
 

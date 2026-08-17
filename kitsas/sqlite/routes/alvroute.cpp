@@ -17,7 +17,7 @@
 #include "alvroute.h"
 #include "db/tositetyyppimodel.h"
 
-AlvRoute::AlvRoute(SQLiteModel *model)
+AlvRoute::AlvRoute(SqlModel *model)
     : SQLiteRoute(model, "/alv")
 {
 

@@ -16,7 +16,7 @@
 */
 #include "asiakkaatroute.h"
 
-AsiakkaatRoute::AsiakkaatRoute(SQLiteModel *model) :
+AsiakkaatRoute::AsiakkaatRoute(SqlModel *model) :
     SQLiteRoute(model, "/asiakkaat")
 {
 

@@ -19,7 +19,7 @@
 #include "db/kirjanpito.h"
 #include "model/tosite.h"
 
-ViennitRoute::ViennitRoute(SQLiteModel* model) :
+ViennitRoute::ViennitRoute(SqlModel* model) :
     SQLiteRoute(model,"/viennit")
 {
 

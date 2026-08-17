@@ -55,6 +55,7 @@ class QSettings;
 
 class PilviModel;
 class SQLiteModel;
+class PostgresModel;
 class YhteysModel;
 
 class TositeTyyppiModel;
@@ -402,6 +403,7 @@ protected:
 
     PilviModel *pilviModel_;
     SQLiteModel *sqliteModel_;
+    PostgresModel *postgresModel_;
 
     YhteysModel *yhteysModel_;
     TositeTyyppiModel *tositeTyypit_;
@@ -457,6 +459,7 @@ public:
 
     PilviModel* pilvi() { return pilviModel_; }
     SQLiteModel* sqlite() { return sqliteModel_; }
+    PostgresModel* postgres() { return postgresModel_; }
 
 private:
     static Kirjanpito *instanssi__;

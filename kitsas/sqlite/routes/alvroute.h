@@ -22,7 +22,7 @@
 class AlvRoute : public SQLiteRoute
 {
 public:
-    AlvRoute(SQLiteModel *model);
+    AlvRoute(SqlModel *model);
 
     QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
 };

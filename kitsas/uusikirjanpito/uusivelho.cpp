@@ -38,6 +38,8 @@
 #include "tilikausisivu.h"
 #include "sijaintisivu.h"
 #include "tiedotsivu.h"
+#include "postgres/postgresvelhosivu.h"
+#include "postgres/postgresyhteys.h"
 
 #include "db/kirjanpito.h"
 #include "pilvi/pilvimodel.h"
@@ -65,6 +67,7 @@ UusiVelho::UusiVelho(QWidget *parent) :
     addPage( new TilikausiSivu(this) );
     addPage( new NumerointiSivu );
     addPage( new SijaintiSivu );
+    addPage( new PostgresVelhoSivu );
     addPage( new LoppuSivu );
 
     setOption(HaveHelpButton, true);
@@ -183,7 +186,25 @@ int UusiVelho::nextId() const
             field("pilveen").toBool())
         return LOPPU;
 
+    if( currentId() == NUMEROINTI &&
+            field("postgres").toBool())
+        return field("pgDatabase").toString().isEmpty() ? POSTGRES : LOPPU;
+
+    if( currentId() == SIJAINTI)
+        return LOPPU;
+
     return QWizard::nextId();
+}
+
+PostgresYhteys UusiVelho::postgresYhteys() const
+{
+    PostgresYhteys yhteys;
+    yhteys.host = field("pgHost").toString();
+    yhteys.port = field("pgPort").toInt();
+    yhteys.database = field("pgDatabase").toString();
+    yhteys.username = field("pgUsername").toString();
+    yhteys.password = field("pgPassword").toString();
+    return yhteys;
 }
 
 QVariantMap UusiVelho::asetukset(const QString &polku)
@@ -235,6 +256,19 @@ QVariantMap UusiVelho::asetukset(const QString &polku)
         }
     }
     return map;
+}
+
+bool UusiVelho::uusiPostgresAsiakas(const PostgresYhteys &yhteys)
+{
+    setField("pilveen", false);
+    setField("postgres", true);
+    setField("pgHost", yhteys.host);
+    setField("pgPort", yhteys.port);
+    setField("pgDatabase", yhteys.database);
+    setField("pgUsername", yhteys.username);
+    setField("pgPassword", yhteys.password);
+    setStartId(VARMISTA);
+    return exec();
 }
 
 QVariantMap UusiVelho::alustusVelho(const QString &ytunnus, const QString &nimi, bool harjoitus)
@@ -369,8 +403,18 @@ void UusiVelho::LoppuSivu::initializePage()
                            .arg(field("tiedosto").toString()));
 
     bool pilveen = field("pilveen").toBool();
+    bool postgres = field("postgres").toBool();
     ui->pilviLabel->setVisible(pilveen);
-    ui->koneLabel->setVisible(!pilveen);
+    ui->koneLabel->setVisible(!pilveen && !postgres);
+    if( postgres ) {
+        ui->koneLabel->setVisible(true);
+        ui->koneLabel->setText(UusiVelho::tr("<p>Kirjanpito luodaan PostgreSQL-tietokantaan <tt>%1@%2:%3/%4</tt>.</p>"
+                                             "<p>Ensimmäisessä versiossa kirjanpitoa käyttää yksi Kitsas-ohjelma kerrallaan.</p>")
+                               .arg(field("pgUsername").toString(),
+                                    field("pgHost").toString())
+                               .arg(field("pgPort").toInt())
+                               .arg(field("pgDatabase").toString()));
+    }
 
 }
 

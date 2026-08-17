@@ -21,7 +21,7 @@
 #include <QDebug>
 #include "db/tositetyyppimodel.h"
 
-TuotteetRoute::TuotteetRoute(SQLiteModel *model)
+TuotteetRoute::TuotteetRoute(SqlModel *model)
     : SQLiteRoute(model, "/tuotteet")
 {
 
