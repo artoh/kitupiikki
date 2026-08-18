@@ -53,7 +53,14 @@ ViennitView::ViennitView(QWidget *parent)
     connect( this, &QTableView::doubleClicked, this, &ViennitView::muokkaa);
 
     viewport()->installEventFilter(this);
-    QTimer::singleShot(10, this, [this] {this->horizontalHeader()->restoreState(kp()->settings()->value("ViennitRuudukko").toByteArray());});
+    // Baked-in fallback width (Kitsas PG fork default) used only when the
+    // user has no saved ViennitRuudukko setting yet.
+    QTimer::singleShot(10, this, [this] {
+        this->horizontalHeader()->restoreState(
+            kp()->settings()->value("ViennitRuudukko",
+                QByteArray::fromBase64("AAAA/wAAAAAAAAABAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABU0AAAAIAQEBAQAAAAAAAAAAAAAAAGT/////AAAAhAAAAAAAAAAIAAAAZAAAAAEAAAAAAAAA1gAAAAEAAAAAAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAACHwAAAAEAAAAAAAAD6AAAAABkAAAAAA=="))
+            .toByteArray());
+    });
     horizontalHeader()->setSectionsMovable(true);
 }
 

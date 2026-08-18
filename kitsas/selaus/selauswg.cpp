@@ -517,12 +517,18 @@ void SelausWg::tallennaKoot()
 void SelausWg::lataaKoot()
 {
     lataaKoon_ = true;
+    // Baked-in fallback widths (Kitsas PG fork default) used only when the
+    // user has no saved SelausViennit/SelausTositteet setting yet.
     if( ui->valintaTab->currentIndex() == VIENNIT ) {
-        if( kp()->settings()->contains("SelausViennit"))
-            ui->selausView->horizontalHeader()->restoreState(kp()->settings()->value("SelausViennit").toByteArray());
+        ui->selausView->horizontalHeader()->restoreState(
+            kp()->settings()->value("SelausViennit",
+                QByteArray::fromBase64("AAAA/wAAAAAAAAABAAAAAAAAAAEBAAAAAAAAAAAAAAAAAAAAAAAABWYAAAAJAQEBAQAAAAAAAAAAAAAAAGT/////AAAAhAAAAAAAAAAJAAAAbQAAAAEAAAAAAAAAqQAAAAEAAAAAAAAAzgAAAAEAAAAAAAAAjwAAAAEAAAAAAAAAmgAAAAEAAAAAAAAAVQAAAAEAAAAAAAAASgAAAAEAAAAAAAAAYgAAAAEAAAAAAAABWAAAAAEAAAAAAAAD6AAAAABkAAAAAA=="))
+            .toByteArray());
     } else {
-        if( kp()->settings()->contains("SelausTositteet"))
-            ui->selausView->horizontalHeader()->restoreState(kp()->settings()->value("SelausTositteet").toByteArray());
+        ui->selausView->horizontalHeader()->restoreState(
+            kp()->settings()->value("SelausTositteet",
+                QByteArray::fromBase64("AAAA/wAAAAAAAAABAAAAAAAAAAEBAAAAAAAAAAAAAAAAAAAAAAAABXQAAAAGAQEBAQAAAAAAAAAAAAAAAGT/////AAAAhAAAAAAAAAAGAAAAZAAAAAEAAAAAAAAAuAAAAAEAAAAAAAAAzwAAAAEAAAAAAAAA9wAAAAEAAAAAAAABFQAAAAEAAAAAAAABfQAAAAEAAAAAAAAD6AAAAABkAAAAAA=="))
+            .toByteArray());
     }
     lataaKoon_ = false;
 }
