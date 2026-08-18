@@ -140,7 +140,7 @@ void InitRoute::paivitaTilit(const QVariantList &list)
 
         int numero = map.take("numero").toInt();
         QString tyyppi = map.take("tyyppi").toString();
-        QByteArray json = mapToJson(map);
+        QString json = mapToJson(map);
         if( tyyppi.startsWith('H')) {
             int taso = tyyppi.mid(1).toInt();
             if( muokatutOtsikot.contains( qMakePair(numero,taso) ))
