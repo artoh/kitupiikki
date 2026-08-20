@@ -53,14 +53,7 @@ ViennitView::ViennitView(QWidget *parent)
     connect( this, &QTableView::doubleClicked, this, &ViennitView::muokkaa);
 
     viewport()->installEventFilter(this);
-    // Baked-in fallback width (Kitsas PG fork default) used only when the
-    // user has no saved ViennitRuudukko setting yet.
-    QTimer::singleShot(10, this, [this] {
-        this->horizontalHeader()->restoreState(
-            kp()->settings()->value("ViennitRuudukko",
-                QByteArray::fromBase64("AAAA/wAAAAAAAAABAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABU0AAAAIAQEBAQAAAAAAAAAAAAAAAGT/////AAAAhAAAAAAAAAAIAAAAZAAAAAEAAAAAAAAA1gAAAAEAAAAAAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAACHwAAAAEAAAAAAAAD6AAAAABkAAAAAA=="))
-            .toByteArray());
-    });
+    QTimer::singleShot(10, this, [this] { palautaOtsikot(); });
     horizontalHeader()->setSectionsMovable(true);
 }
 
@@ -73,6 +66,32 @@ void ViennitView::setTosite(Tosite *tosite)
 {
     tosite_ = tosite;
     setModel( tosite->viennit());
+    palautaOtsikot();
+}
+
+void ViennitView::palautaOtsikot()
+{
+    if (otsikotAlustettu_)
+        return;
+
+    if (kp()->settings()->contains("ViennitRuudukko")) {
+        horizontalHeader()->restoreState(
+            kp()->settings()->value("ViennitRuudukko").toByteArray());
+        otsikotAlustettu_ = true;
+        return;
+    }
+
+    if (!model() || model()->columnCount() == 0)
+        return;
+
+    setColumnWidth(TositeViennit::PVM, 100);
+    setColumnWidth(TositeViennit::TILI, 220);
+    setColumnWidth(TositeViennit::DEBET, 100);
+    setColumnWidth(TositeViennit::KREDIT, 100);
+    setColumnWidth(TositeViennit::KOHDENNUS, 100);
+    setColumnWidth(TositeViennit::ALV, 100);
+    setColumnWidth(TositeViennit::KUMPPANI, 220);
+    otsikotAlustettu_ = true;
 }
 
 void ViennitView::seuraavaSarake()

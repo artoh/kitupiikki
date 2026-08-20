@@ -42,9 +42,11 @@ protected:
     void closeEditor(QWidget* editor, QAbstractItemDelegate::EndEditHint hint) override;
 
     void muokkaa(const QModelIndex& index);
+    void palautaOtsikot();
 
 private:
     Tosite* tosite_ = nullptr;
+    bool otsikotAlustettu_ = false;
 };
 
 #endif // VIENNITVIEW_H

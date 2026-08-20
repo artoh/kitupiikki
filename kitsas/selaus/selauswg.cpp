@@ -517,18 +517,31 @@ void SelausWg::tallennaKoot()
 void SelausWg::lataaKoot()
 {
     lataaKoon_ = true;
-    // Baked-in fallback widths (Kitsas PG fork default) used only when the
-    // user has no saved SelausViennit/SelausTositteet setting yet.
     if( ui->valintaTab->currentIndex() == VIENNIT ) {
-        ui->selausView->horizontalHeader()->restoreState(
-            kp()->settings()->value("SelausViennit",
-                QByteArray::fromBase64("AAAA/wAAAAAAAAABAAAAAAAAAAEBAAAAAAAAAAAAAAAAAAAAAAAABWYAAAAJAQEBAQAAAAAAAAAAAAAAAGT/////AAAAhAAAAAAAAAAJAAAAbQAAAAEAAAAAAAAAqQAAAAEAAAAAAAAAzgAAAAEAAAAAAAAAjwAAAAEAAAAAAAAAmgAAAAEAAAAAAAAAVQAAAAEAAAAAAAAASgAAAAEAAAAAAAAAYgAAAAEAAAAAAAABWAAAAAEAAAAAAAAD6AAAAABkAAAAAA=="))
-            .toByteArray());
+        if( kp()->settings()->contains("SelausViennit")) {
+            ui->selausView->horizontalHeader()->restoreState(
+                kp()->settings()->value("SelausViennit").toByteArray());
+        } else {
+            ui->selausView->setColumnWidth(SelausModel::TOSITE, 110);
+            ui->selausView->setColumnWidth(SelausModel::PVM, 170);
+            ui->selausView->setColumnWidth(SelausModel::TILI, 210);
+            ui->selausView->setColumnWidth(SelausModel::DEBET, 140);
+            ui->selausView->setColumnWidth(SelausModel::KREDIT, 150);
+            ui->selausView->setColumnWidth(SelausModel::KOHDENNUS, 90);
+            ui->selausView->setColumnWidth(SelausModel::ALV, 80);
+            ui->selausView->setColumnWidth(SelausModel::KUMPPANI, 100);
+        }
     } else {
-        ui->selausView->horizontalHeader()->restoreState(
-            kp()->settings()->value("SelausTositteet",
-                QByteArray::fromBase64("AAAA/wAAAAAAAAABAAAAAAAAAAEBAAAAAAAAAAAAAAAAAAAAAAAABXQAAAAGAQEBAQAAAAAAAAAAAAAAAGT/////AAAAhAAAAAAAAAAGAAAAZAAAAAEAAAAAAAAAuAAAAAEAAAAAAAAAzwAAAAEAAAAAAAAA9wAAAAEAAAAAAAABFQAAAAEAAAAAAAABfQAAAAEAAAAAAAAD6AAAAABkAAAAAA=="))
-            .toByteArray());
+        if( kp()->settings()->contains("SelausTositteet")) {
+            ui->selausView->horizontalHeader()->restoreState(
+                kp()->settings()->value("SelausTositteet").toByteArray());
+        } else {
+            ui->selausView->setColumnWidth(TositeSelausModel::TUNNISTE, 100);
+            ui->selausView->setColumnWidth(TositeSelausModel::PVM, 180);
+            ui->selausView->setColumnWidth(TositeSelausModel::TOSITETYYPPI, 210);
+            ui->selausView->setColumnWidth(TositeSelausModel::SUMMA, 250);
+            ui->selausView->setColumnWidth(TositeSelausModel::ASIAKASTOIMITTAJA, 280);
+        }
     }
     lataaKoon_ = false;
 }
