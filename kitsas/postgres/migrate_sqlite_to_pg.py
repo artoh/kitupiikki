@@ -147,17 +147,34 @@ def migrate_table(sconn, pconn, table):
     placeholders = ", ".join(["%s"] * len(columns))
     sql = f"INSERT INTO {table} ({col_list}) VALUES ({placeholders}) ON CONFLICT DO NOTHING"
 
+    # execute_batch's cursor.rowcount isn't reliable across a batch, and
+    # ON CONFLICT DO NOTHING can silently drop rows — count before/after so
+    # a real migration problem (unexpected conflicts) isn't hidden behind a
+    # "successful" row count that just reflects the input size.
+    pcur.execute(f"SELECT COUNT(*) FROM {table}")
+    before = pcur.fetchone()[0]
+
     psycopg2.extras.execute_batch(pcur, sql, values)
     pconn.commit()
-    print(f"{table}: imported {len(values)} row(s)")
+
+    pcur.execute(f"SELECT COUNT(*) FROM {table}")
+    inserted = pcur.fetchone()[0] - before
+    skipped = len(values) - inserted
+    if skipped:
+        print(f"{table}: imported {inserted} row(s), SKIPPED {skipped} row(s) due to conflicts")
+    else:
+        print(f"{table}: imported {inserted} row(s)")
 
 
 def resync_sequences(pconn):
     pcur = pconn.cursor()
     for table in IDENTITY_TABLES:
+        # Fallback must be 0, not 1: setval()'s 2-arg form defaults
+        # is_called=true, so setval(seq, 1) makes the *next* nextval()
+        # return 2 — an empty table's first real insert would skip id=1.
         pcur.execute(
             "SELECT setval(pg_get_serial_sequence(%s, 'id'), "
-            "COALESCE((SELECT MAX(id) FROM " + table + "), 1))",
+            "COALESCE((SELECT MAX(id) FROM " + table + "), 0))",
             (table.lower(),),
         )
     pconn.commit()

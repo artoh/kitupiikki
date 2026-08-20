@@ -127,6 +127,18 @@ client" flow, so seed rows like `Kohdennus id=0` and `Kumppani
 script, expected to change as more discrepancies are found — keep it in
 sync with this notes file.
 
+**Fixed via Copilot review on PR #2:** two bugs in the actual write/resync
+logic, not just the read side —
+1. `migrate_table()` reported `imported {len(values)} row(s)` regardless of
+   whether `ON CONFLICT DO NOTHING` silently dropped some rows on a unique/PK
+   conflict, which could mask a real migration problem behind a "successful"
+   count. Now counts rows before/after the batch insert and explicitly
+   prints how many were skipped.
+2. `resync_sequences()` used `COALESCE(MAX(id), 1)` as the fallback for an
+   empty table, then called `setval(seq, 1)`. Since `setval`'s 2-arg form
+   defaults `is_called=true`, that makes the *next* generated id 2, not 1 —
+   an empty table's first real insert would skip id=1. Fallback is now `0`.
+
 Validated (read-only `--dry-run`) against a copy of a real production file
 (`CorosarOy-211206.kitsas`, 3391 vouchers / 22220 line items / 10555 log
 entries / 500 partners / 3282 attachments): table and column assumptions
