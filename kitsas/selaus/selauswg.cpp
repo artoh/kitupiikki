@@ -518,11 +518,30 @@ void SelausWg::lataaKoot()
 {
     lataaKoon_ = true;
     if( ui->valintaTab->currentIndex() == VIENNIT ) {
-        if( kp()->settings()->contains("SelausViennit"))
-            ui->selausView->horizontalHeader()->restoreState(kp()->settings()->value("SelausViennit").toByteArray());
+        if( kp()->settings()->contains("SelausViennit")) {
+            ui->selausView->horizontalHeader()->restoreState(
+                kp()->settings()->value("SelausViennit").toByteArray());
+        } else {
+            ui->selausView->setColumnWidth(SelausModel::TOSITE, 110);
+            ui->selausView->setColumnWidth(SelausModel::PVM, 170);
+            ui->selausView->setColumnWidth(SelausModel::TILI, 210);
+            ui->selausView->setColumnWidth(SelausModel::DEBET, 140);
+            ui->selausView->setColumnWidth(SelausModel::KREDIT, 150);
+            ui->selausView->setColumnWidth(SelausModel::KOHDENNUS, 90);
+            ui->selausView->setColumnWidth(SelausModel::ALV, 80);
+            ui->selausView->setColumnWidth(SelausModel::KUMPPANI, 100);
+        }
     } else {
-        if( kp()->settings()->contains("SelausTositteet"))
-            ui->selausView->horizontalHeader()->restoreState(kp()->settings()->value("SelausTositteet").toByteArray());
+        if( kp()->settings()->contains("SelausTositteet")) {
+            ui->selausView->horizontalHeader()->restoreState(
+                kp()->settings()->value("SelausTositteet").toByteArray());
+        } else {
+            ui->selausView->setColumnWidth(TositeSelausModel::TUNNISTE, 100);
+            ui->selausView->setColumnWidth(TositeSelausModel::PVM, 180);
+            ui->selausView->setColumnWidth(TositeSelausModel::TOSITETYYPPI, 210);
+            ui->selausView->setColumnWidth(TositeSelausModel::SUMMA, 250);
+            ui->selausView->setColumnWidth(TositeSelausModel::ASIAKASTOIMITTAJA, 280);
+        }
     }
     lataaKoon_ = false;
 }

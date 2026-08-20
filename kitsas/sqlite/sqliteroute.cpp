@@ -143,9 +143,11 @@ QVariantMap SQLiteRoute::resultMap(QSqlQuery &kysely)
         return lista.first().toMap();
 }
 
-QByteArray SQLiteRoute::mapToJson(const QVariantMap &map)
+QString SQLiteRoute::mapToJson(const QVariantMap &map)
 {
-    return QJsonDocument::fromVariant(map).toJson(QJsonDocument::Compact);
+    // Must return QString, not QByteArray: Qt's QPSQL driver binds QByteArray
+    // parameters as Postgres bytea (hex-escaped), which corrupts/rejects json(b) columns.
+    return QString::fromUtf8(QJsonDocument::fromVariant(map).toJson(QJsonDocument::Compact));
 }
 
 QSqlDatabase SQLiteRoute::db()

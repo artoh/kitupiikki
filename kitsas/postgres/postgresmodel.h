@@ -38,6 +38,7 @@ public:
     PostgresYhteys yhteysRivilla(int rivi) const;
 
     void sulje() override;
+    qint64 tietokannanKoko() const override;
 
 private slots:
     void lisaaViimeisiin();

@@ -189,7 +189,9 @@ QVariant TositeRoute::doDelete(const QString &polku)
 int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, const int paivitettavanTositeId)
 {
     QVariantMap map = pyynto.toMap();
-    QByteArray lokiin = QJsonDocument::fromVariant(pyynto).toJson(QJsonDocument::Compact);
+    // QString, not QByteArray: Qt's QPSQL driver binds QByteArray as Postgres bytea,
+    // which the jsonb-typed Tositeloki.data column rejects.
+    QString lokiin = QString::fromUtf8(QJsonDocument::fromVariant(pyynto).toJson(QJsonDocument::Compact));
 
     QSqlQuery kysely(db());
     db().transaction();

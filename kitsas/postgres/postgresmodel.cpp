@@ -89,6 +89,16 @@ bool PostgresModel::yhdista(const PostgresYhteys &yhteys, bool ilmoitaVirheesta)
     return true;
 }
 
+qint64 PostgresModel::tietokannanKoko() const
+{
+    if( !tietokanta_.isOpen())
+        return 0;
+    QSqlQuery kysely(tietokanta_);
+    if( kysely.exec(QStringLiteral("SELECT pg_database_size(current_database())")) && kysely.next())
+        return kysely.value(0).toLongLong();
+    return 0;
+}
+
 bool PostgresModel::onkoKelvollinenTietokannanNimi(const QString &nimi)
 {
     static const QRegularExpression kelpo(QStringLiteral("^[a-z][a-z0-9_]*$"));
@@ -164,8 +174,8 @@ bool PostgresModel::luoTietokanta(const PostgresYhteys &palvelin, const QString 
     const QString tietokanta = nimi.trimmed().toLower();
     if( !onkoKelvollinenTietokannanNimi(tietokanta) ) {
         if( ilmoitaVirheesta )
-            QMessageBox::warning(nullptr, tr("New Client"),
-                                 tr("Client name must start with a letter and contain only letters, numbers and underscores (max 63 characters)."));
+            QMessageBox::warning(nullptr, tr("Uusi asiakas"),
+                                 tr("Asiakkaan nimen on alettava kirjaimella ja se saa sisältää vain kirjaimia, numeroita ja alaviivoja (enintään 63 merkkiä)."));
         return false;
     }
 
@@ -176,8 +186,8 @@ bool PostgresModel::luoTietokanta(const PostgresYhteys &palvelin, const QString 
     QSqlQuery query(hallinta);
     const bool ok = query.exec(QStringLiteral("CREATE DATABASE %1 ENCODING 'UTF8'").arg(tietokanta));
     if( !ok && ilmoitaVirheesta )
-        QMessageBox::critical(nullptr, tr("New Client"),
-                              tr("Could not create database %1.\n%2")
+        QMessageBox::critical(nullptr, tr("Uusi asiakas"),
+                              tr("Tietokannan %1 luominen epäonnistui.\n%2")
                               .arg(tietokanta, query.lastError().text()));
 
     hallinta.close();
@@ -312,7 +322,10 @@ void PostgresModel::lisaaViimeisiin()
     if( nykyinen_.database.isEmpty())
         return;
 
-    QVariantMap map = nykyinen_.toMap(true);
+    // Password intentionally excluded: this list is persisted to QSettings
+    // in plaintext, unlike the initial-connect path in aloitussivu.cpp which
+    // already deliberately omits it.
+    QVariantMap map = nykyinen_.toMap();
     map.insert("avain", nykyinen_.avain());
     map.insert("nimi", kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi) );
 
