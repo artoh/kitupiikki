@@ -86,22 +86,22 @@ void SelectClientDlg::avaaValittu()
 void SelectClientDlg::uusiAsiakas()
 {
     bool ok = false;
-    const QString nimi = QInputDialog::getText(this, tr("New Client"),
-                                               tr("Client name (database name):"),
+    const QString nimi = QInputDialog::getText(this, tr("Uusi asiakas"),
+                                               tr("Asiakkaan nimi (tietokannan nimi):"),
                                                QLineEdit::Normal, QString(), &ok)
             .trimmed().toLower();
     if( !ok || nimi.isEmpty())
         return;
 
     if( !PostgresModel::onkoKelvollinenTietokannanNimi(nimi) ) {
-        QMessageBox::warning(this, tr("New Client"),
-                             tr("Client name must start with a letter and contain only letters, numbers and underscores (max 63 characters)."));
+        QMessageBox::warning(this, tr("Uusi asiakas"),
+                             tr("Asiakkaan nimen on alettava kirjaimella ja se saa sisältää vain kirjaimia, numeroita ja alaviivoja (enintään 63 merkkiä)."));
         return;
     }
 
     if( ui->clientList->findItems(nimi, Qt::MatchExactly).count() ) {
-        QMessageBox::warning(this, tr("New Client"),
-                             tr("A client named %1 already exists.").arg(nimi));
+        QMessageBox::warning(this, tr("Uusi asiakas"),
+                             tr("Asiakas nimeltä %1 on jo olemassa.").arg(nimi));
         return;
     }
 
