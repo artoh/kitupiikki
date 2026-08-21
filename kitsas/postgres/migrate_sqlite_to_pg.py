@@ -50,6 +50,38 @@ TABLE_ORDER = [
     "Vakioviite",
 ]
 
+# Expected columns per table, from postgres/luo.sql. migrate_table() builds
+# its INSERT column list directly from the source SQLite file's own column
+# names — this allowlist stops a malformed or tampered .kitsas file (this
+# tool exists specifically to import client-provided files, not just your
+# own) from injecting arbitrary SQL via a crafted column name.
+COLUMN_ALLOWLIST = {
+    "Asetus": {"avain", "arvo", "muokattu"},
+    "Tili": {"numero", "tyyppi", "iban", "json", "muokattu"},
+    "Otsikko": {"numero", "taso", "json", "muokattu"},
+    "Tilikausi": {"alkaa", "loppuu", "json"},
+    "Kohdennus": {"id", "tyyppi", "kuuluu", "json"},
+    "Budjetti": {"tilikausi", "kohdennus", "tili", "sentti"},
+    "Kumppani": {"id", "nimi", "alvtunnus", "json"},
+    "KumppaniIban": {"iban", "kumppani"},
+    "Ryhma": {"id", "nimi", "json"},
+    "KumppaniRyhmassa": {"kumppani", "ryhma"},
+    "Tosite": {"id", "pvm", "tyyppi", "tila", "tunniste", "sarja", "otsikko",
+               "kumppani", "laskupvm", "erapvm", "viite", "json"},
+    "Tositeloki": {"id", "tosite", "aika", "data", "userid", "tila"},
+    "Vienti": {"id", "rivi", "tosite", "tyyppi", "pvm", "tili", "kohdennus",
+               "selite", "debetsnt", "kreditsnt", "eraid", "alvprosentti",
+               "alvkoodi", "kumppani", "jaksoalkaa", "jaksoloppuu",
+               "arkistotunnus", "json"},
+    "Merkkaus": {"vienti", "kohdennus"},
+    "Liite": {"id", "tosite", "nimi", "roolinimi", "tyyppi", "sha", "data",
+              "luotu", "json"},
+    "Tuote": {"id", "nimike", "json"},
+    "Rivi": {"tosite", "rivi", "tuote", "myyntikpl", "ostokpl", "ahinta", "json"},
+    "Vakioviite": {"viite", "tili", "kohdennus", "otsikko", "alkaen",
+                   "paattyen", "json"},
+}
+
 # Tables with an identity/autoincrement `id` column whose Postgres sequence
 # needs resyncing after importing rows with explicit ids.
 IDENTITY_TABLES = [
@@ -129,6 +161,13 @@ def migrate_table(sconn, pconn, table):
         return
 
     columns = rows[0].keys()
+    unexpected = set(columns) - COLUMN_ALLOWLIST[table]
+    if unexpected:
+        raise ValueError(
+            f"{table}: source file has unexpected column(s) {sorted(unexpected)} "
+            f"not in the known Postgres schema — refusing to build SQL from them"
+        )
+
     pcur = pconn.cursor()
 
     values = []

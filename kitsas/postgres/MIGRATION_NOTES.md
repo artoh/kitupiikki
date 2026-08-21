@@ -73,6 +73,31 @@ actual stored `kumppani` table. Plain unquoted string interpolation (safe
 here — names come from the fixed TABLES list, not user input) is what
 actually matches how the app itself queries these tables.
 
+### 2. Balance/saldo calculations regressed by a wrong "fix" (FIXED, was briefly broken)
+
+**Where:** `kitsas/sqlite/routes/saldotroute.cpp`, 6 occurrences.
+
+**History:** the original code used `CAST(tili as text) >= '3'` / `< '3'` to
+split balance-sheet accounts (1xxx-2xxx) from income-statement accounts
+(3xxx+). This got misdiagnosed as a lexicographic-string-comparison bug (it
+genuinely is a string comparison) and "fixed" to `tili >= 3` / `< 3` — a
+real regression. The mistake: verifying *that* it does string comparison is
+not the same as verifying *what the correct numeric equivalent is*. For
+real 4-digit account numbers, `CAST(... as text) >= '3'` is exactly
+equivalent to `tili >= 3000` (comparing the leading digit works out to a
+leading-digit-times-1000 threshold only because every real account number
+is uniformly 4 digits) — not `tili >= 3`, which wrongly includes accounts
+like 1910 (a balance-sheet bank account) in what should be an
+income-statement-only filter. Caught by a second Copilot review pass on
+PR #2, confirmed by direct comparison against real account numbers before
+re-fixing. Corrected to `tili >= 3000` / `< 3000`.
+
+**Lesson for this file specifically:** don't "fix" a SQLite→Postgres
+portability concern here without checking what numeric threshold the
+existing string comparison actually produces against real chart-of-accounts
+data first — the string comparison may be intentional (if unusual) rather
+than accidental.
+
 ## Schema differences to account for in a migration tool
 
 ### Auto-increment: `AUTOINCREMENT` (SQLite) vs `GENERATED ... AS IDENTITY` (Postgres)
@@ -138,6 +163,29 @@ logic, not just the read side —
    empty table, then called `setval(seq, 1)`. Since `setval`'s 2-arg form
    defaults `is_called=true`, that makes the *next* generated id 2, not 1 —
    an empty table's first real insert would skip id=1. Fallback is now `0`.
+
+**Fixed via a third round of Copilot review on PR #2:**
+3. `migrate_table()` built its `INSERT` column list directly from the
+   source SQLite file's own column names (`rows[0].keys()`), unsanitized.
+   Since this tool exists specifically to import client-provided `.kitsas`
+   files — a real trust boundary for an accounting-firm workflow, not just
+   your own file — a malformed or tampered file could inject SQL via a
+   crafted column name. Added `COLUMN_ALLOWLIST`, one set of expected
+   columns per table taken from `postgres/luo.sql`; `migrate_table()` now
+   raises before building any SQL if the source has a column outside that
+   allowlist. Cross-checked the allowlist against the real Desktop-copy
+   file's actual SQLite schema — all 18 tables match cleanly, no
+   false-positive rejections.
+
+   The `LIKE '\\x%'` pattern in `repair_bytea_json.py` flagged in the same
+   review round was a false positive — checked and confirmed empirically
+   (inserted a controlled test row, the pattern matched it correctly).
+   Postgres applies two separate escape-processing steps here: string
+   literal parsing (backslash is literal, not an escape, since
+   `standard_conforming_strings` defaults to on) and then `LIKE`'s own
+   escape-character handling (backslash by default) applied to the
+   resulting pattern — the two cancel out to match a single literal
+   backslash correctly. No change needed.
 
 Validated (read-only `--dry-run`) against a copy of a real production file
 (`CorosarOy-211206.kitsas`, 3391 vouchers / 22220 line items / 10555 log
