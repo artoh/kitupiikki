@@ -46,6 +46,78 @@ jobs:
             echo "::endgroup::"
           done
 
+  db-parity:
+    name: SQLite vs PostgreSQL parity
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: kitsas
+          POSTGRES_PASSWORD: kitsas
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U kitsas -d postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      QT_QPA_PLATFORM: offscreen
+      KITSAS_REQUIRE_POSTGRES: "1"
+      KITSAS_PG_HOST: localhost
+      KITSAS_PG_PORT: "5432"
+      KITSAS_PG_USER: kitsas
+      KITSAS_PG_PASSWORD: kitsas
+      KITSAS_PG_ADMIN_DB: postgres
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install system libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential \
+            libzip-dev \
+            libgl-dev \
+            libpq5 \
+            libpq-dev \
+            libxkbcommon-x11-0 \
+            libxcb-cursor0 \
+            libxcb-icccm4 \
+            libxcb-image0 \
+            libxcb-keysyms1 \
+            libxcb-randr0 \
+            libxcb-render-util0 \
+            libxcb-shape0 \
+            libxcb-xinerama0 \
+            libnss3 \
+            libnspr4 \
+            libdbus-1-3 \
+            libasound2t64
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: "6.7.3"
+          cache: true
+          modules: >-
+            qtwebengine
+            qtwebchannel
+            qtpositioning
+            qt5compat
+            qtpdf
+
+      - name: Build and run dbparity
+        run: |
+          set -euo pipefail
+          mkdir -p build-tests/dbparity
+          cd build-tests/dbparity
+          qmake ../../unittest/dbparity/dbparity.pro -spec linux-g++ "CONFIG+=release"
+          make -j"$(nproc)"
+          ./dbparity
+
   build:
     name: Build Kitsas
     runs-on: ubuntu-24.04

@@ -118,6 +118,7 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
     tietokanta_.exec("PRAGMA LOCKING_MODE = EXCLUSIVE");
 #endif
     tietokanta_.exec("PRAGMA JOURNAL_MODE = WAL");
+    tietokanta_.exec("PRAGMA foreign_keys = ON");
 
     QSqlQuery query( tietokanta_ );
     query.exec("SELECT arvo FROM Asetus WHERE avain='KpVersio'");

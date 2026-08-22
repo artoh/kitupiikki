@@ -31,12 +31,13 @@ public:
 
 protected:
     SqliteAlustaja();
+    ~SqliteAlustaja() override;
 
     bool alustaTietokanta(const QString& polku);
     bool lopputoimet();
 
     QSqlDatabase db;
-    QProgressDialog *progress;
+    QProgressDialog *progress = nullptr;
 
 };
 

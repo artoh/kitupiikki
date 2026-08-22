@@ -25,7 +25,7 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     bool avaa(const PostgresYhteys& yhteys, bool ilmoitaVirheesta = true);
-    bool uusiKirjanpito(const PostgresYhteys& yhteys, const QVariantMap& initials);
+    bool uusiKirjanpito(const PostgresYhteys& yhteys, const QVariantMap& initials, bool ilmoitaVirheesta = true);
 
     QStringList listaaTietokannat(const PostgresYhteys& palvelin, bool ilmoitaVirheesta = true);
     bool luoTietokanta(const PostgresYhteys& palvelin, const QString& nimi, bool ilmoitaVirheesta = true);

@@ -22,6 +22,7 @@
 #include <QApplication>
 #include <QSqlError>
 #include <QProgressDialog>
+#include <QSqlDatabase>
 
 bool SqliteAlustaja::luoKirjanpito(const QString &polku, const QVariantMap &initials)
 {
@@ -45,7 +46,31 @@ SqliteAlustaja::SqliteAlustaja() :
     progress = new QProgressDialog(tr("Alustetaan kirjanpitoa..."), tr("Peruuta"),0,10);
     progress->setMinimumDuration(500);
 
-    db = QSqlDatabase::addDatabase("QSQLITE","uusi");
+    const QString nimi = QStringLiteral("uusi");
+    if (QSqlDatabase::contains(nimi)) {
+        {
+            QSqlDatabase vanha = QSqlDatabase::database(nimi);
+            if (vanha.isOpen())
+                vanha.close();
+        }
+        QSqlDatabase::removeDatabase(nimi);
+    }
+    db = QSqlDatabase::addDatabase(QStringLiteral("QSQLITE"), nimi);
+}
+
+SqliteAlustaja::~SqliteAlustaja()
+{
+    if (progress) {
+        progress->close();
+        delete progress;
+        progress = nullptr;
+    }
+    if (db.isOpen())
+        db.close();
+    const QString nimi = db.connectionName();
+    db = QSqlDatabase();
+    if (!nimi.isEmpty())
+        QSqlDatabase::removeDatabase(nimi);
 }
 
 bool SqliteAlustaja::alustaTietokanta(const QString &polku)

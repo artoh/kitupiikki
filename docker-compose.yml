@@ -1,0 +1,29 @@
+# Local PostgreSQL for Kitsas SQLite/Postgres parity tests.
+# Host port 5433 avoids clashing with an existing server on 5432.
+#
+#   docker compose up -d postgres
+#   mkdir -p build-tests/dbparity && cd build-tests/dbparity
+#   qmake ../../unittest/dbparity/dbparity.pro && make
+#   QT_QPA_PLATFORM=offscreen KITSAS_PG_PORT=5433 KITSAS_REQUIRE_POSTGRES=1 ./dbparity
+#
+# Without the compose plugin:
+#   docker run -d --name kitsas-parity-pg \
+#     -e POSTGRES_USER=kitsas -e POSTGRES_PASSWORD=kitsas \
+#     -e POSTGRES_DB=postgres -p 5433:5432 postgres:16
+#
+# Connection defaults in the test (override with KITSAS_PG_*):
+#   host=localhost port=5432 user=kitsas password=kitsas
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: kitsas
+      POSTGRES_PASSWORD: kitsas
+      POSTGRES_DB: postgres
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kitsas -d postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
