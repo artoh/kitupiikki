@@ -38,6 +38,7 @@
 #include "pilvi/pilvimodel.h"
 #include "tositeselausmodel.h"
 #include "laskutus/laskudlg/laskudialogitehdas.h"
+#include "alv/alvilmoitustenmodel.h"
 
 SelausWg::SelausWg(QWidget *parent) :
     KitupiikkiSivu(parent),
@@ -613,10 +614,17 @@ void SelausWg::paivitaPoistoOhje()
 
     const QDate lukittuPvm = kp()->tilitpaatetty();
 
+    const bool ohitaAlvLukko = kp()->asetukset()->onko(AsetusModel::OhitaAlvLukko);
+
     for(const auto& item : valitutRivit) {
         const QDate pvm = item.data(Qt::DisplayRole).toDate();
         if( pvm <= lukittuPvm) {
             ui->poistoLabel->setText( tr("Tositteita ei voi poistaa lukitulta tilikaudelta"));
+            ui->teePoistoNappi->setEnabled(false);
+            return;
+        }
+        if( !ohitaAlvLukko && kp()->alvIlmoitukset()->onkoIlmoitettu(pvm) ) {
+            ui->poistoLabel->setText( tr("Tositteita ei voi poistaa kaudelta, jolta on annettu alv-ilmoitus"));
             ui->teePoistoNappi->setEnabled(false);
             return;
         }
