@@ -272,9 +272,15 @@ void TilioteModel::tuo(const QVariantList tuotavat)
         endResetModel();
     }
 
+    if( tuotavat.isEmpty())
+        return;
+
+    const int ekaUusi = kirjausRivit_.count();
+    beginInsertRows(QModelIndex(), ekaUusi, ekaUusi + tuotavat.count() - 1);
     for(const auto& tuotava : tuotavat) {
         kirjausRivit_.append(TilioteKirjausRivi(tuotava.toMap(), this));
     }
+    endInsertRows();
 }
 
 QPair<qlonglong, qlonglong> TilioteModel::summat() const
