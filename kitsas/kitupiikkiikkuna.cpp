@@ -481,6 +481,14 @@ void KitupiikkiIkkuna::resizeEvent(QResizeEvent *event)
 
 }
 
+void KitupiikkiIkkuna::changeEvent(QEvent *event)
+{
+    if( event->type() == QEvent::PaletteChange || event->type() == QEvent::ApplicationPaletteChange ) {
+        paivitaToolbarTyyli();
+    }
+    QMainWindow::changeEvent(event);
+}
+
 QAction *KitupiikkiIkkuna::lisaaSivu(const QString &nimi, const QString &kuva, const QString &vihje, const QString &pikanappain, Sivu sivutunnus,
                                      KitupiikkiSivu *sivu)
 {
@@ -501,8 +509,23 @@ QAction *KitupiikkiIkkuna::lisaaSivu(const QString &nimi, const QString &kuva, c
     return uusi;
 }
 
+void KitupiikkiIkkuna::paivitaToolbarTyyli()
+{
+    if(!toolbar)
+        return;
 
-
+    if( kp()->pilvi()->pilviLoginOsoite() == KITSAS_API || qApp->property("demo").toBool()) {
+        const QString tausta = qApp->palette().color(QPalette::Mid).name(QColor::HexRgb);
+        const QString valittu = qApp->palette().color(QPalette::Window).name(QColor::HexRgb);
+        const QString tyyli = QString("QToolBar {background-color: %1; spacing: 5px; }  QToolBar::separator { border: none; margin-bottom: 16px; }  QToolButton { border: 0px solid lightgray; margin-right: 0px; width: 90%; margin-left: 3px; margin-top: 0px; border-top-left-radius: 6px; border-bottom-left-radius: 6px}  QToolButton:checked {background-color: %2; } QToolButton:hover { font-weight: bold; } ")
+                              .arg(tausta, valittu);
+        toolbar->setStyleSheet(QString());
+        toolbar->setStyleSheet(tyyli);
+    } else {
+        toolbar->setStyleSheet(QString());
+        toolbar->setStyleSheet("QToolBar {background-color: #FFA500; spacing: 5px; }  QToolBar::separator { border: none; margin-bottom: 16px; }  QToolButton { border: 0px solid lightgray; margin-right: 0px; width: 90%; margin-left: 3px; margin-top: 0px; border-top-left-radius: 6px; border-bottom-left-radius: 6px}  QToolButton:checked {background-color: palette(window); } QToolButton:hover { font-weight: bold; } ");
+    }
+}
 
 void KitupiikkiIkkuna::lisaaSivut()
 {
@@ -521,11 +544,7 @@ void KitupiikkiIkkuna::lisaaSivut()
         toolbar->setIconSize(QSize(32,32));
     */
 
-    if( kp()->pilvi()->pilviLoginOsoite() == KITSAS_API || qApp->property("demo").toBool()) {
-        toolbar->setStyleSheet("QToolBar {background-color: palette(mid); spacing: 5px; }  QToolBar::separator { border: none; margin-bottom: 16px; }  QToolButton { border: 0px solid lightgray; margin-right: 0px; width: 90%; margin-left: 3px; margin-top: 0px; border-top-left-radius: 6px; border-bottom-left-radius: 6px}  QToolButton:checked {background-color: palette(window); } QToolButton:hover { font-weight: bold; } ");
-    } else {
-        toolbar->setStyleSheet("QToolBar {background-color: #FFA500; spacing: 5px; }  QToolBar::separator { border: none; margin-bottom: 16px; }  QToolButton { border: 0px solid lightgray; margin-right: 0px; width: 90%; margin-left: 3px; margin-top: 0px; border-top-left-radius: 6px; border-bottom-left-radius: 6px}  QToolButton:checked {background-color: palette(window); } QToolButton:hover { font-weight: bold; } ");
-    }
+    paivitaToolbarTyyli();
 
     toolbar->setMovable(false);
 

@@ -20,6 +20,7 @@ public:
     void asetaTilioimatta(int tilioimatta);
 
 protected:
+    void changeEvent(QEvent *event) override;
     void naytaPaivitetty();
     void paivitaAvattu();
 

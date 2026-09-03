@@ -29,6 +29,7 @@
 #include <QDebug>
 #include <QHeaderView>
 #include <QTimer>
+#include <QGuiApplication>
 #include <QSettings>
 #include <QStyleHints>
 #include <QMessageBox>
@@ -115,7 +116,7 @@ SelausWg::SelausWg(QWidget *parent) :
 
     ui->selausView->horizontalHeader()->setSectionsMovable(true);
 
-    if (QPalette().base().color().lightness() < 128 ) {
+    if (QGuiApplication::palette().base().color().lightness() < 128 ) {
         ui->poistoGroup->setStyleSheet("QGroupBox, QLabel { background-color: rgb(200, 0, 0); color: white }") ;
     } else {
         ui->poistoGroup->setStyleSheet("QGroupBox, QLabel { background-color: rgb(255, 180, 0); color: black }");

@@ -4,6 +4,7 @@
 #include <QPainter>
 
 #include <QPalette>
+#include <QGuiApplication>
 #include "pilvi/badges.h"
 
 KirjanpitoDelegaatti::KirjanpitoDelegaatti(QObject *parent, bool limitys)
@@ -33,12 +34,12 @@ void KirjanpitoDelegaatti::paint(QPainter *painter, const QStyleOptionViewItem &
 
     painter->save();
     if( index.data(HarjoitusRooli).toBool()) {
-        if( QPalette().base().color().lightness() > 128)
+        if( QGuiApplication::palette().base().color().lightness() > 128)
             painter->setPen(QColor(Qt::darkGreen));
         else
             painter->setPen(QColor(Qt::green));
     } else {
-        painter->setPen(QPen(QPalette().text(),1));
+        painter->setPen(QPen(QGuiApplication::palette().text(),1));
     }
 
     painter->drawText(textRect, Qt::AlignLeft | Qt::AlignVCenter ,text);

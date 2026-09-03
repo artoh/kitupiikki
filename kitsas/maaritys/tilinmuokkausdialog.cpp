@@ -27,6 +27,7 @@
 #include <QVariant>
 #include <QScreen>
 #include <QPalette>
+#include <QGuiApplication>
 
 #include "tilinmuokkausdialog.h"
 #include "db/tilimodel.h"
@@ -318,7 +319,7 @@ void TilinMuokkausDialog::ibanCheck()
     switch ( IbanValidator::kelpo( ui->ibanLine->text().trimmed())) {
     case IbanValidator::Acceptable:
     {
-        ui->ibanLine->setStyleSheet( QPalette().base().color().lightness() > 125 ? "color: darkGreen;" : "color: green;");
+        ui->ibanLine->setStyleSheet( QGuiApplication::palette().base().color().lightness() > 125 ? "color: darkGreen;" : "color: green;");
         if( ui->bicEdit->text().isEmpty() && ui->pankkiEdit->text().isEmpty()) {
             Iban iban( ui->ibanLine->text().trimmed());
             ui->bicEdit->setText( iban.bic() );
