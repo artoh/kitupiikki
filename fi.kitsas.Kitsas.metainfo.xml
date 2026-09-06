@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>fi.kitsas.Kitsas</id>
+
+  <name>Kitsas</name>
+  <name xml:lang="en">Kitsas</name>
+
+  <summary>Avoimen lähdekoodin kirjanpito-ohjelma</summary>
+  <summary xml:lang="en">Open source bookkeeping software</summary>
+
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+
+  <developer id="fi.kitsas">
+    <name>Arto Hyvättinen</name>
+  </developer>
+
+  <description>
+    <p>
+      Kitsas on suomalainen avoimen lähdekoodin kirjanpito-ohjelma pienille
+      yhdistyksille, yrityksille ja yhteisöille. Kitsas on helppokäyttöinen
+      ja monipuolinen kirjanpidon työkalu, joka tukee tositteiden sähköistä
+      käsittelyä, sähköisen arkiston muodostamista ja sisäänrakennettua laskutusta.
+    </p>
+    <p xml:lang="en">
+      Kitsas is a Finnish open source bookkeeping software for small
+      organizations, companies and communities. Kitsas is an easy-to-use
+      and versatile bookkeeping tool that supports electronic processing
+      of receipts, electronic archiving and built-in invoicing.
+    </p>
+  </description>
+
+  <url type="homepage">https://kitsas.fi</url>
+  <url type="bugtracker">https://github.com/artoh/kitupiikki/issues</url>
+  <url type="help">https://kitsas.fi/docs</url>
+
+  <launchable type="desktop-id">fi.kitsas.Kitsas.desktop</launchable>
+
+  <provides>
+    <binary>kitsas</binary>
+  </provides>
+
+  <content_rating type="oars-1.1" />
+
+  <releases>
+    <release version="5.11.1" date="2026-03-08">
+      <description>
+        <p>Korjattu tuotteen lisäyksen oletusalv alvillisessa kirjanpidossa.</p>
+      </description>
+    </release>
+  </releases>
+
+  <categories>
+    <category>Office</category>
+    <category>Finance</category>
+  </categories>
+
+  <keywords>
+    <keyword>kirjanpito</keyword>
+    <keyword>bookkeeping</keyword>
+    <keyword>taloushallinto</keyword>
+    <keyword>laskutus</keyword>
+    <keyword>invoicing</keyword>
+  </keywords>
+</component>
