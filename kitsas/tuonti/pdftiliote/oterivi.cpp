@@ -213,8 +213,38 @@ void OteRivi::kasitteleTuntematon(const QString &teksti, int rivi, const QDate& 
 }
 
 void OteRivi::lisaaYleinen(const QString &teksti, int rivi)
-{    
-    QString iso = teksti.toUpper();    
+{
+    QString iso = teksti.toUpper();
+
+    // Poimitaan päivämäärä tekstin alusta ensimmäisellä rivillä (käsittelee "20.10 20.10" tai "20.10 20.10 KUVAUS" muotoa)
+    if( !rivi && !pvm_.isValid()) {
+        // Muoto 1: "20.10 20.10 KUVAUS" - kaksi päivämäärää ja tekstiä perässä
+        QRegularExpression startDateRe("^\\s*(\\d{1,2}\\.\\d{1,2})\\s+\\d{1,2}\\.\\d{1,2}\\s+(.*)");
+        QRegularExpressionMatch startDateMatch = startDateRe.match(iso);
+        if( startDateMatch.hasMatch()) {
+            QString dateStr = startDateMatch.captured(1);
+            QString remaining = startDateMatch.captured(2);
+            QDate paiva = strPvm(dateStr, QDate::currentDate());
+            if( paiva.isValid()) {
+                pvm_ = paiva;
+                // Jatketaan käsittelyä jäljellä olevalla tekstillä
+                iso = remaining.toUpper();
+            }
+        } else {
+            // Muoto 2: "20.10 20.10" - pelkät kaksi päivämäärää (pääsovellus jakaa osat eri tavalla)
+            QRegularExpression justDatesRe("^\\s*(\\d{1,2}\\.\\d{1,2})\\s+\\d{1,2}\\.\\d{1,2}\\s*$");
+            QRegularExpressionMatch justDatesMatch = justDatesRe.match(iso);
+            if( justDatesMatch.hasMatch()) {
+                QString dateStr = justDatesMatch.captured(1);
+                QDate paiva = strPvm(dateStr, QDate::currentDate());
+                if( paiva.isValid()) {
+                    pvm_ = paiva;
+                    return; // Ei muuta käsiteltävää
+                }
+            }
+        }
+    }
+
     for( const auto& ohitettava : ohitettavat__) {
         if( iso.contains(ohitettava)) {
             return;
@@ -241,6 +271,13 @@ void OteRivi::lisaaYleinen(const QString &teksti, int rivi)
         lisaaOstoPvm(iso);
     } else if( iso.contains("ARKISTOINTITUNNUS")) {
         if(arkistotunnus_.isEmpty()) setArkistotunnus( iso.mid(18), rivi );
+    } else if( iso.contains("ARK.TUNN") && arkistotunnus_.isEmpty()) {
+        // Säästöpankin muoto: "ARK.TUNN=123456789"
+        int eqPos = iso.indexOf("=");
+        if(eqPos > 0) {
+            QString ark = iso.mid(eqPos + 1).trimmed();
+            setArkistotunnus( ark, rivi );
+        }
     } else if( iso.contains("ARKISTOVIITE") && arkistotunnus_.isEmpty()) {
         setArkistotunnus( iso.mid(iso.indexOf(":")), rivi );
     } else if( Iban(teksti).isValid() ) {
