@@ -414,7 +414,12 @@ void KirjausWg::pohjaksi()
     ui.otsikkoEdit->setText(tosite()->otsikko());
     if( dlg.exec() == QDialog::Accepted) {
         if( apuri_) {
-            delete apuri_;
+            // Paikallinen ui (KopioiDlg) peittää jäsenmuuttujan ui
+            this->ui->tabWidget->removeTab( this->ui->tabWidget->indexOf( apuri_) );
+            apuri_->disconnect();
+            tosite_->disconnect(apuri_);
+            apuri_->hide();
+            apuri_->deleteLater();
             apuri_ = 0;
         }
         tosite_->pohjaksi( ui.pvmEdit->date(), ui.otsikkoEdit->text(), ui.sailytaErat->isChecked() );
@@ -931,7 +936,13 @@ void KirjausWg::tositeTyyppiVaihtui(int tyyppiKoodi)
     if( apuri_ )
     {
         ui->tabWidget->removeTab( ui->tabWidget->indexOf( apuri_) );
-        delete apuri_;
+        // Tyyppi voi vaihtua kesken apurin signaaliketjun (esim. tiliotteen
+        // tallentamisen jälkeen), joten apuria ei saa tuhota välittömästi
+        // vaan vasta tapahtumasilmukan kautta.
+        apuri_->disconnect();
+        tosite_->disconnect(apuri_);
+        apuri_->hide();
+        apuri_->deleteLater();
     }
     apuri_ = nullptr;
 
