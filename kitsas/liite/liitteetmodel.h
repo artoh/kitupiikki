@@ -64,6 +64,8 @@ public:
 protected:
     void valimuistiLiite(int liiteId);
     void naytaKayttajalle();
+    void suljePdf();
+    void tyhjennaLiitteet();
 
     void pdfTilaVaihtui(QPdfDocument::Status status);
     void tuoLiite(const QString &tyyppi, const QByteArray &sisalto);
