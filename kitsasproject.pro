@@ -8,4 +8,5 @@ SUBDIRS = kitsas/kitsas.pro \
 	unittest/eurotest \
 	unittest/tositerivitesti \
 	unittest/viitetesti \
-	unittest/dbparity
+	unittest/dbparity \
+	unittest/TilioteUafTesti
