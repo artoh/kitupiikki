@@ -334,7 +334,9 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, const int paivitettavanT
         rivinumero++;
 
         if( vientiid ) {
-            if( !vanhatviennit.contains(vientiid)) {
+            // Uudella tositteella vientiid on Kitupiikki-tuonnin importid, jota
+            // ei vielä ole kannassa: tarkastetaan vain päivitettäessä
+            if( paivitettavanTositeId && !vanhatviennit.contains(vientiid)) {
                 db().rollback();
                 throw SQLiteVirhe("Virheellinen viennin id", 206);
             }
