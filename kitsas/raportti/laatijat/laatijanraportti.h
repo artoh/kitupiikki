@@ -30,6 +30,7 @@ protected:
     QString kielikoodi() const { return kielikoodi_; }
 
     QString alvTeksti(const QVariantMap& data);
+    QString kohdennuksetTeksti(const QVariantMap& data) const;
 
 protected:
     RaportinKirjoittaja rk;
