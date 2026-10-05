@@ -19,6 +19,7 @@
 
 #include "laskutaulutilioteproxylla.h"
 #include "tilioteviennit.h"
+#include "tiliotemaksuproxy.h"
 
 #include <QPushButton>
 #include <QSortFilterProxyModel>
@@ -35,7 +36,7 @@
 TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
     QDialog(apuri),
     ui(new Ui::TilioteKirjaaja),
-    maksuProxy_(new QSortFilterProxyModel(this)),
+    maksuProxy_(new TilioteMaksuProxy(this)),
     avoinProxy_( new QSortFilterProxyModel(this)),
     laskut_( new LaskuTauluTilioteProxylla(this, apuri->model())),
     rivit_(new ApuriRivit())
@@ -51,7 +52,7 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
 TilioteKirjaaja::TilioteKirjaaja(SiirtoApuri *apuri):
     QDialog(apuri),
     ui(new Ui::TilioteKirjaaja),
-    maksuProxy_(new QSortFilterProxyModel(this)),
+    maksuProxy_(new TilioteMaksuProxy(this)),
     avoinProxy_( new QSortFilterProxyModel(this)),
     laskut_( new LaskuTauluModel(this)),
     rivit_(new ApuriRivit())
@@ -402,17 +403,7 @@ void TilioteKirjaaja::valitseLasku()
 
 void TilioteKirjaaja::suodata(const QString &teksti)
 {
-    if( teksti.startsWith("RF") || teksti.contains(  QRegularExpression("^\\d+$")))
-    {
-        maksuProxy_->setFilterKeyColumn( LaskuTauluModel::NUMERO );
-        maksuProxy_->setFilterRegularExpression(QRegularExpression("^" + teksti));
-    } else {
-        maksuProxy_->setFilterKeyColumn( LaskuTauluModel::ASIAKASTOIMITTAJA);
-        maksuProxy_->setFilterCaseSensitivity(Qt::CaseInsensitive);
-        maksuProxy_->setFilterFixedString( teksti );
-    }
-//    if( ui->maksuView->model()->rowCount() && !ladataan_)
-//        ui->alaTabs->setCurrentIndex(MAKSU);
+    maksuProxy_->suodata( teksti );
 }
 
 void TilioteKirjaaja::tyhjenna()
