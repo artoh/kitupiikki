@@ -595,13 +595,6 @@ void TilioteKirjausRivi::lisaaVienti(const QVariantMap &map)
     } else if( vienti.tyyppi() % 100 == TositeVienti::KIRJAUS || (!vienti.tyyppi() && vienti.alvKoodi() < AlvKoodi::ALVKIRJAUS)) {
         vienti.setTyyppi( tyyppi_ + TositeVienti::KIRJAUS );
         rivit_.append( ApuriRivi( vienti, summa_ > Euro::Zero) );
-    } else if( !rivit_.count() ) {
-        ;
-    } else if( !vienti.tyyppi()) {
-        if( vienti.alvKoodi() == AlvKoodi::TILITYS)
-            taydennys_.asetaDebetId(vienti.id());
-        else
-            taydennys_.asetaKreditId(vienti.id());
     } else if( vienti.alvKoodi() / 100 == AlvKoodi::ALVKIRJAUS / 100) {
         const bool plusOnKredit = summa_ > Euro::Zero;
         const int verokoodi = vienti.alvKoodi() % 100;
@@ -614,18 +607,37 @@ void TilioteKirjausRivi::lisaaVienti(const QVariantMap &map)
         Euro vero = plusOnKredit == kaanteinenAlv ? vienti.debetEuro() - vienti.kreditEuro() : vienti.kreditEuro() - vienti.debetEuro();
         // Euro vero = vienti.kreditEuro() - vienti.debetEuro();
 
-        rivit_[ rivit_.count()-1].setNetonVero(vero, vienti.id());
+        if( rivit_.count() && (rivit_.last().alvkoodi() == AlvKoodi::MYYNNIT_NETTO || kaanteinenAlv) ) {
+            rivit_[ rivit_.count()-1].setNetonVero(vero, vienti.id());
+        } else {
+            vienti.setTyyppi( tyyppi_ + TositeVienti::KIRJAUS );
+            rivit_.append( ApuriRivi( vienti, summa_ > Euro::Zero) );
+        }
     } else if( vienti.alvKoodi() / 100 == AlvKoodi::ALVVAHENNYS / 100) {
         Euro vahennys = summa_ > Euro::Zero ?
             vienti.kreditEuro() - vienti.debetEuro():
             vienti.debetEuro() - vienti.kreditEuro();
-        if( !rivit_[rivit_.count()-1].bruttoSyotetty())
-            rivit_[ rivit_.count() - 1].setNetonVero(vahennys);
-        rivit_[ rivit_.count() - 1 ].setAlvvahennys(true, vienti.id());
+        if( rivit_.count() && (rivit_.last().alvkoodi() == AlvKoodi::OSTOT_NETTO || rivit_.last().alvkoodi() == AlvKoodi::MAKSUPERUSTEINEN_OSTO) ) {
+            if( !rivit_[rivit_.count()-1].bruttoSyotetty())
+                rivit_[ rivit_.count() - 1].setNetonVero(vahennys);
+            rivit_[ rivit_.count() - 1 ].setAlvvahennys(true, vienti.id());
+        } else {
+            vienti.setTyyppi( tyyppi_ + TositeVienti::KIRJAUS );
+            rivit_.append( ApuriRivi( vienti, summa_ > Euro::Zero) );
+        }
     } else if( vienti.alvKoodi() == AlvKoodi::VAHENNYSKELVOTON) {
-        rivit_[ rivit_.count() - 1].setVahentamaton( vienti.id());
+        if( rivit_.count() ) {
+            rivit_[ rivit_.count() - 1].setVahentamaton( vienti.id());
+        }
     } else if( vienti.alvKoodi() == AlvKoodi::MAAHANTUONTI_VERO) {
-        rivit_[ rivit_.count() - 1 ].setMaahantuonninAlv(vienti.id());
+        if( rivit_.count() ) {
+            rivit_[ rivit_.count() - 1 ].setMaahantuonninAlv(vienti.id());
+        }
+    } else if( !vienti.tyyppi()) {
+        if( vienti.alvKoodi() == AlvKoodi::TILITYS)
+            taydennys_.asetaDebetId(vienti.id());
+        else
+            taydennys_.asetaKreditId(vienti.id());
     }
 
     if( tyyppi_ == TositeVienti::TUNTEMATON && vienti.tyyppi() % 100 != TositeVienti::VASTAKIRJAUS) {
