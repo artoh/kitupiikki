@@ -163,7 +163,7 @@ void TuloveroDialog::paivitaVero()
     const double prosentti = ui->prosenttiSpin->value();
 
     if( tulos > Euro::Zero)
-        ui->veroEdit->setEuro( tulos * prosentti / 100.0 );
+        ui->veroEdit->setEuro( tulos * (prosentti / 100.0) );
     else
         ui->veroEdit->setEuro( Euro::Zero);
     paivitaJaannos();
