@@ -15,6 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "laskunalaosa.h"
+#include "code128.h"
 
 #include "../nayukiQR/QrCode.hpp"
 
@@ -23,12 +24,40 @@
 #include "model/toiminimimodel.h"
 #include "rekisteri/postinumerot.h"
 #include <QPainter>
+#include <QPagedPaintDevice>
 #include <QSvgRenderer>
 #include "db/tili.h"
 #include "db/tilimodel.h"
 
 
 #include <QDebug>
+
+namespace {
+
+constexpr qreal VIIVAKOODIN_LEVEYS_MM = 100.0;
+
+qreal millimetri(QPainter* painter)
+{
+    return painter->device()->width() * 1.00 / painter->device()->widthMM();
+}
+
+// Viivakoodin tyhjät alueet mitataan paperin reunasta, joten tulostusmarginaali vähennetään
+qreal viivakoodinVasenReuna(QPainter* painter)
+{
+    qreal marginaali = 0.0;
+    if( const QPagedPaintDevice* sivu = dynamic_cast<QPagedPaintDevice*>(painter->device()))
+        marginaali = sivu->pageLayout().margins(QPageLayout::Millimeter).left();
+    return qMax(0.0, Code128::HILJAINEN_ALUE_MM - marginaali) * millimetri(painter);
+}
+
+// Viivakoodin oikealla puolella olevat laatikot alkavat tyhjän alueen jälkeen
+qreal laatikoidenVasenReuna(QPainter* painter)
+{
+    return viivakoodinVasenReuna(painter) +
+           ( VIIVAKOODIN_LEVEYS_MM + Code128::HILJAINEN_ALUE_MM ) * millimetri(painter);
+}
+
+}
 
 LaskunAlaosa::LaskunAlaosa(KitsasInterface *interface) :
     interface_(interface)
@@ -68,7 +97,7 @@ qreal LaskunAlaosa::laske(QPainter *painter)
             : leveys / 3);
 
     if( viivakoodi_ && !tilisiirto_)
-        leveys = (leveys - 120 * mm) / 2;
+        leveys = (leveys - laatikoidenVasenReuna(painter)) / 2;
     else
         leveys = leveys / 4;
 
@@ -86,7 +115,7 @@ qreal LaskunAlaosa::laske(QPainter *painter)
         qreal leveampi = yhteyslaatikkoLeveys > tunnuslaatikkoLeveys ?
                     yhteyslaatikkoLeveys :
                     tunnuslaatikkoLeveys;
-        if( leveampi + osoitelaatikko_.koko().width() > leveys - 120 * mm) {
+        if( leveampi + osoitelaatikko_.koko().width() > leveys - laatikoidenVasenReuna(painter)) {
             yhteysKorkeus_ = osoitelaatikko_.koko().height() + yhteyslaatikkoKorkeus + painter->fontMetrics().height() ;
         }
 
@@ -133,7 +162,8 @@ void LaskunAlaosa::piirra(QPainter *painter, const Lasku &lasku)
     painter->translate(0, maksuKorkeus_ + painter->fontMetrics().horizontalAdvance("ii"));
 
     if( viivakoodi_ && !tilisiirto_ && maksulaatikko_.sarakkeita() > 2) {
-        osoitelaatikko_.piirra(painter, mm * 110, 0, kehysVari_);
+        const qreal laatikot = laatikoidenVasenReuna(painter);
+        osoitelaatikko_.piirra(painter, laatikot, 0, kehysVari_);
 
         qreal yhteyslaatikkoLeveys = yhteyslaatikko_.koko().width();
         qreal tunnuslaatikkoLeveys = tunnuslaatikko_.koko().width();
@@ -141,16 +171,16 @@ void LaskunAlaosa::piirra(QPainter *painter, const Lasku &lasku)
                     yhteyslaatikkoLeveys :
                     tunnuslaatikkoLeveys;
 
-        if( leveampi + osoitelaatikko_.koko().width() > leveys - 120 * mm) {
+        if( leveampi + osoitelaatikko_.koko().width() > leveys - laatikot) {
             // Kaikki päällekkäin
-            yhteyslaatikko_.piirra(painter, mm * 110, osoitelaatikko_.koko().height() + painter->fontMetrics().height(), kehysVari_ );
-            tunnuslaatikko_.piirra(painter, mm * 110, osoitelaatikko_.koko().height() + yhteyslaatikko_.koko().height() + painter->fontMetrics().height(), kehysVari_ );
+            yhteyslaatikko_.piirra(painter, laatikot, osoitelaatikko_.koko().height() + painter->fontMetrics().height(), kehysVari_ );
+            tunnuslaatikko_.piirra(painter, laatikot, osoitelaatikko_.koko().height() + yhteyslaatikko_.koko().height() + painter->fontMetrics().height(), kehysVari_ );
         } else {
             yhteyslaatikko_.piirra(painter, leveys - leveampi, 0, kehysVari_);
             tunnuslaatikko_.piirra(painter, leveys - leveampi, yhteyslaatikko_.koko().height(), kehysVari_);
         }
 
-        piirraViivakoodi(painter, QRectF(mm*5, mm*5, mm*100, mm*13), lasku);
+        piirraViivakoodi(painter, QRectF(viivakoodinVasenReuna(painter), mm*5, mm*VIIVAKOODIN_LEVEYS_MM, mm*13), lasku);
     } else {
         osoitelaatikko_.piirra(painter, 0, 0, kehysVari_);
         yhteyslaatikko_.piirra(painter,
@@ -347,7 +377,9 @@ void LaskunAlaosa::piirraTilisiirto(QPainter *painter, const Lasku &lasku)
     painter->drawText( QRectF(eurv + 2 * mm, mm*62.3, mm*19, mm*8.5), Qt::AlignLeft, kaanna("eur"));
 
     painter->setFont(QFont("FreeSans",6));
-    painter->drawText( QRectF( loppu - mm * 60, mm * 72, mm * 60, mm * 20), Qt::AlignLeft | Qt::TextWordWrap, kaanna("behto") );
+    // Kirjainten reunat voivat ulottua tekstilaatikon vasemmalle puolelle
+    const qreal behtoVasen = qMax( loppu - mm * 60, laatikoidenVasenReuna(painter) + mm );
+    painter->drawText( QRectF( behtoVasen, mm * 72, loppu - behtoVasen, mm * 20), Qt::AlignLeft | Qt::TextWordWrap, kaanna("behto") );
     painter->setPen( QPen( QBrush(Qt::black), mm * 0.5));
     painter->drawLine(QLineF(pv,0,pv,mm*69.8));
     painter->drawLine(QLineF(0, mm*16.9, pv, mm*16.9));
@@ -391,24 +423,16 @@ void LaskunAlaosa::piirraTilisiirto(QPainter *painter, const Lasku &lasku)
     // Viivakoodi
     if( viivakoodi_ )
     {
-        piirraViivakoodi(painter, QRectF( mm*10, mm*72, mm*100, mm*13), lasku);
+        piirraViivakoodi(painter, QRectF( viivakoodinVasenReuna(painter), mm*72, mm*VIIVAKOODIN_LEVEYS_MM, mm*13), lasku);
     }
     painter->restore();
 }
 
 void LaskunAlaosa::piirraViivakoodi(QPainter *painter, const QRectF &rect, const Lasku &lasku)
 {
-    painter->save();
-
-    QFont koodifontti( "code128_XL", 36);
-    koodifontti.setLetterSpacing(QFont::AbsoluteSpacing, 0.0);
-    painter->setFont( koodifontti);
-    QString koodi( code128( lasku.virtuaaliviivakoodi( ibanit_.value(0),
-                                                       interface_->asetukset()->onko(AsetusModel::LaskuRF)) ) );
-    painter->drawText( rect, Qt::AlignCenter, koodi  );
-
-    painter->restore();
-
+    Code128::piirra( painter, rect,
+                     lasku.virtuaaliviivakoodi( ibanit_.value(0),
+                                                interface_->asetukset()->onko(AsetusModel::LaskuRF)) );
 }
 
 QString LaskunAlaosa::code128(const QString &koodattava)
