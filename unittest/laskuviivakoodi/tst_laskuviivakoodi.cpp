@@ -29,6 +29,7 @@
 #include "laskutus/tulostus/code128.h"
 #include "laskutus/tulostus/laskunalaosa.h"
 #include "model/lasku.h"
+#include "raportti/raportinkirjoittaja.h"
 
 namespace {
 
@@ -39,6 +40,11 @@ const qreal PIKSELIA_MM = DPI / 25.4;
 bool tumma(const QImage& kuva, int x, int y)
 {
     return qGray(kuva.pixel(x, y)) < 128;
+}
+
+bool valkoinen(const QImage& kuva, int x, int y)
+{
+    return qGray(kuva.pixel(x, y)) >= 240;
 }
 
 int vaihtoja(const QImage& kuva, int y, int alku, int loppu)
@@ -76,6 +82,12 @@ private slots:
     void initTestCase();
     void tyhjatAlueet_data();
     void tyhjatAlueet();
+    void alvLaskelma_data();
+    void alvLaskelma();
+
+private:
+    void lataaAsetukset(bool tilisiirto, bool pitkat);
+    void tarkistaViivakoodi(const QString& polku, qreal etsintaAlkuMm, qreal etsintaLoppuMm);
 };
 
 void LaskuViivakoodiTesti::initTestCase()
@@ -104,23 +116,7 @@ void LaskuViivakoodiTesti::tyhjatAlueet()
     QFETCH(bool, tilisiirto);
     QFETCH(qreal, marginaali);
     QFETCH(bool, pitkat);
-
-    const QString nimi = pitkat ? QStringLiteral("Esimerkkiyhdistys Pitkänimisten Toiminimien Seura ry") : QStringLiteral("Esimerkki Oy");
-    kp()->asetukset()->lataa({
-        { "Nimi", nimi },
-        { "Katuosoite", pitkat ? QStringLiteral("Pitkäkatuisen Kaupunginosan Esimerkkikatu 123 B 45") : QStringLiteral("Katu 1") },
-        { "Postinumero", "00100" },
-        { "Kaupunki", "Helsinki" },
-        { "Puhelin", "040 123 4567" },
-        { "Sahkoposti", pitkat ? QStringLiteral("laskutus.ja.reskontra@esimerkkiyhdistys-pitkanimisten-seura.fi") : QStringLiteral("info@esimerkki.fi") },
-        { "Kotisivu", pitkat ? QStringLiteral("https://www.esimerkkiyhdistys-pitkanimisten-seura.fi") : QStringLiteral("esimerkki.fi") },
-        { "Ytunnus", "1234567-8" },
-        { "Kotipaikka", "Helsinki" },
-        { "LaskuIbanit", IBAN },
-        { "LaskuViivakoodi", "ON" },
-        { "LaskuTilisiirto", tilisiirto ? "ON" : "EI" },
-    });
-    kp()->tilit()->lataa({ QVariantMap{ { "numero", 1910 }, { "tyyppi", "ARP" }, { "iban", IBAN } } });
+    lataaAsetukset(tilisiirto, pitkat);
 
     const Lasku lasku( QVariantMap{
         { "summa", "4883.15" },
@@ -145,17 +141,85 @@ void LaskuViivakoodiTesti::tyhjatAlueet()
         alaosa.piirra(&painter, lasku);
     }
 
+    tarkistaViivakoodi(polku, 15, 125);
+}
+
+void LaskuViivakoodiTesti::alvLaskelma_data()
+{
+    QTest::addColumn<bool>("raidat");
+    QTest::newRow("ilman taustaraitoja") << false;
+    QTest::newRow("taustaraidoilla") << true;
+}
+
+void LaskuViivakoodiTesti::alvLaskelma()
+{
+    QFETCH(bool, raidat);
+    lataaAsetukset(false, false);
+
+    RaportinKirjoittaja rk;
+    rk.asetaOtsikko("ARVONLISÄVEROLASKELMA");
+    rk.lisaaPvmSarake();
+    rk.lisaaSarake("TOSITE12345");
+    rk.lisaaVenyvaSarake();
+    rk.lisaaVenyvaSarake();
+    rk.lisaaSarake("24,00 ");
+    rk.lisaaEurosarake();
+
+    // Raidoitus osuu riveille 3-5, joten viivakoodirivi on raidan kohdalla
+    for(int i = 0; i < 3; i++) {
+        RaporttiRivi rivi;
+        rivi.lisaa(QString("Rivi %1").arg(i), 6);
+        rk.lisaaRivi(rivi);
+    }
+    RaporttiRivi koodiRivi(RaporttiRivi::VIIVAKOODI);
+    koodiRivi.lisaa("", 2);
+    koodiRivi.lisaa(QStringLiteral("579440520200360820048831512000000000000000000123261231"), 2);
+    rk.lisaaRivi(koodiRivi);
+
+    QTemporaryDir hakemisto;
+    QVERIFY(hakemisto.isValid());
+    const QString polku = hakemisto.filePath("alv.pdf");
+    QFile tiedosto(polku);
+    QVERIFY(tiedosto.open(QIODevice::WriteOnly));
+    tiedosto.write( rk.pdf(raidat, true) );
+    tiedosto.close();
+
+    tarkistaViivakoodi(polku, 0, 210);
+}
+
+void LaskuViivakoodiTesti::lataaAsetukset(bool tilisiirto, bool pitkat)
+{
+    const QString nimi = pitkat ? QStringLiteral("Esimerkkiyhdistys Pitkänimisten Toiminimien Seura ry") : QStringLiteral("Esimerkki Oy");
+    kp()->asetukset()->lataa({
+        { "Nimi", nimi },
+        { "Katuosoite", pitkat ? QStringLiteral("Pitkäkatuisen Kaupunginosan Esimerkkikatu 123 B 45") : QStringLiteral("Katu 1") },
+        { "Postinumero", "00100" },
+        { "Kaupunki", "Helsinki" },
+        { "Puhelin", "040 123 4567" },
+        { "Sahkoposti", pitkat ? QStringLiteral("laskutus.ja.reskontra@esimerkkiyhdistys-pitkanimisten-seura.fi") : QStringLiteral("info@esimerkki.fi") },
+        { "Kotisivu", pitkat ? QStringLiteral("https://www.esimerkkiyhdistys-pitkanimisten-seura.fi") : QStringLiteral("esimerkki.fi") },
+        { "Ytunnus", "1234567-8" },
+        { "Kotipaikka", "Helsinki" },
+        { "LaskuIbanit", IBAN },
+        { "LaskuViivakoodi", "ON" },
+        { "LaskuTilisiirto", tilisiirto ? "ON" : "EI" },
+    });
+    kp()->tilit()->lataa({ QVariantMap{ { "numero", 1910 }, { "tyyppi", "ARP" }, { "iban", IBAN } } });
+}
+
+void LaskuViivakoodiTesti::tarkistaViivakoodi(const QString &polku, qreal etsintaAlkuMm, qreal etsintaLoppuMm)
+{
     const QImage kuva = renderoi(polku);
     QVERIFY(!kuva.isNull());
 
     const QString tallennus = qEnvironmentVariable("KITSAS_TESTI_PDF");
     if( !tallennus.isEmpty())
-        QFile::copy(polku, QDir(tallennus).filePath( QString(QTest::currentDataTag()).replace(' ', '_') + ".pdf"));
+        QFile::copy(polku, QDir(tallennus).filePath( QString("%1_%2.pdf").arg(QTest::currentTestFunction(), QTest::currentDataTag()).replace(' ', '_')));
 
     // Viivakoodi on pisin yhtenäinen joukko samanlaisia rivejä, joilla on paljon
     // palkkien ja välien vaihtoja. Tekstirivit eroavat toisistaan.
-    const int etsintaAlku = qRound(15 * PIKSELIA_MM);
-    const int etsintaLoppu = qRound(125 * PIKSELIA_MM);
+    const int etsintaAlku = qRound(etsintaAlkuMm * PIKSELIA_MM);
+    const int etsintaLoppu = qMin( kuva.width(), qRound(etsintaLoppuMm * PIKSELIA_MM));
     auto rivi = [&kuva, etsintaAlku, etsintaLoppu](int y) {
         return QByteArray::fromRawData( reinterpret_cast<const char*>(kuva.constScanLine(y)) + etsintaAlku * 4,
                                         (etsintaLoppu - etsintaAlku) * 4);
@@ -199,14 +263,15 @@ void LaskuViivakoodiTesti::tyhjatAlueet()
         QVERIFY2( qAbs(leveysMm - 100.0) <= 0.2,
                   qPrintable(QString("rivi %1: leveys %2 mm").arg(y).arg(leveysMm)));
 
-        for(int x = 0; x < ensimmainen; x++)
-            QVERIFY2( !tumma(kuva, x, y),
-                      qPrintable(QString("rivi %1: tummaa vasemmalla %2 mm").arg(y).arg(x / PIKSELIA_MM)));
+        // Palkin viereinen pikseli voi olla reunanpehmennyksen takia harmaa
+        for(int x = 0; x < ensimmainen - 1; x++)
+            QVERIFY2( valkoinen(kuva, x, y),
+                      qPrintable(QString("rivi %1: ei valkoista vasemmalla %2 mm").arg(y).arg(x / PIKSELIA_MM)));
 
         const int oikeaLoppu = qMin( kuva.width(), viimeinen + 1 + qRound(Code128::HILJAINEN_ALUE_MM * PIKSELIA_MM));
-        for(int x = viimeinen + 1; x < oikeaLoppu; x++)
-            QVERIFY2( !tumma(kuva, x, y),
-                      qPrintable(QString("rivi %1: tummaa oikealla %2 mm").arg(y).arg(x / PIKSELIA_MM)));
+        for(int x = viimeinen + 2; x < oikeaLoppu; x++)
+            QVERIFY2( valkoinen(kuva, x, y),
+                      qPrintable(QString("rivi %1: ei valkoista oikealla %2 mm").arg(y).arg(x / PIKSELIA_MM)));
     }
 }
 
