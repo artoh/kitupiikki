@@ -25,7 +25,7 @@
 #include "laskutus/nayukiQR/QrCode.hpp"
 #include "db/tositetyyppimodel.h"
 #include "model/tositeviennit.h"
-#include "laskutus/tulostus/laskunalaosa.h"
+#include "laskutus/tulostus/code128.h"
 
 #include <QScreen>
 #include <QClipboard>
@@ -280,10 +280,8 @@ void KiertoWidget::paivitaViivakoodi(const QString& viite)
         ui->viivakoodiLabel->hide();
         ui->svgWidget->hide();        
     } else {
-        QFont koodifontti( "code128_XL", 36);
-        koodifontti.setLetterSpacing(QFont::AbsoluteSpacing, 0.0);
-        ui->viivakoodiLabel->setFont(koodifontti);
-        ui->viivakoodiLabel->setText(LaskunAlaosa::code128(kululaskuVirtuaalikoodi()));
+        ui->viivakoodiLabel->setPixmap( QPixmap::fromImage(
+                Code128::kuva(kululaskuVirtuaalikoodi(), 1, devicePixelRatioF())));
         ui->viivakoodiLabel->show();
 
         ui->svgWidget->show();
