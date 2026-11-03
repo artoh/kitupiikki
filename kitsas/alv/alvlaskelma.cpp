@@ -26,6 +26,7 @@
 #include "pilvi/pilvimodel.h"
 #include <QDebug>
 #include "laskutus/iban.h"
+#include "laskutus/tulostus/code128.h"
 
 AlvLaskelma::AlvLaskelma(QObject *parent, const QString kielikoodi) :
   Raportteri (parent, kielikoodi),
@@ -276,10 +277,12 @@ void AlvLaskelma::kirjoitaMaksutiedot()
     rk.lisaaRivi(virtuaaliRivi);
     rk.lisaaTyhjaRivi();
 
-    RaporttiRivi koodiRivi(RaporttiRivi::VIIVAKOODI);
-    koodiRivi.lisaa("",2);
-    koodiRivi.lisaa(koodi,2);
-    rk.lisaaRivi(koodiRivi);
+    if( koodi.length() == Code128::VIRTUAALIVIIVAKOODIN_PITUUS ) {
+        RaporttiRivi koodiRivi(RaporttiRivi::VIIVAKOODI);
+        koodiRivi.lisaa("",2);
+        koodiRivi.lisaa(koodi,2);
+        rk.lisaaRivi(koodiRivi);
+    }
 
 }
 

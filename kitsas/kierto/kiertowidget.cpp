@@ -280,8 +280,10 @@ void KiertoWidget::paivitaViivakoodi(const QString& viite)
         ui->viivakoodiLabel->hide();
         ui->svgWidget->hide();        
     } else {
-        ui->viivakoodiLabel->setPixmap( QPixmap::fromImage(
-                Code128::kuva(kululaskuVirtuaalikoodi(), 1, devicePixelRatioF())));
+        const QString koodi = kululaskuVirtuaalikoodi();
+        ui->viivakoodiLabel->setPixmap( koodi.length() == Code128::VIRTUAALIVIIVAKOODIN_PITUUS
+                                        ? QPixmap::fromImage(Code128::kuva(koodi, 1, devicePixelRatioF()))
+                                        : QPixmap() );
         ui->viivakoodiLabel->show();
 
         ui->svgWidget->show();

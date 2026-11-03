@@ -69,6 +69,8 @@ public:
     static constexpr int START_C = 105;
     static constexpr int STOP = 106;
 
+    static constexpr int VIRTUAALIVIIVAKOODIN_PITUUS = 54;
+
     static constexpr qreal LEVEYS_MIN_MM = 70.0;
     static constexpr qreal LEVEYS_MAX_MM = 105.0;
     static constexpr qreal KORKEUS_MIN_MM = 10.0;

@@ -41,7 +41,6 @@ public:
 
     qreal alatunniste(QPainter* painter);
 
-    static QString code128(const QString& koodattava);
 private:
     void lataaIbanit();
     QString kaanna(const QString& avain) const;
@@ -54,8 +53,6 @@ private:
     void lisaaTunnukseen(const QString &avain, const QString& teksti);
     void piirraTilisiirto(QPainter* painter, const Lasku& lasku);
     void piirraViivakoodi(QPainter* painter, const QRectF& rect, const Lasku& lasku);
-
-    static QChar code128c(int koodattava);
 
     LaskuMaksuLaatikko maksulaatikko_;
     LaskuInfoLaatikko osoitelaatikko_;

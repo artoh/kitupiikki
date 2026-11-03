@@ -430,41 +430,9 @@ void LaskunAlaosa::piirraTilisiirto(QPainter *painter, const Lasku &lasku)
 
 void LaskunAlaosa::piirraViivakoodi(QPainter *painter, const QRectF &rect, const Lasku &lasku)
 {
-    Code128::piirra( painter, rect,
-                     lasku.virtuaaliviivakoodi( ibanit_.value(0),
-                                                interface_->asetukset()->onko(AsetusModel::LaskuRF)) );
-}
-
-QString LaskunAlaosa::code128(const QString &koodattava)
-{
-    QString koodi;
-    koodi.append( QChar(210) );   // Code C aloitusmerkki
-
-    int summa = 105;
-    int paino = 1;
-
-    if( koodattava.length() != 54)  // Pitää olla kelpo virtuaalikoodi
-        return QString();
-
-    for(int i = 0; i < koodattava.length(); i = i + 2)
-    {
-        int luku = koodattava.at(i).digitValue()*10 + koodattava.at(i+1).digitValue();
-        koodi.append( code128c(luku) );
-        summa += paino * luku;
-        paino++;
-    }
-
-    koodi.append( code128c( summa % 103 ) );
-    koodi.append( QChar(211) );
-
-    return koodi;
-}
-
-QChar LaskunAlaosa::code128c(int koodattava)
-{
-    if( koodattava < 95)
-        return QChar( 32 + koodattava);
-    else
-        return QChar( 105 + koodattava);
+    const QString koodi = lasku.virtuaaliviivakoodi( ibanit_.value(0),
+                                                     interface_->asetukset()->onko(AsetusModel::LaskuRF));
+    if( koodi.length() == Code128::VIRTUAALIVIIVAKOODIN_PITUUS )
+        Code128::piirra( painter, rect, koodi );
 }
 
