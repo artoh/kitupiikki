@@ -26,12 +26,13 @@
 #include <QPushButton>
 #include <QMessageBox>
 #include <QSettings>
+#include <QtMath>
 
 TuloveroDialog::TuloveroDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::TuloveroDialog)
 {
-    ui->setupUi(this);   
+    ui->setupUi(this);
 
 
     connect( ui->tuloEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaTulos);
@@ -43,10 +44,18 @@ TuloveroDialog::TuloveroDialog(QWidget *parent) :
 
     connect( ui->loppuTulosEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaVero);
 
+    connect( ui->prosenttiSpin, qOverload<double>(&QDoubleSpinBox::valueChanged), this, [this]() {
+        paivitaVero();
+        paivitaProsenttiVaroitus();
+    });
+
     connect( ui->veroEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaJaannos);
     connect( ui->maksetutEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaJaannos);
 
     connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("tilikaudet/tilinpaatos/tulovero/");});
+
+    ui->prosenttiVaroitusIcon->setVisible(false);
+    ui->prosenttiVaroitusLabel->setVisible(false);
 
     setAttribute(Qt::WA_DeleteOnClose);
 
@@ -63,12 +72,16 @@ TuloveroDialog::~TuloveroDialog()
 void TuloveroDialog::alusta(const QVariantMap &verolaskelma, const Tilikausi &tilikausi)
 {
     tilikausi_ = tilikausi;
+    saannonProsentti_ = laskentasaannonProsentti(tilikausi_.paattyy());
 
     ui->tuloEdit->setEuro( verolaskelma.value("tulo").toString());
 
     ui->vahennysEdit->setEuro(  verolaskelma.value("taysivahennys").toString() );
     ui->puoliVahennysEdit->setEuro( verolaskelma.value("puolivahennys").toString());
     ui->maksetutEdit->setEuro( verolaskelma.value("ennakko").toString());
+
+    ui->prosenttiSpin->setValue(saannonProsentti_);
+    paivitaProsenttiVaroitus();
 
     paivitaTulos();
 
@@ -139,20 +152,39 @@ void TuloveroDialog::paivitaTulos()
 void TuloveroDialog::paivitaLopullinenTulos()
 {
     ui->loppuTulosEdit->setEuro(ui->tulosEdit->euro() - ui->tappioEdit->euro());
-    paivitaVero();    
+    paivitaVero();
 }
 
 
 void TuloveroDialog::paivitaVero()
-{    
+{
 
     Euro tulos = ui->loppuTulosEdit->euro();
+    const double prosentti = ui->prosenttiSpin->value();
 
     if( tulos > Euro::Zero)
-        ui->veroEdit->setCents( (tulos / 5).cents() );    // 20 % vero
+        ui->veroEdit->setEuro( tulos * (prosentti / 100.0) );
     else
         ui->veroEdit->setEuro( Euro::Zero);
     paivitaJaannos();
+}
+
+void TuloveroDialog::paivitaProsenttiVaroitus()
+{
+    const double syotetty = ui->prosenttiSpin->value();
+    const bool poikkeaa = qAbs(syotetty - saannonProsentti_) > 0.001;
+
+    ui->prosenttiVaroitusIcon->setVisible(poikkeaa);
+    ui->prosenttiVaroitusLabel->setVisible(poikkeaa);
+
+    if( poikkeaa ) {
+        const int desimaalit = qFuzzyCompare(saannonProsentti_, qRound(saannonProsentti_)) ? 0 : 2;
+        ui->prosenttiVaroitusLabel->setText(
+            tr("Syötetty prosentti poikkeaa ohjelman laskentasäännöstä. "
+               "Verovuoden %1 yhteisöverokanta on %2 %.")
+                .arg(tilikausi_.paattyy().year())
+                .arg(saannonProsentti_, 0, 'f', desimaalit));
+    }
 }
 
 void TuloveroDialog::paivitaJaannos()
@@ -190,6 +222,8 @@ QByteArray TuloveroDialog::liite() const
     rivi(rk, tr("Vähennettävä aiempi tappio"), ui->tappioEdit->euro());
     rk.lisaaTyhjaRivi();
     rivi(rk, tr("Lopullinen verotettava tulos"), ui->loppuTulosEdit->euro());
+    riviTeksti(rk, tr("Tuloveroprosentti"),
+               QString("%1 %").arg(ui->prosenttiSpin->value(), 0, 'f', 2));
     rivi(rk, tr("Tuloveron määrä"), ui->veroEdit->euro());
     rk.lisaaTyhjaRivi();
     rivi(rk, tr("Maksetut tuloverot"), ui->maksetutEdit->euro());
@@ -204,4 +238,19 @@ void TuloveroDialog::rivi(RaportinKirjoittaja &rk, const QString &teksti, const 
     rivi.lisaa( teksti );
     rivi.lisaa( maara, true);
     rk.lisaaRivi(rivi);
+}
+
+void TuloveroDialog::riviTeksti(RaportinKirjoittaja &rk, const QString &teksti, const QString &arvo)
+{
+    RaporttiRivi rivi;
+    rivi.lisaa( teksti );
+    rivi.lisaa( arvo );
+    rk.lisaaRivi(rivi);
+}
+
+double TuloveroDialog::laskentasaannonProsentti(const QDate &tilikausiPaattyy)
+{
+    if( tilikausiPaattyy.year() >= 2027)
+        return 18.0;
+    return 20.0;
 }

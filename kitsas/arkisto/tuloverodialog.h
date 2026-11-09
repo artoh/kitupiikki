@@ -45,18 +45,22 @@ protected slots:
     void paivitaTulos();
     void paivitaLopullinenTulos();
     void paivitaVero();
-    void paivitaJaannos();    
+    void paivitaJaannos();
+    void paivitaProsenttiVaroitus();
 
     void kirjattu();
 
 protected:
     QByteArray liite() const;
     static void rivi(RaportinKirjoittaja& rk, const QString& teksti, const Euro& maara);
+    static void riviTeksti(RaportinKirjoittaja& rk, const QString& teksti, const QString& arvo);
+    static double laskentasaannonProsentti(const QDate& tilikausiPaattyy);
 
 
 private:
     Ui::TuloveroDialog *ui;
     Tilikausi tilikausi_;
+    double saannonProsentti_ = 20.0;
 };
 
 #endif // TULOVERODIALOG_H

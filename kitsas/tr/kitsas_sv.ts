@@ -15478,9 +15478,24 @@ För inköp av byggnadstjänster borde en moms om %L1 € redovisas</translation
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="47"/>
+        <source>Tuloveroprosentti</source>
+        <translation>Inkomstskattesats</translation>
+    </message>
+    <message>
+        <location filename="../arkisto/tuloverodialog.ui" line="91"/>
         <location filename="../arkisto/tuloverodialog.cpp" line="193"/>
         <source>Tuloveron määrä</source>
         <translation>Inkomstskattens belopp</translation>
+    </message>
+    <message>
+        <location filename="../arkisto/tuloverodialog.cpp" line="186"/>
+        <source>Syötetty prosentti poikkeaa ohjelman laskentasäännöstä. Verovuoden %1 yhteisöverokanta on %2 %.</source>
+        <translation>Den angivna procentsatsen avviker från programmets beräkningsregel. Bolagsskattesatsen för beskattningsåret %1 är %2 %.</translation>
+    </message>
+    <message>
+        <location filename="../arkisto/tuloverodialog.cpp" line="228"/>
+        <source>Tuloveroprosentti</source>
+        <translation>Inkomstskattesats</translation>
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="57"/>

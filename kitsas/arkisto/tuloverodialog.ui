@@ -42,6 +42,52 @@
    <item>
     <layout class="QGridLayout" name="gridLayout">
      <item row="9" column="0">
+      <widget class="QLabel" name="prosenttiLabel">
+       <property name="text">
+        <string>Tuloveroprosentti</string>
+       </property>
+       <property name="buddy">
+        <cstring>prosenttiSpin</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="1">
+      <widget class="QDoubleSpinBox" name="prosenttiSpin">
+       <property name="suffix">
+        <string> %</string>
+       </property>
+       <property name="decimals">
+        <number>2</number>
+       </property>
+       <property name="minimum">
+        <double>0.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>100.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="0">
+      <widget class="QLabel" name="prosenttiVaroitusIcon">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../pic/pic.qrc">:/pic/varoitus.png</pixmap>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="1">
+      <widget class="QLabel" name="prosenttiVaroitusLabel">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="0">
       <widget class="QLabel" name="label_4">
        <property name="text">
         <string>Tuloveron määrä</string>
@@ -71,7 +117,7 @@
        </property>
       </widget>
      </item>
-     <item row="13" column="1">
+     <item row="15" column="1">
       <widget class="KpEuroEdit" name="jaaveroaEdit"/>
      </item>
      <item row="0" column="0">
@@ -87,14 +133,14 @@
      <item row="6" column="1">
       <widget class="KpEuroEdit" name="tappioEdit"/>
      </item>
-     <item row="10" column="1">
+     <item row="12" column="1">
       <widget class="Line" name="line_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
-     <item row="13" column="0">
+     <item row="15" column="0">
       <widget class="QLabel" name="label_7">
        <property name="text">
         <string>Maksamaton tulovero</string>
@@ -104,7 +150,7 @@
        </property>
       </widget>
      </item>
-     <item row="11" column="0">
+     <item row="13" column="0">
       <widget class="QLabel" name="label_5">
        <property name="text">
         <string>Maksetut ennakkoverot</string>
@@ -124,7 +170,7 @@
        </property>
       </widget>
      </item>
-     <item row="11" column="1">
+     <item row="13" column="1">
       <widget class="KpEuroEdit" name="maksetutEdit"/>
      </item>
      <item row="8" column="1">
@@ -157,7 +203,7 @@
        </property>
       </widget>
      </item>
-     <item row="9" column="1">
+     <item row="11" column="1">
       <widget class="KpEuroEdit" name="veroEdit">
        <property name="readOnly">
         <bool>false</bool>
@@ -214,11 +260,14 @@
   <tabstop>tulosEdit</tabstop>
   <tabstop>tappioEdit</tabstop>
   <tabstop>loppuTulosEdit</tabstop>
+  <tabstop>prosenttiSpin</tabstop>
   <tabstop>veroEdit</tabstop>
   <tabstop>maksetutEdit</tabstop>
   <tabstop>jaaveroaEdit</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>
