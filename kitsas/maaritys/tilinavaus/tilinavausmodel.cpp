@@ -23,10 +23,7 @@
 #include <QSqlError>
 #include <QDebug>
 #include <QPalette>
-#include <QPalette>
-
-#include <QMessageBox>
-#include <QPalette>
+#include <QGuiApplication>
 
 #include "db/tositetyyppimodel.h"
 #include "model/tositevienti.h"
@@ -158,11 +155,11 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
     else if( role == Qt::ForegroundRole)
     {
         if( !tili.tila() )
-            return QColor( QPalette().base().color().lightness() > 128 ? Qt::darkGray : Qt::lightGray);
+            return QColor( QGuiApplication::palette().base().color().lightness() > 128 ? Qt::darkGray : Qt::lightGray);
         else if( tili.onko(TiliLaji::KAUDENTULOS))
-            return QPalette().color(QPalette::Disabled, QPalette::Text);
+            return QGuiApplication::palette().color(QPalette::Disabled, QPalette::Text);
         else
-            return QPalette().text().color();
+            return QGuiApplication::palette().text().color();
     }
     else if( role == Qt::DecorationRole && index.column() == ERITTELY) {
         if( tili.onko(TiliLaji::OTSIKKO) ||  tili.onko(TiliLaji::KAUDENTULOS) || tili.onko(TiliLaji::EDELLISTENTULOS))            
@@ -198,7 +195,7 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
     }
     else if( role == Qt::BackgroundRole) {
         if( tili.otsikkotaso())
-            return QPalette().mid().color();
+            return QGuiApplication::palette().mid().color();
     } else if( role == NimiRooli )
         return tili.nimi();
     else if( role == NumeroRooli)

@@ -27,6 +27,8 @@
 #include "maksatus/maksatusitem.h"
 #include "maksatus/maksutmodel.h"
 
+#include <QGuiApplication>
+
 LaskuTauluModel::LaskuTauluModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
@@ -152,8 +154,8 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
             if( index.column() == ERAPVM )
                 if( kp()->paivamaara().daysTo( map.value("erapvm").toDate() ) < 0 && map.value("avoin").toDouble() > 1e-5 ) {
                     const int tila = map.value("tila").toInt();
-                    if( (tila == Tosite::LAHETETAAN || tila == Tosite::LAHETYSVIRHE) && QPalette().base().color().lightness() < 128 ) {
-                        return QPalette().brightText().color();
+                    if( (tila == Tosite::LAHETETAAN || tila == Tosite::LAHETYSVIRHE) && QGuiApplication::palette().base().color().lightness() < 128 ) {
+                        return QGuiApplication::palette().brightText().color();
                     }
                     return QBrush(QColor(Qt::red));
                 }
@@ -286,7 +288,7 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
         const int tila = map.value("tila").toInt();
         if( tila == Tosite::LAHETETAAN || tila == Tosite::LAHETYSVIRHE ) {
             const bool alternateColor = index.row() % 2 == 1;
-            if( QPalette().base().color().lightness() > 128) {
+            if( QGuiApplication::palette().base().color().lightness() > 128) {
                 return alternateColor ? QBrush(QColor(255, 200, 77)) : QBrush(QColor(255,209,102));
             } else {
                 return alternateColor ? QBrush(QColor(204, 41, 0)) : QBrush(QColor(255,51,0));

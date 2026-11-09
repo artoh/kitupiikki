@@ -17,6 +17,7 @@
 
 #include "kaavankorostin.h"
 #include <QPalette>
+#include <QGuiApplication>
 
 KaavanKorostin::KaavanKorostin(QTextDocument *parent) :
     QSyntaxHighlighter( parent )
@@ -45,11 +46,11 @@ void KaavanKorostin::highlightBlock(const QString &text)
     }
     else if( text.startsWith("?"))
     {
-        setFormat(0, text.length(), QColor( QPalette().base().color().lightness() > 128 ? Qt::darkCyan : Qt::cyan));
+        setFormat(0, text.length(), QColor( QGuiApplication::palette().base().color().lightness() > 128 ? Qt::darkCyan : Qt::cyan));
     }
     else if( text.startsWith("@"))
     {
-        setFormat(0, text.length(), QColor( QPalette().base().color().lightness() > 128 ? Qt::darkGreen :  Qt::green));
+        setFormat(0, text.length(), QColor( QGuiApplication::palette().base().color().lightness() > 128 ? Qt::darkGreen :  Qt::green));
     }
     else
     {
@@ -63,12 +64,12 @@ void KaavanKorostin::highlightBlock(const QString &text)
                 tagialkaa = i;
             else if( merkki == '>' && tagialkaa > -1)
             {
-                setFormat(tagialkaa, i - tagialkaa + 1, QColor( QPalette().base().color().lightness() > 128 ? Qt::blue : Qt::yellow ));
+                setFormat(tagialkaa, i - tagialkaa + 1, QColor( QGuiApplication::palette().base().color().lightness() > 128 ? Qt::blue : Qt::yellow ));
                 tagialkaa = -1;
             } else if( i>0 && merkki == '{' && text.at(i-1) == '{') {
                 aaltoalkaa = i;
             } else if( i>0 && merkki == '}' && text.at(i-1) == '}') {
-                setFormat(aaltoalkaa, i - aaltoalkaa + 1, QColor( QPalette().base().color().lightness() > 128 ? Qt::darkRed : Qt::red ));
+                setFormat(aaltoalkaa, i - aaltoalkaa + 1, QColor( QGuiApplication::palette().base().color().lightness() > 128 ? Qt::darkRed : Qt::red ));
                 aaltoalkaa = -1;
             }
         }

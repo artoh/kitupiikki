@@ -43,7 +43,7 @@
      <item>
       <widget class="QLabel" name="tilaajilleLabel">
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 255, 0);</string>
+        <string notr="true">background-color: rgb(255, 255, 0); color: black;</string>
        </property>
        <property name="text">
         <string>Ominaisuus käytössä vain tilaajille</string>

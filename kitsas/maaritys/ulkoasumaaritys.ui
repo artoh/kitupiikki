@@ -26,6 +26,39 @@
      </property>
     </widget>
    </item>
+  <item>
+   <widget class="QGroupBox" name="teemaGroup">
+    <property name="title">
+     <string>Teema</string>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_5">
+     <item>
+      <widget class="QRadioButton" name="jarjestelmaTeema">
+       <property name="text">
+        <string>Järjestelmän asetus</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="vaaleaTeema">
+       <property name="text">
+        <string>Vaalea</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="tummaTeema">
+       <property name="text">
+        <string>Tumma</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </item>
    <item>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">

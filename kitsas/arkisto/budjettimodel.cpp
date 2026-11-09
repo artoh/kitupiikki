@@ -19,6 +19,7 @@
 
 #include <QSortFilterProxyModel>
 #include <QPalette>
+#include <QGuiApplication>
 #include <QFont>
 
 BudjettiModel::BudjettiModel(QObject *parent)
@@ -122,7 +123,7 @@ QVariant BudjettiModel::data(const QModelIndex &index, int role) const
     else if( role==Qt::BackgroundRole)
     {
         if( proxy_->data( proxy_->index(index.row(), TiliModel::NUMERO), TiliModel::OtsikkotasoRooli ).toInt() )
-            return QPalette().mid().color();
+            return QGuiApplication::palette().mid().color();
     }
 
 

@@ -23,7 +23,7 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>NSRequiresAquaSystemAppearance</key>
-	<true/>
+	<false/>
 	<key>NSSupportsAutomaticGraphicsSwitching</key>
 	<true/>
 </dict>
