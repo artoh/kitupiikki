@@ -32,7 +32,12 @@ void KirjanpitoDelegaatti::paint(QPainter *painter, const QStyleOptionViewItem &
     drawDecoration(painter, option, logoRect, logo);
 
     painter->save();
-    if( index.data(HarjoitusRooli).toBool()) {
+    if( index.data(LukittuRooli).toBool()) {
+        if( QPalette().base().color().lightness() > 128)
+            painter->setPen(QColor(Qt::darkGray));
+        else
+            painter->setPen(QColor(Qt::lightGray));
+    } else if( index.data(HarjoitusRooli).toBool()) {
         if( QPalette().base().color().lightness() > 128)
             painter->setPen(QColor(Qt::darkGreen));
         else
