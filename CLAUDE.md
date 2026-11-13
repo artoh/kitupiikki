@@ -24,6 +24,23 @@ To build only the app: `qmake kitsas/kitsas.pro && make`.
 - `kitsas/versio.h` defines `KITSAS_VERSIO`, `KITSAS_API` (cloud API URL) and optional `KITSAS_DEVEL` / `KITSAS_PORTABLE` flags.
 - Packaging/cross-compile scripts live in the repo root (`kaanna-*.sh` for MXE Windows builds, `paketoi-*.sh` for Linux packages, `mac/`).
 
+### Windows (native, MSVC)
+
+QtWebEngine is only shipped for MSVC on Windows, so a MinGW kit cannot build the app. Use a Qt 6 **MSVC 2022 64-bit** kit with these components installed (Qt Maintenance Tool → Additional Libraries): Qt WebEngine, Qt WebChannel, Qt Positioning, Qt PDF, and Qt 5 Compatibility Module. qmake fails with `Unknown module(s) in QT: webchannel` if WebChannel is missing.
+
+From `cmd`, out of source (e.g. a sibling `build-kitsas-msvc` directory):
+
+```bat
+call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
+set PATH=<Qt>\6.x.x\msvc2022_64\bin;<Qt>\Tools\QtCreator\bin\jom;%PATH%
+qmake <repo>\kitsas\kitsas.pro "CONFIG+=release" -after "LIBS-=-lopenjp2"
+jom
+```
+
+- The `windows {}` block in `kitsas.pro` links openjpeg from a hardcoded relative path, but no source uses it; `-after "LIBS-=-lopenjp2"` drops it without editing the file. libzip is not used on Windows (`USE_ZIPLIB` is Linux-only).
+- To run `release\kitsas.exe`, put the kit's `bin` on `PATH` or run `windeployqt` on it.
+- A development build shares settings with any installed Kitsas and reopens the last-used bookkeeping on startup — test against a copy, not real books.
+
 ## Tests
 
 Qt Test (`QTest`) executables, each its own qmake project:
