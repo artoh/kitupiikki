@@ -17,6 +17,7 @@
 */
 
 #include "mimetext.h"
+#include <QStringList>
 
 // #include <QStringEncoder> // Qt 6
 
@@ -54,7 +55,17 @@ const QString & MimeText::getText() const
 
 void MimeText::writeContent(QIODevice &device) const {
 //    MimePart::writeContent(device, QStringEncoder(this->cCharset.toStdString().c_str()).encode(text));
-      MimePart::writeContent( device, text.toUtf8() );
+    QString normalisoitu = text;
+    normalisoitu.replace("\r\n", "\n").replace('\r', '\n');
+
+    // SmtpClient ei tee pistetäytettä, joten pelkkä piste rivillä päättäisi viestin
+    QStringList rivit = normalisoitu.split('\n');
+    for (QString& rivi : rivit) {
+        if (rivi.startsWith('.'))
+            rivi.prepend('.');
+    }
+
+    MimePart::writeContent( device, rivit.join("\r\n").toUtf8() );
 }
 
 /* [3] --- */
