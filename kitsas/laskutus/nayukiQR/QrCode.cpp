@@ -179,7 +179,8 @@ std::string QrCode::toSvgString(int border) const {
 			}
 		}
 	}
-	sb << "\" fill=\"#000000\"/>\n";
+	// Qt 6.11+ QtSvg ignores stroke="none" and QPdfEngine then strokes every module; stroke-width="0" prevents that.
+	sb << "\" fill=\"#000000\" stroke-width=\"0\"/>\n";
 	sb << "</svg>\n";
 	return sb.str();
 }
