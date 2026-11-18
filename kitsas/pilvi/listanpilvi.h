@@ -17,6 +17,7 @@ public:
     QByteArray logo() const { return logo_;}
     bool ready() const { return ready_;}
     Badges badges() const { return badges_;}
+    bool lukittu() const { return lukittu_;}
 
     void asetaBadget(const QStringList& lista);
 
@@ -27,6 +28,7 @@ protected:
     QByteArray logo_;
     bool ready_;
     Badges badges_;
+    bool lukittu_ = false;
 
 };
 
