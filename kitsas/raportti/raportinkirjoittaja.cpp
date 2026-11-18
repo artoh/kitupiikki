@@ -28,8 +28,25 @@
 #include <QPdfWriter>
 
 #include "db/kirjanpito.h"
+#include "laskutus/tulostus/code128.h"
 
 #include <QDebug>
+
+namespace {
+
+constexpr qreal VIIVAKOODIN_LEVEYS_MM = 100.0;
+constexpr qreal VIIVAKOODIRIVIN_KORKEUS_MM = Code128::KORKEUS_MM + 2.0;
+
+QString viivakoodinNumerot(RaporttiRivi& rivi)
+{
+    for(int i = 0; i < rivi.sarakkeita(); i++) {
+        if( !rivi.teksti(i).isEmpty())
+            return rivi.teksti(i);
+    }
+    return QString();
+}
+
+}
 
 RaportinKirjoittaja::RaportinKirjoittaja(bool csvKaytossa) :
     csvKaytossa_( csvKaytossa)
@@ -155,10 +172,6 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
         pienennys++;
     }
 
-    QFont koodifontti( "code128_XL", 36);
-    koodifontti.setLetterSpacing(QFont::AbsoluteSpacing, 0.0);
-
-
     int rivinkorkeus = painter->fontMetrics().height();
     int sivunkorkeus = painter->window().height();
     const int sisennysMetrics = painter->fontMetrics().horizontalAdvance("XX");
@@ -210,13 +223,11 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
         if( !(rivi.kaytto() & RaporttiRivi::PDF))
             continue;
 
-        if( rivi.kaytto() == RaporttiRivi::VIIVAKOODI) {
-            painter->setFont(koodifontti);
-        } else {
-            fontti.setPointSize( rivi.pistekoko() - pienennys );
-            fontti.setBold( rivi.onkoLihava() );
-            painter->setFont(fontti);
-        }
+        const bool viivakoodi = rivi.kaytto() == RaporttiRivi::VIIVAKOODI;
+
+        fontti.setPointSize( rivi.pistekoko() - pienennys );
+        fontti.setBold( rivi.onkoLihava() );
+        painter->setFont(fontti);
 
         // Lasketaan ensin sarakkeiden rectit
         // ja samalla lasketaan taulukkoon liput
@@ -272,6 +283,9 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
             if( laatikot[i].height() > korkeinrivi )
                 korkeinrivi = laatikot[i].height();
         }
+
+        if( viivakoodi )
+            korkeinrivi = qRound( VIIVAKOODIRIVIN_KORKEUS_MM * mm );
 
         if( painter->transform().dy() > sivunkorkeus - korkeinrivi || rivi.kaytto() == RaporttiRivi::SIVUNVAIHTO)
         {
@@ -340,8 +354,9 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
             }
         }
 
-        // Jos raidoitus, niin raidoitetaan eli osan rivien taakse harmaata
-        if( raidoita && rivilla % 6 > 2)
+        // Jos raidoitus, niin raidoitetaan eli osan rivien taakse harmaata.
+        // Viivakoodin taustan ja tyhjien alueiden on oltava valkoisia.
+        if( raidoita && rivilla % 6 > 2 && !viivakoodi)
         {
             painter->save();
             painter->setBrush(QBrush(QColor(222,222,222)));
@@ -351,21 +366,24 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
 
         }
 
-        if( rivi.kaytto() == RaporttiRivi::VIIVAKOODI) {
-            painter->setFont(koodifontti);
-        } else {
-            fontti.setPointSize( rivi.pistekoko() - pienennys );
-            fontti.setBold( rivi.onkoLihava() );
-            painter->setFont(fontti);            
-        }
+        fontti.setPointSize( rivi.pistekoko() - pienennys );
+        fontti.setBold( rivi.onkoLihava() );
+        painter->setFont(fontti);
 
         painter->setPen(Qt::black);
 
         // Sitten tulostetaan tämä varsinainen rivi
-        for( int i=0; i < rivi.sarakkeita(); i++)
-        {
-            if( !laatikot[i].isEmpty())
-                painter->drawText( laatikot[i], liput[i] , tekstit[i] );
+        if( viivakoodi ) {
+            const qreal leveys = VIIVAKOODIN_LEVEYS_MM * mm;
+            Code128::piirra( painter,
+                             QRectF( (sivunleveys - leveys) / 2, mm, leveys, Code128::KORKEUS_MM * mm ),
+                             viivakoodinNumerot(rivi) );
+        } else {
+            for( int i=0; i < rivi.sarakkeita(); i++)
+            {
+                if( !laatikot[i].isEmpty())
+                    painter->drawText( laatikot[i], liput[i] , tekstit[i] );
+            }
         }
         if( rivi.onkoViivaa())  // Viivan tulostaminen rivin ylle
         {

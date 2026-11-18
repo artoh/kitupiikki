@@ -134,10 +134,6 @@ int main(int argc, char *argv[])
         QString monoPolku = tempPolku + "/FreeMono.ttf";
         QFile::copy(":/aloitus/FreeMono.ttf", monoPolku);
         QFontDatabase::addApplicationFont(monoPolku);
-
-        QString code128Polku = tempPolku + "/code128_XL.ttf";
-        QFile::copy(":/lasku/code128_XL.ttf", code128Polku);
-        QFontDatabase::addApplicationFont(code128Polku);
     }
 
     else
@@ -145,13 +141,11 @@ int main(int argc, char *argv[])
     {
         QFontDatabase::addApplicationFont(":/aloitus/FreeSans.ttf");
         QFontDatabase::addApplicationFont(":/aloitus/FreeMono.ttf");
-        QFontDatabase::addApplicationFont(":/lasku/code128_XL.ttf");
     }
 #else
 
     QFontDatabase::addApplicationFont(":/aloitus/FreeSans.ttf");
     QFontDatabase::addApplicationFont(":/aloitus/FreeMono.ttf");
-    QFontDatabase::addApplicationFont(":/lasku/code128_XL.ttf");
 
 #endif
 
