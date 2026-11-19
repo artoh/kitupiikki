@@ -29,6 +29,7 @@ SOURCES += \
     $$PWD/apuri/tiliote/tilioteharmaarivi.cpp \
     $$PWD/apuri/tiliote/tiliotekirjaaja.cpp \
     $$PWD/apuri/tiliote/tiliotekirjausrivi.cpp \
+    $$PWD/apuri/tiliote/tiliotemaksuproxy.cpp \
     $$PWD/apuri/tiliote/tiliotemodel.cpp \
     $$PWD/apuri/tiliote/tilioterivi.cpp \
     $$PWD/apuri/tiliote/tilioteviennit.cpp \
@@ -462,6 +463,7 @@ HEADERS += \
     $$PWD/apuri/tiliote/tilioteharmaarivi.h \
     $$PWD/apuri/tiliote/tiliotekirjaaja.h \
     $$PWD/apuri/tiliote/tiliotekirjausrivi.h \
+    $$PWD/apuri/tiliote/tiliotemaksuproxy.h \
     $$PWD/apuri/tiliote/tiliotemodel.h \
     $$PWD/apuri/tiliote/tilioterivi.h \
     $$PWD/apuri/tiliote/tilioteviennit.h \

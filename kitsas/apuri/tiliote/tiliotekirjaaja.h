@@ -31,6 +31,7 @@ class TilioteViennit;
 
 class QSortFilterProxyModel;
 class SiirtoApuri;
+class TilioteMaksuProxy;
 
 namespace Ui {
 class TilioteKirjaaja;
@@ -117,7 +118,7 @@ private:
     bool menoa_ = false;
     int nykyAliRiviIndeksi_ = 0;
 
-    QSortFilterProxyModel* maksuProxy_;    
+    TilioteMaksuProxy* maksuProxy_;
     QSortFilterProxyModel* avoinProxy_;
     QSortFilterProxyModel* veroFiltteri_;
 
