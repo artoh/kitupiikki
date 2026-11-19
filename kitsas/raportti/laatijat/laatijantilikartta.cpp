@@ -67,7 +67,7 @@ void LaatijanTilikartta::saldotSaapuu(QVariant *data)
     }
     if( kirjausohjeet)
     {
-        rk.lisaaSarake(" ");
+        rk.lisaaVenyvaSarake();
         otsikko.lisaa(kaanna("Kirjausohjeet"));
         csvOtsikko.lisaa(kaanna("Kirjausohjeet"));
     }
@@ -140,6 +140,11 @@ void LaatijanTilikartta::saldotSaapuu(QVariant *data)
             nimistr.append(tili->nimi(kielikoodi()));
             rr.lisaa(nimistr, 3);
 
+            if( tyypit )
+                rr.lisaa("");
+            if( saldopvm.isValid())
+                rr.lisaa("");
+
         }
         else
         {
@@ -155,15 +160,7 @@ void LaatijanTilikartta::saldotSaapuu(QVariant *data)
             csvr.lisaa( tili->nimi(kielikoodi()));
 
 
-            QString teksti = tili->nimi(kielikoodi());
-
-            if( kirjausohjeet )
-            {
-               if( !tili->ohje().isEmpty())
-                    teksti.append("\n" + tili->ohje(kielikoodi()));
-            }
-
-            rr.lisaaLinkilla(RaporttiRiviSarake::TILI_NRO, tili->numero(), teksti );
+            rr.lisaaLinkilla(RaporttiRiviSarake::TILI_NRO, tili->numero(), tili->nimi(kielikoodi()));
 
             if( tyypit)
             {
