@@ -25,6 +25,9 @@ public:
     AlvRoute(SQLiteModel *model);
 
     QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
+
+private:
+    QVariant eu(const QUrlQuery &urlquery);
 };
 
 #endif // ALVROUTE_H

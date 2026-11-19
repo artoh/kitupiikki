@@ -29,8 +29,8 @@
 #include "naytin/naytinikkuna.h"
 
 #include "db/kirjanpito.h"
-#include "ilmoitintuottaja.h"
 #include "pilvi/pilvimodel.h"
+#include "ilmoitintuottaja.h"
 #include "kieli/kielet.h"
 
 #include "alvilmoitustenmodel.h"
@@ -261,12 +261,10 @@ void AlvSivu::kausiValittu()
 
 void AlvSivu::pyydaYhteenvetoTiedot()
 {
-    if( qobject_cast<PilviModel*>(kp()->yhteysModel())) {
-        KpKysely* kysely = kpk("/alv/eu");
-        kysely->lisaaAttribuutti("pvm", kp()->paivamaara());
-        connect( kysely, &KpKysely::vastaus, this, &AlvSivu::yhteenvetoTiedotSaapuu);
-        kysely->kysy();
-    }
+    KpKysely* kysely = kpk("/alv/eu");
+    kysely->lisaaAttribuutti("pvm", kp()->paivamaara());
+    connect( kysely, &KpKysely::vastaus, this, &AlvSivu::yhteenvetoTiedotSaapuu);
+    kysely->kysy();
 }
 
 void AlvSivu::yhteenvetoTiedotSaapuu(QVariant *data)
