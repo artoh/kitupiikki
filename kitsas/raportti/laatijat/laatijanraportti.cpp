@@ -1,6 +1,8 @@
 #include "laatijanraportti.h"
 #include "../raportinlaatija.h"
 
+#include <QStringList>
+
 #include "db/kirjanpito.h"
 
 LaatijanRaportti::LaatijanRaportti(RaportinLaatija *laatija, const RaporttiValinnat &valinnat) :
@@ -30,6 +32,24 @@ void LaatijanRaportti::tyhja()
 QString LaatijanRaportti::kaanna(const QString &teksti) const
 {
     return tulkkaa(teksti, kielikoodi_);
+}
+
+QString LaatijanRaportti::kohdennuksetTeksti(const QVariantMap &data) const
+{
+    QStringList nimet;
+
+    const int kohdennus = data.value("kohdennus").toInt();
+    if( kohdennus )
+        nimet.append(kp()->kohdennukset()->kohdennus(kohdennus).nimi(kielikoodi()));
+
+    const QVariantList merkkaukset = data.value("merkkaukset").toList();
+    for( const QVariant& merkkaus : merkkaukset ) {
+        const QString nimi = kp()->kohdennukset()->kohdennus(merkkaus.toInt()).nimi(kielikoodi());
+        if( !nimi.isEmpty() && !nimet.contains(nimi) )
+            nimet.append(nimi);
+    }
+
+    return nimet.join(", ");
 }
 
 QString LaatijanRaportti::alvTeksti(const QVariantMap &data)

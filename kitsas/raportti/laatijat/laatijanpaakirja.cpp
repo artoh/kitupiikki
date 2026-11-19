@@ -216,7 +216,7 @@ void LaatijanPaakirja::kirjoitaDatasta()
 
 
                 if( valinnat().onko(RaporttiValinnat::TulostaKohdennus))
-                    rr.lisaa(kp()->kohdennukset()->kohdennus( vienti.value("kohdennus").toInt() ).nimi(kielikoodi()) );
+                    rr.lisaa(kohdennuksetTeksti(vienti));
                 if( valinnat().onko(RaporttiValinnat::NaytaAlvProsentti))
                     rr.lisaa(alvTeksti(vienti), 1, true);
 

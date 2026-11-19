@@ -168,7 +168,7 @@ void LaatijanPaivakirja::dataSaapuu(QVariant *data)
             rivi.lisaa( kaanna("tili_puuttuu") );
 
         if( valinnat().onko(RaporttiValinnat::TulostaKohdennus)  )
-            rivi.lisaa( kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() ).nimi(kielikoodi()) );
+            rivi.lisaa( kohdennuksetTeksti(map) );
 
         const QString kumppani = map.value("kumppani").toMap().value("nimi").toString();
         const QString selite = map.value("selite").toString();

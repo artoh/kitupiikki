@@ -37,7 +37,7 @@ void PvmRaporttiWidget::lataa()
     ui->kohdennusCombo->valitseNaytettavat(KohdennusProxyModel::KAIKKI);
     paivita();
 
-    if( !kp()->kohdennukset()->kohdennuksia()) {
+    if( !kp()->kohdennukset()->kohdennuksia() && !kp()->kohdennukset()->merkkauksia()) {
         ui->kohdennusCheck->setVisible(false);
         ui->kohdennusCombo->setVisible(false);
     } else {        
