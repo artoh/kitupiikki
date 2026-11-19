@@ -48,7 +48,11 @@ QWidget *TuontiSarakeDelegaatti::createEditor(QWidget *parent, const QStyleOptio
 
     comboon(combo, CsvTuonti::EITUODA);
 
-   if( !tuokirjauksia_ && ( tyyppi == CsvTuonti::VIITE || nykyinen == CsvTuonti::VIITE)) {
+   if( !tuokirjauksia_ && ( tyyppi == CsvTuonti::VIITE ||
+                            tyyppi == CsvTuonti::RAHA ||
+                            tyyppi == CsvTuonti::LUKU ||
+                            tyyppi == CsvTuonti::ALLESATA ||
+                            nykyinen == CsvTuonti::VIITENRO)) {
         comboon(combo, CsvTuonti::VIITENRO);
     }
 
