@@ -32,10 +32,19 @@ TilioteOtsake::TilioteOtsake(PdfTilioteTuonti *tuonti) :
 
 bool TilioteOtsake::alkaakoOtsake(PdfRivi* rivi)
 {
+    const QString teksti = rivi->teksti();
+    bool hasKirjaus = teksti.contains("Kirjaus", Qt::CaseInsensitive);
+    bool hasSelite = teksti.contains("Selite", Qt::CaseInsensitive);
+
+    // Tarkistetaan ensin "Kirjaus" + "Selite" yhdistelmä (toimii myös yksiosaisen otsikon kanssa)
+    // Tämä käsittelee pankit kuten Säästöpankki, joissa otsikko on yhdistetty yhteen tekstiosaan
+    if( hasKirjaus && hasSelite ) {
+        return true;
+    }
+
     if( rivi->paloja() < 2 )
         return false;
 
-    const QString teksti = rivi->teksti();
     return teksti.contains("Arkistointitunnus", Qt::CaseInsensitive) ||
            teksti.contains("Arkiveringskod", Qt::CaseInsensitive) ||
            ( teksti.contains("Kirjaus", Qt::CaseInsensitive) && ( teksti.contains("Pano", Qt::CaseInsensitive) || teksti.contains("Maksutiedot", Qt::CaseInsensitive) )) ||
@@ -46,6 +55,24 @@ void TilioteOtsake::kasitteleRivi(PdfRivi *rivi)
 {
     if(sarakkeet_.isEmpty()) {
         PdfPala* pala = rivi->pala();
+
+        // Tarkistetaan yksiosainen otsikko, jossa useita avainsanoja (esim. Säästöpankki)
+        // Otsikko kuten "Kirjauspäivämäärä Arvopäivämäärä Selite EUR" yhdistettynä yhteen osaan
+        if(rivi->paloja() == 1 && pala) {
+            QString teksti = pala->teksti().toUpper();
+            if(teksti.contains("KIRJAUS") && teksti.contains("SELITE")) {
+                // Luodaan sarakkeet tyypillisen asettelun mukaan:
+                // - Vasen sarake päivämäärälle/selitteelle (YLEINEN)
+                // - Oikea sarake euroille (EURO)
+                Sarake sarakeYleinen(pala->vasen(), 500, YLEINEN);
+                Sarake sarakeEuro(500, pala->oikea() > 500 ? pala->oikea() : 600, EURO);
+                sarakkeet_.append(sarakeYleinen);
+                sarakkeet_.append(sarakeEuro);
+                otsakeRivia_++;
+                return;
+            }
+        }
+
         while(pala) {
             Tyyppi tyyppi = tyyppiTekstilla( pala->teksti().toUpper() );
             Sarake sarake(pala->vasen(), pala->oikea(), tyyppi);
@@ -166,7 +193,10 @@ TilioteOtsake::Tyyppi TilioteOtsake::tyyppiTekstilla(const QString &teksti)
             return YLEINEN;
     }
 
-
+    // Kun otsikko sisältää sekä KIRJAUS että SELIT, se on yhdistetty kuvaus-sarake
+    // (esim. Säästöpankin muoto: "Kirjauspäivämäärä Arvopäivämäärä Selite")
+    if( teksti.contains("KIRJAUS") && teksti.contains("SELIT"))
+        return YLEINEN;
 
     if( teksti.contains("KIRJAUS") || teksti.contains("MAKSUP") || teksti.contains("ARVOP") || teksti.contains("DAG"))
         return PVM;

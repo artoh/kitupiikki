@@ -138,13 +138,20 @@ void PdfTilioteTuonti::lueTaulukkoRivi(PdfRivi *rivi)
     PdfPala* pala = rivi->pala();
     const QString& teksti = rivi->teksti();
 
-    // Ensin pitäisi tarkistaa, mennäänkö taulukosta ulos    
+    // Ensin pitäisi tarkistaa, mennäänkö taulukosta ulos
+    // Tarkistetaan alkaako rivi päivämäärämuodolla (tapahtumarivi)
+    static QRegularExpression transactionDateRe("^\\s*\\d{1,2}\\.\\d{1,2}\\s");
+    bool startsWithDate = transactionDateRe.match(pala->teksti()).hasMatch();
+    // Sisennetyt rivit (vasen > 80) ovat jatkorivejä, eivät poistumisen laukaisijoita
+    bool isIndented = pala->vasen() > 80;
+
     if(( pala->vasen() > 500 ||
        (otsake_.indeksiSijainnilla(pala->vasen()) == 0 &&
-        pala->teksti().contains(pieniRe__)))
+        pala->teksti().contains(pieniRe__) && !isIndented))
             && !teksti.contains("Kirjauspäivä", Qt::CaseInsensitive)
             && !teksti.startsWith("Registr. dag", Qt::CaseInsensitive)
-            && !pala->teksti().startsWith("SALDO", Qt::CaseInsensitive) ) {
+            && !pala->teksti().startsWith("SALDO", Qt::CaseInsensitive)
+            && !startsWithDate ) {
         tila_ = LOPPU;
         return;
     }
