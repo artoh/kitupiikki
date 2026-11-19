@@ -49,9 +49,11 @@ LiitteetModel::LiitteetModel(QObject *parent)
 
 LiitteetModel::~LiitteetModel()
 {
-    for(auto ptr: liitteet_)
-        delete ptr;
-    liitteet_.clear();
+    // QPdfDocument käyttää puskuria latauksen ja renderöinnin aikana. Suljetaan
+    // dokumentti ennen puskurin tai liitteiden sisältämän datan vapauttamista.
+    suljePdf();
+    tyhjennaLiitteet();
+    delete puskuri_;
 }
 
 int LiitteetModel::rowCount(const QModelIndex &parent) const
@@ -67,7 +69,7 @@ int LiitteetModel::rowCount(const QModelIndex &parent) const
 
 QVariant LiitteetModel::data(const QModelIndex &index, int role) const
 {
-    if (!index.isValid())
+    if (!index.isValid() || index.row() < 0 || index.row() >= liitteet_.count())
         return QVariant();
 
     // FIXME: Implement me!
@@ -109,10 +111,9 @@ Qt::ItemFlags LiitteetModel::flags(const QModelIndex &index) const
 
 void LiitteetModel::lataa(const QVariantList &data)
 {
+    suljePdf();
     beginResetModel();
-
-    clear();
-    naytettavaIndeksi_ = -1;
+    tyhjennaLiitteet();
 
     for(const auto& item : qAsConst(data)) {
         const QVariantMap& map = item.toMap();
@@ -122,25 +123,28 @@ void LiitteetModel::lataa(const QVariantList &data)
     endResetModel();
 
     // TODO: Parhaimman näytettävän tunnistus
-    if( interaktiivinen_) {
-        if(liitteet_.isEmpty()) {
-            nayta(-1);
-        } else {
-            nayta(0);
-        }
-    }
+    if( interaktiivinen_)
+        nayta(liitteet_.isEmpty() ? -1 : 0);
 
     tarkastaKaikkiLiitteet();
 }
 
 void LiitteetModel::clear()
 {
+    suljePdf();
     beginResetModel();
+    tyhjennaLiitteet();
+    endResetModel();
+    nayta(-1);
+}
+
+void LiitteetModel::tyhjennaLiitteet()
+{
     for(auto item: liitteet_)
         delete item;
     liitteet_.clear();
-    endResetModel();
-    nayta(-1);
+    naytettavaIndeksi_ = -1;
+    pdfTuontiIndeksi_ = -1;
 }
 
 void LiitteetModel::asetaInteraktiiviseksi(bool onko)
@@ -274,21 +278,23 @@ void LiitteetModel::poistaInboxistaLisattyjenTiedostot()
 
 void LiitteetModel::nayta(int indeksi)
 {
+    if( indeksi < 0 || indeksi >= liitteet_.count())
+        indeksi = -1;
+
+    // QPdfView voi renderöidä edellistä liitettä vielä valinnan vaihtuessa.
+    // Dokumentti pitää sulkea ennen sen taustalla olevan puskurin vaihtamista.
+    suljePdf();
     naytettavaIndeksi_ = indeksi;
-    puskuri_->close();
 
     emit valittuVaihtui(indeksi);
 
-    if( indeksi > -1) {
-        if( liitteet_.at(indeksi)->kaytettavissa()) {
-            naytaKayttajalle();
-        }
-    }
+    if( indeksi > -1 && liitteet_.at(indeksi)->kaytettavissa())
+        naytaKayttajalle();
 }
 
 QModelIndex LiitteetModel::naytettava() const
 {
-    if( naytettavaIndeksi_ < 0)
+    if( naytettavaIndeksi_ < 0 || naytettavaIndeksi_ >= liitteet_.count())
         return QModelIndex();
     else
         return index(naytettavaIndeksi_,0);
@@ -326,7 +332,7 @@ void LiitteetModel::poista(int indeksi)
 
 QByteArray *LiitteetModel::sisalto()
 {
-    if( naytettavaIndeksi_ < 0)
+    if( naytettavaIndeksi_ < 0 || naytettavaIndeksi_ >= liitteet_.count())
         return nullptr;
     QByteArray* data = liitteet_.at(naytettavaIndeksi_)->dataPtr();
     return data;
@@ -417,21 +423,36 @@ void LiitteetModel::naytaKayttajalle()
         if( data->startsWith("%PDF")) {
 //            qDebug() << "Lataus " << QDateTime::currentDateTime().toString("hh:mm:ss.zzz");
 
-            puskuri_->close();
-            puskuri_->setBuffer(data);
-            puskuri_->open(QIODevice::ReadOnly);
+            suljePdf();
+            // QBuffer omistaa viittauksen omaan QByteArray-kopioonsa. Näin
+            // liitteen poistaminen ei voi vapauttaa PDF:n taustadataa kesken
+            // QPdfDocumentin käytön.
+            puskuri_->setData(*data);
+            if( !puskuri_->open(QIODevice::ReadOnly))
+                return;
             pdfDoc_->load(puskuri_);
             emit naytaPdf();
         } else {
+            suljePdf();
             emit naytaSisalto();
         }
     }
 }
 
+void LiitteetModel::suljePdf()
+{
+    if( pdfDoc_->status() != QPdfDocument::Status::Null)
+        pdfDoc_->close();
+    puskuri_->close();
+    puskuri_->setData(QByteArray());
+}
+
 void LiitteetModel::pdfTilaVaihtui(QPdfDocument::Status status)
 {
 //    qDebug() << "Tila  " << QDateTime::currentDateTime().toString("hh:mm:ss.zzz");
-    qApp->processEvents();  // Jotta saadaan latausnäkymä
+    // Tapahtumia ei saa käsitellä tässä sisäkkäin: statusChanged voi tulla
+    // QPdfDocumentin oman signaaliketjun sisältä, jolloin processEvents voisi
+    // vaihtaa tositteen tai tuhota mallin kesken tämän metodin.
     if( status == QPdfDocument::Status::Ready && naytettavaIndeksi_ == pdfTuontiIndeksi_) {
         Tuonti::PdfTiedosto pdfTuonti(pdfDoc_);
 //        qDebug() << "Luettu " << QDateTime::currentDateTime().toString("hh:mm:ss.zzz");
