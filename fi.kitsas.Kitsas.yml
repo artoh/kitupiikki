@@ -1,0 +1,62 @@
+app-id: fi.kitsas.Kitsas
+runtime: org.kde.Platform
+runtime-version: '6.9'
+sdk: org.kde.Sdk
+base: io.qt.qtwebengine.BaseApp
+base-version: '6.9'
+command: kitsas
+
+finish-args:
+  # Windowing
+  - --share=ipc
+  - --socket=fallback-x11
+  - --socket=wayland
+  # GPU acceleration (QtWebEngine)
+  - --device=dri
+  # Network access (Kitsas cloud service)
+  - --share=network
+  # File access for bookkeeping databases
+  - --filesystem=home
+  # QtWebEngine dictionaries
+  - --env=QTWEBENGINE_DICTIONARIES_PATH=/app/qtwebengine_dictionaries
+
+cleanup-commands:
+  - /app/cleanup-BaseApp.sh
+
+modules:
+  # libzip – required by Kitsas on Linux
+  - name: libzip
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DBUILD_TOOLS=OFF
+      - -DBUILD_REGRESS=OFF
+      - -DBUILD_DOC=OFF
+      - -DBUILD_EXAMPLES=OFF
+    sources:
+      - type: archive
+        url: https://libzip.org/download/libzip-1.11.2.tar.xz
+        sha256: 5d471308cef4c4752bbcf973d9cd37ba4cb53739116c30349d4764ba1410dfc1
+
+  # Kitsas application
+  - name: kitsas
+    buildsystem: simple
+    build-options:
+      env:
+        QMAKEPATH: /app
+    build-commands:
+      - mkdir -p builddir
+      - cd builddir && qmake ../kitsas/kitsas.pro CONFIG+=release QMAKE_LIBDIR+=/app/lib64 QMAKE_LIBDIR+=/app/lib QMAKE_INCDIR+=/app/include && make -j${FLATPAK_BUILDER_N_JOBS}
+    sources:
+      - type: dir
+        path: .
+        skip:
+          - .git
+          - .flatpak-builder
+          - build-*
+    post-install:
+      - install -Dm755 builddir/kitsas ${FLATPAK_DEST}/bin/kitsas
+      - install -Dm644 kitsas.desktop ${FLATPAK_DEST}/share/applications/fi.kitsas.Kitsas.desktop
+      - install -Dm644 kitsas.svg ${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/fi.kitsas.Kitsas.svg
+      - install -Dm644 kitsas.png ${FLATPAK_DEST}/share/icons/hicolor/256x256/apps/fi.kitsas.Kitsas.png
+      - install -Dm644 fi.kitsas.Kitsas.metainfo.xml ${FLATPAK_DEST}/share/metainfo/fi.kitsas.Kitsas.metainfo.xml
