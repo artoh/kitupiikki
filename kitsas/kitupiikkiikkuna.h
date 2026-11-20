@@ -118,6 +118,7 @@ protected:
     bool eventFilter(QObject *watched, QEvent *event);
     void closeEvent(QCloseEvent* event);
     void resizeEvent(QResizeEvent* event);
+    void changeEvent(QEvent *event) override;
 
 protected:
 
@@ -161,6 +162,7 @@ protected:
 protected:
     QAction *lisaaSivu(const QString& nimi, const QString& kuva,
                           const QString& vihje, const QString& pikanappain, Sivu sivutunnus, KitupiikkiSivu *sivu);
+    void paivitaToolbarTyyli();
     void lisaaSivut();
 
     void luoHarjoitusDock();

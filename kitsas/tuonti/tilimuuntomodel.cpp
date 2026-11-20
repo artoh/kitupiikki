@@ -24,6 +24,7 @@
 #include "kirjaus/eurodelegaatti.h"
 
 #include <QPalette>
+#include <QGuiApplication>
 
 TilinMuunnos::TilinMuunnos(int numero, QString nimi, int muunnettu, Euro saldo)
     : alkuperainenTilinumero_(numero), tilinNimi_(nimi), muunnettuTilinumero_{muunnettu}, saldo_{saldo}
@@ -150,9 +151,9 @@ QVariant TiliMuuntoModel::data(const QModelIndex &index, int role) const
         Tili tili= kp()->tilit()->tiliNumerolla( rivi.muunnettu() );
         if( tili.onkoValidi()) {
             if(tili.nimi() == rivi.tiliNimi())
-                return QPalette().base().color().lightness() > 128 ? QColor(Qt::darkGreen) : QColor(Qt::green);
+                return QGuiApplication::palette().base().color().lightness() > 128 ? QColor(Qt::darkGreen) : QColor(Qt::green);
             else if(rivi.alkuperainen() != rivi.muunnettu())
-                return QPalette().base().color().lightness() > 128 ? QColor(Qt::darkMagenta) : QColor(Qt::magenta);
+                return QGuiApplication::palette().base().color().lightness() > 128 ? QColor(Qt::darkMagenta) : QColor(Qt::magenta);
         }
     }
 

@@ -12,6 +12,7 @@
 #include <QRegularExpression>
 #include <QSettings>
 #include "alv/alvkaudet.h"
+#include <QEvent>
 
 AloitusBrowser::AloitusBrowser(QWidget* parent) :
     QTextBrowser(parent)
@@ -28,6 +29,14 @@ void AloitusBrowser::paivita()
     } else {
         naytaTervetuloa();
     }
+}
+
+void AloitusBrowser::changeEvent(QEvent *event)
+{
+    if( event->type() == QEvent::PaletteChange || event->type() == QEvent::ApplicationPaletteChange ) {
+        paivita();
+    }
+    QTextBrowser::changeEvent(event);
 }
 
 void AloitusBrowser::haSaldot(const QDate &saldoPvm)

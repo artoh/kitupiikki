@@ -130,14 +130,14 @@ QVariant SQLiteModel::data(const QModelIndex &index, int role) const
     }
     if( role == Qt::ForegroundRole) {
         if( map.value("harjoitus").toBool()) {
-            if( QPalette().base().color().lightness() > 128)
+            if( QGuiApplication::palette().base().color().lightness() > 128)
                 return QColor(Qt::darkGreen);
             else
                 return QColor(Qt::green);
         }
         const QString& polku = map.value("polku").toString();
         if( polku.contains(QRegularExpression("\\d{6}")) ) {
-            if( QPalette().base().color().lightness() > 128)
+            if( QGuiApplication::palette().base().color().lightness() > 128)
                 return QColor(Qt::darkMagenta);
             else
                 return QColor(Qt::magenta);

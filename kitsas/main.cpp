@@ -60,13 +60,12 @@ int main(int argc, char *argv[])
 
     KitsasLokiModel::alusta();  
 
-#if defined (Q_OS_WIN) || defined (Q_OS_MACX)
     a.setStyle(QStyleFactory::create("Fusion"));
-#else
+#if !defined(Q_OS_WIN) && !defined(Q_OS_MACX)
     // #120 GNOME-ongelmien takia ei käytetä Linuxissa natiiveja dialogeja
     a.setAttribute(Qt::AA_DontUseNativeDialogs);
 #endif
-        
+
     QCommandLineParser parser;
     parser.addOptions({
                           {"api",
@@ -114,6 +113,7 @@ int main(int argc, char *argv[])
 #endif
 
     Kirjanpito::asetaInstanssi(&kirjanpito);
+    UlkoasuMaaritys::alustaTeema(a);
 
 #if defined (Q_OS_WIN)
     // Kierretään Qt:n bugi resurssitiedostosta ladattujen fonttien käytössä

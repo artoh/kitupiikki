@@ -32,6 +32,7 @@
 #include <QRandomGenerator>
 #include <QBrush>
 #include <QPalette>
+#include <QGuiApplication>
 #include <QtGlobal>
 
 TilioteKirjausRivi::TilioteKirjausRivi(TilioteModel *model) :
@@ -315,8 +316,10 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role, const QDate &alkuPvm
         return sarake == EURO || sarake == ALV ? QVariant(Qt::AlignRight | Qt::AlignVCenter) : QVariant(Qt::AlignLeft | Qt::AlignVCenter);
     case Qt::ForegroundRole:
         if( sarake == PVM && otsikko().isEmpty() && kumppani().isEmpty() && kirjausTilit().isEmpty() && !summa())
-            return QPalette().placeholderText();
-        return (sarake == SELITE && otsikko().isEmpty() ? QBrush(QPalette().base().color().lightness() > 128 ?  QColor(Qt::blue) : QColor(Qt::cyan)) : QPalette().text() );
+            return QGuiApplication::palette().placeholderText();
+        return (sarake == SELITE && otsikko().isEmpty()
+                    ? QBrush(QGuiApplication::palette().base().color().lightness() > 128 ? QColor(Qt::blue) : QColor(Qt::cyan))
+                    : QGuiApplication::palette().text());
     case TilaRooli:
         return peitetty() ? "-" : "AA";
     case LisaysIndeksiRooli:
