@@ -26,6 +26,11 @@
 #include <QStyle>
 #include <QStyleFactory>
 #include <QStyleHints>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+#include <QAccessibilityHints>
+#endif
+#include <QEvent>
+#include <QTimer>
 #include <QWidget>
 #include <memory>
 #include "kieli/kielet.h"
@@ -40,6 +45,9 @@ enum TeemaAsetus {
     TummaTeema = 2
 };
 
+// Teemavalinta vaatii korkean kontrastin tunnistuksen, joka tuli Qt 6.10:ssä.
+// Vanhemmilla versioilla käytetään aina järjestelmän värejä.
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
 QPalette fusionStandardPalette()
 {
     std::unique_ptr<QStyle> fusionStyle(QStyleFactory::create("Fusion"));
@@ -151,26 +159,70 @@ QPalette fusionLightPalette()
     return palette;
 }
 
-void refreshPaletteAwareWidgets(QApplication &app)
+int valittuTeema = JarjestelmanTeema;
+bool varapalettiKaytossa = false;
+
+// Kiinteä paletti otetaan käyttöön vain, jos alusta ei pystynyt
+// pakottamaan valittua teemaa. Korkean kontrastin tilassa järjestelmän
+// värit säilytetään aina.
+void tarkistaVarapaletti()
 {
-    const QPalette appPalette = app.palette();
-    const QWidgetList widgets = QApplication::allWidgets();
-    for (QWidget *widget : widgets) {
-        widget->setPalette(appPalette);
+    if (valittuTeema == JarjestelmanTeema || varapalettiKaytossa)
+        return;
+    if (QGuiApplication::styleHints()->accessibility()->contrastPreference()
+            == Qt::ContrastPreference::HighContrast)
+        return;
 
-        const QString style = widget->styleSheet();
-        if (style.contains("palette(", Qt::CaseInsensitive)) {
-            widget->setStyleSheet(QString());
-            widget->setStyleSheet(style);
-        }
+    const bool tumma = QGuiApplication::palette().window().color().lightness() < 128;
+    if (tumma == (valittuTeema == TummaTeema))
+        return;
 
-        if (QStyle *styleEngine = widget->style()) {
-            styleEngine->unpolish(widget);
-            styleEngine->polish(widget);
-        }
-        widget->update();
-    }
+    varapalettiKaytossa = true;
+    QApplication::setPalette(valittuTeema == TummaTeema ? fusionDarkPalette()
+                                                        : fusionLightPalette());
 }
+#endif
+
+bool tyylipaivitysOdottaa = false;
+
+// Tyylimääritysten palette(...)-viittaukset lasketaan vain tyyliä
+// asetettaessa. Päivitys ajastetaan, koska widgettien paletit päivittyvät
+// vasta sovelluksen palettitapahtuman jälkeen.
+void ajastaTyylipaivitys()
+{
+    if (tyylipaivitysOdottaa)
+        return;
+    tyylipaivitysOdottaa = true;
+    QTimer::singleShot(0, qApp, [] {
+        tyylipaivitysOdottaa = false;
+        const QWidgetList widgets = QApplication::allWidgets();
+        for (QWidget *widget : widgets) {
+            const QString tyyli = widget->styleSheet();
+            if (tyyli.contains("palette(", Qt::CaseInsensitive)) {
+                widget->setStyleSheet(QString());
+                widget->setStyleSheet(tyyli);
+            }
+        }
+    });
+}
+
+class PalettiSuodatin : public QObject
+{
+public:
+    using QObject::QObject;
+
+protected:
+    bool eventFilter(QObject *watched, QEvent *event) override
+    {
+        if (event->type() == QEvent::ApplicationPaletteChange && watched == qApp) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+            tarkistaVarapaletti();
+#endif
+            ajastaTyylipaivitys();
+        }
+        return QObject::eventFilter(watched, event);
+    }
+};
 
 } // namespace
 
@@ -192,9 +244,13 @@ UlkoasuMaaritys::UlkoasuMaaritys() :
     connect(ui->fonttiCombo, &QFontComboBox::currentFontChanged, this, &UlkoasuMaaritys::asetaFontti);
     connect(ui->kokoCombo, &QComboBox::currentTextChanged, this, &UlkoasuMaaritys::asetaFontti);
     connect(ui->saldotCheck, &QCheckBox::clicked, this, &UlkoasuMaaritys::naytaSaldot);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
     connect(ui->jarjestelmaTeema, &QRadioButton::clicked, this, &UlkoasuMaaritys::vaihdaTeema);
     connect(ui->vaaleaTeema, &QRadioButton::clicked, this, &UlkoasuMaaritys::vaihdaTeema);
     connect(ui->tummaTeema, &QRadioButton::clicked, this, &UlkoasuMaaritys::vaihdaTeema);
+#else
+    ui->teemaGroup->hide();
+#endif
 
     connect( ui->fiKieli, &QRadioButton::clicked, this, &UlkoasuMaaritys::vaihdaKieli);
     connect( ui->svKieli, &QRadioButton::clicked, this, &UlkoasuMaaritys::vaihdaKieli);
@@ -276,6 +332,7 @@ void UlkoasuMaaritys::naytaSaldot(bool naytetaanko)
 
 void UlkoasuMaaritys::vaihdaTeema()
 {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
     int teema = JarjestelmanTeema;
     if (ui->vaaleaTeema->isChecked()) {
         teema = VaaleaTeema;
@@ -287,6 +344,7 @@ void UlkoasuMaaritys::vaihdaTeema()
     if (QApplication *app = qobject_cast<QApplication *>(QCoreApplication::instance())) {
         asetaTeema(*app, teema);
     }
+#endif
 }
 
 void UlkoasuMaaritys::vaihdaKieli()
@@ -323,24 +381,40 @@ int UlkoasuMaaritys::teemaAsetus()
                 : JarjestelmanTeema;
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
 void UlkoasuMaaritys::asetaTeema(QApplication &app, int teemaAsetus)
 {
-    const bool dark = (teemaAsetus == TummaTeema) ||
-                      (teemaAsetus == JarjestelmanTeema &&
-                       QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark);
-    app.setPalette(dark ? fusionDarkPalette() : fusionLightPalette());
-    refreshPaletteAwareWidgets(app);
+    valittuTeema = JarjestelmanTeema;
+    if (varapalettiKaytossa) {
+        varapalettiKaytossa = false;
+        app.setPalette(QPalette());
+    }
+
+    QStyleHints *hints = QGuiApplication::styleHints();
+    switch (teemaAsetus) {
+    case VaaleaTeema:
+        hints->setColorScheme(Qt::ColorScheme::Light);
+        break;
+    case TummaTeema:
+        hints->setColorScheme(Qt::ColorScheme::Dark);
+        break;
+    default:
+        hints->unsetColorScheme();
+        return;
+    }
+
+    valittuTeema = teemaAsetus;
+    // Osa alustoista (esim. GNOME) vaihtaa teeman vasta tapahtumasilmukassa.
+    QTimer::singleShot(0, &app, tarkistaVarapaletti);
 }
+#endif
 
 void UlkoasuMaaritys::alustaTeema(QApplication &app)
 {
+    app.installEventFilter(new PalettiSuodatin(&app));
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
     asetaTeema(app, teemaAsetus());
-    QObject::connect(QGuiApplication::styleHints(), &QStyleHints::colorSchemeChanged,
-                     &app, [&app](Qt::ColorScheme) {
-        if (teemaAsetus() == JarjestelmanTeema) {
-            asetaTeema(app, JarjestelmanTeema);
-        }
-    });
+#endif
 }
 
 QFont UlkoasuMaaritys::oletusfontti__ = QFont();

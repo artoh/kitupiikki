@@ -514,17 +514,16 @@ void KitupiikkiIkkuna::paivitaToolbarTyyli()
     if(!toolbar)
         return;
 
-    if( kp()->pilvi()->pilviLoginOsoite() == KITSAS_API || qApp->property("demo").toBool()) {
-        const QString tausta = qApp->palette().color(QPalette::Mid).name(QColor::HexRgb);
-        const QString valittu = qApp->palette().color(QPalette::Window).name(QColor::HexRgb);
-        const QString tyyli = QString("QToolBar {background-color: %1; spacing: 5px; }  QToolBar::separator { border: none; margin-bottom: 16px; }  QToolButton { border: 0px solid lightgray; margin-right: 0px; width: 90%; margin-left: 3px; margin-top: 0px; border-top-left-radius: 6px; border-bottom-left-radius: 6px}  QToolButton:checked {background-color: %2; } QToolButton:hover { font-weight: bold; } ")
-                              .arg(tausta, valittu);
-        toolbar->setStyleSheet(QString());
-        toolbar->setStyleSheet(tyyli);
-    } else {
-        toolbar->setStyleSheet(QString());
-        toolbar->setStyleSheet("QToolBar {background-color: #FFA500; spacing: 5px; }  QToolBar::separator { border: none; margin-bottom: 16px; }  QToolButton { border: 0px solid lightgray; margin-right: 0px; width: 90%; margin-left: 3px; margin-top: 0px; border-top-left-radius: 6px; border-bottom-left-radius: 6px}  QToolButton:checked {background-color: palette(window); } QToolButton:hover { font-weight: bold; } ");
-    }
+    const QPalette paletti = qApp->palette();
+    const QString tausta = kp()->pilvi()->pilviLoginOsoite() == KITSAS_API || qApp->property("demo").toBool()
+                               ? paletti.color(QPalette::Mid).name(QColor::HexRgb)
+                               : QString("#FFA500");
+    const QString valittu = paletti.color(QPalette::Window).name(QColor::HexRgb);
+    const QString reuna = paletti.color(QPalette::WindowText).name(QColor::HexRgb);
+    const QString tyyli = QString("QToolBar {background-color: %1; spacing: 5px; }  QToolBar::separator { border: none; margin-bottom: 16px; }  QToolButton { border: 0px solid lightgray; border-left: 3px solid transparent; margin-right: 0px; width: 90%; margin-left: 3px; margin-top: 0px; border-top-left-radius: 6px; border-bottom-left-radius: 6px}  QToolButton:checked {background-color: %2; border-left-color: %3; } QToolButton:hover { font-weight: bold; } ")
+                              .arg(tausta, valittu, reuna);
+    toolbar->setStyleSheet(QString());
+    toolbar->setStyleSheet(tyyli);
 }
 
 void KitupiikkiIkkuna::lisaaSivut()
