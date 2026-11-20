@@ -8,7 +8,9 @@ TEMPLATE = app
 
 SOURCES +=  tst_validatortest.cpp \
     ../../kitsas/validator/ibanvalidator.cpp \
+    ../../kitsas/validator/maksuviestivalidator.cpp \
     ../../kitsas/laskutus/iban.cpp
 
 HEADERS += ../../kitsas/validator/ibanvalidator.h \
+    ../../kitsas/validator/maksuviestivalidator.h \
     ../../kitsas/laskutus/iban.h

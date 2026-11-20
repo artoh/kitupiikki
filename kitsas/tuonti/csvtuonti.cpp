@@ -331,6 +331,8 @@ QVariantMap CsvTuonti::tiliote()
                     pvm = QDate::fromString(tieto, "d.M.yyyy");
                 else if( muodot_.at(c) == ISOPVM )
                     pvm = QDate::fromString(tieto, Qt::ISODate);
+                else if( muodot_.at(c) == NDEAPVM )
+                    pvm = QDate::fromString(tieto, "yyyy/MM/dd");
                 else
                     pvm = QDate::fromString(tieto, Qt::RFC2822Date);
                 rivi.insert("pvm", pvm);
@@ -620,7 +622,7 @@ void CsvTuonti::paivitaOletukset()
             QString otsikko = otsikot.at(i).toLower() ;
             Sarakemuoto muoto = muodot_.at(i);
 
-            if( (muoto == SUOMIPVM || muoto == ISOPVM || muoto == USPVM)  && !pvmkaytetty )
+            if( (muoto == SUOMIPVM || muoto == ISOPVM || muoto == USPVM || muoto == NDEAPVM)  && !pvmkaytetty )
             {
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, PAIVAMAARA);
                 pvmkaytetty = true;
@@ -669,7 +671,7 @@ void CsvTuonti::paivitaOletukset()
             const QString& otsikko = otsikot.at(i);
             Sarakemuoto muoto = muodot_.at(i);
 
-            if( (muoto == SUOMIPVM || muoto==ISOPVM || muoto == USPVM) && !pvmkaytetty)
+            if( (muoto == SUOMIPVM || muoto==ISOPVM || muoto == USPVM || muoto == NDEAPVM) && !pvmkaytetty)
             {
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, PAIVAMAARA);
                 pvmkaytetty = true;

@@ -22,6 +22,7 @@
 #include <QDebug>
 #include <QFont>
 #include <QIcon>
+#include <QStack>
 
 #include <QMessageBox>
 
@@ -322,26 +323,24 @@ void TiliModel::lataa(QVariantList lista)
     tyhjenna();
 
 
-    QVector<Tili*> otsikot(10);
-    otsikot.fill(nullptr);
-    int ylinotsikkotaso = 0;
+    QStack<Tili*> otsikkopino;
 
     for( const auto& variant : qAsConst( lista ))
     {
         QVariantMap map = variant.toMap();
 
-        int otsikkotaso = 0;
         Tili *tili = new Tili( map );
         int nro = map.value("numero").toInt();
 
         QString tyyppikoodi = map.value("tyyppi").toString();
         if( tyyppikoodi.startsWith('H')) {   // Tyyppikoodi H1 tarkoittaa 1-tason otsikkoa jne.
-            otsikkotaso = tyyppikoodi.mid(1).toInt();
-            otsikot[otsikkotaso] = tili;
-            tili->asetaOtsikko( otsikot.at(otsikkotaso - 1) );
-            ylinotsikkotaso = otsikkotaso;
+            const int otsikkotaso = tyyppikoodi.mid(1).toInt();
+            while( !otsikkopino.isEmpty() && otsikkopino.top()->otsikkotaso() >= otsikkotaso )
+                otsikkopino.pop();
+            tili->asetaOtsikko( otsikkopino.isEmpty() ? nullptr : otsikkopino.top() );
+            otsikkopino.push(tili);
         } else {
-            tili->asetaOtsikko( otsikot.at(ylinotsikkotaso) );
+            tili->asetaOtsikko( otsikkopino.isEmpty() ? nullptr : otsikkopino.top() );
             nroHash_.insert( nro, tili );
         }
 

@@ -107,6 +107,7 @@ SOURCES += \
     $$PWD/laskutus/toimittaja/pdftoimittaja.cpp \
     $$PWD/laskutus/toimittaja/sahkopostitoimittaja.cpp \
     $$PWD/laskutus/tositerivialv.cpp \
+    $$PWD/laskutus/tulostus/code128.cpp \
     $$PWD/laskutus/tulostus/laskuinfolaatikko.cpp \
     $$PWD/laskutus/tulostus/laskumaksulaatikko.cpp \
     $$PWD/laskutus/tulostus/laskunalaosa.cpp \
@@ -392,6 +393,7 @@ SOURCES += \
     kirjaus/siirrydlg.cpp \
     tools/kpdateedit.cpp \
     validator/ytunnusvalidator.cpp \
+    validator/maksuviestivalidator.cpp \
     laskutus/laskusivu.cpp \
     naytin/naytinview.cpp \
     naytin/naytinikkuna.cpp \
@@ -543,6 +545,7 @@ HEADERS += \
     $$PWD/laskutus/toimittaja/pdftoimittaja.h \
     $$PWD/laskutus/toimittaja/sahkopostitoimittaja.h \
     $$PWD/laskutus/tositerivialv.h \
+    $$PWD/laskutus/tulostus/code128.h \
     $$PWD/laskutus/tulostus/laskuinfolaatikko.h \
     $$PWD/laskutus/tulostus/laskumaksulaatikko.h \
     $$PWD/laskutus/tulostus/laskunalaosa.h \
@@ -830,6 +833,7 @@ HEADERS += \
     kirjaus/siirrydlg.h \
     tools/kpdateedit.h \
     validator/ytunnusvalidator.h \
+    validator/maksuviestivalidator.h \
     laskutus/laskusivu.h \
     naytin/naytinview.h \
     naytin/naytinikkuna.h \

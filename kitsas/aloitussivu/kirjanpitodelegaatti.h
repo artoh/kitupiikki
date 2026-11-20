@@ -10,6 +10,7 @@ public:
     enum { LogoRooli = Qt::UserRole + 1000,
            AlustettuRooli = Qt::UserRole + 1001,
            HarjoitusRooli = Qt::UserRole + 1003,
+           LukittuRooli = Qt::UserRole + 1004,
            BadgesRooli = Qt::UserRole + 1100
 
     };

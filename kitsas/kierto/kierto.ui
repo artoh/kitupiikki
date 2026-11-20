@@ -111,11 +111,6 @@
        </item>
        <item>
         <widget class="QLabel" name="viivakoodiLabel">
-         <property name="font">
-          <font>
-           <pointsize>30</pointsize>
-          </font>
-         </property>
          <property name="styleSheet">
           <string notr="true">background-color: rgb(255, 255, 255);
 color: rgb(0, 0, 0);</string>

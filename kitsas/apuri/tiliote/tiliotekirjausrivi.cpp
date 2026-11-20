@@ -244,7 +244,7 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role, const QDate &alkuPvm
         case TILI:
             return rivit_.value(0).tilinumero();
         case EURO:
-            return summa().toDouble();
+            return QVariant::fromValue(summa());
         case ALV:
             return rivit_.value(0).alvkoodi() +
                    (int) (rivit_.value(0).alvprosentti()*100) * 100;
@@ -423,8 +423,10 @@ bool TilioteKirjausRivi::setRiviData(int sarake, const QVariant &value)
         if( rivit_.count() == 1)
             rivit_[0].setSelite(value.toString());
         break;
-    case EURO:
-        Euro summa = Euro::fromVariant(value);
+    case EURO: {
+        Euro summa = (value.type() == QVariant::Double)
+            ? Euro::fromDouble(value.toDouble())
+            : Euro::fromVariant(value);
         summa_ = summa;
         if( rivit_[0].naytaBrutto())
             rivit_[0].setBrutto(summa.abs());
@@ -432,6 +434,7 @@ bool TilioteKirjausRivi::setRiviData(int sarake, const QVariant &value)
             rivit_[0].setNetto(summa.abs());
         paivitaTyyppi();
         break;
+    }
     }
     return true;
 }

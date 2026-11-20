@@ -19,7 +19,7 @@ ListanPilvi::ListanPilvi(const QVariant &variant)
     ready_ = map.value("initialized", true).toBool();
 
     badges_ = map.value("badges").toStringList();
-
+    lukittu_ = map.value("isLocked").toBool();
 
     logo_ = QByteArray::fromBase64(map.value("logo").toByteArray());
 }

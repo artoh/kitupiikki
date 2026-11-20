@@ -7,4 +7,6 @@ SUBDIRS = kitsas/kitsas.pro \
 	testit/testit.pro \
 	unittest/eurotest \
 	unittest/tositerivitesti \
-	unittest/viitetesti
+	unittest/viitetesti \
+	unittest/code128testi \
+	unittest/laskuviivakoodi

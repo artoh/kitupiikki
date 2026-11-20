@@ -14133,9 +14133,24 @@ VAT to be paid on purchases of construction services: %L1 €</translation>
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="47"/>
+        <source>Tuloveroprosentti</source>
+        <translation>Corporate income tax rate</translation>
+    </message>
+    <message>
+        <location filename="../arkisto/tuloverodialog.ui" line="91"/>
         <location filename="../arkisto/tuloverodialog.cpp" line="193"/>
         <source>Tuloveron määrä</source>
         <translation>Amount of income tax</translation>
+    </message>
+    <message>
+        <location filename="../arkisto/tuloverodialog.cpp" line="186"/>
+        <source>Syötetty prosentti poikkeaa ohjelman laskentasäännöstä. Verovuoden %1 yhteisöverokanta on %2 %.</source>
+        <translation>The entered rate differs from the program&apos;s calculation rule. The corporate income tax rate for tax year %1 is %2 %.</translation>
+    </message>
+    <message>
+        <location filename="../arkisto/tuloverodialog.cpp" line="228"/>
+        <source>Tuloveroprosentti</source>
+        <translation>Corporate income tax rate</translation>
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="100"/>

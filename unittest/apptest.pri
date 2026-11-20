@@ -8,6 +8,8 @@ QT += printsupport
 QT += network
 QT += svg
 QT += xml
+QT += pdf
+QT += pdfwidgets
 
 LIBS += -lpoppler-qt5
 LIBS += -lpoppler

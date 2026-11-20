@@ -75,10 +75,16 @@ QVariant PilviModel::data(const QModelIndex &index, int role) const
         return pilvi.logo();
     case KirjanpitoDelegaatti::HarjoitusRooli:
         return pilvi.kokeilu();
+    case KirjanpitoDelegaatti::LukittuRooli:
+        return pilvi.lukittu();
     case KirjanpitoDelegaatti::AlustettuRooli:
         return pilvi.ready();
     case KirjanpitoDelegaatti::BadgesRooli:
         return pilvi.badges().badges();
+    case Qt::ToolTipRole:
+        if( pilvi.lukittu())
+            return tr("Kirjanpito on lukittu. Voit silti avata sen selattavaksi.");
+        return QVariant();
     default:
         return QVariant();
     }
