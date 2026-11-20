@@ -46,7 +46,9 @@ protected slots:
 
 private:
     static int teemaAsetus();
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
     static void asetaTeema(QApplication &app, int teemaAsetus);
+#endif
     Ui::Ulkoasu *ui;
 public:
     static QFont oletusfontti__;
