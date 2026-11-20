@@ -95,6 +95,9 @@ void TilikausiMuokkausDlg::accept()
         paatosPaiva <= kausi_.paattyy() &&
         paatosPaiva > uusi.paattyy()) {
         kp()->asetukset()->aseta("TilitPaatetty", uusi.paattyy());
+    } else if( ui->lukittuCheck->isChecked() &&
+               paatosPaiva < kausi_.alkaa()) {
+        kp()->asetukset()->aseta("TilitPaatetty", uusi.paattyy());
     } else if( !ui->lukittuCheck->isChecked() &&
                paatosPaiva >= uusi.alkaa()) {
         kp()->asetukset()->aseta("TilitPaatetty", uusi.alkaa().addDays(-1));
