@@ -85,6 +85,11 @@ bool YhteysModel::onkoOikeutta(qlonglong oikeus)
     return oikeudet() & oikeus;
 }
 
+bool YhteysModel::onkoKaikkiOikeudet(qlonglong vaaditut) const
+{
+    return vaaditut && (oikeudet() & vaaditut) == vaaditut;
+}
+
 
 void YhteysModel::initSaapuu(QVariant *reply)
 {

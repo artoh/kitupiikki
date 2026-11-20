@@ -78,6 +78,7 @@ public:
     void lataaInit(QVariant* reply);
     virtual qlonglong oikeudet() const = 0;
     bool onkoOikeutta(qlonglong oikeus);
+    bool onkoKaikkiOikeudet(qlonglong vaaditut) const;
 
 private slots:
     void initSaapuu(QVariant* reply);

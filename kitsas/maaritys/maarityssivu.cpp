@@ -327,6 +327,7 @@ void MaaritysSivu::paivitaNakyvat()
     item( LASKUTUS )->setHidden( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN | YhteysModel::LASKU_LAHETTAMINEN) );
     item( LASKUTEKSTIT )->setHidden( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN | YhteysModel::LASKU_LAHETTAMINEN) );
     item( BANNERIT )->setHidden( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN | YhteysModel::LASKU_LAHETTAMINEN) );
+    item( LIITETIETOKAAVA )->setHidden( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoKaikkiOikeudet(YhteysModel::ASETUKSET) );
     item( KIERTO )->setHidden( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::KIERTO_SELAAMINEN | YhteysModel::KIERTO_LISAAMINEN | YhteysModel::KIERTO_TARKASTAMINEN | YhteysModel::KIERTO_HYVAKSYMINEN) );
 
     // TODO: Disablointi palvelimen mukaan
