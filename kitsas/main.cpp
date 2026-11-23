@@ -60,8 +60,9 @@ int main(int argc, char *argv[])
 
     KitsasLokiModel::alusta();  
 
+#if defined (Q_OS_WIN) || defined (Q_OS_MACX)
     a.setStyle(QStyleFactory::create("Fusion"));
-#if !defined(Q_OS_WIN) && !defined(Q_OS_MACX)
+#else
     // #120 GNOME-ongelmien takia ei käytetä Linuxissa natiiveja dialogeja
     a.setAttribute(Qt::AA_DontUseNativeDialogs);
 #endif
