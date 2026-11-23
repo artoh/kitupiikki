@@ -32,15 +32,34 @@ chmod +x linuxdeploy*.AppImage
 # Ilman tätä libqgtk3.so jää pois, eikä sovellus seuraa järjestelmän tummaa/vaaleaa teemaa
 export DEPLOY_PLATFORM_THEMES=1
 
+# GTK ja sen riippuvuudet on otettava käyttäjän koneelta, jotta teemat ja asetukset toimivat
+GTK_POISTOT=(
+    --exclude-library 'libgtk-3.so*'
+    --exclude-library 'libgdk-3.so*'
+    --exclude-library 'libgdk_pixbuf-2.0.so*'
+    --exclude-library 'libatk-1.0.so*'
+    --exclude-library 'libatk-bridge-2.0.so*'
+    --exclude-library 'libcairo.so*'
+    --exclude-library 'libcairo-gobject.so*'
+    --exclude-library 'libpango-1.0.so*'
+    --exclude-library 'libpangocairo-1.0.so*'
+    --exclude-library 'libpangoft2-1.0.so*'
+    --exclude-library 'libepoxy.so*'
+    --exclude-library 'libwayland-cursor.so*'
+    --exclude-library 'libwayland-egl.so*'
+    --exclude-library 'libwayland-server.so*'
+)
+
 ./linuxdeploy-plugin-qt-x86_64.AppImage --appdir AppDir \
     --exclude-library libqsqlmimer.so \
     --exclude-library libqsqlodbc.so \
     --exclude-library libqsqlmysql.so \
     --exclude-library libqsqlpsql.so \
     --exclude-library libqsqloci.so \
-    --exclude-library libqsqlibase.so
+    --exclude-library libqsqlibase.so \
+    "${GTK_POISTOT[@]}"
 
-./linuxdeploy-x86_64.AppImage --appdir AppDir --output appimage
+./linuxdeploy-x86_64.AppImage --appdir AppDir "${GTK_POISTOT[@]}" --output appimage
 
 mkdir -p $DISTDIR
 cp Kitsas*.AppImage $DISTDIR/Kitsas-$VERSION-x86_64.AppImage
