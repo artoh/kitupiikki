@@ -1,10 +1,10 @@
-!/bin/bash
+#!/bin/bash
 
 BUILDIR=build-linux-qt6
 QMAKE=~/Qt/6.12.0/gcc_64/bin/qmake
 
 DISTDIR=../dist
-VERSION=5.12-devel
+VERSION=5.12-devel-1
 LIBSSLPATH=/usr/lib/x86_64-linux-gnu/libssl.so.3
 LIBCRYPTOPATH=/usr/lib/x86_64-linux-gnu/libcrypto.so.3
 
@@ -29,6 +29,9 @@ chmod +x linuxdeploy*.AppImage
     -l $LIBSSLPATH \
     -l $LIBCRYPTOPATH \
 
+# Ilman tätä libqgtk3.so jää pois, eikä sovellus seuraa järjestelmän tummaa/vaaleaa teemaa
+export DEPLOY_PLATFORM_THEMES=1
+
 ./linuxdeploy-plugin-qt-x86_64.AppImage --appdir AppDir \
     --exclude-library libqsqlmimer.so \
     --exclude-library libqsqlodbc.so \
@@ -39,5 +42,6 @@ chmod +x linuxdeploy*.AppImage
 
 ./linuxdeploy-x86_64.AppImage --appdir AppDir --output appimage
 
+mkdir -p $DISTDIR
 cp Kitsas*.AppImage $DISTDIR/Kitsas-$VERSION-x86_64.AppImage
 
