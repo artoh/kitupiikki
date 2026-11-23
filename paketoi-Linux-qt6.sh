@@ -1,10 +1,10 @@
 !/bin/bash
 
 BUILDIR=build-linux-qt6
-QMAKE=~/Qt/6.9.3/gcc_64/bin/qmake
+QMAKE=~/Qt/6.12.0/gcc_64/bin/qmake
 
 DISTDIR=../dist
-VERSION=5.11
+VERSION=5.12-devel
 LIBSSLPATH=/usr/lib/x86_64-linux-gnu/libssl.so.3
 LIBCRYPTOPATH=/usr/lib/x86_64-linux-gnu/libcrypto.so.3
 
