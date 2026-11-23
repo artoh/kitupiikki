@@ -25,15 +25,8 @@ wget https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/cont
 
 chmod +x linuxdeploy*.AppImage
 
-./linuxdeploy-x86_64.AppImage --appdir AppDir -e kitsas -i ../kitsas.png -d ../kitsas.desktop \
-    -l $LIBSSLPATH \
-    -l $LIBCRYPTOPATH \
-
-# Ilman tätä libqgtk3.so jää pois, eikä sovellus seuraa järjestelmän tummaa/vaaleaa teemaa
-export DEPLOY_PLATFORM_THEMES=1
-
-# GTK ja sen riippuvuudet on otettava käyttäjän koneelta, jotta teemat ja asetukset toimivat
-GTK_POISTOT=(
+# Nämä kirjastot on otettava käyttäjän koneelta
+POISTETTAVAT_KIRJASTOT=(
     --exclude-library 'libgtk-3.so*'
     --exclude-library 'libgdk-3.so*'
     --exclude-library 'libgdk_pixbuf-2.0.so*'
@@ -50,6 +43,14 @@ GTK_POISTOT=(
     --exclude-library 'libwayland-server.so*'
 )
 
+./linuxdeploy-x86_64.AppImage --appdir AppDir -e kitsas -i ../kitsas.png -d ../kitsas.desktop \
+    -l $LIBSSLPATH \
+    -l $LIBCRYPTOPATH \
+    "${POISTETTAVAT_KIRJASTOT[@]}"
+
+# Ilman tätä libqgtk3.so jää pois, eikä sovellus seuraa järjestelmän tummaa/vaaleaa teemaa
+export DEPLOY_PLATFORM_THEMES=1
+
 ./linuxdeploy-plugin-qt-x86_64.AppImage --appdir AppDir \
     --exclude-library libqsqlmimer.so \
     --exclude-library libqsqlodbc.so \
@@ -57,9 +58,9 @@ GTK_POISTOT=(
     --exclude-library libqsqlpsql.so \
     --exclude-library libqsqloci.so \
     --exclude-library libqsqlibase.so \
-    "${GTK_POISTOT[@]}"
+    "${POISTETTAVAT_KIRJASTOT[@]}"
 
-./linuxdeploy-x86_64.AppImage --appdir AppDir "${GTK_POISTOT[@]}" --output appimage
+./linuxdeploy-x86_64.AppImage --appdir AppDir "${POISTETTAVAT_KIRJASTOT[@]}" --output appimage
 
 mkdir -p $DISTDIR
 cp Kitsas*.AppImage $DISTDIR/Kitsas-$VERSION-x86_64.AppImage
