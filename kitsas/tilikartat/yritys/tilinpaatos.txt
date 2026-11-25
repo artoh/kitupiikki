@@ -254,12 +254,12 @@
 #PIEN
 @tase/PMA!BALANSRÄKNING (BOKSLUT)@
 #ISO
-@tase/yleinen!TASE (TILINPÄÄTÖS)@
+@tase/yleinen!BALANSRÄKNING (BOKSLUT)@
 ##Resultaträkning
 #mikrobrutto -I -P Mikroföretagets korta resultaträkning utgående från bruttoresultatet
 @tulos/mikrobrutto!RESULTATRÄKNING (BOKSLUT)@
 #pienbrutto -I -M Småföretagets resultaträkning utgående från bruttoresultatet
-@tulos/pienbrutto!TULOSLASKELMA (TILINPÄÄTÖS)@
+@tulos/pienbrutto!RESULTATRÄKNING (BOKSLUT)@
 #-mikrobrutto -pienbrutto
 @tulos/yleinen!RESULTATRÄKNING (BOKSLUT)@
 <h2>Principer för upprättandet av bokslutet</h2>

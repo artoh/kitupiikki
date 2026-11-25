@@ -163,7 +163,7 @@ void DevTool::virhe(int numero, const QString &viesti, const QVariant &vastaus)
     QJsonDocument doc = QJsonDocument::fromVariant(vastaus);
     QString teksti =  QString::fromUtf8(doc.toJson(QJsonDocument::Indented));
 
-    ui->kyselyBrowser->setPlainText( QString("Virhe %1 %2").arg(numero).arg(viesti) + "\n" + teksti);
+    ui->kyselyBrowser->setPlainText( tr("Virhe %1 %2").arg(numero).arg(viesti) + "\n" + teksti);
     sender()->deleteLater();
 }
 
@@ -188,7 +188,7 @@ void DevTool::peliNapautus(int ruutu)
 
     if( !peliRuudut_.contains(0))
     {
-        ui->tulosLabel->setText("Tasapeli");
+        ui->tulosLabel->setText(tr("Tasapeli"));
         return;
     }
 
@@ -287,9 +287,9 @@ int DevTool::tarkastaVoitto()
     if( tulos )
     {
         if( tulos == 1 )
-            ui->tulosLabel->setText("Saat veronpalautusta!");
+            ui->tulosLabel->setText(tr("Saat veronpalautusta!"));
         else
-            ui->tulosLabel->setText("Maksat lisäveroa!");
+            ui->tulosLabel->setText(tr("Maksat lisäveroa!"));
         pelissa_ = false;
     }
     return tulos;

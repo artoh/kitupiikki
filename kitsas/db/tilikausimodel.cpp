@@ -63,7 +63,7 @@ QVariant TilikausiModel::headerData(int section, Qt::Orientation orientation, in
         case TILINPAATOS:
             return tr("Tilinpäätös");
         case LYHENNE:
-            return QString("Tunnus");
+            return tr("Tunnus");
         }
     }
     return QVariant();
@@ -95,7 +95,7 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
         } else if( index.column() == LIITEKOKO) {
             const qlonglong megat = kausi.koko() / ( 1024L * 1024L );
             if( megat < 1) return QVariant();
-            return QString("%L1 Mt").arg(megat);
+            return tr("%L1 Mt").arg(megat);
         } else if( index.column() == ARKISTOITU )
             return kausi.arkistoitu().date();
         else if( index.column() == TILINPAATOS )

@@ -179,6 +179,7 @@ public:
     void tyhjenna() { asetukset_.clear(); }
 
     QString nimi() const { return asetus(AsetusModel::OrganisaatioNimi);}
+    QString tilikartanNimi() const;
     QString ytunnus() const { return asetus(AsetusModel::Ytunnus);}
     QString uid() const { return asetus(AsetusModel::UID);}
 

@@ -318,8 +318,8 @@ void AloitusSivu::uusiTietokanta()
 
 void AloitusSivu::avaaTietokanta()
 {
-    QString polku = QFileDialog::getOpenFileName(this, "Avaa kirjanpito",
-                                                 QDir::homePath(),"Kirjanpito (*.kitsas)");
+    QString polku = QFileDialog::getOpenFileName(this, tr("Avaa kirjanpito"),
+                                                 QDir::homePath(),tr("Kirjanpito (*.kitsas)"));
     if( !polku.isEmpty())
         kp()->sqlite()->avaaTiedosto( polku );
 
@@ -338,12 +338,12 @@ void AloitusSivu::abouttiarallaa()
     aboutUi.setupUi( &aboutDlg);
     connect( aboutUi.aboutQtNappi, &QPushButton::clicked, qApp, &QApplication::aboutQt);
 
-    QString versioteksti = QString("<b>Versio %1</b><br>Käännetty %2")
+    QString versioteksti = tr("<b>Versio %1</b><br>Käännetty %2")
             .arg( qApp->applicationVersion(), PaivitysInfo::buildDate().toString("dd.MM.yyyy"));
 
     QString kooste(KITSAS_BUILD);
     if( !kooste.isEmpty())
-        versioteksti.append("<br>Kooste " + kooste);
+        versioteksti.append(tr("<br>Kooste %1").arg(kooste.toHtmlEscaped()));
 
     aboutUi.versioLabel->setText(versioteksti);    
 

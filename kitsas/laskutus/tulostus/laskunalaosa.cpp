@@ -236,7 +236,7 @@ void LaskunAlaosa::lataaYhteystiedot(bool naytaSuomi = false)
         lisaaYhteys(AsetusModel::Kotipaikka, "Kotipaikka");
     } else {
         lisaaTunnukseen(QString(), organisaatioNimi);
-        lisaaTunnukseen("kotipaikka", interface_->asetukset()->asetus(AsetusModel::Kotipaikka));
+        lisaaTunnukseen("Kotipaikka", interface_->asetukset()->asetus(AsetusModel::Kotipaikka));
     }
 
     const QString& ytunnus = asetukset->asetus(AsetusModel::Ytunnus);

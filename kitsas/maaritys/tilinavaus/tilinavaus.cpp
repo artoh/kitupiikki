@@ -100,7 +100,7 @@ void Tilinavaus::info(qlonglong vastaavaa, qlonglong vastattavaa, qlonglong tulo
 {
     emit tallennaKaytossa(onkoMuokattu());
 
-    ui->infoLabel->setText(QString("Vastaavaa \t%L1 € \t\tTulos\t %L2 € \nVastattavaa \t%L3 €")
+    ui->infoLabel->setText(tr("Vastaavaa \t%L1 € \t\tTulos\t %L2 € \nVastattavaa \t%L3 €")
                            .arg( ( vastaavaa / 100.0 ), 10,'f',2)
                            .arg( ( tulos / 100.0 ), 10,'f',2)
                            .arg( ( vastattavaa / 100.0 ), 10,'f',2) );

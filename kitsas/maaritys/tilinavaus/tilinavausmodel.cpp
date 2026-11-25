@@ -60,13 +60,13 @@ QVariant TilinavausModel::headerData(int section, Qt::Orientation orientation, i
         switch (section)
         {
         case NRO :
-            return QVariant("Numero");
+            return tr("Numero");
         case NIMI:
-            return QVariant("Tili");
+            return tr("Tili");
         case SALDO :
-            return QVariant("Alkusaldo");
+            return tr("Alkusaldo");
         case ERITTELY:
-            return QVariant("Erittely");
+            return tr("Erittely");
         }
     }
     return QVariant();

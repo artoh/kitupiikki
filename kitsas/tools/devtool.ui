@@ -414,7 +414,7 @@
           <bool>true</bool>
          </property>
          <property name="text">
-          <string notr="true">Uudestaan!</string>
+          <string>Uudestaan!</string>
          </property>
          <property name="icon">
           <iconset resource="../pic/pic.qrc">

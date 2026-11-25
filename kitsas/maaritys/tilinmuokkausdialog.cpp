@@ -394,10 +394,10 @@ void TilinMuokkausDialog::accept()
 
     if( onkoIban(tili_->tyyppi()) && !ui->ibanLine->text().isEmpty()) {
         if(  !ui->ibanLine->hasAcceptableInput()) {
-            QMessageBox::critical(this, "Tilin muokkaus", "Tilinumero on virheellinen. Syötä tilinumero IBAN-muodossa");
+            QMessageBox::critical(this, tr("Tilin muokkaus"), tr("Tilinumero on virheellinen. Syötä tilinumero IBAN-muodossa"));
             return;
         } else if( !ui->bicEdit->hasAcceptableInput()) {
-            QMessageBox::critical(this, "Tilin muokkaus", "BIC-numero on virheellinen.");
+            QMessageBox::critical(this, tr("Tilin muokkaus"), tr("BIC-numero on virheellinen."));
             return;
         }
     }
@@ -469,7 +469,7 @@ bool TilinMuokkausDialog::tyyppiVaroitus()
     }
     if( tili_ && varoTyypit.contains(tili_->tyyppiKoodi())  && tili_->tyyppiKoodi() != uusiTyyppi) {
         if( QMessageBox::warning(this, tr("Erityistä tiliä muokattu"),
-                                 tr("Tilin aiempi tilityyppi %1 vaikuttaa erityisellä tavalla kirjanpidon toimintaan.").arg( tili_->tyyppi().kuvaus() ) + "\n" +
+                                 tr("Tilin aiempi tilityyppi %1 vaikuttaa erityisellä tavalla kirjanpidon toimintaan.").arg( tili_->tyyppi().naytettavaKuvaus() ) + "\n" +
                                  tr("Oletko aivan varma, että haluat muuttaa tilityyppiä?"),
                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::No ) != QMessageBox::Yes)
             return true;

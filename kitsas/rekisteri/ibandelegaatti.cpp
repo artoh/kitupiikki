@@ -50,7 +50,7 @@ QWidget *IbanDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewIte
     QLineEdit *edit = new QLineEdit(parent);
     IbanValidator *validator = new IbanValidator(parent);
     edit->setValidator(validator);
-    edit->setPlaceholderText("IBAN-tilinumero");
+    edit->setPlaceholderText(tr("IBAN-tilinumero"));
     return edit;
 }
 

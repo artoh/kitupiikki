@@ -22,7 +22,7 @@ LisaPalvelutMaaritys::LisaPalvelutMaaritys()
 
 void LisaPalvelutMaaritys::setupUi()
 {
-    QLabel* otsikko = new QLabel("Lisäpalvelut");
+    QLabel* otsikko = new QLabel(tr("Lisäpalvelut"));
     otsikko->setStyleSheet("font-weight: bold");
 
     QScrollArea* skrolli = new QScrollArea;    

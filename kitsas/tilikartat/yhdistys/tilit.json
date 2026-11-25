@@ -1548,7 +1548,8 @@
         "tyyppi": "B",
         "nimi": {
             "fi": "Eläkelainat; Lyhytaikaiset",
-            "en": "Pensionslån, kortfristiga"
+            "sv": "Kortfristiga pensionslån",
+            "en": "Short-term pension loans"
         },
         "erittely": 2,
         "laajuus": 4
@@ -2431,7 +2432,8 @@
         },
         "laajuus": 2,
         "ohje": {
-            "fi": "Tähän kirjataan pankkien palvelumaksut ja muut rahaliikenteen kulut."
+            "fi": "Tähän kirjataan pankkien palvelumaksut ja muut rahaliikenteen kulut.",
+            "sv": "Här bokförs bankernas serviceavgifter och andra kostnader för betalningsrörelsen."
         }
     },
     {

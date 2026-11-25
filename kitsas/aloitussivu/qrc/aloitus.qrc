@@ -6,6 +6,7 @@
         <file>FreeMono.ttf</file>
         <file>svenska.html</file>
         <file>pro.html</file>
+        <file>pro-sv.html</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

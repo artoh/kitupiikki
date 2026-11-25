@@ -143,3 +143,144 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 <p>____________________  ___. päivänä _________kuuta  _________ </p>
 <p>
 <p>
+[sv]
+## ETT BOSTADSAKTIEBOLAG SKA ALLTID OCKSÅ UPPRÄTTA EN VERKSAMHETSBERÄTTELSE
+## Rapporter
+@tase/yleinen:!BALANSRÄKNING (BOKSLUT)@
+@tulos/yleinen:!RESULTATRÄKNING (BOKSLUT)@
+@tulos/yleinen:EB!BUDGETUTFALL (BOKSLUT)@
+#toiminnanalat Specifikation per verksamhetsgren
+@tulos/yleinen:K!VERKSAMHETSGRENAR (BOKSLUT)@
+#
+<h2>Principer för upprättandet av bokslutet</h2>
+#MIKRO
+<p>Bokslutet har upprättats enligt bestämmelserna om mikroföretag i statsrådets förordning om uppgifter som ska tas upp i små- och mikroföretags bokslut.</p>
+#PIEN
+<p>Bokslutet har upprättats enligt bestämmelserna om småföretag i statsrådets förordning om uppgifter som ska tas upp i små- och mikroföretags bokslut.</p>
+#ISO
+<b>Bostadsaktiebolaget ska lämna fullständiga noter.</b>
+<p>Noterna omfattar åtminstone följande:</p>
+<ol><li>uppgifter om hur bokslutet presenteras</li>
+<li>principer för upprättandet av bokslutet</li>
+<li>noter till resultaträkningen</li>
+<li>noter till balansräkningen</li>
+<li>noter om värdering till verkligt värde</li>
+<li>uppgifter om inkomstskatter</li>
+<li>säkerheter, ansvarsförbindelser och arrangemang utanför balansräkningen</li>
+<li>uppgifter om revisorernas arvoden</li>
+<li>transaktioner med närstående</li>
+<li>uppgifter om personalen och medlemmarna i bolagets organ</li>
+<li>innehav i andra företag</li>
+<li>uppgifter om en bokföringsskyldig som ingår i en koncern</li></ol>
+<p>Dessutom ska uppgifter om bundna fonder lämnas i noterna.</p>
+## Noter
+#laatimisperuste Alternativa principer har använts vid upprättandet av bokslutet
+<p>Omsättningstillgångar (om de används i annan ordning än den i vilken de anskaffats).</p>
+<p>Immateriella rättigheter som tagits upp i balansräkningen (om anskaffningsutgiften inte skrivs av på tio år).</p>
+<p>Utvecklingsutgifter, goodwill eller andra utgifter med lång verkningstid (om de inte kostnadsförs eller skrivs av på tio år).</p>
+<p>Prestationer som kräver lång framställningstid (om inkomsten redovisas enligt färdigställandegraden).</p>
+<p>Finansiella instrument och förvaltningsfastigheter (om de värderas till verkligt värde).</p>
+<p>Valutakurs (om en annan kurs än kursen på bokslutsdagen har använts).</p>
+<p>Tillgångar bland bestående aktiva (om anskaffningsutgiften omfattar annat än rörliga utgifter för anskaffning och tillverkning).</p>
+<p>Avskrivningar enligt plan på maskiner, inventarier och byggnader (om de avviker från de högsta avskrivningar som godtas i beskattningen).</p>
+<p>Anskaffningar genom finansiell leasing som tagits upp i balansräkningen.</p>
+#kvstand Internationella redovisningsstandarder har tillämpats
+<p>Bokslutet har upprättats enligt … (ange de internationella redovisningsstandarderna).</p>
+#maksuperuste -PIEN -ISO Bokslut enligt kontantprincipen
+<p>Bokslutet har upprättats enligt kontantprincipen.</p>
+<p>Förfarandet påverkar räkenskapsperiodens resultat och den ekonomiska ställningen på följande sätt: … / Förfarandet har ingen väsentlig inverkan på räkenskapsperiodens resultat eller den ekonomiska ställningen.</p>
+<p>Leverantörsskulder på XX € och kundfordringar på XX € har inte tagits upp i balansräkningen.</p>
+<p>Förändringar i omsättningstillgångarna:</p>
+<p>Förändringar bland bestående aktiva:</p>
+<p>Räntor på främmande kapital enligt prestationsprincipen:</p>
+<p>Semesterlöneskuld enligt prestationsprincipen:</p>
+#poik -ISO Exceptionella poster
+<h2>Exceptionella poster</h2>
+<p>Ange beloppen för exceptionella intäkter och kostnader om posterna är väsentliga.</p>
+#jalkeen Väsentliga händelser efter räkenskapsperiodens utgång
+<h2>Väsentliga händelser efter räkenskapsperiodens utgång</h2>
+<p>Beskriv de väsentliga händelserna och deras ekonomiska betydelse.</p>
+#sidotut Bundna fonder
+<h2>Bundna fonder</h2>
+<p>Ange de bundna fonderna, hur de medel som täcker kapitalet har använts, fondernas intäkter, kostnader, tillgångar och skulder samt fondernas kapital och förändringarna i det.</p>
+#kaypa -MIKRO Värdering till verkligt värde
+<h2>Värdering till verkligt värde</h2>
+<ol>
+<li>De centrala antagandena bakom värderingsmodellerna och värderingsmetoderna.</li>
+<li>Det sammanlagda verkliga värdet för varje kategori av finansiella instrument och andra tillgångar.</li>
+<li>Hur mycket av värdeförändringen som redovisats i resultaträkningen respektive fonden för verkligt värde.</li>
+<li>I vilken omfattning varje kategori av derivatinstrument har använts.</li>
+<li>Varje kategoris karaktär och de väsentliga villkor som kan påverka kassaflödenas storlek, tidpunkt och säkerhet.</li>
+<li>Förändringar i verkligt värde under räkenskapsperioden.</li>
+</ol>
+#johdannaiset Finansiella derivat
+<h2>Finansiella derivat</h2>
+<p>Ange för varje kategori av derivat deras verkliga värde samt användningens omfattning och karaktär.</p>
+#pitkalaina Lån som förfaller efter mer än fem år
+<h2>Långfristiga lån</h2>
+<p>Ange det sammanlagda beloppet av de långfristiga skulder som förfaller efter mer än fem år.</p>
+#vastuut Sakrättsliga säkerheter
+<h2>Ställda sakrättsliga säkerheter</h2>
+<p>Specificera beloppen för handpanter, fordonsinteckningar, företagsinteckningar, fastighetsinteckningar och eventuella andra sakrättsliga säkerheter.</p>
+#sitoumukset Åtaganden utanför balansräkningen
+<h2>Åtaganden utanför balansräkningen</h2>
+<p>Åtagandena utanför balansräkningen uppgår sammanlagt till XXX euro.</p>
+<p>I beloppet ingår … Dessutom …</p>
+#elake Pensionsansvar som inte har överförts på en försäkringsanstalt
+<h2>Pensionsansvar</h2>
+<p>Ange det pensionsansvar som inte har överförts på en pensionsanstalt.</p>
+#emoyritys Uppgifter om moderföretaget
+<h2>Uppgifter om moderföretaget</h2>
+<p>Ange moderföretagets namn och hemort samt uppgifter om den minsta koncern som företaget ingår i och för vilken koncernbokslut upprättas.</p>
+#lahilainat Lån till medlemmar i förvaltningsorgan och åtaganden för deras räkning
+<h2>Lån till medlemmar i förvaltningsorgan och åtaganden för deras räkning</h2>
+<p>Lämna följande uppgifter för varje organ om verksamhetsledaren, styrelsemedlemmarna och deras suppleanter samt medlemmarna i motsvarande organ:</p>
+<ol>
+<li>Det sammanlagda lånebeloppet, ökningar och minskningar av beloppet samt de huvudsakliga räntevillkoren och övriga villkoren.</li>
+<li>Det sammanlagda beloppet av säkerheter och ansvarsförbindelser samt deras huvudsakliga innehåll.</li>
+<li>Pensionsåtaganden som följer av dessa uppdrag.</li>
+</ol>
+#intressi -MIKRO Transaktioner med intressenter
+<h2>Transaktioner med intressenter</h2>
+<p>Uppgifterna gäller juridiska personer som står i ett bestämmande- eller intresseföretagsförhållande till företaget samt verkställande direktören, styrelsemedlemmarna och deras suppleanter och medlemmarna i motsvarande organ.</p>
+<ol>
+<li>Beskrivning av transaktionen.</li>
+<li>Transaktionens värde.</li>
+<li>Intresseförhållandets karaktär.</li>
+<li>Övriga uppgifter om transaktionen som behövs för att bedöma företagets ekonomiska ställning.</li>
+</ol>
+#HENKILOSTO
+<h2>Antal anställda</h2>
+@henkilosto@
+#muut -MIKRO Väsentliga uppgifter ur verksamhetsberättelsen som behövs för att ge en rättvisande bild
+<h2>Övriga uppgifter</h2>
+<p>Ange de uppgifter som behövs för att ge en rättvisande bild.</p>
+## Bokföring
+#sahko Elektronisk bokföring och arkivering
+<h2>Bokföringsmaterial</h2>
+<p>Bokföringen har skötts i Kitsas. Bokslutet, balansspecifikationerna, kontoplanen, huvudboken och dagboken samt verifikaten i PDF-format har sparats i ett elektroniskt arkiv i HTML-format.</p>
+#-sahko
+<h2>Bokföringsmaterial</h2>
+<p>Beskriv bokföringsmaterialet och hur det förvaras.</p>
+#
+<h2>Underskrifter</h2>
+<p>__________________ den XX.XX.20XX</p>
+<p>
+<table width=100%><tr><td>N.N.</td><td>N.N.</td><td>N.N.</td></tr>
+<tr><td>N.N.</td><td>N.N.</td><td>N.N.</td></tr></table>
+<p>
+<p>
+<p>
+## Revision
+#tilintarkastus -toiminnantarkastus Revisionsanteckning
+<h2>Revisionsanteckning</h2>
+<p>En revisionsberättelse har i dag lämnats över den utförda revisionen.</p>
+<p>____________________ den ___ __________ _________</p>
+<p>
+<p>
+#toiminnantarkastus -tilintarkastus Anteckning om verksamhetsgranskning
+<h2>Anteckning om verksamhetsgranskning</h2>
+<p>En verksamhetsgranskningsberättelse har i dag lämnats över den utförda verksamhetsgranskningen.</p>
+<p>____________________ den ___ __________ _________</p>
+<p>
+<p>

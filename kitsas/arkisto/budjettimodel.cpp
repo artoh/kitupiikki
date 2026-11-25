@@ -54,13 +54,13 @@ QVariant BudjettiModel::headerData(int section, Qt::Orientation orientation, int
         switch (section)
         {
         case NRO :
-            return QVariant("Numero");
+            return tr("Numero");
         case NIMI:
-            return QVariant("Tili");
+            return tr("Tili");
         case EDELLINEN:
-            return QVariant("Ed. budjetti €");
+            return tr("Ed. budjetti €");
         case EUROT :
-            return QVariant("Uusi budjetti €");
+            return tr("Uusi budjetti €");
         }
     }
     return QVariant();

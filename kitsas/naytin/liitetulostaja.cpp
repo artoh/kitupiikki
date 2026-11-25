@@ -257,8 +257,8 @@ void LiiteTulostaja::tulostaViennit(QPainter *painter, const QVariantList &vienn
     int leveys = painter->window().width() / 2 - korkeus;
 
     painter->setFont(QFont("FreeSans",6));
-    painter->drawText(QRect(leveys/2,0,leveys/4,korkeus), "Debet €", QTextOption(Qt::AlignHCenter | Qt::AlignTop) );
-    painter->drawText(QRect(leveys*3/4,0,leveys/4,korkeus), "Kredit €", QTextOption(Qt::AlignHCenter | Qt::AlignTop) );
+    painter->drawText(QRect(leveys/2,0,leveys/4,korkeus), tulkkaa("Debet €", kieli), QTextOption(Qt::AlignHCenter | Qt::AlignTop) );
+    painter->drawText(QRect(leveys*3/4,0,leveys/4,korkeus), tulkkaa("Kredit €", kieli), QTextOption(Qt::AlignHCenter | Qt::AlignTop) );
 
     int otsakekorkeus = painter->fontMetrics().height();
     int viivay = otsakekorkeus + (korkeus - otsakekorkeus) / 2;

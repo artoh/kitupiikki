@@ -84,7 +84,7 @@ bool Perusvalinnat::nollaa()
     }    
 
     ui->karttaInfo->setText( QString("%1 %2")
-                             .arg(kp()->asetukset()->asetus(AsetusModel::Tilikartta), kp()->asetukset()->pvm(AsetusModel::TilikarttaPvm).toString("dd.MM.yyyy")));
+                             .arg(kp()->asetukset()->tilikartanNimi(), kp()->asetukset()->pvm(AsetusModel::TilikarttaPvm).toString("dd.MM.yyyy")));
     ui->alvAlkaaEdit->setEnabled( ui->alvCheck->isChecked());
 
     ui->arkistoEdit->setText(kp()->settings()->value("arkistopolku/" + kp()->asetukset()->uid()).toString());

@@ -328,7 +328,7 @@ void VerkkolaskuMaaritys::noudaNyt()
     if( qobject_cast<PilviModel*>(kp()->yhteysModel())) {
         QString osoite = QString("%1/maventa/fetch").arg(kp()->pilvi()->finvoiceOsoite()).arg(kp()->asetukset()->asetus(AsetusModel::Ytunnus));
         PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST, osoite);
-        connect(pk, &PilviKysely::vastaus, [] { emit kp()->onni("Verkkolaskut päivitetty kiertoon"); });
+        connect(pk, &PilviKysely::vastaus, [] { emit kp()->onni(tr("Verkkolaskut päivitetty kiertoon")); });
         pk->kysy();
     } else {
         FinvoiceHaku::instanssi()->haeUudetKayttajanPyynnosta();

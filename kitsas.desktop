@@ -4,6 +4,7 @@ Name=Kitsas
 Exec=kitsas %F
 Icon=kitsas
 Comment=Avoimen lähdekoodin kirjanpitäjä
+Comment[sv]=Bokföringsprogram med öppen källkod
 Terminal=false
 Categories=Office;Finance;Qt;
 MimeType=application/vnd.sqlite3;

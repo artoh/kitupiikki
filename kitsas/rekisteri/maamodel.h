@@ -27,10 +27,10 @@ class MaaModel : public QAbstractListModel
 public:
     class Maa {
     public:
-        Maa(const QString& koodi, const QString& nimi, const QString englanniksi, const QString& alvreg = QString());
+        Maa(const QString& koodi, const QString& nimi, const QString englanniksi, const QString& alvreg = QString(), const QString& ruotsiksi = QString());
 
         QString koodi() const { return koodi_;}
-        QString nimi() const { return nimi_;}
+        QString nimi() const;
         QString alvreg() const { return alvreg_;}
         QIcon icon() const { return icon_;}
         QString englanniksi() const { return englanniksi_;}
@@ -41,6 +41,7 @@ public:
         QString alvreg_;
         QIcon icon_;
         QString englanniksi_;
+        QString ruotsiksi_;
     };
 
 public:

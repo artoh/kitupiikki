@@ -123,7 +123,7 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
         case TYYPPI:
             if( tili->otsikkotaso() )
                 return QString();
-            return QVariant( kp()->tiliTyypit()->tyyppiKoodilla( tili->tyyppiKoodi() ).kuvaus() );
+            return QVariant( kp()->tiliTyypit()->tyyppiKoodilla( tili->tyyppiKoodi() ).naytettavaKuvaus() );
         case ALV: {
             double vero = tili->alvprosentti();
             if( vero == 24.0)

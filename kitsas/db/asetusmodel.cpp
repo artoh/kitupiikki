@@ -243,6 +243,19 @@ QStringList AsetusModel::avaimet(const QString &avaimenAlku) const
     return vastaus;
 }
 
+QString AsetusModel::tilikartanNimi() const
+{
+    const QString nimi = asetus(Tilikartta);
+    const QString tunnus = asetus(VakioTilikartta);
+    if (tunnus == "yritys" && nimi == "Yritys")
+        return tr("Yritys");
+    if (tunnus == "yhdistys" && nimi == "Yhdistys")
+        return tr("Yhdistys");
+    if (tunnus == "asoy" && nimi == "Asunto-osakeyhtiö")
+        return tr("Asunto-osakeyhtiö");
+    return nimi;
+}
+
 QStringList AsetusModel::kielet() const
 {
     QStringList lista;

@@ -23,7 +23,7 @@ AlennusTyyppiModel::AlennusTyyppiModel(QObject *parent)
     // Verkkolaskussa käytettävät alennuksen syykoodit
     // Ellei muuta, käytetään 95 - Alennus
     lisaa(95, tr("Alennus"));
-    lisaa(100, "Erikoistarjous");
+    lisaa(100, tr("Erikoistarjous"));
     lisaa(102,tr("Kiinteänpituinen kausi"));
     lisaa(103, tr("Tilapäinen"));
     lisaa(104, tr("Vakio"));

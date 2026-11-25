@@ -34,7 +34,7 @@ void LaskuAlvCombo::alusta(LaskuAlvCombo::AsiakasVeroLaji asiakasVerolaji, int a
     addItem(QIcon(":/pic/netto-m.svg"),"24%", QVariant(AlvKoodi::MYYNNIT_NETTO + 24 * 10000 ));
     addItem(QIcon(":/pic/netto-m.svg"),"25,5%", QVariant(AlvKoodi::MYYNNIT_NETTO + 255000 ));
     addItem(QIcon(":/pic/tyhja.png"),tr("Veroton"), QVariant(AlvKoodi::EIALV ));
-    addItem(QIcon(":/pic/0pros.png"),"Nollaverokannan alainen myynti", QVariant(AlvKoodi::ALV0));
+    addItem(QIcon(":/pic/0pros.png"), tr("Nollaverokannan alainen myynti"), QVariant(AlvKoodi::ALV0));
 
     if( asiakasVerolaji == KAIKKI || asiakasVerolaji == EU || asiakasVerolaji == KOTIMAA || alvkoodi == AlvKoodi::RAKENNUSPALVELU_MYYNTI)
         addItem(QIcon(":/pic/vasara.png"), tr("Rakennuspalvelut"), QVariant( AlvKoodi::RAKENNUSPALVELU_MYYNTI ));

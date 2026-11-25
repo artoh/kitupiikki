@@ -78,6 +78,7 @@ public:
 
     QString koodi() const { return tyyppikoodi_; }
     QString kuvaus() const { return kuvaus_; }
+    QString naytettavaKuvaus() const;
     TiliLaji::TiliLuonne luonne() const { return luonne_; }
     int otsikkotaso() const { return otsikkotaso_; }
     /**

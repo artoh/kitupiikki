@@ -56,11 +56,11 @@ QVariant KohdennusModel::headerData(int section, Qt::Orientation orientation, in
         switch (section)
         {
             case NIMI:
-                return QVariant("Nimi");
+                return tr("Nimi");
             case ALKAA :
-                return QVariant("Alkaa");
+                return tr("Alkaa");
             case PAATTYY:
-                return QVariant("Päättyy");
+                return tr("Päättyy");
         }
 
     }

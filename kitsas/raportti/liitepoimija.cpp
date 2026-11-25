@@ -31,7 +31,7 @@ LiitePoimija::LiitePoimija(const QString kieli, int dpi, QObject *parent)
       pdfDoc_{new QPdfDocument(this)},
       puskuri_{new QBuffer(this)}
 {
-    tiedosto_ = kp()->tilapainen("Tositekooste-%1.pdf").arg(QDateTime::currentDateTime().toString("yyyyMMddhhmmss"));
+    tiedosto_ = kp()->tilapainen(tulkkaa("Tositekooste-%1.pdf", kieli_).arg(QDateTime::currentDateTime().toString("yyyyMMddhhmmss")));
     connect( pdfDoc_, &QPdfDocument::statusChanged, this, &LiitePoimija::pdfTilaMuuttuu );
 }
 
