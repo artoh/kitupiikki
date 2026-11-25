@@ -193,6 +193,9 @@
         "sv": "Lön",
         "en": "Salary"
     },
+    "Palkat %1 - %2": {
+        "sv": "Löner %1–%2"
+    },
     "Muistio": {
         "sv": "Memorial",
         "en": "Memo"
@@ -420,6 +423,25 @@
     "Rakentamispalveluiden ja metalliromun ostot": {
         "sv": "Inköp av byggtjänster och metallskrot"
     },
+    "Vanhentunut maksuperusteinen alv %1": {
+        "sv": "Förfallen moms enligt betalningsprincipen %1",
+        "en": "Overdue cash-basis VAT %1"
+    },
+    "Arvonlisäveroilmoitus %1 - %2": {
+        "sv": "Momsdeklaration %1–%2"
+    },
+    "Bruttomyyntien oikaisu %3 BRUTTO %1, NETTO %2": {
+        "sv": "Korrigering av bruttoförsäljning %3 BRUTTO %1, NETTO %2"
+    },
+    "Brutto-ostojen oikaisu %3 BRUTTO %1, NETTO %2": {
+        "sv": "Korrigering av bruttoinköp %3 BRUTTO %1, NETTO %2"
+    },
+    "Negatiivisen verovelan kirjaaminen verosaataviin": {
+        "sv": "Bokföring av negativ skatteskuld som skattefordran"
+    },
+    "Verosaamisen kirjaaminen negatiiviseksi verovelaksi": {
+        "sv": "Bokföring av skattefordran som negativ skatteskuld"
+    },
     "Alarajahuojennukseen oikeuttava liikevaihto": {
         "sv": "Omsättning som berättigar till lättnad vid den nedre gränsen"
     },
@@ -579,6 +601,24 @@
     },
     "%1 v": {
         "sv": "%1 år"
+    },
+    "%1 arkisto": {
+        "sv": "Bokföringsarkiv för %1"
+    },
+    "Arkistovarmenne": {
+        "sv": "Arkivintyg"
+    },
+    "Tilikausi": {
+        "sv": "Räkenskapsperiod"
+    },
+    "Arkistoitu": {
+        "sv": "Arkiverad"
+    },
+    "SHA256-tiiviste": {
+        "sv": "SHA-256-kontrollsumma"
+    },
+    "Sähköisen arkiston muuttumattomuus voidaan varmentaa tällä sivulla olevalla sha256-tiivisteellä ohjelman kotisivulla kitsas.fi olevan ohjeen mukaisesti. Menettely edellyttää, että tämä sivu voidaan säilyttää luotettavasti esimerkiksi siten, että sivu allekirjoitetaan tai muuten varmennetaan niin, ettei muutosten tekeminen ole mahdollista.": {
+        "sv": "Med SHA-256-kontrollsumman på den här sidan kan du kontrollera att det elektroniska arkivet är oförändrat. Följ anvisningarna på kitsas.fi. Förvara sidan så att den inte kan ändras, till exempel genom att underteckna eller bestyrka den på annat sätt."
     },
     "%1 kpl": {
         "sv": "%1 st"
@@ -817,6 +857,10 @@
         "fi": "Viivästyskorko",
         "sv": "Dröjsmålsränta",
         "en": "Interest on overdue payments"
+    },
+    "korttimaksu": {
+        "fi": "Korttimaksu",
+        "sv": "Kortbetalning"
     },
     "maksettu": {
         "fi": "Maksettu",

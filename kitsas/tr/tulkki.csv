@@ -48,6 +48,7 @@ Maksumuistutus,Maksumuistutus,Betalningspåminnelse,Payment reminder
 Siirto,Siirto,Överföring,Transfer
 Tiliote,Tiliote,Kontoutdrag,Bank statement
 Palkka,Palkka,Lön,Salary
+Palkat %1 - %2,Palkat %1 - %2,Löner %1–%2,
 Muistio,Muistio,Memorial,Memo
 Liitetieto,Liitetieto,Not,Attachment
 Tuonti,Tuonti,Import,Import
@@ -109,6 +110,12 @@ Tavaraostot muista EU-maista,Tavaraostot muista EU-maista,Varuinköp från andra
 Palveluostot muista EU-maista,Palveluostot muista EU-maista,Inköp av tjänster från andra EU-länder,
 Rakentamispalveluiden ja metalliromun myynnit,Rakentamispalveluiden ja metalliromun myynnit,Försäljningar av byggtjänster och metallskrot,
 Rakentamispalveluiden ja metalliromun ostot,Rakentamispalveluiden ja metalliromun ostot,Inköp av byggtjänster och metallskrot,
+Vanhentunut maksuperusteinen alv %1,Vanhentunut maksuperusteinen alv %1,Förfallen moms enligt betalningsprincipen %1,Overdue cash-basis VAT %1
+Arvonlisäveroilmoitus %1 - %2,Arvonlisäveroilmoitus %1 - %2,Momsdeklaration %1–%2,
+"Bruttomyyntien oikaisu %3 BRUTTO %1, NETTO %2","Bruttomyyntien oikaisu %3 BRUTTO %1, NETTO %2","Korrigering av bruttoförsäljning %3 BRUTTO %1, NETTO %2",
+"Brutto-ostojen oikaisu %3 BRUTTO %1, NETTO %2","Brutto-ostojen oikaisu %3 BRUTTO %1, NETTO %2","Korrigering av bruttoinköp %3 BRUTTO %1, NETTO %2",
+Negatiivisen verovelan kirjaaminen verosaataviin,Negatiivisen verovelan kirjaaminen verosaataviin,Bokföring av negativ skatteskuld som skattefordran,
+Verosaamisen kirjaaminen negatiiviseksi verovelaksi,Verosaamisen kirjaaminen negatiiviseksi verovelaksi,Bokföring av skattefordran som negativ skatteskuld,
 Alarajahuojennukseen oikeuttava liikevaihto,Alarajahuojennukseen oikeuttava liikevaihto,Omsättning som berättigar till lättnad vid den nedre gränsen,
 Alarajahuojennukseen oikeuttava vero,Alarajahuojennukseen oikeuttava vero,Skatt som berättigar till lättnad vid den nedre gränsen,
 Alarajahuojennuksen määrä,Alarajahuojennuksen määrä,Beloppet av lättnad vid den nedre gränsen,
@@ -162,6 +169,12 @@ Sääntö,Sääntö,Regel,
 Poisto,Poisto,Avskrivning,
 Saldo jälkeen,Saldo jälkeen,Saldo efter,
 %1 v,%1 v,%1 år,
+%1 arkisto,%1 arkisto,Bokföringsarkiv för %1,
+Arkistovarmenne,Arkistovarmenne,Arkivintyg,
+Tilikausi,Tilikausi,Räkenskapsperiod,
+Arkistoitu,Arkistoitu,Arkiverad,
+SHA256-tiiviste,SHA256-tiiviste,SHA-256-kontrollsumma,
+"Sähköisen arkiston muuttumattomuus voidaan varmentaa tällä sivulla olevalla sha256-tiivisteellä ohjelman kotisivulla kitsas.fi olevan ohjeen mukaisesti. Menettely edellyttää, että tämä sivu voidaan säilyttää luotettavasti esimerkiksi siten, että sivu allekirjoitetaan tai muuten varmennetaan niin, ettei muutosten tekeminen ole mahdollista.","Sähköisen arkiston muuttumattomuus voidaan varmentaa tällä sivulla olevalla sha256-tiivisteellä ohjelman kotisivulla kitsas.fi olevan ohjeen mukaisesti. Menettely edellyttää, että tämä sivu voidaan säilyttää luotettavasti esimerkiksi siten, että sivu allekirjoitetaan tai muuten varmennetaan niin, ettei muutosten tekeminen ole mahdollista.","Med SHA-256-kontrollsumman på den här sidan kan du kontrollera att det elektroniska arkivet är oförändrat. Följ anvisningarna på kitsas.fi. Förvara sidan så att den inte kan ändras, till exempel genom att underteckna eller bestyrka den på annat sätt.",
 %1 kpl,%1 kpl,%1 st,
 Tämä kirjanpidon sähköinen arkisto on luotu %1 <a href=https://kitsas.fi>Kitsas-ohjelman</a> versiolla %2,Tämä kirjanpidon sähköinen arkisto on luotu %1 <a href=https://kitsas.fi>Kitsas-ohjelman</a> versiolla %2,Detta elektroniska arkiv för redovisning skapades %1 med version %2 av Kitsas-programmet,
 Arkiston muuttumattomuus voidaan valvoa sha256-tiivisteellä,Arkiston muuttumattomuus voidaan valvoa sha256-tiivisteellä,Arkivets oändlighet kan övervakas med en sha256 sigill,
@@ -218,6 +231,7 @@ veroton,Veroton,Utan skatt,Excluding VAT
 erapvm,Eräpäivä,Förfallodag,Due date
 bic,BIC,BIC,BIC
 viivkorko,Viivästyskorko,Dröjsmålsränta,Interest on overdue payments
+korttimaksu,Korttimaksu,Kortbetalning,
 maksettu,Maksettu,Betald,Paid
 laskuotsikko,Lasku,Faktura,Invoice
 muistutusteksti,"Kirjanpitomme mukaan emme ole saaneet maksusuoritustanne. Pyydämme maksuanne alla olevan erittelyn mukaisesti. Mikäli olette jo maksaneet laskun tai lasku on virheellinen, ottakaa yhteyttä asian selvittämiseksi.","Enligt våra noteringar är ovanstående fakturor obetalda. Vi ber er betala dem omgående. Om ni har betalt eller om faktura är felig, var vänlig och kontakta oss.","According to our records, we have not yet received a remittance for above invoice. If you have already sent your payment or there is a mistake in this invoice, please contact us."

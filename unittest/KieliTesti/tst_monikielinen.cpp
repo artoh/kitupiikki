@@ -34,6 +34,7 @@ private slots:
     void test_jsonista();
     void test_oletus();
     void test_kielet();
+    void test_tulosteen_varakieli();
 
 };
 
@@ -81,6 +82,18 @@ void MonikielinenTest::test_kielet()
     QCOMPARE( Kielet::instanssi()->kielet().count(), 2);
     Kielet::instanssi()->valitseKieli("fi");
     QCOMPARE( Kielet::instanssi()->kielet().value(1).nimi(), "ruotsi");
+}
+
+void MonikielinenTest::test_tulosteen_varakieli()
+{
+    Kielet* kielet = Kielet::instanssi();
+    kielet->asetaKielet(QString(R"({"fi":"Suomi","sv":"Ruotsi"})"));
+    kielet->valitseKieli("sv");
+
+    QCOMPARE(kielet->kaanna("Yhteensa"), QString("Totalt"));
+    QCOMPARE(kielet->kaanna("Yhteensa", "en"), QString("Total"));
+    QCOMPARE(kielet->kaanna("Yhteensa", "de"), QString("Yhteensä"));
+    QCOMPARE(kielet->kaanna("Tilinpäätös", "en"), QString("Tilinpäätös"));
 }
 
 QTEST_APPLESS_MAIN(MonikielinenTest)

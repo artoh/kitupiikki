@@ -99,21 +99,26 @@ void Tosite::setData(int kentta, QVariant arvo)
 
 QString Tosite::tilateksti(int tila)
 {
+    return tilateksti(tila, QString());
+}
+
+QString Tosite::tilateksti(int tila, const QString& kieli)
+{
     switch (tila) {
-    case POISTETTU: return tulkkaa("Poistettu");
-    case HYLATTY: return tulkkaa("Hylätty");
-    case SAAPUNUT: return tulkkaa("Saapunut");
-    case TARKASTETTU: return tulkkaa("Tarkastettu");
-    case HYVAKSYTTY: return tulkkaa("Hyväksytty");
-    case LUONNOS: return tulkkaa("Luonnos");
-    case VALMISLASKU: return tulkkaa("Lähettämättä");
-    case KIRJANPIDOSSA: return tulkkaa("Kirjanpidossa");
-    case LAHETETAAN: return tulkkaa("Lähetetään");
-    case LAHETETTYLASKU: return tulkkaa("Lähetetty");
-    case MUISTUTETTU: return tulkkaa("Muistutettu");
-    case TOIMITETTULASKU: return tulkkaa("Toimitettu");
-    case AVATTULASKU: return tulkkaa("Avattu");
-    case LAHETYSVIRHE: return tulkkaa("Epäonnistui");
+    case POISTETTU: return tulkkaa("Poistettu", kieli);
+    case HYLATTY: return tulkkaa("Hylätty", kieli);
+    case SAAPUNUT: return tulkkaa("Saapunut", kieli);
+    case TARKASTETTU: return tulkkaa("Tarkastettu", kieli);
+    case HYVAKSYTTY: return tulkkaa("Hyväksytty", kieli);
+    case LUONNOS: return tulkkaa("Luonnos", kieli);
+    case VALMISLASKU: return tulkkaa("Lähettämättä", kieli);
+    case KIRJANPIDOSSA: return tulkkaa("Kirjanpidossa", kieli);
+    case LAHETETAAN: return tulkkaa("Lähetetään", kieli);
+    case LAHETETTYLASKU: return tulkkaa("Lähetetty", kieli);
+    case MUISTUTETTU: return tulkkaa("Muistutettu", kieli);
+    case TOIMITETTULASKU: return tulkkaa("Toimitettu", kieli);
+    case AVATTULASKU: return tulkkaa("Avattu", kieli);
+    case LAHETYSVIRHE: return tulkkaa("Epäonnistui", kieli);
     }
     return QString();
 }

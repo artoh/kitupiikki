@@ -33,6 +33,12 @@ Lasku::Lasku(const QVariantMap &data) :
 
 }
 
+QString Lasku::kieli() const
+{
+    const QString kieli = str("kieli");
+    return kieli.isEmpty() ? QStringLiteral("FI") : kieli;
+}
+
 void Lasku::kopioi(const Lasku &lasku)
 {
     data_ = lasku.data();

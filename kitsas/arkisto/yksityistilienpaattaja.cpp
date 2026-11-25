@@ -45,7 +45,7 @@ void YksityistilienPaattaja::accept()
     Tosite* tosite = new Tosite(this);
     tosite->asetaTyyppi(TositeTyyppi::YKSITYISTILIEN_PAATTAMINEN);
     tosite->asetaPvm( kausi_.paattyy().addDays(1) );
-    tosite->asetaOtsikko( tr("Yksityistilien %1 päättäminen").arg(kausi_.kausivaliTekstina()));
+    tosite->asetaOtsikko( QStringLiteral("Yksityistilien %1 päättäminen").arg(kausi_.kausivaliTekstina()));
     tosite->asetaSarja(kp()->tositeTyypit()->sarja( TositeTyyppi::YKSITYISTILIEN_PAATTAMINEN ) );;
 
     if( ui->paataTilit->isChecked()) {
@@ -73,7 +73,7 @@ void YksityistilienPaattaja::accept()
     }
 
     if( ui->paataTulos->isChecked()) {
-        QString selite = tr("Tilikauden %1 tuloksen päättäminen peruspääomaan").arg(kausi_.kausivaliTekstina());
+        QString selite = QStringLiteral("Tilikauden %1 tuloksen päättäminen peruspääomaan").arg(kausi_.kausivaliTekstina());
         Euro tulos = data_.value("tulos").toString();
 
         TositeVienti tulosVienti;
@@ -99,8 +99,9 @@ void YksityistilienPaattaja::accept()
 RaportinKirjoittaja YksityistilienPaattaja::selvitys()
 {
     RaportinKirjoittaja rk;
+    rk.asetaKieli("fi");
     rk.asetaKausiteksti( kausi_.kausivaliTekstina());
-    rk.asetaOtsikko(tr("Yksityistilien päättäminen"));
+    rk.asetaOtsikko("Yksityistilien päättäminen");
 
     rk.lisaaVenyvaSarake();
     rk.lisaaEurosarake();
@@ -109,7 +110,7 @@ RaportinKirjoittaja YksityistilienPaattaja::selvitys()
 
     RaporttiRivi orivi;
     orivi.lihavoi(true);
-    orivi.lisaa(tr("Yksityistilit tilikaudella"), 2);
+    orivi.lisaa("Yksityistilit tilikaudella", 2);
     Euro summa;
     rk.lisaaRivi(orivi);
 
@@ -118,7 +119,7 @@ RaportinKirjoittaja YksityistilienPaattaja::selvitys()
         i.next();
         RaporttiRivi rivi;
         Tili* tili = kp()->tilit()->tili(i.key().toInt());
-        rivi.lisaa(tili ? tili->nimiNumero() : i.key());
+        rivi.lisaa(tili ? tili->nimiNumero("fi") : i.key());
         Euro saldo = Euro::fromString(i.value().toString());
         rivi.lisaa(saldo);
         summa += saldo;
@@ -127,14 +128,14 @@ RaportinKirjoittaja YksityistilienPaattaja::selvitys()
 
     RaporttiRivi summaRivi;
     summaRivi.viivaYlle(true);
-    summaRivi.lisaa(tr("Yhteensä"), 1);
+    summaRivi.lisaa("Yhteensä", 1);
     summaRivi.lisaa(summa);
     rk.lisaaRivi(summaRivi);
 
     rk.lisaaTyhjaRivi();
     RaporttiRivi tulosRivi;
     tulosRivi.lihavoi();
-    tulosRivi.lisaa(tr("Tilikauden tulos"));
+    tulosRivi.lisaa("Tilikauden tulos");
     tulosRivi.lisaa(Euro::fromString(data_.value("tulos").toString()));
     rk.lisaaRivi(tulosRivi);
 

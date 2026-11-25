@@ -20,7 +20,6 @@
 #include "db/tositetyyppimodel.h"
 #include <QJsonDocument>
 #include <QDebug>
-#include "kieli/kielet.h"
 
 PalkkaFiTuonti::PalkkaFiTuonti()
 {
@@ -42,7 +41,7 @@ QVariantMap PalkkaFiTuonti::tuo(const QByteArray &data)
         return QVariantMap();
 
     QDate pvm = QDate::fromString(ekarivi.at(6), "dd.MM.yyyy");
-    QString otsikko = kp()->kaanna("Palkat %1 - %2", Kielet::instanssi()->nykyinen())
+    QString otsikko = kp()->kaanna("Palkat %1 - %2", "fi")
             .arg(ekarivi.at(5))
             .arg(ekarivi.at(6));
 

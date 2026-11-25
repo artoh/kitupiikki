@@ -399,7 +399,7 @@ void AlvLaskelma::kirjoitaErittely()
                 tiliIter.next();
 
                 RaporttiRivi tiliOtsikko;
-                tiliOtsikko.lisaa( kp()->tilit()->tiliNumerolla( tiliIter.key() ).nimiNumero(), 4 );
+                tiliOtsikko.lisaa( kp()->tilit()->tiliNumerolla( tiliIter.key() ).nimiNumero(kielikoodi_), 4 );
                 rk.lisaaRivi(tiliOtsikko);
 
                 for(auto& vienti : tiliIter.value().viennit) {
@@ -546,7 +546,7 @@ void AlvLaskelma::nollaaMaksuperusteinenEra(QVariant *variant)
             maksuun.setAlvKoodi(AlvKoodi::MAKSUPERUSTEINEN_OSTO + AlvKoodi::ALVVAHENNYS);
         }
 
-        kohdentamattomasta.setSelite(tr("Vanhentunut maksuperusteinen alv %1").arg(kp()->tositeTunnus(tositeMap.value("tunniste").toInt(), tositeMap.value("pvm").toDate(), tositeMap.value("sarja").toString())));
+        kohdentamattomasta.setSelite(kaanna("Vanhentunut maksuperusteinen alv %1").arg(kp()->tositeTunnus(tositeMap.value("tunniste").toInt(), tositeMap.value("pvm").toDate(), tositeMap.value("sarja").toString())));
         maksuun.setSelite(kohdentamattomasta.selite());
         lisaaKirjausVienti(kohdentamattomasta);
         lisaaKirjausVienti(maksuun);
@@ -1029,7 +1029,7 @@ void AlvLaskelma::oikaiseBruttoKirjaukset()
             Euro vero = brutto - netto;
 
             QString selite = kaanna("Bruttomyyntien oikaisu %3 BRUTTO %1, NETTO %2")
-                    .arg(brutto.display(true), netto.display(true), kp()->tilit()->tiliNumerolla(tili).nimiNumero() );
+                    .arg(brutto.display(true), netto.display(true), kp()->tilit()->tiliNumerolla(tili).nimiNumero(kielikoodi_) );
 
             TositeVienti pois;
             pois.setTili(tili);
@@ -1073,7 +1073,7 @@ void AlvLaskelma::oikaiseBruttoKirjaukset()
             Euro vero = brutto - netto;
 
             QString selite = kaanna("Brutto-ostojen oikaisu %3 BRUTTO %1, NETTO %2")
-                    .arg(brutto.display(true), netto.display(true), kp()->tilit()->tiliNumerolla(tili).nimiNumero() );
+                    .arg(brutto.display(true), netto.display(true), kp()->tilit()->tiliNumerolla(tili).nimiNumero(kielikoodi_) );
 
             TositeVienti pois;
             pois.setTili(tili);

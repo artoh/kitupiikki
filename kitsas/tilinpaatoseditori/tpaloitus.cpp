@@ -66,9 +66,11 @@ TpAloitus::TpAloitus(Tilikausi kausi, QWidget *parent) :
         QString kielitxt = kp()->asetukset()->kieli(koodi);
         ui->kieliCombo->addItem(QIcon(":/liput/" + koodi + ".png"), kielitxt, koodi);
     }
-    // Sitten pitäisi valita nykyinen kieli
-    ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData(
-                                         kp()->asetukset()->asetus(AsetusModel::TilinpaatosKieli) ) );
+    int kieliIndeksi = ui->kieliCombo->findData(kp()->asetukset()->asetus(AsetusModel::TilinpaatosKieli));
+    if (kieliIndeksi < 0)
+        kieliIndeksi = ui->kieliCombo->findData("fi");
+    if (kieliIndeksi >= 0)
+        ui->kieliCombo->setCurrentIndex(kieliIndeksi);
 
     tarkistaPMA();
     connect( ui->kieliCombo, &QComboBox::currentTextChanged, this, &TpAloitus::lataa);    

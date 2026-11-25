@@ -42,7 +42,8 @@
 #include <cmath>
 
 TilinpaatosTulostaja::TilinpaatosTulostaja(Tilikausi tilikausi, const QString& teksti, const QStringList &raportit, const QString& kieli, bool naytaTulostusPvm, QObject *parent)
-    : QObject(parent), tilikausi_(tilikausi), teksti_(teksti), raportit_(raportit), kieli_(kieli), naytaTulostusPvm_(naytaTulostusPvm)
+    : QObject(parent), tilikausi_(tilikausi), teksti_(teksti), raportit_(raportit),
+      kieli_(kieli.isEmpty() ? QStringLiteral("fi") : kieli), naytaTulostusPvm_(naytaTulostusPvm)
 {
 
 }
@@ -286,7 +287,7 @@ void TilinpaatosTulostaja::raporttiSaapuu(const RaportinKirjoittaja &kirjoittaja
     if( !tilattuja_) {
         if( tallenna_) {
             QMap<QString,QString> meta;
-            meta.insert("Filename",QString("%1 %2.pdf").arg(tulkkaa("Tilinpäätös")).arg(tilikausi_.pitkakausitunnus()));
+            meta.insert("Filename",QString("%1 %2.pdf").arg(tulkkaa("Tilinpäätös", kieli_)).arg(tilikausi_.pitkakausitunnus()));
             meta.insert("Content-type","application/pdf");
 
             KpKysely* kysely = kpk(QString("/liitteet/0/TP_%1").arg(tilikausi_.paattyy().toString(Qt::ISODate)), KpKysely::PUT);

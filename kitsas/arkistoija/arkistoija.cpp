@@ -24,7 +24,6 @@
 #include "db/tositetyyppimodel.h"
 #include "model/tositevienti.h"
 #include "model/tosite.h"
-#include "kieli/kielet.h"
 #include <QFile>
 #include <QTextStream>
 #include <QFileInfo>
@@ -39,6 +38,9 @@
 #include <QProgressDialog>
 
 
+namespace {
+const QString arkistonKieli = QStringLiteral("fi");
+}
 
 Arkistoija::Arkistoija(const Tilikausi &tilikausi, QObject *parent)
     : QObject(parent), tilikausi_(tilikausi)
@@ -217,7 +219,12 @@ void Arkistoija::kirjoitaHash() const
 void Arkistoija::merkitseArkistoiduksi()
 {
     RaportinKirjoittaja rk;
-    rk.asetaOtsikko("ARKISTOVARMENNE ARKIVCERTIFIKAT");
+    rk.asetaKieli(arkistonKieli);
+    // Arkistovarmenne on kaksikielinen kirjanpidon kielestä riippumatta.
+    const auto kaksikielinen = [](const QString& teksti) {
+        return teksti + " / " + tulkkaa(teksti, "sv");
+    };
+    rk.asetaOtsikko(kaksikielinen("Arkistovarmenne").toUpper());
     rk.lisaaVenyvaSarake(50);
     rk.lisaaVenyvaSarake();
 
@@ -233,38 +240,36 @@ void Arkistoija::merkitseArkistoiduksi()
     rk.lisaaTyhjaRivi();
     {
         RaporttiRivi rr;
-        rr.lisaa("Tilikausi / Redovisningsperiod");
+        rr.lisaa(kaksikielinen("Tilikausi"));
         rr.lisaa(tilikausi_.kausivaliTekstina());
         rk.lisaaRivi(rr);
     }
     {
         RaporttiRivi rr;
-        rr.lisaa("Arkistoitu / Arkiverad");
+        rr.lisaa(kaksikielinen("Arkistoitu"));
         rr.lisaa(QDateTime::currentDateTime().toLocalTime().toString("dd.MM.yyyy hh.mm.ss"));
         rk.lisaaRivi(rr);
     }
     {
         RaporttiRivi rr;
-        rr.lisaa("SHA256-tiiviste / SHA256 sigill");
+        rr.lisaa(kaksikielinen("SHA256-tiiviste"));
         rr.lisaa(QString(QCryptographicHash::hash( shaBytes, QCryptographicHash::Sha256).toHex()));
         rk.lisaaRivi(rr);
     }
     rk.lisaaTyhjaRivi();
-    {
-        RaporttiRivi rr;
-        rr.lisaa("Sähköisen arkiston muuttumattomuus voidaan varmentaa tällä sivulla olevalla sha256-tiivisteellä "
+    const QString varmenneOhje = "Sähköisen arkiston muuttumattomuus voidaan varmentaa tällä sivulla olevalla sha256-tiivisteellä "
                     "ohjelman kotisivulla kitsas.fi olevan ohjeen mukaisesti. Menettely edellyttää, että tämä sivu voidaan "
                     "säilyttää luotettavasti esimerkiksi siten, että sivu allekirjoitetaan tai muuten varmennetaan "
-                    "niin, ettei muutosten tekeminen ole mahdollista.",2);
+                    "niin, ettei muutosten tekeminen ole mahdollista.";
+    {
+        RaporttiRivi rr;
+        rr.lisaa(varmenneOhje,2);
         rk.lisaaRivi(rr);
     }
     rk.lisaaTyhjaRivi();
     {
         RaporttiRivi rr;
-        rr.lisaa("Det elektroniska arkivets oändlighet kan certifieras av sha256 sigill på denna sida "
-                 "enligt instruktionerna på kitsas.fi på programmets hemsida. Proceduren kräver att den här sidan kan "
-                 "behåller på ett tillförlitligt sätt, till exempel, att en sida är signerad eller på annat sätt verifierad "
-                 "så att det inte går att göra ändringar.",2);
+        rr.lisaa(tulkkaa(varmenneOhje, "sv"),2);
         rk.lisaaRivi(rr);
     }
     arkistoiByteArray("arkistovarmenne.pdf", rk.pdf());
@@ -432,7 +437,7 @@ void Arkistoija::viimeistele()
 #endif
 
     out << "<html><meta charset=\"UTF-8\"><head><title>";
-    out << kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi) + " arkisto";
+    out << tulkkaa("%1 arkisto", arkistonKieli).arg(kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi)).toHtmlEscaped();
     out << "</title><link rel='stylesheet' type='text/css' href='static/arkisto.css'></head><body>";
 
     out << navipalkki();
@@ -441,45 +446,45 @@ void Arkistoija::viimeistele()
         out << "<img src=static/logo.png class=logo>";
 
     out << "<h1 class=etusivu>" << kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi) << "</h1>";
-    out << "<h2 class=etusivu>" << tulkkaa("Kirjanpitoarkisto") << "<br>" ;
+    out << "<h2 class=etusivu>" << tulkkaa("Kirjanpitoarkisto", arkistonKieli) << "<br>" ;
     out << tilikausi_.kausivaliTekstina();
     out << "</h2>";
 
     // Jos tilit on päätetty, tulee linkki myös tilinpäätökseen (pdf)
-    out << "<h3>" << tulkkaa("Tilinpäätös") << "</h3><ul>";
+    out << "<h3>" << tulkkaa("Tilinpäätös", arkistonKieli) << "</h3><ul>";
 
     if( QFile::exists( hakemisto.absoluteFilePath("tilinpaatos.pdf")  ))
-           out << "<li><a href=tilinpaatos.pdf>" << tulkkaa("Tilinpäätös") << "</a></li>";
+           out << "<li><a href=tilinpaatos.pdf>" << tulkkaa("Tilinpäätös", arkistonKieli) << "</a></li>";
 
-    out   << "<li><a href=raportit/taseerittely.html>" << tulkkaa("Tase-erittely") << "</a></li></ul>";
+    out   << "<li><a href=raportit/taseerittely.html>" << tulkkaa("Tase-erittely", arkistonKieli) << "</a></li></ul>";
 
 
-    out << "<h3>" << tulkkaa("Kirjanpito") + "</h3>";
-    out << "<ul><li><a href=raportit/paakirja.html>" << tulkkaa("Pääkirja") << "</a></li>";
-    out << "<li><a href=raportit/paivakirja.html>" << tulkkaa("Päiväkirja") << "</a></li>";
-    out << "<li><a href=raportit/tositeluettelo.html>" << tulkkaa("Tositeluettelo") << "</a></li>";
-    out << "<li><a href=raportit/tililuettelo.html>" << tulkkaa("Tililuettelo") << "</a></li>";
-    out << "</ul><h3>" << tulkkaa("Raportit") << "</h3><ul>";
+    out << "<h3>" << tulkkaa("Kirjanpito", arkistonKieli) + "</h3>";
+    out << "<ul><li><a href=raportit/paakirja.html>" << tulkkaa("Pääkirja", arkistonKieli) << "</a></li>";
+    out << "<li><a href=raportit/paivakirja.html>" << tulkkaa("Päiväkirja", arkistonKieli) << "</a></li>";
+    out << "<li><a href=raportit/tositeluettelo.html>" << tulkkaa("Tositeluettelo", arkistonKieli) << "</a></li>";
+    out << "<li><a href=raportit/tililuettelo.html>" << tulkkaa("Tililuettelo", arkistonKieli) << "</a></li>";
+    out << "</ul><h3>" << tulkkaa("Raportit", arkistonKieli) << "</h3><ul>";
 
 
     for( const auto& rnimi : qAsConst(raporttiNimet_))
         out << "<li><a href='raportit/" << rnimi.first << "'>" << rnimi.second << "</a></li>";
 
-    out << "</ul><h3>" << tulkkaa("Laskut ja myynti") << "</h3><ul>";
-    out << "<li><a href=raportit/myyntilaskut.html>" << tulkkaa("Avoimet myyntilaskut") << "</a></li>";
-    out << "<li><a href=raportit/ostolaskut.html>" << tulkkaa("Avoimet ostolaskut") << "</a></li>";
-    out << "<li><a href=raportit/myynnit.html>" << tulkkaa("Myydyt tuotteet") << "</a></li>";
+    out << "</ul><h3>" << tulkkaa("Laskut ja myynti", arkistonKieli) << "</h3><ul>";
+    out << "<li><a href=raportit/myyntilaskut.html>" << tulkkaa("Avoimet myyntilaskut", arkistonKieli) << "</a></li>";
+    out << "<li><a href=raportit/ostolaskut.html>" << tulkkaa("Avoimet ostolaskut", arkistonKieli) << "</a></li>";
+    out << "<li><a href=raportit/myynnit.html>" << tulkkaa("Myydyt tuotteet", arkistonKieli) << "</a></li>";
 
     out << "</ul>";
 
 
 
-    out << "<p class=info>" << tulkkaa("Tämä kirjanpidon sähköinen arkisto on luotu %1 <a href=https://kitsas.fi>Kitsas-ohjelman</a> versiolla %2")
+    out << "<p class=info>" << tulkkaa("Tämä kirjanpidon sähköinen arkisto on luotu %1 <a href=https://kitsas.fi>Kitsas-ohjelman</a> versiolla %2", arkistonKieli)
            .arg(QDate::currentDate().toString("dd.MM.yyyy"),
                 qApp->applicationVersion());
-    out << "<br/>" << tulkkaa("Arkiston muuttumattomuus voidaan valvoa sha256-tiivisteellä") << QString(" <code>%1</code>").arg( QString(QCryptographicHash::hash( shaBytes, QCryptographicHash::Sha256).toHex()) ) << "</p>";
+    out << "<br/>" << tulkkaa("Arkiston muuttumattomuus voidaan valvoa sha256-tiivisteellä", arkistonKieli) << QString(" <code>%1</code>").arg( QString(QCryptographicHash::hash( shaBytes, QCryptographicHash::Sha256).toHex()) ) << "</p>";
     if( tilikausi_.paattyy() > kp()->tilitpaatetty() )
-        out << tulkkaa("Kirjanpito on vielä keskeneräinen.");
+        out << tulkkaa("Kirjanpito on vielä keskeneräinen.", arkistonKieli);
 
 
     out << "</body></html>";
@@ -493,7 +498,7 @@ void Arkistoija::viimeistele()
 RaporttiValinnat Arkistoija::raportti(QString tyyppi)
 {
     RaporttiValinnat valinnat(tyyppi);
-    valinnat.aseta(RaporttiValinnat::Kieli, Kielet::instanssi()->nykyinen()  );
+    valinnat.aseta(RaporttiValinnat::Kieli, arkistonKieli);
     valinnat.aseta(RaporttiValinnat::AlkuPvm, tilikausi_.alkaa());
     valinnat.aseta(RaporttiValinnat::LoppuPvm, tilikausi_.paattyy());
     valinnat.aseta(RaporttiValinnat::SaldoPvm, tilikausi_.paattyy());
@@ -568,7 +573,7 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
             }
             out << ">" << (nimi.isEmpty() ? rooli : nimi)
                  << "</td><td><a href='../liitteet/" << liitetiedosto
-                 << "' class=avaaliite>" << tulkkaa("Avaa") << "</a></td></tr>\n";
+                 << "' class=avaaliite>" << tulkkaa("Avaa", arkistonKieli) << "</a></td></tr>\n";
         }
         out << "</table>";
     }
@@ -579,7 +584,7 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
     out << "<table class=tositeotsikot width=100%><tr>";
     out << "<td class=paiva>" << tosite.value("pvm").toDate().toString("dd.MM.yyyy") << "</td>";
     out << "<td class=tositeotsikko>" << tosite.value("otsikko").toString() << "</td>";
-    out << "<td class=tositetyyppi>" << tulkkaa( tositetyyppi ? kp()->tositeTyypit()->nimi(tositetyyppi) : "") << "</td>";
+    out << "<td class=tositetyyppi>" << (tositetyyppi ? kp()->tositeTyypit()->nimi(tositetyyppi, arkistonKieli) : QString()) << "</td>";
 
     out << QString("<td class=tositetunnus>%1</td></tr>")
            .arg(kp()->tositeTunnus( tosite.value("tunniste").toInt(),
@@ -595,14 +600,14 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
     out << "<table class=viennit";
     if(tuloste)
         out << " border=1 width=100%>";
-    out <<  "><tr><th>" << tulkkaa("Pvm") << "</th><th>" << tulkkaa("Tili") << "</th><th>" << tulkkaa("Kohdennus") << "</th>";
+    out <<  "><tr><th>" << tulkkaa("Pvm", arkistonKieli) << "</th><th>" << tulkkaa("Tili", arkistonKieli) << "</th><th>" << tulkkaa("Kohdennus", arkistonKieli) << "</th>";
     if( tositetyyppi == TositeTyyppi::TILIOTE)
-        out << "<th>" << tulkkaa("Saaja/Maksaja") << "</th>";
-    out << "<th>" << tulkkaa("Selite") << "</th>";
+        out << "<th>" << tulkkaa("Saaja/Maksaja", arkistonKieli) << "</th>";
+    out << "<th>" << tulkkaa("Selite", arkistonKieli) << "</th>";
     if( alv )
-        out << "<th>" << tulkkaa("Alv") << "</th>";
+        out << "<th>" << tulkkaa("Alv", arkistonKieli) << "</th>";
 
-    out << "<th>" << tulkkaa("Debet") << "</th><th>" << tulkkaa("Kredit") << "</th></tr>";
+    out << "<th>" << tulkkaa("Debet", arkistonKieli) << "</th><th>" << tulkkaa("Kredit", arkistonKieli) << "</th></tr>";
 
     for( auto &vientiItem : tosite.value("viennit").toList())    {
         TositeVienti vienti = vientiItem.toMap();
@@ -612,17 +617,17 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
 
         out << "<tr><td class=pvm>" << vienti.value("pvm").toDate().toString("dd.MM.yyyy") ;
         out << "</td><td class=tili><a href='../raportit/paakirja.html#" << tili->numero() << "'>"
-            << tili->nimiNumero() << "</a>";
+            << tili->nimiNumero(arkistonKieli) << "</a>";
 
         QStringList klist;
         // Kohdennukset
         if( vienti.value("kohdennus").toInt())
-            klist << kp()->kohdennukset()->kohdennus( vienti.value("kohdennus").toInt() ).nimi();
+            klist << kp()->kohdennukset()->kohdennus( vienti.value("kohdennus").toInt() ).nimi(arkistonKieli);
         // Merkkaukset
         if( vienti.contains("merkkaukset")) {
             QStringList merkkausLista;
             for(QVariant &mt : vienti.value("merkkaukset").toList()) {
-                merkkausLista << kp()->kohdennukset()->kohdennus(mt.toInt()).nimi();
+                merkkausLista << kp()->kohdennukset()->kohdennus(mt.toInt()).nimi(arkistonKieli);
             }
             klist << merkkausLista.join(", ");
         }
@@ -643,7 +648,7 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
         }
         // Tasaeräpoisto
         if(vienti.tasaerapoisto()) {
-            klist << tulkkaa("Poisto %1 v.").arg(vienti.tasaerapoisto() / 12);
+            klist << tulkkaa("Poisto %1 v.", arkistonKieli).arg(vienti.tasaerapoisto() / 12);
         }
 
 
@@ -701,20 +706,20 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
 
     out << "<table class=extra>\n";
     if( laskumap.contains("numero"))
-        out << "<tr><td class=extrahead>" << tulkkaa("Laskun numero") << " </td><td class=extracol>" << laskumap.value("numero").toString() << "</td><tr>\n";
+        out << "<tr><td class=extrahead>" << tulkkaa("Laskun numero", arkistonKieli) << " </td><td class=extracol>" << laskumap.value("numero").toString() << "</td><tr>\n";
     if( tosite.contains("laskupvm") && tosite.value("laskupvm") != tosite.value("pvm"))
-        out << "<tr><td class=extrahead>" << tulkkaa("Laskun päivämäärä") << " </td><td class=extracol>" << tosite.value("laskupvm").toDate().toString("dd.MM.yyyy") << "</td><tr>\n";
+        out << "<tr><td class=extrahead>" << tulkkaa("Laskun päivämäärä", arkistonKieli) << " </td><td class=extracol>" << tosite.value("laskupvm").toDate().toString("dd.MM.yyyy") << "</td><tr>\n";
     if (tosite.contains("erapvm"))
-       out << "<tr><td class=extrahead>" << tulkkaa("Eräpäivä") << " </td><td class=extracol>" << tosite.value("erapvm").toDate().toString("dd.MM.yyyy") << "</td><tr>\n";
+       out << "<tr><td class=extrahead>" << tulkkaa("Eräpäivä", arkistonKieli) << " </td><td class=extracol>" << tosite.value("erapvm").toDate().toString("dd.MM.yyyy") << "</td><tr>\n";
     if (tosite.contains("viite"))
-       out << "<tr><td class=extrahead>" << tulkkaa("Viite") << " </td><td class=extracol>" << tosite.value("viite").toString() << "</td><tr>\n";
+       out << "<tr><td class=extrahead>" << tulkkaa("Viite", arkistonKieli) << " </td><td class=extracol>" << tosite.value("viite").toString() << "</td><tr>\n";
 
     out << "</table></table class=loki>\n";
 
     // Kommentit
     QVariantList kommenttiLista = tosite.value("kommentit").toList();
     if(!kommenttiLista.isEmpty()) {
-        out << "<h3>" << tulkkaa("Kommentit") << "</h3>";
+        out << "<h3>" << tulkkaa("Kommentit", arkistonKieli) << "</h3>";
         out << "<table class=kommentit>";
         for(auto& item: kommenttiLista) {
             QVariantMap map = item.toMap();
@@ -728,12 +733,12 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
     // Loki
     QVariantList lokiLista = tosite.value("loki").toList();
     if( !lokiLista.isEmpty()) {
-        out << "<h3>" << tulkkaa("Muokkaukset") << "</h3>";
+        out << "<h3>" << tulkkaa("Muokkaukset", arkistonKieli) << "</h3>";
         out << "<table class=loki>";
         for(auto &lokiItem : lokiLista) {
             QVariantMap lokiMap = lokiItem.toMap();
             out << "<tr><td class=lokiaika>" << lokiMap.value("aika").toDateTime().toLocalTime().toString("dd.MM.yyyy hh.mm");
-            out << "</td><td class=lokitila>" << Tosite::tilateksti(lokiMap.value("tila").toInt());
+            out << "</td><td class=lokitila>" << Tosite::tilateksti(lokiMap.value("tila").toInt(), arkistonKieli);
             out << "</td><td class=lokinimi>" << lokiMap.value("nimi").toString() << "</td></tr>\n";
         }
         out << "</table>\n";
@@ -759,8 +764,8 @@ QByteArray Arkistoija::tosite(const QVariantMap& tosite, int indeksi)
 
     out << tositeRunko(tosite, false);
 
-    out << "<p class=info>" << tulkkaa("Kirjanpito arkistoitu") << " " << QDate::currentDate().toString("dd.MM.yyyy");
-    out << "<br><a href=" << tositeJono_.value(indeksi).tiedostonnimi() << ".json>" << tulkkaa("Tositteen täydet tiedot") << "</a>";
+    out << "<p class=info>" << tulkkaa("Kirjanpito arkistoitu", arkistonKieli) << " " << QDate::currentDate().toString("dd.MM.yyyy");
+    out << "<br><a href=" << tositeJono_.value(indeksi).tiedostonnimi() << ".json>" << tulkkaa("Tositteen täydet tiedot", arkistonKieli) << "</a>";
     out << "<script src='../static/jquery.js'></script>";
 
     out << "</body></html>";
@@ -794,7 +799,7 @@ QString Arkistoija::navipalkki(int indeksi) const
     navi.append( kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi) + " ");
 
     if( kp()->onkoHarjoitus())
-        navi.append("<span class=treeni>" + tulkkaa("HARJOITUS") + "</span> ");
+        navi.append("<span class=treeni>" + tulkkaa("HARJOITUS", arkistonKieli) + "</span> ");
 
     navi.append(tilikausi_.kausivaliTekstina());
     navi.append("</a></li>");
@@ -802,14 +807,14 @@ QString Arkistoija::navipalkki(int indeksi) const
 
     if( indeksi > -1 && indeksi + 1 < tositeJono_.count() )
         navi.append( QString("<li class=nappi><a href='%1.html'>%2 &rarr;</a></li>")
-                     .arg( tositeJono_.value(indeksi+1).tiedostonnimi(), tulkkaa("Seuraava")));
+                     .arg( tositeJono_.value(indeksi+1).tiedostonnimi(), tulkkaa("Seuraava", arkistonKieli)));
     else
         navi.append( "<li class=nappi> </li>");
 
     if( indeksi > 0 )
         navi.append( QString("<li class=nappi><a href='%1.html'>&larr; %2</a></li>")
                      .arg(tositeJono_.value(indeksi-1).tiedostonnimi())
-                     .arg(tulkkaa("Edellinen")));
+                     .arg(tulkkaa("Edellinen", arkistonKieli)));
     else
         navi.append("<li class=nappi> </li>");
 
