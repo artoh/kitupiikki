@@ -31,7 +31,6 @@
 #include "db/kirjanpito.h"
 #include "ilmoitintuottaja.h"
 #include "pilvi/pilvimodel.h"
-#include "kieli/kielet.h"
 
 #include "alvilmoitustenmodel.h"
 #include "alvkaudet.h"
@@ -132,7 +131,7 @@ void AlvSivu::paivitaErapaiva()
 void AlvSivu::ilmoita()
 {
     AlvIlmoitusDialog *dlg = new AlvIlmoitusDialog(this);
-    AlvLaskelma *laskelma = new AlvLaskelma(dlg, Kielet::instanssi()->nykyinen());
+    AlvLaskelma *laskelma = new AlvLaskelma(dlg, "fi");
 
     connect(laskelma, &AlvLaskelma::valmis, dlg, &AlvIlmoitusDialog::naytaLaskelma);
     connect(laskelma, &AlvLaskelma::tallennettu, this, &AlvSivu::siirrySivulle);

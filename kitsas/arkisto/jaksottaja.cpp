@@ -63,7 +63,7 @@ void Jaksottaja::kirjaaTilinpaatokseen(const QDate &pvm, const QVariantList &jak
 
     tosite->asetaPvm( pvm );
     tosite->asetaTyyppi( TositeTyyppi::JAKSOTUS );
-    tosite->asetaOtsikko( tulkkaa("Tilinpäätösjaksotukset"));
+    tosite->asetaOtsikko( tulkkaa("Tilinpäätösjaksotukset", "fi"));
     tosite->asetaSarja( kp()->tositeTyypit()->sarja( TositeTyyppi::JAKSOTUS ) ) ;
 
     for( const auto& jaksotus : jaksotukset) {
@@ -138,7 +138,7 @@ void Jaksottaja::kirjaaTilinpaatokseen(const QDate &pvm, const QVariantList &jak
         vienti.setKredit(verovelkasentit);
         vasta.setDebet(verovelkasentit);
 
-        QString selite = tulkkaa("Negatiivisen verovelan kirjaaminen verosaataviin");
+        QString selite = tulkkaa("Negatiivisen verovelan kirjaaminen verosaataviin", "fi");
         vienti.setSelite(selite);
         vasta.setSelite(selite);
 
@@ -245,7 +245,7 @@ void Jaksottaja::kirjaaTilinavaukseen(QVariant *data, const QDate &pvm)
     Tosite* avaus = new Tosite(this);
     avaus->asetaPvm( pvm );
     avaus->asetaTyyppi( TositeTyyppi::JAKSOTUS );
-    avaus->asetaOtsikko( tulkkaa("Tilinavauksen jaksotuskirjaukset"));
+    avaus->asetaOtsikko( tulkkaa("Tilinavauksen jaksotuskirjaukset", "fi"));
     avaus->asetaSarja( kp()->tositeTyypit()->sarja( TositeTyyppi::JAKSOTUS ) ) ;
 
     QDate kausipaattyy = kp()->tilikaudet()->tilikausiPaivalle(pvm).paattyy();
@@ -266,8 +266,8 @@ void Jaksottaja::kirjaaTilinavaukseen(QVariant *data, const QDate &pvm)
         QString selite = vienti.selite();
 
         // #1075 Negatiivisen verovelan selite
-        if( selite == tulkkaa("Negatiivisen verovelan kirjaaminen verosaataviin")) {
-            selite = tulkkaa("Verosaamisen kirjaaminen negatiiviseksi verovelaksi");
+        if( selite == tulkkaa("Negatiivisen verovelan kirjaaminen verosaataviin", "fi")) {
+            selite = tulkkaa("Verosaamisen kirjaaminen negatiiviseksi verovelaksi", "fi");
         }
 
         uusi.setSelite( selite );

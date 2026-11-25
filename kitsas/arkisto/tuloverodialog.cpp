@@ -91,10 +91,9 @@ void TuloveroDialog::accept()
     Tosite* tosite = new Tosite(this);
     tosite->asetaTyyppi(TositeTyyppi::TULOVERO);
     tosite->asetaPvm( tilikausi_.paattyy());
-    tosite->asetaOtsikko(tr("Tuloveron jaksotus tilikaudelta %1").arg(tilikausi_.kausivaliTekstina()));
+    const QString selite = QStringLiteral("Tuloveron jaksotus tilikaudelta %1").arg(tilikausi_.kausivaliTekstina());
+    tosite->asetaOtsikko(selite);
     tosite->asetaSarja( kp()->tositeTyypit()->sarja( TositeTyyppi::TULOVERO ) ) ;
-
-    QString selite = tr("Tuloveron jaksotus tilikaudelta %1").arg(tilikausi_.kausivaliTekstina());
 
     TositeVienti jaksovienti;
     jaksovienti.setPvm(tilikausi_.paattyy());
@@ -173,27 +172,28 @@ void TuloveroDialog::kirjattu()
 QByteArray TuloveroDialog::liite() const
 {
     RaportinKirjoittaja rk;
-    rk.asetaOtsikko( tr("Tuloverolaskelma") );
+    rk.asetaKieli("fi");
+    rk.asetaOtsikko( "Tuloverolaskelma" );
     rk.asetaKausiteksti( tilikausi_.kausivaliTekstina() );
 
     rk.lisaaVenyvaSarake();
     rk.lisaaEurosarake();
     rk.lisaaTyhjaRivi();
 
-    rivi(rk, tr("Veronalainen tulo yhteensä"), ui->tuloEdit->euro());
+    rivi(rk, "Veronalainen tulo yhteensä", ui->tuloEdit->euro());
     rk.lisaaTyhjaRivi();
-    rivi(rk, tr("Kokonaan vähennyskelpoiset kulut"), ui->vahennysEdit->euro());
-    rivi(rk, tr("Puoleksi vähennyskelpoiset kulut"), ui->puoliVahennysEdit->euro());
-    rivi(rk, tr("Vähennyskelpoiset kulut yhteensä"), ui->vahennysEdit->euro() + ui->puoliVahennysEdit->euro()/2);
+    rivi(rk, "Kokonaan vähennyskelpoiset kulut", ui->vahennysEdit->euro());
+    rivi(rk, "Puoleksi vähennyskelpoiset kulut", ui->puoliVahennysEdit->euro());
+    rivi(rk, "Vähennyskelpoiset kulut yhteensä", ui->vahennysEdit->euro() + ui->puoliVahennysEdit->euro()/2);
     rk.lisaaTyhjaRivi();
-    rivi(rk, tr("Verotettava tulos"), ui->tulosEdit->euro());
-    rivi(rk, tr("Vähennettävä aiempi tappio"), ui->tappioEdit->euro());
+    rivi(rk, "Verotettava tulos", ui->tulosEdit->euro());
+    rivi(rk, "Vähennettävä aiempi tappio", ui->tappioEdit->euro());
     rk.lisaaTyhjaRivi();
-    rivi(rk, tr("Lopullinen verotettava tulos"), ui->loppuTulosEdit->euro());
-    rivi(rk, tr("Tuloveron määrä"), ui->veroEdit->euro());
+    rivi(rk, "Lopullinen verotettava tulos", ui->loppuTulosEdit->euro());
+    rivi(rk, "Tuloveron määrä", ui->veroEdit->euro());
     rk.lisaaTyhjaRivi();
-    rivi(rk, tr("Maksetut tuloverot"), ui->maksetutEdit->euro());
-    rivi(rk, tr("Maksamaton tulovero"), ui->jaaveroaEdit->euro());
+    rivi(rk, "Maksetut tuloverot", ui->maksetutEdit->euro());
+    rivi(rk, "Maksamaton tulovero", ui->jaaveroaEdit->euro());
 
     return rk.pdf(false, true);
 }

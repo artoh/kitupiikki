@@ -139,7 +139,7 @@ void LaatijanPaivakirja::dataSaapuu(QVariant *data)
                 rk.lisaaTyhjaRivi();
 
             RaporttiRivi ryhma(RaporttiRivi::EICSV);
-            ryhma.lisaa( kaanna(kp()->tositeTyypit()->nimi(tositetyyppi)),4 );
+            ryhma.lisaa( kp()->tositeTyypit()->nimi(tositetyyppi, kielikoodi()),4 );
             ryhma.lihavoi();
             rk.lisaaRivi(ryhma);
 

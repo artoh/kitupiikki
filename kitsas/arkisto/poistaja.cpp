@@ -58,7 +58,7 @@ bool Poistaja::teepoistot(const Tilikausi &kausi, const QVariantList &poistot)
         Tosite *poistotosite = new Tosite(this);
         poistotosite->asetaPvm( kausi.paattyy() );
         poistotosite->asetaTyyppi( TositeTyyppi::POISTOLASKELMA );
-        poistotosite->asetaOtsikko( tulkkaa("Suunnitelman mukaiset poistot %1").arg(kausi.kausivaliTekstina()));
+        poistotosite->asetaOtsikko( tulkkaa("Suunnitelman mukaiset poistot %1", "fi").arg(kausi.kausivaliTekstina()));
         poistotosite->asetaSarja( kp()->tositeTyypit()->sarja( TositeTyyppi::POISTOLASKELMA ) ) ;
 
         poistotosite->liitteet()->lisaa( ehdotus.pdf(), "poistolaskelma.pdf", "poistolaskelma");
@@ -100,8 +100,8 @@ bool Poistaja::teepoistot(const Tilikausi &kausi, const QVariantList &poistot)
             tulosvienti.setJaksotustili( tili->numero() );      // Jaksotukset tasetilille
 
             QString selite = map.contains("eraid") ?
-                        tulkkaa("Tasaeräpoisto %1 ").arg( map.value("nimike").toString())
-                      : tulkkaa("Menojäännöspoisto %1").arg(tili->nimiNumero());
+                        tulkkaa("Tasaeräpoisto %1", "fi").arg( map.value("nimike").toString())
+                      : tulkkaa("Menojäännöspoisto %1", "fi").arg(tili->nimiNumero("fi"));
 
             if( map.contains("eraid"))
                 tasevienti.setEra(map.value("eraid").toInt());
@@ -125,9 +125,11 @@ bool Poistaja::teepoistot(const Tilikausi &kausi, const QVariantList &poistot)
 
 RaportinKirjoittaja Poistaja::poistoehdotus(const Tilikausi &kausi, const QVariantList &poistot)
 {
+    const QString kieli = "fi";
     RaportinKirjoittaja kirjoittaja;
+    kirjoittaja.asetaKieli(kieli);
 
-    kirjoittaja.asetaOtsikko("POISTOLASKELMA");
+    kirjoittaja.asetaOtsikko(tulkkaa("Poistolaskelma", kieli).toUpper());
     kirjoittaja.asetaKausiteksti( kausi.paattyy().toString("dd.MM.yyyy"));
 
     kirjoittaja.lisaaSarake("TUN123456/31.12.9999");
@@ -138,12 +140,12 @@ RaportinKirjoittaja Poistaja::poistoehdotus(const Tilikausi &kausi, const QVaria
     kirjoittaja.lisaaEurosarake();
 
     RaporttiRivi otsikko;
-    otsikko.lisaa(tulkkaa("Tili/Pvm"));
-    otsikko.lisaa(tulkkaa("Nimike/Kohdennus"));
-    otsikko.lisaa(tulkkaa("Saldo ennen"),1, true);
-    otsikko.lisaa(tulkkaa("Sääntö"), 1, true);
-    otsikko.lisaa(tulkkaa("Poisto"),1,true);
-    otsikko.lisaa(tulkkaa("Saldo jälkeen"),1,true);
+    otsikko.lisaa(tulkkaa("Tili/Pvm", kieli));
+    otsikko.lisaa(tulkkaa("Nimike/Kohdennus", kieli));
+    otsikko.lisaa(tulkkaa("Saldo ennen", kieli),1, true);
+    otsikko.lisaa(tulkkaa("Sääntö", kieli), 1, true);
+    otsikko.lisaa(tulkkaa("Poisto", kieli),1,true);
+    otsikko.lisaa(tulkkaa("Saldo jälkeen", kieli),1,true);
     kirjoittaja.lisaaOtsake(otsikko);
 
     int edellinentili = 0;
@@ -158,7 +160,7 @@ RaportinKirjoittaja Poistaja::poistoehdotus(const Tilikausi &kausi, const QVaria
             kirjoittaja.lisaaRivi();
             RaporttiRivi tilirivi;
             tilirivi.lisaa( QString::number( tili->numero() ) );
-            tilirivi.lisaa( tili->nimi(),5);
+            tilirivi.lisaa( tili->nimi(kieli),5);
             tilirivi.lihavoi();
             kirjoittaja.lisaaRivi(tilirivi);
             edellinentili = tili->numero();
@@ -171,7 +173,7 @@ RaportinKirjoittaja Poistaja::poistoehdotus(const Tilikausi &kausi, const QVaria
             rr.lisaa( map.value("pvm").toDate());
             rr.lisaa( map.value("nimike").toString() );
             rr.lisaa( map.value("ennen").toDouble() );
-            rr.lisaa( tulkkaa("%1 v").arg(map.value("poistoaika").toInt() / 12));
+            rr.lisaa( tulkkaa("%1 v", kieli).arg(map.value("poistoaika").toInt() / 12));
             rr.lisaa( map.value("poisto").toDouble());
             rr.lisaa( map.value("ennen").toDouble() - map.value("poisto").toDouble());
             kirjoittaja.lisaaRivi(rr);
@@ -179,7 +181,7 @@ RaportinKirjoittaja Poistaja::poistoehdotus(const Tilikausi &kausi, const QVaria
         } else {
             RaporttiRivi rr;
             rr.lisaa("");
-            rr.lisaa( kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() ).nimi() );
+            rr.lisaa( kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() ).nimi(kieli) );
             rr.lisaa( map.value("ennen").toDouble() );
             rr.lisaa( QString("%1 %").arg(tili->luku("menojaannospoisto")));
             rr.lisaa( map.value("poisto").toDouble());

@@ -113,6 +113,7 @@ public:
     bool muutettu() const { return muutettu_;}
 
     static QString tilateksti(int tila);
+    static QString tilateksti(int tila, const QString& kieli);
     static QIcon tilakuva(int tila);
 
     int id() const { return data(ID).toInt();}

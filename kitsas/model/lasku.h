@@ -42,7 +42,7 @@ public:
     QString email() const { return str("email").trimmed();}
     void setEmail(const QString& email) { setStr("email",email);}
 
-    QString kieli() const { return str("kieli");}
+    QString kieli() const;
     void setKieli(const QString& kieli) { setStr("kieli", kieli);}
 
     int maksutapa() const { return luku("maksutapa");}
