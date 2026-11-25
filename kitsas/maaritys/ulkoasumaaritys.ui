@@ -56,6 +56,16 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QLabel" name="korkeaKontrastiInfo">
+       <property name="visible">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Korkean kontrastin teema käytössä</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </widget>
   </item>

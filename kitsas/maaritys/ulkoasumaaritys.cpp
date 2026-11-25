@@ -185,6 +185,63 @@ QPalette fusionLightPalette()
 int valittuTeema = JarjestelmanTeema;
 bool varapalettiKaytossa = false;
 
+bool korkeaKontrastiKaytossa()
+{
+    return QGuiApplication::styleHints()->accessibility()->contrastPreference()
+            == Qt::ContrastPreference::HighContrast;
+}
+
+#ifdef Q_OS_WIN
+bool vuorotteluaKorjataan = false;
+
+QColor sekoitaVari(const QColor &pohja, const QColor &lisa, float osuus)
+{
+    return QColor::fromRgbF(pohja.redF() + (lisa.redF() - pohja.redF()) * osuus,
+                            pohja.greenF() + (lisa.greenF() - pohja.greenF()) * osuus,
+                            pohja.blueF() + (lisa.blueF() - pohja.blueF()) * osuus);
+}
+
+// Qt ei aseta Windowsin korkean kontrastin teemoissa AlternateBase-väriä,
+// jolloin tummissa teemoissa joka toinen rivi jää vaaleaksi. Väri lasketaan
+// teeman omista väreistä, ja sovellukselle asetetaan vain se, jotta muut
+// värit seuraavat edelleen järjestelmän teemaa.
+void korjaaVuorottelevaRivi()
+{
+    if (vuorotteluaKorjataan || !korkeaKontrastiKaytossa())
+        return;
+
+    QPalette paletti = QGuiApplication::palette();
+    for (QPalette::ColorGroup ryhma : {QPalette::Active, QPalette::Inactive, QPalette::Disabled}) {
+        paletti.setColor(ryhma, QPalette::AlternateBase,
+                         sekoitaVari(paletti.color(ryhma, QPalette::Base),
+                                     paletti.color(ryhma, QPalette::Text), 0.12f));
+    }
+
+    vuorotteluaKorjataan = true;
+    QApplication::setPalette(paletti);
+    vuorotteluaKorjataan = false;
+}
+
+// Windowsissa käytetään aina kiinteää palettia, paitsi korkean kontrastin
+// tilassa, jolloin järjestelmän värit säilytetään.
+void sovellaWindowsTeema()
+{
+    if (korkeaKontrastiKaytossa()) {
+        if (varapalettiKaytossa) {
+            varapalettiKaytossa = false;
+            QApplication::setPalette(QPalette());
+        }
+        korjaaVuorottelevaRivi();
+        return;
+    }
+
+    const bool tumma = valittuTeema == TummaTeema
+            || (valittuTeema == JarjestelmanTeema
+                && QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark);
+    varapalettiKaytossa = true;
+    QApplication::setPalette(tumma ? fusionDarkPalette() : fusionLightPalette());
+}
+#else
 // Kiinteä paletti otetaan käyttöön vain, jos alusta ei pystynyt
 // pakottamaan valittua teemaa. Korkean kontrastin tilassa järjestelmän
 // värit säilytetään aina.
@@ -192,8 +249,7 @@ void tarkistaVarapaletti()
 {
     if (valittuTeema == JarjestelmanTeema || varapalettiKaytossa)
         return;
-    if (QGuiApplication::styleHints()->accessibility()->contrastPreference()
-            == Qt::ContrastPreference::HighContrast)
+    if (korkeaKontrastiKaytossa())
         return;
 
     const bool tumma = QGuiApplication::palette().window().color().lightness() < 128;
@@ -204,6 +260,7 @@ void tarkistaVarapaletti()
     QApplication::setPalette(valittuTeema == TummaTeema ? fusionDarkPalette()
                                                         : fusionLightPalette());
 }
+#endif
 #endif
 
 bool tyylipaivitysOdottaa = false;
@@ -239,7 +296,11 @@ protected:
     {
         if (event->type() == QEvent::ApplicationPaletteChange && watched == qApp) {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+#ifdef Q_OS_WIN
+            korjaaVuorottelevaRivi();
+#else
             tarkistaVarapaletti();
+#endif
 #endif
             ajastaTyylipaivitys();
         }
@@ -271,6 +332,10 @@ UlkoasuMaaritys::UlkoasuMaaritys() :
     connect(ui->jarjestelmaTeema, &QRadioButton::clicked, this, &UlkoasuMaaritys::vaihdaTeema);
     connect(ui->vaaleaTeema, &QRadioButton::clicked, this, &UlkoasuMaaritys::vaihdaTeema);
     connect(ui->tummaTeema, &QRadioButton::clicked, this, &UlkoasuMaaritys::vaihdaTeema);
+#ifdef Q_OS_WIN
+    connect(QGuiApplication::styleHints()->accessibility(), &QAccessibilityHints::contrastPreferenceChanged,
+            this, &UlkoasuMaaritys::paivitaTeemaValinnat);
+#endif
     if (kiinteatPaletit())
         ui->jarjestelmaTeema->hide();
 #else
@@ -332,8 +397,20 @@ bool UlkoasuMaaritys::nollaa()
         ui->jarjestelmaTeema->setChecked(true);
         break;
     }
+    paivitaTeemaValinnat();
 
     return true;
+}
+
+void UlkoasuMaaritys::paivitaTeemaValinnat()
+{
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0) && defined(Q_OS_WIN)
+    const bool korkeaKontrasti = korkeaKontrastiKaytossa();
+    ui->jarjestelmaTeema->setEnabled(!korkeaKontrasti);
+    ui->vaaleaTeema->setEnabled(!korkeaKontrasti);
+    ui->tummaTeema->setEnabled(!korkeaKontrasti);
+    ui->korkeaKontrastiInfo->setVisible(korkeaKontrasti);
+#endif
 }
 
 void UlkoasuMaaritys::asetaFontti()
@@ -412,13 +489,31 @@ int UlkoasuMaaritys::teemaAsetus()
 #if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
 void UlkoasuMaaritys::asetaTeema(QApplication &app, int teemaAsetus)
 {
+    QStyleHints *hints = QGuiApplication::styleHints();
+#ifdef Q_OS_WIN
+    Q_UNUSED(app);
+    valittuTeema = (teemaAsetus == VaaleaTeema || teemaAsetus == TummaTeema)
+            ? teemaAsetus : JarjestelmanTeema;
+    // Värimaailma asetetaan myös Windowsissa, koska se määrää otsikkopalkin värin.
+    switch (valittuTeema) {
+    case VaaleaTeema:
+        hints->setColorScheme(Qt::ColorScheme::Light);
+        break;
+    case TummaTeema:
+        hints->setColorScheme(Qt::ColorScheme::Dark);
+        break;
+    default:
+        hints->unsetColorScheme();
+        break;
+    }
+    sovellaWindowsTeema();
+#else
     valittuTeema = JarjestelmanTeema;
     if (varapalettiKaytossa) {
         varapalettiKaytossa = false;
         app.setPalette(QPalette());
     }
 
-    QStyleHints *hints = QGuiApplication::styleHints();
     if (kiinteatPaletit()) {
         const bool tumma = teemaAsetus == TummaTeema;
         hints->setColorScheme(tumma ? Qt::ColorScheme::Dark : Qt::ColorScheme::Light);
@@ -441,6 +536,7 @@ void UlkoasuMaaritys::asetaTeema(QApplication &app, int teemaAsetus)
     valittuTeema = teemaAsetus;
     // Osa alustoista (esim. GNOME) vaihtaa teeman vasta tapahtumasilmukassa.
     QTimer::singleShot(0, &app, tarkistaVarapaletti);
+#endif
 }
 #endif
 
@@ -448,6 +544,12 @@ void UlkoasuMaaritys::alustaTeema(QApplication &app)
 {
     app.installEventFilter(new PalettiSuodatin(&app));
 #if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+#ifdef Q_OS_WIN
+    QStyleHints *hints = QGuiApplication::styleHints();
+    QObject::connect(hints, &QStyleHints::colorSchemeChanged, &app, &sovellaWindowsTeema);
+    QObject::connect(hints->accessibility(), &QAccessibilityHints::contrastPreferenceChanged,
+                     &app, &sovellaWindowsTeema);
+#endif
     asetaTeema(app, teemaAsetus());
 #endif
 }
