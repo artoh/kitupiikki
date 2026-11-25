@@ -46,6 +46,7 @@ protected slots:
 
 private:
     static int teemaAsetus();
+    void paivitaTeemaValinnat();
 #if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
     static void asetaTeema(QApplication &app, int teemaAsetus);
 #endif
