@@ -45,6 +45,29 @@ enum TeemaAsetus {
     TummaTeema = 2
 };
 
+#ifdef Q_OS_LINUX
+// Sama päättely kuin Qt:n KDE-teeman valinnassa. Muilla työpöydillä
+// järjestelmän väriteemaa ei saada käyttöön luotettavasti.
+bool kdeTyopoyta()
+{
+    const QByteArray tyopoyta = qgetenv("XDG_CURRENT_DESKTOP").toUpper();
+    const bool kde = tyopoyta.isEmpty()
+            ? !qEnvironmentVariableIsEmpty("KDE_FULL_SESSION")
+            : tyopoyta == "KDE";
+    return kde && qEnvironmentVariableIntValue("KDE_SESSION_VERSION") >= 4;
+}
+#endif
+
+bool kiinteatPaletit()
+{
+#ifdef Q_OS_LINUX
+    static const bool kiinteat = !kdeTyopoyta();
+    return kiinteat;
+#else
+    return false;
+#endif
+}
+
 // Teemavalinta vaatii korkean kontrastin tunnistuksen, joka tuli Qt 6.10:ssä.
 // Vanhemmilla versioilla käytetään aina järjestelmän värejä.
 #if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
@@ -248,6 +271,8 @@ UlkoasuMaaritys::UlkoasuMaaritys() :
     connect(ui->jarjestelmaTeema, &QRadioButton::clicked, this, &UlkoasuMaaritys::vaihdaTeema);
     connect(ui->vaaleaTeema, &QRadioButton::clicked, this, &UlkoasuMaaritys::vaihdaTeema);
     connect(ui->tummaTeema, &QRadioButton::clicked, this, &UlkoasuMaaritys::vaihdaTeema);
+    if (kiinteatPaletit())
+        ui->jarjestelmaTeema->hide();
 #else
     ui->teemaGroup->hide();
 #endif
@@ -377,8 +402,11 @@ void UlkoasuMaaritys::vaihdaTilikarttaKieli()
 
 int UlkoasuMaaritys::teemaAsetus()
 {
-    return kp() ? kp()->settings()->value("Teema", JarjestelmanTeema).toInt()
-                : JarjestelmanTeema;
+    const int teema = kp() ? kp()->settings()->value("Teema", JarjestelmanTeema).toInt()
+                           : JarjestelmanTeema;
+    if (kiinteatPaletit() && teema == JarjestelmanTeema)
+        return VaaleaTeema;
+    return teema;
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
@@ -391,6 +419,13 @@ void UlkoasuMaaritys::asetaTeema(QApplication &app, int teemaAsetus)
     }
 
     QStyleHints *hints = QGuiApplication::styleHints();
+    if (kiinteatPaletit()) {
+        const bool tumma = teemaAsetus == TummaTeema;
+        hints->setColorScheme(tumma ? Qt::ColorScheme::Dark : Qt::ColorScheme::Light);
+        app.setPalette(tumma ? fusionDarkPalette() : fusionLightPalette());
+        return;
+    }
+
     switch (teemaAsetus) {
     case VaaleaTeema:
         hints->setColorScheme(Qt::ColorScheme::Light);
