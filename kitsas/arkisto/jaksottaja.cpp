@@ -166,7 +166,7 @@ RaportinKirjoittaja Jaksottaja::jaksotusSelvitys(const Tilikausi &kausi, const Q
     rk.lisaaEurosarake();
 
     RaporttiRivi ylaotsikko;
-    ylaotsikko.lisaa("Tili",2);
+    ylaotsikko.lisaa(tulkkaa("Tili"),2);
     rk.lisaaOtsake(ylaotsikko);
 
     RaporttiRivi otsikko;

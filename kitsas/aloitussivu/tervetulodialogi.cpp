@@ -93,7 +93,8 @@ void TervetuloDialogi::linuxKaynnistysValikkoon()
     mout << "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
     mout << "<mime-type xmlns=\"http://www.freedesktop.org/standards/shared-mime-info\" type=\"application/kitsas\">\n";
     mout << "<comment xml:lang=\"en\">Kitsas accounting database</comment>\n";
-    mout << "<comment xml:lang=\"en\">Kitsaan kirjanpito</comment>\n";
+    mout << "<comment xml:lang=\"fi\">Kitsaan kirjanpito</comment>\n";
+    mout << "<comment xml:lang=\"sv\">Kitsas bokföringsdatabas</comment>\n";
     mout << "  <glob pattern=\"*.kitsas\"/>\n";
     mout << "</mime-type>";
     mout.flush();
@@ -110,6 +111,9 @@ void TervetuloDialogi::linuxKaynnistysValikkoon()
     out << "Exec=" << qApp->applicationFilePath() << "\n";
     out << "TryExec=" << qApp->applicationFilePath() << "\n";
     out << "GenericName=Kirjanpito\n";
-    out << tr("Comment=Avoimen lähdekoodin kirjanpitäjä\n");
+    out << "GenericName[sv]=Bokföring\n";
+    out << "Comment=Avoimen lähdekoodin kirjanpitäjä\n";
+    out << "Comment[en]=Open source accounting software\n";
+    out << "Comment[sv]=Bokföringsprogram med öppen källkod\n";
     out << "Categories=Office;Finance;Qt;\nMimeType=application/kitsas\nTerminal=false";
 }

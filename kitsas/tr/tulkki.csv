@@ -9,40 +9,40 @@ Päiväkirja,Päiväkirja,Dagbok,Journal
 Pvm,Pvm,Datum,Date
 Tosite,Tosite,Verif.,Vouch.
 Tili,Tili,Konto,Account
-tili_puuttuu,(Ei tiliöity),(Inte redovisas),(Not accounted)
+tili_puuttuu,(Ei tiliöity),(Ej konterat),(Not accounted)
 Kohdennus,Kohdennus,Hänförs till,Allocation
 Yhteensä,Yhteensä,Totalt,Total
 Selite,Selite,Beskrivning,Description
 Sivu %1,Sivu %1,Sidan %1,Page %1
-Kredit €,Kredit €,,Credit €
-Saldo €,Saldo €,,Balance €
+Kredit €,Kredit €,Kredit €,Credit €
+Saldo €,Saldo €,Saldo €,Balance €
 PÄÄKIRJA,PÄÄKIRJA,HUVUDBOK,GENERAL LEDGER
 Pääkirja,Pääkirja,Huvudbok,General ledger
-PÄÄKIRJAN OTE,PÄÄKIRJAN OTE,HUVUDBOKUTDRAG,EXTRACT FROM GENERAL LEDGER
+PÄÄKIRJAN OTE,PÄÄKIRJAN OTE,UTDRAG UR HUVUDBOKEN,EXTRACT FROM GENERAL LEDGER
 Budjetti,Budjetti,Budget,Budget
-Toteutunut,Toteutunut,Förverkligad,Actualised
-Budjettiero €,Budjettiero €,Budgetskillnad €,Difference €
-Toteutunut %,Toteutunut %,Förverkligad %,Realized %
-Kustannuspaikat,Kustannuspaikat,Konstnadsställen,Cost pools
+Toteutunut,Toteutunut,Utfall,Actualised
+Budjettiero €,Budjettiero €,Budgetavvikelse €,Difference €
+Toteutunut %,Toteutunut %,Utfall %,Realized %
+Kustannuspaikat,Kustannuspaikat,Kostnadsställen,Cost pools
 Projektit,Projektit,Projekt,Projects
 Asiakas/Toimittaja,Asiakas/Toimittaja,Kund/Leverantör,Customer/Supplier
 TOSITELUETTELO,TOSITELUETTELO,VERIFIKATLISTA,VOUCHER LIST
 Tositeluettelo,Tositeluettelo,Verifikatlista,Voucher list
 Otsikko,Otsikko,Rubrik,Heading
 Liitteitä,Liitteitä,Bilagor,Attachm.
-Summa €,Summa €,Totalt €,Total €
+Summa €,Summa €,Belopp €,Total €
 Tilin numero,Tilin numero,Kontonummer,Account number
 Tilin nimi,Tilin nimi,Kontonamn,Account name
 TILILUETTELO,TILILUETTELO,KONTOPLAN,SPECIFICATION OF ACCOUNTS
 Tililuettelo,Tililuettelo,Kontoplan,Specification of accounts
 Tilin tyyppi,Tilin tyyppi,Kontotyp,Type
-Saldo %1,Saldo %1,,Balance %1
-Kirjausohjeet,Kirjausohjeet,Instructoner,Instructions
+Saldo %1,Saldo %1,Saldo %1,Balance %1
+Kirjausohjeet,Kirjausohjeet,Konteringsanvisningar,Instructions
 Meno,Meno,Utgift,Outcome
 Tulo,Tulo,Intäkt,Income
 Kululasku,Kululasku,Kostnadsräkning,Bill of costs
-Saapunut verkkolasku,Saapunut verkkolasku,Inkomst nätfaktura,Incoming online invoice
-Myyntilasku,Myyntilasku,Fölsäljningsfaktura,Sales invoice
+Saapunut verkkolasku,Saapunut verkkolasku,Inkommen nätfaktura,Incoming online invoice
+Myyntilasku,Myyntilasku,Försäljningsfaktura,Sales invoice
 Hyvityslasku,Hyvityslasku,Kreditnota,Credit note
 Maksumuistutus,Maksumuistutus,Betalningspåminnelse,Payment reminder
 Siirto,Siirto,Överföring,Transfer
@@ -52,18 +52,18 @@ Muistio,Muistio,Memorial,Memo
 Liitetieto,Liitetieto,Not,Attachment
 Tuonti,Tuonti,Import,Import
 Muu,Muu,Annan,Other
-Tilinavaus,Tilinavaus,Öppnande av konto,Opening of an account
-Alv-laskelma,Alv-laskelma,Moms-beräkning,VAT calculation
+Tilinavaus,Tilinavaus,Ingående balans,Opening of an account
+Alv-laskelma,Alv-laskelma,Momsberäkning,VAT calculation
 Poistolaskelma,Poistolaskelma,Avskrivningsberäkning,Depreciation allowance calculation
-Jaksotus,Jaksotus,Periodindelning,Periodization
+Jaksotus,Jaksotus,Periodisering,Periodization
 Tulovero,Tulovero,Inkomstskatt,Income tax
-TASE-ERITTELY,TASE-ERITTELY,SPECIFICATION TILL BALANSRÄKNINGEN,BALANCE SHEET BREAKDOWN
-Tase-erittely,Tase-erittely,Specification till balansräkningen,Balance sheet breakdown
+TASE-ERITTELY,TASE-ERITTELY,BALANSSPECIFIKATION,BALANCE SHEET BREAKDOWN
+Tase-erittely,Tase-erittely,Balansspecifikation,Balance sheet breakdown
 VASTAAVAA,VASTAAVAA,AKTIVA,ASSETS
 VASTATTAVAA,VASTATTAVAA,PASSIVA,LIABILITIES
 VASTAAVAA YHTEENSÄ,VASTAAVAA YHTEENSÄ,AKTIVA TOTALT,ASSETS TOTAL
 VASTATTAVAA YHTEENSÄ,VASTATTAVAA YHTEENSÄ,PASSIVA TOTALT,LIABILITIES TOTAL
-Lisäykset/vähennykset %1 saakka,Lisäykset/vähennykset %1 saakka,Ökningar/avdrag upp till %1,Additions/reductions until %1
+Lisäykset/vähennykset %1 saakka,Lisäykset/vähennykset %1 saakka,Ökningar/minskningar till och med %1,Additions/reductions until %1
 Jäljellä %1,Jäljellä %1,Återstående %1,Remaining %1
 Loppusaldo %1,Loppusaldo %1,Utgående saldo %1,Ending balance %1
 Alkusaldo %1,Alkusaldo %1,Ingående saldo %1,Beginning balance
@@ -77,32 +77,32 @@ Avoimet ostolaskut,Avoimet ostolaskut,Öppna inköpsfakturor,Open purchase invoi
 OSTOLASKUT,OSTOLASKUT,INKÖPSFAKTUROR,PURCHASE INVOICES
 Numero,Numero,Nummer,Number
 Laskupvm,Laskupvm,Fakturadag,Invoice date
-Eräpvm,Eräpvm,Förfallogdag,Due date
-Maksamatta,Maksamatta,Obetald,Unpaid
+Eräpvm,Eräpvm,Förfallodag,Due date
+Maksamatta,Maksamatta,Obetalt,Unpaid
 Päivämäärä,Päivämäärä,Datum,Date
 Asiakas,Asiakas,Kund,Customer
 Toimittaja,Toimittaja,Leverantör,Supplier
 Viite,Viite,Referens,Reference
 Tuote,Tuote,Produkt,Product
 myynti kpl,myynti kpl,försäljning st,sales pcs
-keskim. á netto,keskim. á netto,genomsn á netto,average á net
-keskim. á brutto,keskim. á brutto,genomsn á brutto,average á gross
+keskim. á netto,keskim. á netto,Genomsnittligt nettopris per enhet,average á net
+keskim. á brutto,keskim. á brutto,Genomsnittligt bruttopris per enhet,average á gross
 netto yht,netto yht,totalt netto,total net
 brutto yht,brutto yht,totalt brutto,totalt gross
 MYYNTI,MYYNTI,FÖRSÄLJNING,SALES
-Muu myynti,Muu myynti,Annan försäljing,Other sales
+Muu myynti,Muu myynti,Annan försäljning,Other sales
 ARVONLISÄVEROLASKELMA,ARVONLISÄVEROLASKELMA,MOMSBERÄKNING,VAT CALCULATION
 Arvonlisäveroilmoituksen tiedot,Arvonlisäveroilmoituksen tiedot,Information om momsdeklaration,
-Maksuperusteinen arvonlisävero,Maksuperusteinen arvonlisävero,Uppskjuten moms,
-Suoritettava %1%:n vero kotimaan myynnistä,Suoritettava %1%:n vero kotimaan myynnistä,Skatt på inhemsk försäljning enligt skattesatserna moms %1 %,
-Vero tavaroiden maahantuonnista EU:n ulkopuolelta,Vero tavaroiden maahantuonnista EU:n ulkopuolelta,Moms på varuinköp från områden utanför EU,
+Maksuperusteinen arvonlisävero,Maksuperusteinen arvonlisävero,Moms enligt betalningsprincipen,
+Suoritettava %1%:n vero kotimaan myynnistä,Suoritettava %1%:n vero kotimaan myynnistä,Moms på inhemsk försäljning enligt skattesatsen %1 %,
+Vero tavaroiden maahantuonnista EU:n ulkopuolelta,Vero tavaroiden maahantuonnista EU:n ulkopuolelta,Moms på import av varor från områden utanför EU,
 Vero tavaraostoista muista EU-maista,Vero tavaraostoista muista EU-maista,Moms på varuinköp från andra EU-länder,
 Vero palveluostoista muista EU-maista,Vero palveluostoista muista EU-maista,Moms på inköp av tjänster från andra EU-länder,
-Verokauden vähennettävä vero,Verokauden vähennettävä vero,Moms som ska dras av för skatteperiod,
-Maksettava vero / Palautukseen oikeuttava vero,Maksettava vero / Palautukseen oikeuttava vero,Moms att betala / Moms som berättingar till återbäring,
-0-verokannan alainen liikevaihto,0-verokannan alainen liikevaihto,Omsättning enligt 0-skattesats,
+Verokauden vähennettävä vero,Verokauden vähennettävä vero,Moms att dra av för skatteperioden,
+Maksettava vero / Palautukseen oikeuttava vero,Maksettava vero / Palautukseen oikeuttava vero,Moms att betala / Moms som berättigar till återbäring,
+0-verokannan alainen liikevaihto,0-verokannan alainen liikevaihto,Omsättning enligt nollskattesatsen,
 Tavaroiden maahantuonnit EU:n ulkopuolelta,Tavaroiden maahantuonnit EU:n ulkopuolelta,Import av varor från områden utanför EU,
-Palveluostot EU:n ulkopuolelta ,Palveluostot EU:n ulkopuolelta ,Inköp av tjänster från områden untanför EU,
+Palveluostot EU:n ulkopuolelta ,Palveluostot EU:n ulkopuolelta ,Inköp av tjänster från områden utanför EU,
 Tavaroiden myynnit muihin EU-maihin,Tavaroiden myynnit muihin EU-maihin,Varuförsäljningar till andra EU-länder,
 Palveluiden myynnit muihin EU-maihin,Palveluiden myynnit muihin EU-maihin,Försäljning av tjänster till andra EU-länder,
 Tavaraostot muista EU-maista,Tavaraostot muista EU-maista,Varuinköp från andra EU-länder,
@@ -113,19 +113,19 @@ Alarajahuojennukseen oikeuttava liikevaihto,Alarajahuojennukseen oikeuttava liik
 Alarajahuojennukseen oikeuttava vero,Alarajahuojennukseen oikeuttava vero,Skatt som berättigar till lättnad vid den nedre gränsen,
 Alarajahuojennuksen määrä,Alarajahuojennuksen määrä,Beloppet av lättnad vid den nedre gränsen,
 Ei oikeutta alarajahuojennukseen,Ei oikeutta alarajahuojennukseen,Ingen rätt till lättnad vid den nedre gränsen,
-Arvonlisävero %1 - %2,Arvonlisävero %1 - %2,Medvärdesskatt %1 - %2,
+Arvonlisävero %1 - %2,Arvonlisävero %1 - %2,Moms %1–%2,
 Tilinpäätös,Tilinpäätös,Bokslut,
 Y-tunnus,Y-tunnus,FO-nummer,
 Kirjanpitoaineisto,Kirjanpitoaineisto,Bokföringsmaterial,
-Veroton,Veroton,Skattefri,
-Verollinen myynti (netto),Verollinen myynti (netto),Skattebelagd försäljning (netto),
-Verollinen osto (netto),Verollinen osto (netto),Skattebelagd inköp (netto),
-Verollinen myynti (maksuperusteinen alv),Verollinen myynti (maksuperusteinen alv),Skattebelagd försäljning (avgiftsbestämd moms),
-Verollinen osto (maksuperusteinen alv),Verollinen osto (maksuperusteinen alv),Skattebelagd inköp (avgiftsbestämd moms),
-Ennakkolasku (myynti),Ennakkolasku (myynti),Förhandsfaktura (försäljning),
-Verollinen myynti (brutto),Verollinen myynti (brutto),Skattebelagd försäljning (brutto),
-Verollinen osto (brutto),Verollinen osto (brutto),Skattebelagd inköp (brutto),
-Nollaverokannan alainen myynti,Nollaverokannan alainen myynti,Noll skattesats försäljning,
+Veroton,Veroton,Momsfri,
+Verollinen myynti (netto),Verollinen myynti (netto),Momspliktig försäljning (netto),
+Verollinen osto (netto),Verollinen osto (netto),Momspliktiga inköp (netto),
+Verollinen myynti (maksuperusteinen alv),Verollinen myynti (maksuperusteinen alv),Momspliktig försäljning (moms enligt betalningsprincipen),
+Verollinen osto (maksuperusteinen alv),Verollinen osto (maksuperusteinen alv),Momspliktiga inköp (moms enligt betalningsprincipen),
+Ennakkolasku (myynti),Ennakkolasku (myynti),Förskottsfaktura (försäljning),
+Verollinen myynti (brutto),Verollinen myynti (brutto),Momspliktig försäljning (brutto),
+Verollinen osto (brutto),Verollinen osto (brutto),Momspliktiga inköp (brutto),
+Nollaverokannan alainen myynti,Nollaverokannan alainen myynti,Försäljning med nollskattesats,
 "Voittomarginaalijärjestelmä, myynti","Voittomarginaalijärjestelmä, myynti","Vinstmarginalsystem, försäljning",
 "Voittomarginaalijärjestelmä, osto","Voittomarginaalijärjestelmä, osto","Vinstmarginalsystem, inköp",
 Tavaroiden yhteisömyynti,Tavaroiden yhteisömyynti,Varuförsäljningar till andra EU-länder,
@@ -133,75 +133,75 @@ Palveluiden yhteisömyynti,Palveluiden yhteisömyynti,Försäljning av tjänster
 Tavaroiden yhteisöhankinnat,Tavaroiden yhteisöhankinnat,Varuinköp från andra EU-länder,
 Palveluiden yhteisöhankinnat,Palveluiden yhteisöhankinnat,Inköp av tjänster från andra EU-länder,
 Tavaroiden maahantuonti EU:n ulkopuolelta,Tavaroiden maahantuonti EU:n ulkopuolelta,Import av varor från områden utanför EU,
-"Tavaroiden maahantuonti, veron kirjaus","Tavaroiden maahantuonti, veron kirjaus","Import av varor, inskriftning av skatt",
-Rakennuspalveluiden myynti,Rakennuspalveluiden myynti,Försäljningar av byggtjänster ,
+"Tavaroiden maahantuonti, veron kirjaus","Tavaroiden maahantuonti, veron kirjaus","Import av varor, bokföring av moms",
+Rakennuspalveluiden myynti,Rakennuspalveluiden myynti,Försäljning av byggtjänster,
 Rakentamispalveluiden osto,Rakentamispalveluiden osto,Inköp av byggtjänster,
-Maksettavan arvonlisäveron tilitys,Maksettavan arvonlisäveron tilitys,Utförande av merdvärdesskatt,
+Maksettavan arvonlisäveron tilitys,Maksettavan arvonlisäveron tilitys,Redovisning av moms att betala,
 Tekninen kirjaus,Tekninen kirjaus,Teknisk bokföring,
-Vähennyskelvottoman oston veron osuus,Vähennyskelvottoman oston veron osuus,Andel av skatten på icke avdragsgilla köp ,
+Vähennyskelvottoman oston veron osuus,Vähennyskelvottoman oston veron osuus,Momsandel på inköp som inte är avdragsgilla,
 VERON MÄÄRÄ %1,VERON MÄÄRÄ %1,BELOPPET AV SKATTEN %1,
 VÄHENNYKSEN MÄÄRÄ %1,VÄHENNYKSEN MÄÄRÄ %1,BELOPPET AV AVDRAG %1,
-KOHDENTAMATON MAKSUPERUSTEINEN %1,KOHDENTAMATON MAKSUPERUSTEINEN %1,OFÖRDELADE AVGIFTSBESTÄMD MOMS %1,
-Erittely,Erittely,Specification,
-Aiempi alijäämä,Aiempi alijäämä,Tidagare underskott,
+KOHDENTAMATON MAKSUPERUSTEINEN %1,KOHDENTAMATON MAKSUPERUSTEINEN %1,OFÖRDELAD MOMS ENLIGT BETALNINGSPRINCIPEN %1,
+Erittely,Erittely,Specifikation,
+Aiempi alijäämä,Aiempi alijäämä,Tidigare underskott,
 Marginaali,Marginaali,Marginal,
 Alijäämä,Alijäämä,Underskott,
 Vero,Vero,Skatt,Tax
-TILINPÄÄTÖSJAKSOTUKSET,TILINPÄÄTÖSJAKSOTUKSET,PERIODINDELNINGAR,
-Jaksotukset yhteensä,Jaksotukset yhteensä,Periodindelningar totalt,
+TILINPÄÄTÖSJAKSOTUKSET,TILINPÄÄTÖSJAKSOTUKSET,BOKSLUTSPERIODISERINGAR,
+Jaksotukset yhteensä,Jaksotukset yhteensä,Periodiseringar totalt,
 Verosaamiseksi kirjattava negatiivinen verovelka,Verosaamiseksi kirjattava negatiivinen verovelka,Negativ skatteskuld som ska bokföras som skattefordran,
-Tilinavauksen jaksotuskirjaukset,Tilinavauksen jaksotuskirjaukset,Periodiska poster i kontot öppnande,
-Tilinpäätösjaksotukset,Tilinpäätösjaksotukset,Periodiska poster i bokslutet,
-Suunnitelman mukaiset poistot %1,Suunnitelman mukaiset poistot %1,Avskrivningar enligt plan,
+Tilinavauksen jaksotuskirjaukset,Tilinavauksen jaksotuskirjaukset,Periodiseringsposter i den ingående balansen,
+Tilinpäätösjaksotukset,Tilinpäätösjaksotukset,Bokslutsperiodiseringar,
+Suunnitelman mukaiset poistot %1,Suunnitelman mukaiset poistot %1,Avskrivningar enligt plan %1,
 Tasaeräpoisto %1,Tasaeräpoisto %1,Avskrivning med jämna rater %1,
 Menojäännöspoisto %1,Menojäännöspoisto %1,Restvärdesavskrivning %1,
 Tili/Pvm,Tili/Pvm,Konto/Datum,
-Nimike/Kohdennus,Nimike/Kohdennus,Position/Konstnandsställe,
+Nimike/Kohdennus,Nimike/Kohdennus,Benämning/Allokering,
 Saldo ennen,Saldo ennen,Saldo före,
 Sääntö,Sääntö,Regel,
 Poisto,Poisto,Avskrivning,
 Saldo jälkeen,Saldo jälkeen,Saldo efter,
 %1 v,%1 v,%1 år,
 %1 kpl,%1 kpl,%1 st,
-Tämä kirjanpidon sähköinen arkisto on luotu %1 <a href=https://kitsas.fi>Kitsas-ohjelman</a> versiolla %2,Tämä kirjanpidon sähköinen arkisto on luotu %1 <a href=https://kitsas.fi>Kitsas-ohjelman</a> versiolla %2,Detta elektroniska arkiv för redovisning skapades %1 med version %2 av Kitsas-programmet,
-Arkiston muuttumattomuus voidaan valvoa sha256-tiivisteellä,Arkiston muuttumattomuus voidaan valvoa sha256-tiivisteellä,Arkivets oändlighet kan övervakas med en sha256 sigill,
+Tämä kirjanpidon sähköinen arkisto on luotu %1 <a href=https://kitsas.fi>Kitsas-ohjelman</a> versiolla %2,Tämä kirjanpidon sähköinen arkisto on luotu %1 <a href=https://kitsas.fi>Kitsas-ohjelman</a> versiolla %2,Detta elektroniska bokföringsarkiv skapades %1 med <a href=https://kitsas.fi>Kitsas</a> version %2,
+Arkiston muuttumattomuus voidaan valvoa sha256-tiivisteellä,Arkiston muuttumattomuus voidaan valvoa sha256-tiivisteellä,Du kan kontrollera att arkivet är oförändrat med dess SHA-256-kontrollsumma.,
 Kirjanpito on vielä keskeneräinen.,Kirjanpito on vielä keskeneräinen.,Redovisningen är fortfarande oavslutad.,
 Kirjanpito arkistoitu,Kirjanpito arkistoitu,Bokföring arkiverad,
-Kirjanpitoarkisto,Kirjanpitoarkisto,Bokföringarkiv,
+Kirjanpitoarkisto,Kirjanpitoarkisto,Bokföringsarkiv,
 Kirjanpito,Kirjanpito,Bokföring,
 Raportit,Raportit,Rapporter,
-Laskut ja myynti,Laskut ja myynti,Räkningar och försäljning,
+Laskut ja myynti,Laskut ja myynti,Fakturor och försäljning,
 Myydyt tuotteet,Myydyt tuotteet,Sålda produkter,
 Edellinen,Edellinen,Föregående,
 Seuraava,Seuraava,Följande,
-Laskun numero,Laskun numero,Faktura nummer,
+Laskun numero,Laskun numero,Fakturanummer,
 Tositteen täydet tiedot,Tositteen täydet tiedot,Fullständig information om verifikatet,
-Kirjanpidossa,Kirjanpidossa,Redovisad,Accounted
+Kirjanpidossa,Kirjanpidossa,Bokfört,Accounted
 Luonnos,Luonnos,Utkast,Draft
 Alv,Alv,Moms,Vat
-Hylätty,Hylätty,Avslagen,Rejected
-Saapunut,Saapunut,Anlände,Received
+Hylätty,Hylätty,Avvisat,Rejected
+Saapunut,Saapunut,Mottaget,Received
 Tarkastettu,Tarkastettu,Granskad,Checked
 Hyväksytty,Hyväksytty,Godkänd,Approved
 Valmis,Valmis,Färdig,Ready
-Lähetetään,Lähetetään,Överförs,In progress
-Lähetetty,Lähetetty,Skeppas,Send
-Muistutettu,Muistutettu,Påminde,Recalled
+Lähetetään,Lähetetään,Skickas,In progress
+Lähetetty,Lähetetty,Skickat,Send
+Muistutettu,Muistutettu,Påminnelse skickad,Recalled
 Toimitettu,Toimitettu,Levererad,Delivered
 Epäonnistui,Epäonnistui,Misslyckades,Failed
-alkuplasku,Alkuperäinen lasku|Laskun numero: %1|Laskun päiväys: %2|Eräpäivä: %3,Originalfaktura|Fakturas nummer: %1|Datum: %2|Förfallodag: %3,Original invoice|Invoice number: %1|Date of invoice: %2|Due date: %3
+alkuplasku,Alkuperäinen lasku|Laskun numero: %1|Laskun päiväys: %2|Eräpäivä: %3,Ursprunglig faktura|Fakturanummer: %1|Fakturadatum: %2|Förfallodag: %3,Original invoice|Invoice number: %1|Date of invoice: %2|Due date: %3
 toimpvm,Toimituspäivämäärä,Leveransdatum,Date of delivery
-muistutusnro,Maksumuistutuksen numero,Betalningspåminnelses nummer,Number of request for payment
+muistutusnro,Maksumuistutuksen numero,Betalningspåminnelsens nummer,Number of request for payment
 asviite,Asiakkaan viite,Kundens referens,Your reference
 maksumuistutus,MAKSUMUISTUTUS,BETALNINGSPÅMINNELSE,REQUEST FOR PAYMENT
 hyvnro,Hyvityslaskun numero,Kreditnotans nummer,Number of compensation invoice
 yhteensa,Yhteensä,Totalt,Total
-mmrivi,Laskun avoin saldo,Öppet saldo för faktura,Open balance for invoice
-anetto,á netto,,á net
-kateislasku,Käteislasku / Kuitti,Kontantkvitto,Cash receipt
-muistutussaate,"Kirjanpitomme mukaan emme ole saaneet maksusuoritustanne. Pyydämme maksuanne oheisen erittelyn mukaisesti. Mikäli olette jo maksaneet laskun tai lasku on virheellinen, ottakaa yhteyttä asian selvittämiseksi.","Enligt våra noteringar är ovanstående fakturor obetalda. Vi ber er betala dem omgående. Om ni har betalt eller om faktura är felig, var vänlig och kontakta oss.","According to our records, we have not yet received a remittance for invoice in the attachement. If you have already sent your payment or there is a mistake in this invoice, please contact us."
-eimaksettavaa,Ei maksettavaa,Ingen betalbar,No payable
-luonnos,LUONNOS,SKISS,DRAFT
+mmrivi,Laskun avoin saldo,Obetalt belopp på fakturan,Open balance for invoice
+anetto,á netto,Nettopris per enhet,á net
+kateislasku,Käteislasku / Kuitti,Kontantfaktura / Kvitto,Cash receipt
+muistutussaate,"Kirjanpitomme mukaan emme ole saaneet maksusuoritustanne. Pyydämme maksuanne oheisen erittelyn mukaisesti. Mikäli olette jo maksaneet laskun tai lasku on virheellinen, ottakaa yhteyttä asian selvittämiseksi.",Enligt vår bokföring har vi ännu inte fått din betalning. Betala enligt den bifogade specifikationen. Om du redan har betalat eller om fakturan är felaktig ber vi dig kontakta oss.,"According to our records, we have not yet received a remittance for invoice in the attachement. If you have already sent your payment or there is a mistake in this invoice, please contact us."
+eimaksettavaa,Ei maksettavaa,Inget att betala,No payable
+luonnos,LUONNOS,UTKAST,DRAFT
 alv,ALV,MOMS,VAT
 alvp,Arvonlisävero,MOMS,VAT
 btl,Tililtä nro|Från konto nr,Tililtä nro|Från konto nr,From account|no.
@@ -210,17 +210,17 @@ pvm,Päivämäärä,Datum,Date
 bvn,Viitenumero|Ref.nr.,Viitenumero|Ref.nr.,Ref. No.
 huomaika,Huomautusaika,Anmärkningstid,Period for complaints
 lkm,Määrä,Antal,Qty
-muistutusmaksu,Huomautuskulut,Betalningspåminnelses avgift,Request for payment fee
-alv0,Veroton myynti,Skattefri försäljning ,Tax free sale
-alvtunnus,ALV-tunnus,MOMS-nummer,VAT number
+muistutusmaksu,Huomautuskulut,Påminnelseavgift,Request for payment fee
+alv0,Veroton myynti,Momsfri försäljning,Tax free sale
+alvtunnus,ALV-tunnus,Momsnummer,VAT number
 paivaa,päivää,dagar,days
-veroton,Veroton,Utan skatt,Excluding VAT
+veroton,Veroton,Exklusive moms,Excluding VAT
 erapvm,Eräpäivä,Förfallodag,Due date
 bic,BIC,BIC,BIC
 viivkorko,Viivästyskorko,Dröjsmålsränta,Interest on overdue payments
 maksettu,Maksettu,Betald,Paid
 laskuotsikko,Lasku,Faktura,Invoice
-muistutusteksti,"Kirjanpitomme mukaan emme ole saaneet maksusuoritustanne. Pyydämme maksuanne alla olevan erittelyn mukaisesti. Mikäli olette jo maksaneet laskun tai lasku on virheellinen, ottakaa yhteyttä asian selvittämiseksi.","Enligt våra noteringar är ovanstående fakturor obetalda. Vi ber er betala dem omgående. Om ni har betalt eller om faktura är felig, var vänlig och kontakta oss.","According to our records, we have not yet received a remittance for above invoice. If you have already sent your payment or there is a mistake in this invoice, please contact us."
+muistutusteksti,"Kirjanpitomme mukaan emme ole saaneet maksusuoritustanne. Pyydämme maksuanne alla olevan erittelyn mukaisesti. Mikäli olette jo maksaneet laskun tai lasku on virheellinen, ottakaa yhteyttä asian selvittämiseksi.",Enligt vår bokföring har vi ännu inte fått din betalning. Betala enligt specifikationen nedan. Om du redan har betalat eller om fakturan är felaktig ber vi dig kontakta oss.,"According to our records, we have not yet received a remittance for above invoice. If you have already sent your payment or there is a mistake in this invoice, please contact us."
 asytunnus,Asiakkaan y-tunnus,Kundens FO-nummer,Customer's Business ID
 jatkuu,Jatkuu...,Fortsätter...,To be continued...
 puhelin,Puhelin,Telefon,Phone
@@ -231,52 +231,52 @@ lnro,Laskun numero,Fakturans nummer,Invoice number
 bst,Saajan|tilinumero|Mottagarens|kontonummer,Saajan|tilinumero|Mottagarens|kontonummer,Recipient's|account number
 virtviiv,Virtuaaliviivakoodi,Virtuell streckkod,Virtual barcode
 alv91,Voittomarginaalijärjestelmä - Käytetyt tavarat,Vinstmarginalsystem - Begagnade varor,Margin scheme - Second-hand goods
-bmo,Maksajan|nimi ja|osoite|Betalarens|namn och|address,Maksajan|nimi ja|osoite|Betalarens|namn och|address,Payer's|name and|address
+bmo,Maksajan|nimi ja|osoite|Betalarens|namn och|address,Maksajan|nimi ja|osoite|Betalarens|namn och|adress,Payer's|name and|address
 alv93,Voittomarginaalijärjestelmä - Keräily- ja antiikkiesineet,Vinstmarginalsystem - Samlarföremål och antikviteter,Margin scheme - Collectors' items and antiques
 alv92,Voittomarginaalijärjestelmä - Taide-esineet,Vinstmarginalsystem - Konstverk,Margin scheme - Works of art
-alv15,"AVL 65 §: Käännetty verovelvollisuus, arvonlisäverodirektiivi art. 44","AVL 65 §: Omvänd skattsskyldighet, momsdirektivet artikel 44","AVL 65 §: Reverse charge, VAT Directive art. 44"
-alv14,AVL 72a §: ALV 0% Yhteisömyynti,AVL 72 a §: Moms 0 % Gemenskapförsäljning,AVL 72a §: VAT 0% Intra Community supply
-alv16,AVL 8 c §: Käännetty verovelvollisuus,"AVL 8 c: Omvänd skattsskyldighet, momsdirektivet artikel 199","AVL 8 c §: Reverse charge, VAT Directive art. 199"
-alv19,ALV 0%,MOMS 0%,VAT 0%
+alv15,"AVL 65 §: Käännetty verovelvollisuus, arvonlisäverodirektiivi art. 44","MomsL 65 §: Omvänd skattskyldighet, artikel 44 i mervärdesskattedirektivet","AVL 65 §: Reverse charge, VAT Directive art. 44"
+alv14,AVL 72a §: ALV 0% Yhteisömyynti,"MomsL 72 a §: Moms 0 %, gemenskapsintern försäljning",AVL 72a §: VAT 0% Intra Community supply
+alv16,AVL 8 c §: Käännetty verovelvollisuus,MomsL 8 c §: Omvänd skattskyldighet,"AVL 8 c §: Reverse charge, VAT Directive art. 199"
+alv19,ALV 0%,MOMS 0 %,VAT 0%
 iban,IBAN,IBAN,IBAN
-aiempimuistutus,Aiempi maksumuistutus|Laskun numero: %1|Laskun päiväys: %2|Eräpäivä: %3,Tidigare betalningspåminnelse|Faktura nummer: %1|Datum: %2|Förfallodag: %3,Earlier request for payment|Invoice number: %1|Date on invoice: %2|Due date: %3
-alv13,Voittomarginaalijärjestelmä,Vinstmarginalsystem - Begagnade varor,Margin scheme
-lpvm,Laskun päivämäärä,Datum,Date
+aiempimuistutus,Aiempi maksumuistutus|Laskun numero: %1|Laskun päiväys: %2|Eräpäivä: %3,Tidigare betalningspåminnelse|Fakturanummer: %1|Fakturadatum: %2|Förfallodag: %3,Earlier request for payment|Invoice number: %1|Date on invoice: %2|Due date: %3
+alv13,Voittomarginaalijärjestelmä,Vinstmarginalsystem,Margin scheme
+lpvm,Laskun päivämäärä,Fakturadatum,Date
 viitenro,Viitenumero,Referensnummer,Reference number
-hyvitysteksti,"Hyvityslasku laskulle %1, päiväys %2","Kompensation för faktura %1, datum %2","Compensation for invoice %1, date %2"
-hyvpvm,Hyvityksen päivämäärä,Kompensationdatum,Date of compensation
+hyvitysteksti,"Hyvityslasku laskulle %1, päiväys %2","Kreditnota för faktura %1, daterad %2","Compensation for invoice %1, date %2"
+hyvpvm,Hyvityksen päivämäärä,Krediteringsdatum,Date of compensation
 sahkoposti,Sähköposti,E-post,Email
 bsa,Saaja|Mottagare,Saaja|Mottagare,Recipient
-ahinta,á hinta,á pris,á price
+ahinta,á hinta,À-pris,á price
 hinta,Hinta,Pris,Price
-ennakkolasku,Ennakkolasku,Förhandsfaktura,Advance invoice
-enhyri,Ennakkolaskun %1 hyvitys,Kompensation för förhandsfaktura %1,Compensation for advance invoice %1
+ennakkolasku,Ennakkolasku,Förskottsfaktura,Advance invoice
+enhyri,Ennakkolaskun %1 hyvitys,Kreditering av förskottsfaktura %1,Compensation for advance invoice %1
 alennus,alennus,rabatt,discount
 summa,Laskun summa,Totalt,Total
 hlasku,Hyvityslasku,Kreditnota,Compensation invoice
 ytunnus,Y-tunnus,FO-nummer,Business ID
-verollinen,Verollinen,Med skatten,Includes VAT
-YhteensaVeroton,Yhteensä veroton,Totalt utan skatten,Total excludes VAT
-YhteensaVerollinen,Yhteensä verollinen,Totalt med skatten,Total includes VAT
+verollinen,Verollinen,Inklusive moms,Includes VAT
+YhteensaVeroton,Yhteensä veroton,Totalt exklusive moms,Total excludes VAT
+YhteensaVerollinen,Yhteensä verollinen,Totalt inklusive moms,Total includes VAT
 mmotsikko,Maksumuistutus laskusta %1,Betalningspåminnelse för faktura %1,Request for payment %1
 Yhteensa,Yhteensä,Totalt,Total
-eialv,Myyjä ei arvonlisäverovelvollinen,Säljare är inte momsskyldig,Seller is not liable to pay VAT
+eialv,Myyjä ei arvonlisäverovelvollinen,Säljaren är inte momsskyldig,Seller is not liable to pay VAT
 behto,Maksu välitetään saajalle maksujenvälityksen ehtojen mukaisesti ja vain maksajan ilmoittaman tilinumeron perusteella.|Betalning förmedlas till mottagaren enligt villkoren för betalningsförmedling och endast till det kontonummer som betalaren angivit.,Maksu välitetään saajalle maksujenvälityksen ehtojen mukaisesti ja vain maksajan ilmoittaman tilinumeron perusteella.|Betalning förmedlas till mottagaren enligt villkoren för betalningsförmedling och endast till det kontonummer som betalaren angivit.,The payment will be cleared for the recipient in accordance with the General terms for payment transmission and only on the basis of the account number given by the payer.
 harjoitus,HARJOITUS,ÖVNING,TRIAL
-aiempisaldo,Alemman erittelyn mukaisista laskuista on maksamatta yhteensä %L1 €,Obetalda totalsumman från fakturor enligt följande specificering är %L1 €,The total unpayed amount of invoices detailed below is %L1 €
-asalvtunnus,Asiakkaan ALV-tunnus,Kundens MOMS-nummer,Customer's VAT number
-netto,Veroton,Utan skatt,Excludes VAT
-nimike,Nimike,Item,Item
+aiempisaldo,Alemman erittelyn mukaisista laskuista on maksamatta yhteensä %L1 €,Enligt specifikationen nedan återstår sammanlagt %L1 € att betala.,The total unpayed amount of invoices detailed below is %L1 €
+asalvtunnus,Asiakkaan ALV-tunnus,Kundens momsnummer,Customer's VAT number
+netto,Veroton,Exklusive moms,Excludes VAT
+nimike,Nimike,Benämning,Item
 bep,Eräpäivä|Förfallodag,Eräpäivä|Förfallodag,Due date
 kpl,Kpl,Antal,Quantity
 bak,Allekirjoitus|Underskrift,Allekirjoitus|Underskrift,Signature
 kotisivu,Kotisivu,Hemsida,Homepage
 pankki,Pankki,Bank,Bank
 hyvityslasku,Hyvityslasku,Kreditnota,Credit note
-hyvitettavaNumero,Hyvitettävän laskun numero,Krediterbart faktureringsnummer,Credable invoice number
-hyvitettavaPvm,Hyvitettävän laskun pvm,Krediterbart faktureringsdatum,Credable invoice date
+hyvitettavaNumero,Hyvitettävän laskun numero,Nummer på fakturan som krediteras,Credable invoice number
+hyvitettavaPvm,Hyvitettävän laskun pvm,Datum för fakturan som krediteras,Credable invoice date
 hyvPvm,Hyvityslaskun pvm,Kreditnotans datum,Date of credit note
-muistutuspvm,Maksumuistutuksen pvm,Betalningsåminnelses datum,Date of request for payment
+muistutuspvm,Maksumuistutuksen pvm,Betalningspåminnelsens datum,Date of request for payment
 UN_C62,kpl,st,pcs
 UN_NMP,pkt,förpackningar,packets
 UN_IE,hlö,personer,persons
@@ -302,23 +302,23 @@ UN_ZP,sivua,sidor,pages
 UN_H18,ha,ha,ha
 toimitettu,Toimitettu,Levererad,Delivered
 jalkitoimitus,Jälkitoimitus,Efterleverans,Subsequent delivery
-huoneisto,Huoneisto,Lågenhet,Flat
-laskutusjakso,Laskutuskausi,Fakturingsperiod,Invoicing period
+huoneisto,Huoneisto,Lägenhet,Flat
+laskutusjakso,Laskutuskausi,Faktureringsperiod,Invoicing period
 maksettavaa,Maksettavaa,Betalningsbelopp,Payable
 tilausnro,Tilausnumero,Beställningsnummer,Order number
 sopimusnro,Sopimusnumero,Avtalsnummer,Contract number
 myyja,Myyjä,Säljare,Salesperson
 tilaaja,Tilaaja,Beställare,Orderer
-tilauspvm,Tilauspäivämäärä,Beställningdatum,Order date
-Vastaavaa,Vastaavaa,Passiva,
-Poistokelpoinen omaisuus menojäännöspoisto,Poistokelpoinen omaisuus menojäännöspoisto,Avskrivningbara tillgångar restvärdeavskrivning,
-Poistokelpoinen omaisuus tasapoistolla,Poistokelpoinen omaisuus tasapoistolla,Avskrivningbara tillgångar linjär avskrivning,
+tilauspvm,Tilauspäivämäärä,Beställningsdatum,Order date
+Vastaavaa,Vastaavaa,Aktiva,
+Poistokelpoinen omaisuus menojäännöspoisto,Poistokelpoinen omaisuus menojäännöspoisto,"Avskrivningsbara tillgångar, avskrivning på utgiftsresten",
+Poistokelpoinen omaisuus tasapoistolla,Poistokelpoinen omaisuus tasapoistolla,"Avskrivningsbara tillgångar, linjär avskrivning",
 Saatavaa,Saatavaa,Fordringar,
-Myyntisaatavat,Myyntisaatavat,Försäljningsfordringar,
+Myyntisaatavat,Myyntisaatavat,Kundfordringar,
 Siirtosaamiset,Siirtosaamiset,Resultatregleringsfordringar,
-Arvonlisäverosaatava,Arvonlisäverosaatava,Mervärdesskattefordringar,
-Maksuperusteisen alv:n kohdentamaton saatava,Maksuperusteisen alv:n kohdentamaton saatava,Icke fördelat mervärdeskattefordringar enligt betalningsprincipen,
-Verosaatava,Verosaatava,Skattefordningar,
+Arvonlisäverosaatava,Arvonlisäverosaatava,Momsfordran,
+Maksuperusteisen alv:n kohdentamaton saatava,Maksuperusteisen alv:n kohdentamaton saatava,Ofördelad momsfordran enligt betalningsprincipen,
+Verosaatava,Verosaatava,Skattefordran,
 Käteisvarat,Käteisvarat,Kassa,
 Pankkitili,Pankkitili,Bankkonto,
 Vastattavaa,Vastattavaa,Passiva,
@@ -328,18 +328,18 @@ Velat,Velat,Skulder,
 Ostovelat,Ostovelat,Leverantörsskulder,
 Siirtovelat,Siirtovelat,Resultatregleringsskulder,
 Arvonlisäverovelka,Arvonlisäverovelka,Mervärdesskatteskuld,
-Maksuperusteisen alv:n kohdentamaton velka,Maksuperusteisen alv:n kohdentamaton velka,Icke fördelat mervärdeskatteskulder enligt betalningsprincipen,
+Maksuperusteisen alv:n kohdentamaton velka,Maksuperusteisen alv:n kohdentamaton velka,Ofördelad momsskuld enligt betalningsprincipen,
 Verovelka,Verovelka,Skatteskulder,
-Yksityisnostot,Yksityisnostot,Privat bruk ,
+Yksityisnostot,Yksityisnostot,Privatuttag,
 Tulot,Tulot,Inkomster,
-Liikevaihtotulo (myynti),Liikevaihtotulo (myynti),Omsättinginkomst (försäljning),
+Liikevaihtotulo (myynti),Liikevaihtotulo (myynti),Omsättning (försäljning),
 Verottomat tulot,Verottomat tulot,Skattefria inkomster,
-Veroton myynti,Veroton myynti,Försäljning av tjänster till andra EU-länder,
+Veroton myynti,Veroton myynti,Momsfri försäljning,
 Menot,Menot,Utgifter,
-Poistot,Poistot,Avskriningar,
-Vähennyskelvottomat menot,Vähennyskelvottomat menot,Icke avragskill utgifter,
-Puoliksi vähennyskelpoiset menot,Puoliksi vähennyskelpoiset menot,Halvt avragskill utgifter,
-Vähennyskelvottomat poistot,Vähennyskelvottomat poistot,Icke avragskill avskrivningar,
+Poistot,Poistot,Avskrivningar,
+Vähennyskelvottomat menot,Vähennyskelvottomat menot,Icke avdragsgilla utgifter,
+Puoliksi vähennyskelpoiset menot,Puoliksi vähennyskelpoiset menot,Utgifter som är avdragsgilla till hälften,
+Vähennyskelvottomat poistot,Vähennyskelvottomat poistot,Icke avdragsgilla avskrivningar,
 Ennakkoverot,Ennakkoverot,Förskottsskatter,
 KK1,Tammikuu,Januari,January
 KK2,Helmikuu,Februari,February
@@ -353,6 +353,51 @@ KK9,Syyskuu,September,September
 KK10,Lokakuu,Oktober,October
 KK11,Marraskuu,November,November
 KK12,Joulukuu,December,December
-Tilinpäätöstä on säilytettävä %1 saakka,Tilinpäätöstä on säilytettävä %1 saakka,Bokslutet ska bevaras upp till %1,Financial statements must be kept until %1
-Tositteita on säilytettävä %1 saakka,Tositteita on säilytettävä %1 saakka,Verifikationerna ska bevaras upp till %1,Vouchers must be kept up to %1
+Tilinpäätöstä on säilytettävä %1 saakka,Tilinpäätöstä on säilytettävä %1 saakka,Bokslutet ska bevaras till och med %1,Financial statements must be kept until %1
+Tositteita on säilytettävä %1 saakka,Tositteita on säilytettävä %1 saakka,Verifikaten ska bevaras till och med %1,Vouchers must be kept up to %1
 Vientejä %1 kpl,Vientejä %1 kpl,%1 konteringar,%1 entries
+Luottotili,Luottotili,Kreditkonto,
+Yksityistilit,Yksityistilit,Privatkonton,
+Debet,Debet,Debet,
+Kredit,Kredit,Kredit,
+Palveluostot EU:n ulkopuolelta,Palveluostot EU:n ulkopuolelta,Inköp av tjänster från områden utanför EU,
+Rakennuspalveluiden osto,Rakennuspalveluiden osto,Inköp av byggtjänster,
+Yhteenvetoilmoitus,Yhteenvetoilmoitus,Sammandragsdeklaration,
+Yksityistilien päättäminen,Yksityistilien päättäminen,Avslutning av privatkonton,
+Vero rakentamispalveluiden ja metalliromun ostoista,Vero rakentamispalveluiden ja metalliromun ostoista,Moms på inköp av byggtjänster och metallskrot,
+Laskelman kausi poikkeaa verottajan järjestelmässä olevasta alv-kaudesta %1 - %2,Laskelman kausi poikkeaa verottajan järjestelmässä olevasta alv-kaudesta %1 - %2,Beräkningen gäller en annan period än momsperioden %1–%2 i Skatteförvaltningens system,
+Maksutiedot,Maksutiedot,Betalningsuppgifter,
+Viitenumero,Viitenumero,Referensnummer,
+Eräpäivä,Eräpäivä,Förfallodag,
+Maksettavaa,Maksettavaa,Att betala,
+Saaja,Saaja,Mottagare,
+Verohallinto,Verohallinto,Skatteförvaltningen,
+Tilille,Tilille,Till konto,
+Virtuaaliviivakoodi,Virtuaaliviivakoodi,Virtuell streckkod,
+Ilmoitettu rajapinnan kautta,Ilmoitettu rajapinnan kautta,Inlämnad via gränssnittet,
+Voittomarginaalimenettely myynti,Voittomarginaalimenettely myynti,Försäljning med marginalbeskattning,
+Voittomarginaalimenettely ostot,Voittomarginaalimenettely ostot,Inköp med marginalbeskattning,
+"Voittomarginaalivero (Verokanta %1 %, osuus %2 %)","Voittomarginaalivero (Verokanta %1 %, osuus %2 %)","Moms på vinstmarginalen (skattesats %1 %, andel %2 %)",
+Arvonlisäveron alarajahuojennus,Arvonlisäveron alarajahuojennus,Lättnad vid den nedre gränsen för moms,
+Poistettu,Poistettu,Borttaget,
+Lähettämättä,Lähettämättä,Ej skickat,
+Avattu,Avattu,Öppnat,
+Tositekooste-%1.pdf,Tositekooste-%1.pdf,Verifikatsammanställning-%1.pdf,
+Tositekooste %1 %2,Tositekooste %1 %2,Verifikatsammanställning %1 %2,
+Tulostettu,Tulostettu,Utskrivet,
+Kirjanpito on laadittu Kitsas-ohjelman harjoittelutilassa,Kirjanpito on laadittu Kitsas-ohjelman harjoittelutilassa,Bokföringen har gjorts i övningsläget i Kitsas,
+TILIÖIMÄTTÖMÄT VIENNIT,TILIÖIMÄTTÖMÄT VIENNIT,OKONTERADE POSTER,
+Tiliöimättömiä vientejä yhteensä,Tiliöimättömiä vientejä yhteensä,Okonterade poster totalt,
+ALV,ALV,Moms,
+Debet €,Debet €,Debet €,
+Summa,Summa,Belopp,
+Nimi,Nimi,Namn,
+Otsikko %1,Otsikko %1,Rubrik %1,
+Tunniste,Tunniste,Beteckning,
+Avaa,Avaa,Öppna,
+Saaja/Maksaja,Saaja/Maksaja,Mottagare/betalare,
+Poisto %1 v.,Poisto %1 v.,Avskrivning %1 år,
+Laskun päivämäärä,Laskun päivämäärä,Fakturadatum,
+Kommentit,Kommentit,Kommentarer,
+Muokkaukset,Muokkaukset,Ändringar,
+Kirjanpitoaineisto %1,Kirjanpitoaineisto %1,Bokföringsmaterial %1,

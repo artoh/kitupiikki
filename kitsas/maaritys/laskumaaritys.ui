@@ -400,7 +400,7 @@
    <item>
     <widget class="QGroupBox" name="ikkunaKuori">
      <property name="title">
-      <string notr="true">Ikkunakuori</string>
+      <string>Ikkunakuori</string>
      </property>
      <property name="checkable">
       <bool>true</bool>

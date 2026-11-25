@@ -171,18 +171,18 @@
       },
       {
         "fi": "Rahoitustuotot ja -kulut",
-        "se": "Finansiella intäkter och kostnader",
+        "sv": "Finansiella intäkter och kostnader",
         "L": "90..91"
       },
       {
         "fi": "Osinkotuotot",
-        "se": "Dividendintäkter",
+        "sv": "Dividendintäkter",
         "L": "905 *",
         "S": 1
       },
       {
         "fi": "Korkotuotot",
-        "se": "Ränteintäkter",
+        "sv": "Ränteintäkter",
         "L": "907 *",
         "S": 1
       },
@@ -225,7 +225,7 @@
       },
       {
         "fi": "Verotusperusteisten varausten muutos",
-        "se": "Förändring av skattemässiga reserver",
+        "sv": "Förändring av skattemässiga reserver",
         "L": "951 *",
         "S": 1
       },

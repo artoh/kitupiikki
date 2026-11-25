@@ -54,7 +54,7 @@ QVariant LiitteetRoute::get(const QString &polku, const QUrlQuery &urlquery)
     if( kysely.next())
         return kysely.value(0).toByteArray();
 
-    throw SQLiteVirhe("Liitettä ei löydy",QNetworkReply::ContentNotFoundError);
+    throw SQLiteVirhe(SQLiteKysely::tr("Liitettä ei löydy"),QNetworkReply::ContentNotFoundError);
 }
 
 QPair<const QVariant, int> LiitteetRoute::byteArray(SQLiteKysely *kysely, const QByteArray &ba, const QMap<QString, QString> &meta)

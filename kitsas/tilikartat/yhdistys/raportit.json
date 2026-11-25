@@ -79,7 +79,7 @@
       },
       {
         "fi": "Kulut",
-        "sv": "Konstnader",
+        "sv": "Kostnader",
         "en": "Expenses",
         "L": "7- s*"
       },
@@ -98,7 +98,7 @@
       },
       {
         "fi": "Sijoitus- ja rahoitustoiminta",
-        "se": "Investerings- och finansieringsverksamhet",
+        "sv": "Investerings- och finansieringsverksamhet",
         "en": "Investments and financial activities",
         "M": "bold",
         "L": "90,91 h",
@@ -106,13 +106,13 @@
       },
       {
         "fi": "Tuotot",
-        "se": "Intäkter",
+        "sv": "Intäkter",
         "en": "Income",
         "L": "90 s *"
       },
       {
         "fi": "Kulut",
-        "se": "Konstnader",
+        "sv": "Kostnader",
         "en": "Expenses",
         "L": "91 s *"
       },
@@ -161,7 +161,7 @@
       },
       {
         "fi": "Verotusperusteisten varausten muutos",
-        "se": "Förändring av skattemässiga reserver",
+        "sv": "Förändring av skattemässiga reserver",
         "en": "Change in taxation-based reserves",
         "L": "951 *"
       },

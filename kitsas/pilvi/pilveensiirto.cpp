@@ -101,7 +101,7 @@ void PilveenSiirto::alustaAlkusivu()
     {
         qlonglong koko = kysely.value("koko").toLongLong();
         qlonglong mt = koko / ( 1024 * 1024 );
-        ui->isoLista->addItem(QString("%1 %2 (%3 Mt)")
+        ui->isoLista->addItem(tr("%1 %2 (%3 Mt)")
                               .arg( kp()->tositeTunnus(kysely.value("tunniste").toInt(), kysely.value("pvm").toDate(), kysely.value("sarja").toString()) )
                               .arg( kysely.value("nimi").toString())
                               .arg( mt ) );

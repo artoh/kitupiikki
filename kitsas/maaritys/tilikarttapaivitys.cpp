@@ -41,7 +41,7 @@ TilikarttaPaivitys::TilikarttaPaivitys(QWidget *parent)
 
 bool TilikarttaPaivitys::nollaa()
 {
-    ui->karttaNimi->setText( kp()->asetukset()->asetus(AsetusModel::Tilikartta) );
+    ui->karttaNimi->setText( kp()->asetukset()->tilikartanNimi() );
 
     QDate nykypvm = kp()->asetukset()->pvm(AsetusModel::TilikarttaPvm);
     QDate uusipvm = paivitysPvm();

@@ -12,6 +12,8 @@ protected:
     public:
         explicit Tieto();
         Tieto(const QString& avain, const QString& arvo);
+        QString nayttoAvain;
+        QString nayttoArvo;
 
         QString avain() const { return avain_;}
         QString arvo() const { return arvo_;}
@@ -31,6 +33,7 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     void lisaa(const QString& avain, const QString& arvo);
+    void lisaaPaikallinen(const char* avain, const QString& arvo, bool kaannaArvo = false);
 
     void lataaSysteemiTiedot();
     QVariantList asList() const;

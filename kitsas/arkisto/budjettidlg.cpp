@@ -82,9 +82,9 @@ void BudjettiDlg::kohdennusVaihtuu()
 void BudjettiDlg::muokattu(qlonglong summa, qlonglong kokosumma)
 {
     if( summa == kokosumma)
-        ui->summaLabel->setText( QString("Budjetoitu tulos %L1 €").arg( summa / 100.0, 10,'f',2));
+        ui->summaLabel->setText( tr("Budjetoitu tulos %L1 €").arg( summa / 100.0, 10,'f',2));
     else
-        ui->summaLabel->setText( QString("Budjetoitu tulos %L1 € ( Yhteensä %L2 € )").arg( summa / 100.0, 10,'f',2)
+        ui->summaLabel->setText( tr("Budjetoitu tulos %L1 € ( Yhteensä %L2 € )").arg( summa / 100.0, 10,'f',2)
                                  .arg(kokosumma/100.0, 0, 'f', 2));
 
     ui->tallennaNappi->setEnabled( model_->onkoMuokattu() );

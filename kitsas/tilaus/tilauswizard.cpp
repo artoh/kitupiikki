@@ -120,7 +120,7 @@ QString TilausWizard::yhteenveto()
         txt.append( field("town").toString() + "\n");
 
         if( !field("asviite").toString().isEmpty())
-            txt.append("\nAsiakkaan viite: " + field("asviite").toString());
+            txt.append(tr("\nAsiakkaan viite: %1").arg(field("asviite").toString()));
     }
 
     return txt;

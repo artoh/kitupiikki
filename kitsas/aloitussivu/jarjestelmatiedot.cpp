@@ -38,7 +38,7 @@ QVariant JarjestelmaTiedot::data(const QModelIndex &index, int role) const
 
     const Tieto& tieto = tiedot_.at(index.row());
     if( role == Qt::DisplayRole) {
-        return index.column() ? tieto.arvo() : tieto.avain();
+        return index.column() ? tieto.nayttoArvo : tieto.nayttoAvain;
     }
 
     return QVariant();
@@ -51,35 +51,47 @@ void JarjestelmaTiedot::lisaa(const QString &avain, const QString &arvo)
     endInsertRows();
 }
 
+void JarjestelmaTiedot::lisaaPaikallinen(const char *avain, const QString &arvo, bool kaannaArvo)
+{
+    Tieto tieto(QString::fromUtf8(avain), arvo);
+    tieto.nayttoAvain = tr(avain);
+    if (kaannaArvo)
+        tieto.nayttoArvo = tr(arvo.toUtf8().constData());
+
+    beginInsertRows(QModelIndex(), tiedot_.count(), tiedot_.count());
+    tiedot_.append(tieto);
+    endInsertRows();
+}
+
 void JarjestelmaTiedot::lataaSysteemiTiedot()
 {
     PilviKayttaja kayttaja = kp()->pilvi()->kayttaja();
     AvattuPilvi kirjanpito = kp()->pilvi()->pilvi();
 
-    lisaa("Versio", qApp->applicationVersion());
-    lisaa("Käyttöjärjestelmä", QSysInfo::prettyProductName());
-    lisaa("Käyttäjä", QString("%1 %2").arg( kayttaja.id() ).arg(kayttaja.nimi()));
-    lisaa("Tilaus", QString("%1 %2").arg(kayttaja.planId()).arg(kayttaja.planName()));
-    lisaa("Kirjanpito", kp()->kirjanpitoPolku());
+    lisaaPaikallinen(QT_TR_NOOP("Versio"), qApp->applicationVersion());
+    lisaaPaikallinen(QT_TR_NOOP("Käyttöjärjestelmä"), QSysInfo::prettyProductName());
+    lisaaPaikallinen(QT_TR_NOOP("Käyttäjä"), QString("%1 %2").arg( kayttaja.id() ).arg(kayttaja.nimi()));
+    lisaaPaikallinen(QT_TR_NOOP("Tilaus"), QString("%1 %2").arg(kayttaja.planId()).arg(kayttaja.planName()));
+    lisaaPaikallinen(QT_TR_NOOP("Kirjanpito"), kp()->kirjanpitoPolku());
     if( kirjanpito ) {
-        lisaa("Tuote", QString("%1").arg(kirjanpito.planId()));
+        lisaaPaikallinen(QT_TR_NOOP("Tuote"), QString("%1").arg(kirjanpito.planId()));
     }
-    lisaa("Yritys", kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi));
-    lisaa("Tilikartta", kp()->asetukset()->asetus(AsetusModel::Tilikartta));
-    lisaa("Tilikartan pvm", kp()->asetukset()->asetus(AsetusModel::TilikarttaPvm));
-    lisaa("Muoto", kp()->asetukset()->asetus(AsetusModel::Muoto));
-    lisaa("Laajuus", kp()->asetukset()->asetus(AsetusModel::Laajuus));
+    lisaaPaikallinen(QT_TR_NOOP("Yritys"), kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi));
+    lisaaPaikallinen(QT_TR_NOOP("Tilikartta"), kp()->asetukset()->asetus(AsetusModel::Tilikartta));
+    lisaaPaikallinen(QT_TR_NOOP("Tilikartan pvm"), kp()->asetukset()->asetus(AsetusModel::TilikarttaPvm));
+    lisaaPaikallinen(QT_TR_NOOP("Muoto"), kp()->asetukset()->asetus(AsetusModel::Muoto));
+    lisaaPaikallinen(QT_TR_NOOP("Laajuus"), kp()->asetukset()->asetus(AsetusModel::Laajuus));
 
-    lisaa("2FA", kayttaja.with2FA() ? "Kyllä" : "Ei");
+    lisaaPaikallinen(QT_TR_NOOP("2FA"), kayttaja.with2FA() ? QT_TR_NOOP("Kyllä") : QT_TR_NOOP("Ei"), true);
 
-    lisaa("Kooste", KITSAS_BUILD);
+    lisaaPaikallinen(QT_TR_NOOP("Kooste"), KITSAS_BUILD);
     QString koostepaiva(__DATE__);      // Tämä päivittyy aina versio.h:ta muutettaessa
-    lisaa("Käännetty",QDate::fromString( koostepaiva.mid(4,3) + koostepaiva.left(3) + koostepaiva.mid(6), Qt::RFC2822Date).toString("dd.MM.yyyy"));
+    lisaaPaikallinen(QT_TR_NOOP("Käännetty"),QDate::fromString( koostepaiva.mid(4,3) + koostepaiva.left(3) + koostepaiva.mid(6), Qt::RFC2822Date).toString("dd.MM.yyyy"));
 #ifdef KITSAS_PORTABLE
-    lisaa("Portable","Kyllä");
+    lisaaPaikallinen(QT_TR_NOOP("Portable"),QT_TR_NOOP("Kyllä"), true);
 #endif
-    lisaa("Kitsas Pro", PRO_VERSIO ? "Kyllä" : "Ei");
-    lisaa("Moodi", kayttaja.moodi() == PilviKayttaja::PRO ? "Pro" : "Normaali");
+    lisaaPaikallinen(QT_TR_NOOP("Kitsas Pro"), PRO_VERSIO ? QT_TR_NOOP("Kyllä") : QT_TR_NOOP("Ei"), true);
+    lisaaPaikallinen(QT_TR_NOOP("Moodi"), kayttaja.moodi() == PilviKayttaja::PRO ? "Pro" : QT_TR_NOOP("Normaali"), true);
 
 }
 
@@ -120,7 +132,7 @@ JarjestelmaTiedot::Tieto::Tieto()
 }
 
 JarjestelmaTiedot::Tieto::Tieto(const QString &avain, const QString &arvo) :
-    avain_{avain}, arvo_{arvo}
+    nayttoAvain(avain), nayttoArvo(arvo), avain_{avain}, arvo_{arvo}
 {
 
 }

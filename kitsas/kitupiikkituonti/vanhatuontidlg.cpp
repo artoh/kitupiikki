@@ -101,7 +101,7 @@ void VanhatuontiDlg::alustaTuonti()
 void VanhatuontiDlg::tuoTiedostosta()
 {
     QString tiedosto = QFileDialog::getOpenFileName(this, tr("Valitse tuotava kirjanpitotiedosto"),
-                                                    QDir::homePath(),"Kirjanpito (*.kitupiikki kitupiikki.sqlite)");
+                                                    QDir::homePath(),tr("Kirjanpito (*.kitupiikki kitupiikki.sqlite)"));
     if( !tiedosto.isEmpty())
         avaaTietokanta(tiedosto);
 }
@@ -236,17 +236,25 @@ void VanhatuontiDlg::alustaValinnat()
         QString vanhamuoto = kitupiikkiAsetukset_.value("Muoto");
         QString uusimuoto = "oy";
 
-        if( vanhamuoto == "Avoin yhtiö")
+        if( vanhamuoto == "Avoin yhtiö") {
             uusimuoto = "ay";
-        else if( vanhamuoto == "Elinkeinonharjoittaja")
+            vanhamuoto = tr("Avoin yhtiö");
+        }
+        else if( vanhamuoto == "Elinkeinonharjoittaja") {
             uusimuoto = "tmi";
-        else if( vanhamuoto == "Kommandiittiyhtiö")
+            vanhamuoto = tr("Elinkeinonharjoittaja");
+        }
+        else if( vanhamuoto == "Kommandiittiyhtiö") {
             uusimuoto = "ky";
-        else if( vanhamuoto == "Osuuskunta")
+            vanhamuoto = tr("Kommandiittiyhtiö");
+        }
+        else if( vanhamuoto == "Osuuskunta") {
             uusimuoto = "osk";
+            vanhamuoto = tr("Osuuskunta");
+        }
         // Ei enää eroa julkisen ja muun oy:n välillä
-        else if( vanhamuoto == "Julkinen osakeyhtiö")
-            vanhamuoto = "Osakeyhtiö";
+        else if( vanhamuoto == "Julkinen osakeyhtiö" || vanhamuoto == "Osakeyhtiö")
+            vanhamuoto = tr("Osakeyhtiö");
         ui->tilikarttaLabel->setText(tr("Yritys (%1)").arg(vanhamuoto));
         kitsasAsetukset_.insert("muoto", uusimuoto);
     } else if( kitupiikkiTilikartta == "asoy.kpk") {

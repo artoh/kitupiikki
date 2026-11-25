@@ -16,6 +16,7 @@
 */
 
 #include "tilityyppimodel.h"
+#include "kieli/kielet.h"
 
 
 TiliTyyppi::TiliTyyppi(int otsikkotaso)
@@ -29,6 +30,15 @@ TiliTyyppi::TiliTyyppi(QString tyyppikoodi, QString kuvaus, TiliLaji::TiliLuonne
     : tyyppikoodi_(tyyppikoodi), kuvaus_(kuvaus), luonne_(luonne), otsikkotaso_(0), uniikki_(uniikki)
 {
 
+}
+
+QString TiliTyyppi::naytettavaKuvaus() const
+{
+    if (otsikkotaso_ >= 0 && luonne_ == TiliLaji::OTSIKKO)
+        return TilityyppiModel::tr("Otsikko %1").arg(otsikkotaso_);
+
+    const Kielet* kielet = Kielet::instanssi();
+    return kielet ? kielet->kaanna(kuvaus_, kielet->uiKieli()) : kuvaus_;
 }
 
 bool TiliTyyppi::onko(TiliLaji::TiliLuonne luonnetta) const
@@ -94,7 +104,7 @@ QVariant TilityyppiModel::data(const QModelIndex &index, int role) const
     TiliTyyppi tyyppi = tyypit.value( index.row());
 
     if( role == KuvausRooli || role == Qt::DisplayRole)
-        return tyyppi.kuvaus();
+        return tyyppi.naytettavaKuvaus();
     else if( role == KoodiRooli )
         return tyyppi.koodi();
     else if( role == LuonneRooli )

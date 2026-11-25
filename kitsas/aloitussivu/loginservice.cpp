@@ -106,10 +106,10 @@ void LoginService::emailTarkastettu()
     if( emailOk_ ) {
         passwordLabel_->setVisible(true);
         passwordEdit_->setVisible(true);
-        passwordEdit_->setPlaceholderText("Kirjoita nyt salasana");
+        passwordEdit_->setPlaceholderText(tr("Kirjoita nyt salasana"));
         messageLabel_->hide();
     } else if( reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 404 ) {
-        messageLabel_->setText("Käyttäjätunnusta ei löydy");
+        messageLabel_->setText(tr("Käyttäjätunnusta ei löydy"));
         messageLabel_->setStyleSheet("color: orangered");
         messageLabel_->show();
     }
@@ -165,9 +165,9 @@ QString LoginService::verkkovirheteksti(QNetworkReply::NetworkError virhe, const
     if( virhe == QNetworkReply::ConnectionRefusedError)
         return tr("Palvelin ei juuri nyt ole käytettävissä. Yritä myöhemmin uudelleen.");
     else if( virhe == QNetworkReply::TemporaryNetworkFailureError || virhe == QNetworkReply::NetworkSessionFailedError)
-        return("Verkkoon ei saada yhteyttä");
+        return tr("Verkkoon ei saada yhteyttä");
     else if( virhe == QNetworkReply::HostNotFoundError)
-        return("Palvelinta ei löydetä. Tarkasta verkkoyhteys.");
+        return tr("Palvelinta ei löydetä. Tarkasta verkkoyhteys.");
     else if( virhe == QNetworkReply::UnknownServerError)
         return tr("Palvelu on tilapäisesti poissa käytöstä.");
     else

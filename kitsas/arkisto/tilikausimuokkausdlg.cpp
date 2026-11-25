@@ -122,7 +122,7 @@ void TilikausiMuokkausDlg::tarkastaKausi()
     if( loppuu < alkaa) {
         ui->virheLabel->setText(tr("Tilikauden loppu on ennen alkua"));
     } else if( loppuu > alkaa.addMonths(18)) {
-        ui->virheLabel->setText("Tilikauden enimmäiskesto on 18 kuukautta");
+        ui->virheLabel->setText(tr("Tilikauden enimmäiskesto on 18 kuukautta"));
 
     } else if( (kp()->tilikaudet()->tilikausiPaivalle(alkaa).alkaa().isValid() &&
                kp()->tilikaudet()->tilikausiPaivalle(alkaa).alkaa() != kausi_.alkaa()) ||

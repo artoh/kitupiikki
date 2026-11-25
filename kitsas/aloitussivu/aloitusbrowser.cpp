@@ -208,7 +208,7 @@ void AloitusBrowser::paivitaAloitusVinkit()
         t.append("<li> <a href=ktp:/maaritys/tilit>" + tr("Tutustu tilikarttaan ja tee tarpeelliset muutokset") +  "</a> <a href='ohje:/asetukset/tililuettelo/'>(" + tr("Ohje") + ")</a></li>");
         t.append("<li> <a href=ktp:/maaritys/kohdennukset>" + tr("Lisää tarvitsemasi kohdennukset") + "</a> <a href='ohje:/asetukset/kohdennukset/'>(" + tr("Ohje") + ")</a></li>");
         if( kp()->asetukset()->luku("Tilinavaus")==2 && !edellistenTulos)
-            t.append("<li><a href=ktp:/maaritys/tilinavaus>" + tr("Tee tilinavaus") + "</a> <a href='ohje:/asetukset/tilinavaus/'>(Ohje)</a></li>");
+            t.append("<li><a href=ktp:/maaritys/tilinavaus>" + tr("Tee tilinavaus") + "</a> <a href='ohje:/asetukset/tilinavaus/'>(" + tr("Ohje") + ")</a></li>");
         t.append("<li><a href=ktp:/kirjaa>" + tr("Voit aloittaa kirjausten tekemisen") +"</a> <a href='ohje:/kirjaus'>("+ tr("Ohje") + ")</a></li></ol>");
 
         vinkkaa("vinkki", tr("Kirjanpidon aloittaminen"),t,
@@ -420,8 +420,8 @@ QString AloitusBrowser::saldoTaulu()
     for(const auto& saldo : qAsConst(saldot_)) {
 
         if( saldo.tili() == 0 and saldo.saldo()) {
-            txt.append( QString("<tr class=nollatili><td><a class=nollatililinkki href=\"ktp:/huomio\">Tiliöimättä</a></td><td class=euro>%1</td></tr>")
-                           .arg(saldo.saldo().display(true)) );
+            txt.append( QString("<tr class=nollatili><td><a class=nollatililinkki href=\"ktp:/huomio\">%2</a></td><td class=euro>%1</td></tr>")
+                           .arg(saldo.saldo().display(true), tr("Tiliöimättä")) );
 
         }
 
@@ -466,10 +466,12 @@ QString AloitusBrowser::memo() const
 
 void AloitusBrowser::naytaTervetuloa()
 {
-    const QString tiedostonnimi =
-            kp()->pilvi()->kayttaja().moodi() == PilviKayttaja::PRO ?
-            ( ":/aloitus/pro.html"  ) :
-            ( Kielet::instanssi()->uiKieli() == "sv" ? ":/aloitus/svenska.html" : ":/aloitus/tervetuloa.html" );
+    const bool ruotsi = Kielet::instanssi()->uiKieli() == "sv";
+    QString tiedostonnimi;
+    if (kp()->pilvi()->kayttaja().moodi() == PilviKayttaja::PRO)
+        tiedostonnimi = ruotsi ? ":/aloitus/pro-sv.html" : ":/aloitus/pro.html";
+    else
+        tiedostonnimi = ruotsi ? ":/aloitus/svenska.html" : ":/aloitus/tervetuloa.html";
 
     QFile tttiedosto(tiedostonnimi);
     tttiedosto.open(QIODevice::ReadOnly);

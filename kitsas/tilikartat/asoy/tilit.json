@@ -577,7 +577,8 @@
         "numero": 161,
         "tyyppi": "H4",
         "nimi": {
-            "": "Saamiset saman konsernin yrityksiltä"
+            "fi": "Saamiset saman konsernin yrityksiltä",
+            "sv": "Fordringar hos företag inom samma koncern"
         }
     },
     {
@@ -1954,7 +1955,8 @@
         },
         "laajuus": 3,
         "ohje": {
-            "fi": "Työehtosopimuksen mukaiset lisät (ylityö-, ilta-, sunnuntailisät ...)"
+            "fi": "Työehtosopimuksen mukaiset lisät (ylityö-, ilta-, sunnuntailisät ...)",
+            "sv": "Tillägg enligt kollektivavtalet, till exempel för övertid, kvällsarbete och söndagsarbete."
         }
     },
     {
@@ -1966,7 +1968,8 @@
         },
         "laajuus": 3,
         "ohje": {
-            "fi": "Palkkiot ja työkorvaukset, joita ei makseta työsuhteessa (kokous- ja luentopalkkiot)"
+            "fi": "Palkkiot ja työkorvaukset, joita ei makseta työsuhteessa (kokous- ja luentopalkkiot)",
+            "sv": "Arvoden och arbetsersättningar som betalas utanför ett anställningsförhållande, till exempel mötes- och föreläsningsarvoden."
         }
     },
     {
@@ -1978,7 +1981,8 @@
         },
         "laajuus": 3,
         "ohje": {
-            "fi": "Loma-ajan palkka, lomakorvaus, lomaltapaluuraha, sairaus ja vanhempainloma-ajan palkka ja muu korvaus palkallisesta poissaolosta."
+            "fi": "Loma-ajan palkka, lomakorvaus, lomaltapaluuraha, sairaus ja vanhempainloma-ajan palkka ja muu korvaus palkallisesta poissaolosta.",
+            "sv": "Semesterlön, semesterersättning, semesterpremie, lön under sjuk- och föräldraledighet samt annan ersättning för avlönad frånvaro."
         }
     },
     {
@@ -1990,7 +1994,8 @@
         },
         "laajuus": 4,
         "ohje": {
-            "fi": "Työntekijälle annettujen luontoisetujen verotusarvot."
+            "fi": "Työntekijälle annettujen luontoisetujen verotusarvot.",
+            "sv": "Beskattningsvärdet av de naturaförmåner som arbetstagaren fått."
         }
     },
     {

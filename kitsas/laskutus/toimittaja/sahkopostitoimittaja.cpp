@@ -219,7 +219,7 @@ void SahkopostiToimittaja::lahetaViesti()
     PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
                 osoite );
     connect( pk, &PilviKysely::vastaus, this, [this] {this->valmis();});
-    connect( pk, &KpKysely::virhe, this, [this] {this->virhe("Laskujen lähettäminen sähköpostilla epäonnistui.");});
+    connect( pk, &KpKysely::virhe, this, [this] {this->virhe(tr("Laskujen lähettäminen sähköpostilla epäonnistui."));});
 
     pk->kysy(viesti);
 

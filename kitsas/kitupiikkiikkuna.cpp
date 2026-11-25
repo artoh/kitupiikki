@@ -555,7 +555,7 @@ void KitupiikkiIkkuna::lisaaSivut()
 
     QAction *ohjeAktio = new QAction(QIcon(":/pic/ohje.png"),tr("Ohje"), this);
     ohjeAktio->setShortcut( QKeySequence(Qt::Key_F1));
-    ohjeAktio->setToolTip("Ohjeet \tF1");
+    ohjeAktio->setToolTip(tr("Ohjeet \tF1"));
     connect( ohjeAktio, SIGNAL(triggered(bool)), this, SLOT(ohje()));
     toolbar->addAction(ohjeAktio);
 

@@ -15,6 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "maamodel.h"
+#include "kieli/kielet.h"
 #include <QIcon>
 #include <QDebug>
 
@@ -122,7 +123,8 @@ void MaaModel::lataa()
             maat_.append(Maa(list.value(2).toLower(),
                              list.value(0),
                              list.value(1),
-                             list.value(3)));
+                             list.value(3),
+                             list.value(4)));
         }
     }
 }
@@ -130,12 +132,25 @@ void MaaModel::lataa()
 
 MaaModel* MaaModel::instanssi__ = nullptr;
 
-MaaModel::Maa::Maa(const QString &koodi, const QString &nimi, const QString englanniksi, const QString &alvreg) :
+MaaModel::Maa::Maa(const QString &koodi, const QString &nimi, const QString englanniksi, const QString &alvreg, const QString &ruotsiksi) :
         nimi_(nimi),
         koodi_(koodi),
         alvreg_(alvreg),
-        englanniksi_(englanniksi)
+        englanniksi_(englanniksi),
+        ruotsiksi_(ruotsiksi)
 {
     QIcon icon(":/liput/" + koodi + ".png");
     icon_ = icon.isNull() ? QIcon(":/pic/tyhja.png") : icon;
+}
+
+QString MaaModel::Maa::nimi() const
+{
+    const auto *kielet = Kielet::instanssi();
+    if (!kielet)
+        return nimi_;
+    if (kielet->uiKieli() == "sv" && !ruotsiksi_.isEmpty())
+        return ruotsiksi_;
+    if (kielet->uiKieli() == "en" && !englanniksi_.isEmpty())
+        return englanniksi_;
+    return nimi_;
 }
